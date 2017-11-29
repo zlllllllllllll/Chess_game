@@ -252,6 +252,16 @@ cmd.SUB_C_SET_CARD      = 5                 -- 取牌命令
 cmd.SUB_C_DINGDI        = 6                 -- 顶底
 cmd.SUB_C_CHECK_SUPER		= 7
 
+--游戏定时器
+cmd.IDI_START_GAME			=	200									--开始定时器
+cmd.IDI_OPERATE_CARD		=	201									--操作定时器
+cmd.IDI_DINGDI_CARD			=  202								--操作定时器
+
+--游戏定时器
+cmd.TIME_START_GAME			=	60									--开始定时器
+cmd.TIME_HEAR_STATUS		=	15									--出牌定时器
+cmd.TIME_OPERATE_CARD		=	15									--操作定时器
+
 
 --出牌命令
 cmd.CMD_C_OutCard

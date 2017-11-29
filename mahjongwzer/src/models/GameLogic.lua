@@ -1,5 +1,6 @@
 local GameLogic = {}
 
+local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local ExternalFun =  appdf.req(appdf.EXTERNAL_SRC .. "ExternalFun")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 
@@ -104,86 +105,12 @@ GameLogic.tagAnalyseItem
 
 GameLogic.BAIBAN_CARD_DATA  = 0x37   -- 白板
 
-GameLogic.m_byGodsCardData   -- 财神
+GameLogic.m_byGodsCardData = 0x00  -- 财神
+
 --------------------------------------------------------------------------
 
 --数组说明
 --typedef CWHArray<tagAnalyseItem,tagAnalyseItem &> CAnalyseItemArray;
-
---游戏逻辑类
-class CGameLogic
-{
-	--变量定义
-protected:
-	--static const BYTE				m_cbCardDataArray[MAX_REPERTORY];	--扑克数据
-	BYTE m_byGodsCardData;          -- 财神
-
-	--函数定义
-public:
-	--构造函数
-	CGameLogic();
-	--析构函数
-	virtual ~CGameLogic();
-
-	--控制函数
-public:
-	--混乱扑克
-	--删除扑克
-	bool RemoveCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbRemoveCard);
-	--删除扑克
-	bool RemoveCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbRemoveCard[], BYTE cbRemoveCount);
-	--删除扑克
-	bool RemoveCard(BYTE cbCardData[], BYTE cbCardCount, BYTE cbRemoveCard[], BYTE cbRemoveCount);
-	--辅助函数
-	--有效判断
-	bool IsValidCard(BYTE cbCardData);
-	--扑克数目
-	BYTE GetCardCount(BYTE cbCardIndex[MAX_INDEX]);
-	--组合扑克
-	BYTE GetWeaveCard(BYTE cbWeaveKind, BYTE cbCenterCard, BYTE cbCardBuffer[4]);
-	--等级函数
-	--动作等级
-	BYTE GetUserActionRank(BYTE cbUserAction);
-	--胡牌等级
-	WORD GetChiHuActionRank(tagChiHuResult & ChiHuResult);
-	--动作判断
-	--吃牌判断
-	BYTE EstimateEatCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbCurrentCard);
-	--碰牌判断
-	BYTE EstimatePengCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbCurrentCard);
-	--杠牌判断
-	BYTE EstimateGangCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbCurrentCard);
-	--动作判断
-	--听牌分析
-	BYTE AnalyseTingCard(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount, DWORD dwChiHuRight);
-	--杠牌分析
-	BYTE AnalyseGangCard(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount, tagGangCardResult & GangCardResult);
-	--吃胡分析
-	BYTE AnalyseChiHuCard(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount, BYTE cbCurrentCard, DWORD dwChiHuRight, tagChiHuResult & ChiHuResult);
-	--特殊胡牌
-	--清一色牌
-	bool IsQingYiSe(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount);
-	--七小对牌
-	bool IsQiXiaoDui(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount);
-	--十三夭牌
-	bool IsShiSanYao(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount);
-	-- 八对
-	bool IsBaDui(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount);
-	--转换函数
-	--扑克转换
-	BYTE SwitchToCardData(BYTE cbCardIndex);
-	--扑克转换
-	BYTE SwitchToCardIndex(BYTE cbCardData);
-	--扑克转换
-	BYTE SwitchToCardData(BYTE cbCardIndex[MAX_INDEX], BYTE cbCardData[MAX_COUNT]);
-	--扑克转换
-	BYTE SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX]);
-	void SetGodsCard(BYTE byCardData);
-	--内部函数
-private:
-	--分析扑克
-	bool AnalyseCard(BYTE cbCardIndexUser[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount, CAnalyseItemArray & AnalyseItemArray);
-};
 
 --------------------------------------------------------------------------
 --静态变量
@@ -231,6 +158,29 @@ function GameLogic.deepcopy(object)
     return _copy(object)
 end
 
+--table 的长度
+function GameLogic.table_leng(t)
+  local leng=0
+  for k, v in pairs(t) do
+    leng=leng+1
+  end
+  return leng;
+end
+--CWHArray append  PS 当键名不是数字的时候 中间键名可能不连续  table_leng换# 时为连续
+function GameLogic.append(a,b)
+	local c=GameLogic.table_leng(a)
+	for i=1,GameLogic.table_leng(b),1 do
+		a[c+i]=b[i]
+	end
+	--return a
+end
+--CWHArray add  不建方法SetAtGrow
+function GameLogic.add(m_pData,newElement)
+	local nIndex=GameLogic.table_leng(m_pData)
+	m_pData[nIndex+1]=newElement
+	--return m_pData
+end
+
 --混乱扑克
 function GameLogic.RandCardData(cbCardData,cbMaxCount,userid)	--这个里面的随机要加二个用户的userid之合，不然会牌一样的
 	--混乱准备
@@ -242,12 +192,14 @@ function GameLogic.RandCardData(cbCardData,cbMaxCount,userid)	--这个里面的�
 	--混乱扑克
 	local cbRandCount,cbPosition=0,0
 	cbPosition=math.random()%(cbMaxCount-cbRandCount)
-	cbCardData[cbRandCount+1]=cbCardDataTemp[cbPosition]
+	cbRandCount=cbRandCount+1
+	cbCardData[cbRandCount]=cbCardDataTemp[cbPosition]
 	cbCardDataTemp[cbPosition]=cbCardDataTemp[cbMaxCount-cbRandCount]
 	while(cbRandCount<cbMaxCount)
 	do
 			cbPosition=math.random()%(cbMaxCount-cbRandCount)
-			cbCardData[cbRandCount+1]=cbCardDataTemp[cbPosition]
+			cbRandCount=cbRandCount+1
+			cbCardData[cbRandCount]=cbCardDataTemp[cbPosition]
 			cbCardDataTemp[cbPosition]=cbCardDataTemp[cbMaxCount-cbRandCount]
 	end
 
@@ -258,8 +210,19 @@ end
 --CGameLogic::RemoveCard(BYTE cbCardIndex[MAX_INDEX], BYTE cbRemoveCard)
 --											(BYTE cbCardIndex[MAX_INDEX], BYTE cbRemoveCard[], BYTE cbRemoveCount)
 --											(BYTE cbCardData[], BYTE cbCardCount, BYTE cbRemoveCard[], BYTE cbRemoveCount)
---====   RemoveCard1
-function GameLogic.RemoveCard1(cbCardIndex,cbRemoveCard)
+
+function GameLogic.RemoveCard(...)
+	local arg={...}
+	local len=#arg
+	if len==2 then	GameLogic.RemoveCard_2(arg[1],arg[2])
+	elseif len==3 then	GameLogic.RemoveCard_3(arg[1],arg[2],arg[3])
+	elseif len==4 then	GameLogic.RemoveCard_4(arg[1],arg[2],arg[3],arg[4])
+	else	print("RemoveCard 参数个数不符合")
+	end
+end
+
+--====   RemoveCard2
+function GameLogic.RemoveCard_2(cbCardIndex,cbRemoveCard)
 	--效验扑克
 	-- ASSERT(IsValidCard(cbRemoveCard));
 	-- ASSERT(cbCardIndex[SwitchToCardIndex(cbRemoveCard)]>0);
@@ -272,8 +235,8 @@ function GameLogic.RemoveCard1(cbCardIndex,cbRemoveCard)
 	return false
 end
 
---====   RemoveCard2
-function GameLogic.RemoveCard2(cbCardIndex,cbRemoveCard,cbRemoveCount)
+--====   RemoveCard3
+function GameLogic.RemoveCard_3(cbCardIndex,cbRemoveCard,cbRemoveCount)
 	--删除扑克
 	for i=0,cbRemoveCount-1,1 do
 		--效验扑克
@@ -303,8 +266,8 @@ function GameLogic.RemoveCard2(cbCardIndex,cbRemoveCard,cbRemoveCount)
 	return true
 end
 
---====   RemoveCard3
-function GameLogic.RemoveCard3(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCount)
+--====   RemoveCard4
+function GameLogic.RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCount)
 	--检验数据
 	-- ASSERT(cbCardCount<=MAX_COUNT);
 	-- ASSERT(cbRemoveCount<=cbCardCount);
@@ -340,7 +303,8 @@ function GameLogic.RemoveCard3(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCount
 	local cbCardPos = 0
 	for i=0,cbCardCount-1,1 do
 		if cbTempCardData[i]~=0 then
-			cbCardData[cbCardPos+1]=cbTempCardData[i];
+			cbCardPos=cbCardPos+1
+			cbCardData[cbCardPos]=cbTempCardData[i];
 		end
 	end
 
@@ -349,8 +313,8 @@ end
 
 --有效判断
 function GameLogic.IsValidCard(cbCardData)
-	local cbValue = bit:_and(cbCardData, MASK_VALUE)
-	local cbColor = bit:_rshift(bit:_and(cbCardData, MASK_COLOR),4)
+	local cbValue = bit:_and(cbCardData, GameLogic.MASK_VALUE)
+	local cbColor = bit:_rshift(bit:_and(cbCardData, GameLogic.MASK_COLOR),4)
 	return (((cbValue>=1)and(cbValue<=9)and(cbColor<=2))or((cbValue>=1)and(cbValue<=7)and(cbColor==3)))
 end
 
@@ -495,7 +459,7 @@ function GameLogic.EstimateEatCard(cbCardIndex,cbCurrentCard)
 			return GameLogic.WIK_NULL
 		}
 
-		for i=0,#cbItemKind-1,1 do
+		for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 				local cbValueIndex=cbCurrentIndex%9
 				while (cbValueIndex>=cbExcursion[i]) and ((cbValueIndex-cbExcursion[i])<=6) do
 						--吃牌判断
@@ -577,18 +541,19 @@ function GameLogic.AnalyseTingCard(cbCardIndex, WeaveItem,cbItemCount,dwChiHuRig
 function GameLogic.AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardResult)
 	--设置变量
 	local cbActionMask= GameLogic.WIK_NULL
-	--问题mark 不确定 GangCardResult结构体 暂为写到调用改方法 临时跳过   下同 LSTG   确保 GangCardResult有效？
+	--问题mark 不确定 GangCardResult结构体 暂为写到调用改方法 临时跳过   下同 LSTG   确保 GangCardResult有效
 	--ZeroMemory(&GangCardResult,sizeof(GangCardResult))
-	GangCardResult=nil
+	--GangCardResult=nil
+	GangCardResult={}
 
 	--手上杠牌
 	for i=0,cmd.MAX_INDEX-1,1 do
 		if cbCardIndex[i]==4 then
 			cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
-
-			--LSTG
-			--GangCardResult.cbCardData[GangCardResult.cbCardCount]=WIK_GANG
-			--GangCardResult.cbCardData[GangCardResult.cbCardCount++]=SwitchToCardData(i)
+			if GangCardResult.cbCardCount then print("!!!AnalyseGangCard GangCardResult.cbCardCount 不能为nil") return end
+			GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic.WIK_GANG
+			GangCardResult.cbCardCount=GangCardResult.cbCardCount+1
+			GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic.SwitchToCardData(i)
 		end
 	end
 
@@ -598,9 +563,9 @@ function GameLogic.AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 			if cbCardIndex[GameLogic.SwitchToCardIndex(WeaveItem[i].cbCenterCard)]==1 then
 				cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
 
-				--LSTG
-				--GangCardResult.cbCardData[GangCardResult.cbCardCount]=WIK_GANG;
-				--GangCardResult.cbCardData[GangCardResult.cbCardCount++]=WeaveItem[i].cbCenterCard;
+				GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic.WIK_GANG
+				GangCardResult.cbCardCount=GangCardResult.cbCardCount+1
+				GangCardResult.cbCardData[GangCardResult.cbCardCount]=WeaveItem[i].cbCenterCard
 			end
 		end
 	end
@@ -616,7 +581,8 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 
 	--设置变量
 	--ZeroMemory(&ChiHuResult,sizeof(ChiHuResult))
-	ChiHuResult=nil					--待确认是否合理
+	--ChiHuResult=nil					--待确认是否合理
+	ChiHuResult={}
 
 	--构造扑克
 	local cbCardIndexTemp=GameLogic.deepcopy(cbCardIndex)
@@ -645,16 +611,12 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 			cbCardIndexUser[i]=cbCardIndexUser[i]+1
 			cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
-			--AnalyseItemArrayTemp.RemoveAll();
 			AnalyseItemArrayTemp=nil
 			GameLogic.AnalyseCard(cbCardIndexUser,WeaveItem,cbWeaveCount,AnalyseItemArrayTemp)
-			--mark
-			AnalyseItemArray.Append(AnalyseItemArrayTemp)
+			GameLogic.append(AnalyseItemArray,AnalyseItemArrayTemp)
 			if i == byBaiBan then
-				--mark
-				--AnalyseFallback.RemoveAll()
 				AnalyseFallback=nil
-				AnalyseFallback.Append(AnalyseItemArrayTemp)
+				GameLogic.append(AnalyseFallback,AnalyseItemArrayTemp)
 			end
 
 			if (not bIsBaDui) or (not bIsBaDuiFallback) then
@@ -679,16 +641,12 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 				cbCardIndexUser[j]=cbCardIndexUser[j]+1
 				cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
 
-				--mark
-				--AnalyseItemArrayTemp.RemoveAll();
 				AnalyseItemArrayTemp=nil
 				GameLogic.AnalyseCard(cbCardIndexUser,WeaveItem,cbWeaveCount,AnalyseItemArrayTemp)
-				AnalyseItemArray.Append(AnalyseItemArrayTemp)
+				GameLogic.append(AnalyseItemArray,AnalyseItemArrayTemp)
 				if (i==byBaiBan) and (j==byBaiBan) then
-					--mark
-					--AnalyseFallback.RemoveAll();
 					AnalyseFallback=nil
-					AnalyseFallback.Append(AnalyseItemArrayTemp);
+					GameLogic.append(AnalyseFallback,AnalyseItemArrayTemp)
 				end
 
 				if (not bIsBaDui) or (not bIsBaDuiFallback) then
@@ -717,17 +675,13 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 					cbCardIndexUser[h]=cbCardIndexUser[h]+1
 					cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
 
-					--mark
-					--AnalyseItemArrayTemp.RemoveAll();
 					AnalyseItemArrayTemp=nil
 					GameLogic.AnalyseCard(cbCardIndexUser,WeaveItem,cbWeaveCount,AnalyseItemArrayTemp)
-					AnalyseItemArray.Append(AnalyseItemArrayTemp)
+					GameLogic.append(AnalyseItemArray,AnalyseItemArrayTemp)
 
 					if (i==byBaiBan) and (j==byBaiBan) and (h==byBaiBan) then
-						--mark
-						--AnalyseFallback.RemoveAll();
 						AnalyseFallback=nil
-						AnalyseFallback.Append(AnalyseItemArrayTemp)
+						GameLogic.append(AnalyseFallback,AnalyseItemArrayTemp)
 					end
 					if (not bIsBaDui) or (not bIsBaDuiFallback) then
 						if GameLogic.IsBaDui(cbCardIndexUser,WeaveItem,cbWeaveCount) then
@@ -759,21 +713,17 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 						cbCardIndexUser[m]=cbCardIndexUser[m]+1
 						cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
 
-						--mark
-						--AnalyseItemArrayTemp.RemoveAll();
 						AnalyseItemArrayTemp=nil
 						GameLogic.AnalyseCard(cbCardIndexUser,WeaveItem,cbWeaveCount,AnalyseItemArrayTemp)
-						AnalyseItemArray.Append(AnalyseItemArrayTemp)
+						GameLogic.append(AnalyseItemArray,AnalyseItemArrayTemp)
 
 						if (i==byBaiBan)
 						and (j==byBaiBan)
 						and (h==byBaiBan)
 						and (m==byBaiBan)
 						then
-							--mark
-							--AnalyseFallback.RemoveAll();
 							AnalyseFallback=nil
-							AnalyseFallback.Append(AnalyseItemArrayTemp)
+							GameLogic.append(AnalyseFallback,AnalyseItemArrayTemp)
 						end
 						if (not bIsBaDui) or (not bIsBaDuiFallback) then
 							if GameLogic.IsBaDui(cbCardIndexUser,WeaveItem,cbWeaveCount) then
@@ -804,7 +754,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	end
 
 	--胡牌分析
-	if #AnalyseItemArray>0 then
+	if GameLogic.table_leng(AnalyseItemArray)>0 then
 		-- 三张财神，又有其他胡牌类型
 		if 0x03 == cbCardIndexTemp[byGodsCardIndex] then
 			dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_SAN_GODS)
@@ -825,12 +775,12 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 		end
 
 		-- 财神归位
-		if #AnalyseFallback>0 then
+		if GameLogic.table_leng(AnalyseFallback)>0 then
 			dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_YING_PAI)
 		end
 
 		--牌型分析
-		for i=0,#AnalyseItemArray-1,1 do
+		for i=0,GameLogic.table_leng(AnalyseItemArray)-1,1 do
 			--变量定义
 			local bLianCard,bPengCard=false,false
 			--tagAnalyseItem * pAnalyseItem=&AnalyseItemArray[i];
@@ -839,515 +789,473 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			--牌型分析
 			--mark
 			--for (BYTE j=0;j<CountArray(pAnalyseItem->cbWeaveKind);j++)
-			for i=0,#pAnalyseItem[cbWeaveKind],1 do
-				local cbWeaveKind=pAnalyseItem->cbWeaveKind[j];
-				bPengCard=((cbWeaveKind&(WIK_GANG|WIK_PENG))!=0)?true:bPengCard;
-				bLianCard=((cbWeaveKind&(WIK_LEFT|WIK_CENTER|WIK_RIGHT))!=0)?true:bLianCard;
+			for i=0,GameLogic.table_leng(pAnalyseItem[cbWeaveKind]),1 do
+				local cbWeaveKind=pAnalyseItem.cbWeaveKind[j]
+				bPengCard=(bit:_and(cbWeaveKind, (bit:_or(GameLogic.WIK_GANG,GameLogic.WIK_PENG)))~=0) and true or bPengCard
+				bLianCard=(bit:_and(cbWeaveKind, (bit:_or(GameLogic.WIK_LEFT,(bit:_or(GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT)))))~=0) and true or bLianCard
 			end
+			--牌型判断
+
+			--碰碰牌型
+			if (bLianCard==false) and (bPengCard==true) then
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_PENG_PENG)
+			end
+			if (bLianCard==true) and (bPengCard==true) then
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_JI_HU)
+			end
+			if (bLianCard==true) and (bPengCard==false) then
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_PING_HU)
+			end
+
+
 		end
 
 	end
+	else
+		if 0x03 == cbCardIndexTemp[byGodsCardIndex] then	 -- 有三财神，没有其他胡牌
+			if not bIsBaDui then
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_YING_PAI)
+			else
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_SAN_GODS)
+			end
+		elseif bIsBaDuiFallback then												-- 才神归位，胡八对
+				dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_YING_PAI)
+		end
+	end
 
-end
-----------
+	--牌权判断
+	--if (IsQingYiSe(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuRight|=CHR_QING_YI_SE;
 
-		--胡牌分析
-		{
-			{
-				--牌型分析
-				{
-					BYTE cbWeaveKind=pAnalyseItem->cbWeaveKind[j];
-					bPengCard=((cbWeaveKind&(WIK_GANG|WIK_PENG))!=0)?true:bPengCard;
-					bLianCard=((cbWeaveKind&(WIK_LEFT|WIK_CENTER|WIK_RIGHT))!=0)?true:bLianCard;
-				}
+	--大胡牌型
+	--if (IsQiXiaoDui(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuKind|=CHK_QI_XIAO_DUI;
+	--if (IsShiSanYao(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuKind|=CHK_SHI_SAN_YAO;
 
-				--牌型判断
-				ASSERT((bLianCard==true)||(bPengCard==true));
-
-				--碰碰牌型
-				if ((bLianCard==false)&&(bPengCard==true))
-					dwChiHuKind|=CHK_PENG_PENG;
-				if ((bLianCard==true)&&(bPengCard==true))
-					dwChiHuKind|=CHK_JI_HU;
-				if ((bLianCard==true)&&(bPengCard==false))
-					dwChiHuKind|=CHK_PING_HU;
-			}
-		}
+	if bIsBaDui then
+		if cbCardIndexTemp[byGodsCardIndex] > 0x00 then
+			dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_BA_DUI)
 		else
-		{
-			if(0x03 == cbCardIndexTemp[byGodsCardIndex])  -- 有三财神，没有其他胡牌
-			{
-				if (!bIsBaDui)
-				{
-					dwChiHuKind |= CHK_YING_PAI;
-				}
-				else
-				{
-					dwChiHuKind |= CHK_SAN_GODS;
-				}
-			}
-			else if (bIsBaDuiFallback)  -- 才神归位，胡八对
-			{
-				dwChiHuKind |= CHK_YING_PAI;
-			}
-		}
+			dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_YING_BA_DUI)
+		end
+	end
 
-		--牌权判断
-		--if (IsQingYiSe(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuRight|=CHR_QING_YI_SE;
+	--结果判断
+	if dwChiHuKind~=GameLogic.CHK_NULL then
+		ChiHuResult.dwChiHuKind=bit:_or(ChiHuResult.dwChiHuKind,dwChiHuKind)
+		ChiHuResult.dwChiHuRight=bit:_or(ChiHuResult.dwChiHuRight,dwChiHuRight)
+		--变量定义
+		if (GameLogic.CHK_YING_BA_DUI == (bit:_and(GameLogic.CHK_YING_BA_DUI, dwChiHuKind)))
+				or (GameLogic.CHK_SAN_GODS == (bit:_and(GameLogic.CHK_SAN_GODS, dwChiHuKind)))
+				or (GameLogic.CHK_SINGLE_PAI == (bit:_and(GameLogic.CHK_SINGLE_PAI, dwChiHuKind)))
+		then
+			ChiHuResult.dwWinTimes = 4
+		elseif GameLogic.CHK_YING_PAI == (bit:_and(GameLogic.CHK_YING_PAI, dwChiHuKind)) then
+			ChiHuResult.dwWinTimes = 2
+		else
+			ChiHuResult.dwWinTimes = 1
+		end
+		if 4 ~= ChiHuResult.dwWinTimes then
+			if GameLogic.CHR_DI == (bit:_and(dwChiHuRight, GameLogic.CHR_DI)) then
+				ChiHuResult.dwWinTimes = 4
+			end
+			if GameLogic.CHR_TIAN == (bit:_and(dwChiHuRight, GameLogic.CHR_TIAN)) then
+				ChiHuResult.dwWinTimes = 4
+			end
+		end
+		return GameLogic.WIK_CHI_HU
+	end
+	return GameLogic.WIK_NULL
+end
 
-		--大胡牌型
-		--if (IsQiXiaoDui(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuKind|=CHK_QI_XIAO_DUI;
-		--if (IsShiSanYao(cbCardIndexTemp,WeaveItem,cbWeaveCount)==true) dwChiHuKind|=CHK_SHI_SAN_YAO;
-
-		if (bIsBaDui)
-		{
-			if (cbCardIndexTemp[byGodsCardIndex]>0x00)
-			{
-				dwChiHuKind|=CHK_BA_DUI;
-			}
-			else
-			{
-				dwChiHuKind|=CHK_YING_BA_DUI;
-			}
-		}
-
-		--结果判断
-		if (dwChiHuKind!=CHK_NULL)
-		{
-			ChiHuResult.dwChiHuKind |= dwChiHuKind;
-			ChiHuResult.dwChiHuRight |= dwChiHuRight;
-			--变量定义
-			if ((CHK_YING_BA_DUI == (CHK_YING_BA_DUI&dwChiHuKind))
-				|| (CHK_SAN_GODS == (CHK_SAN_GODS&dwChiHuKind))
-				|| (CHK_SINGLE_PAI == (CHK_SINGLE_PAI&dwChiHuKind)))
-			{
-				ChiHuResult.dwWinTimes = 4;
-			}
-			else if (CHK_YING_PAI == (CHK_YING_PAI&dwChiHuKind))
-			{
-				ChiHuResult.dwWinTimes = 2;
-			}
-			else
-			{
-				ChiHuResult.dwWinTimes = 1;
-			}
-
-			if (4 != ChiHuResult.dwWinTimes)
-			{
-				if (CHR_DI == (dwChiHuRight&CHR_DI))
-				{
-					ChiHuResult.dwWinTimes = 4;
-				}
-				if (CHR_TIAN == (dwChiHuRight&CHR_TIAN))
-				{
-					ChiHuResult.dwWinTimes = 4;
-				}
-			}
-			return WIK_CHI_HU;
-		}
-
-		return WIK_NULL;
-	}
-	--十三夭牌
-	bool CGameLogic::IsShiSanYao(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount)
-	{
+--十三夭牌
+function GameLogic.IsShiSanYao(cbCardIndex,WeaveItem,cbWeaveCount)
 		--组合判断
-		if (cbWeaveCount!=0) return false;
+		if cbWeaveCount~=0 then		return false	end
 
 		--扑克判断
-		bool bCardEye=false;
+		local bCardEye=false
 
 		--一九判断
-		for (BYTE i=0;i<27;i+=9)
-		{
+		for i=0,26,9 do
 			--无效判断
-			if (cbCardIndex[i]==0) return false;
-			if (cbCardIndex[i+8]==0) return false;
+			if cbCardIndex[i]==0 then return false end
+			if cbCardIndex[i+8]==0 then return false end
 
 			--牌眼判断
-			if ((bCardEye==false)&&(cbCardIndex[i]==2)) bCardEye=true;
-			if ((bCardEye==false)&&(cbCardIndex[i+8]==2)) bCardEye=true;
-		}
+			if (bCardEye==false) and (cbCardIndex[i]==2) then return bCardEye=true end
+			if (bCardEye==false) and (cbCardIndex[i+8]==2) then return bCardEye=true end
+		end
 
 		--番子判断
-		for (BYTE i=27;i<MAX_INDEX;i++)
-		{
-			if (cbCardIndex[i]==0) return false;
-			if ((bCardEye==false)&&(cbCardIndex[i]==2)) bCardEye=true;
-		}
+		for i=27,cmd.MAX_INDEX-1,1 do
+			if cbCardIndex[i]==0 then return false	end
+			if (bCardEye==false) and (cbCardIndex[i]==2) then bCardEye=true	end
+		end
 
 		--牌眼判断
-		if (bCardEye==false) return false;
+		if bCardEye==false return false
 
-		return true;
-	}
+		return true
+end
 
-	--清一色牌
-	bool CGameLogic::IsQingYiSe(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbItemCount)
-	{
-		--胡牌判断
-		BYTE cbCardColor=0xFF;
+--清一色牌
+function GameLogic.IsQingYiSe(cbCardIndex,WeaveItem,cbItemCount)
+	local cbCardColor= 0xFF
+	for i=0,cmd.MAX_INDEX-1,1 do
+		if cbCardIndex[i]~=0 then
+			--花色判断
+			if cbCardColor~= 0xFF then
+				return false
+			end
 
-		for (BYTE i=0;i<MAX_INDEX;i++)
-		{
-			if (cbCardIndex[i]!=0)
-			{
-				--花色判断
-				if (cbCardColor!=0xFF)
-					return false;
+			--设置花色
+			cbCardColor=(bit:_and(GameLogic.SwitchToCardData(i), GameLogic.MASK_COLOR))
 
-				--设置花色
-				cbCardColor=(SwitchToCardData(i)&MASK_COLOR);
+			--设置索引
+			i=(i/9+1)*9-1
+		end
+	end
 
-				--设置索引
-				i=(i/9+1)*9-1;
-			}
-		}
+	--组合判断
+	for i=0,cbItemCount-1,1 do
+		local cbCenterCard=WeaveItem[i].cbCenterCard
+		if bit:_and(cbCenterCard, GameLogic.MASK_COLOR)~=cbCardColor then
+			return false
+		end
+	end
+	return true
+end
 
-		--组合判断
-		for (BYTE i=0;i<cbItemCount;i++)
-		{
-			BYTE cbCenterCard=WeaveItem[i].cbCenterCard;
-			if ((cbCenterCard&MASK_COLOR)!=cbCardColor)
-				return false;
-		}
+--七小对牌
+function GameLogic.IsQiXiaoDui(cbCardIndex,WeaveItem,cbWeaveCount)
+	--组合判断
+	if cbWeaveCount~=0 then
+		return false
+	end
 
-		return true;
-	}
-	--七小对牌
-	bool CGameLogic::IsQiXiaoDui(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount)
-	{
-		--组合判断
-		if (cbWeaveCount!=0)
-			return false;
+	--扑克判断
+	for i=0,cmd.MAX_INDEX-1,1 do
+		local cbCardCount=cbCardIndex[i]
+		if (cbCardCount~=0) and (cbCardCount~=2) and (cbCardCount~=4) then
+			return false
+		end
+	end
 
-		--扑克判断
-		for (BYTE i=0;i<MAX_INDEX;i++)
-		{
-			BYTE cbCardCount=cbCardIndex[i];
-			if ((cbCardCount!=0)&&(cbCardCount!=2)&&(cbCardCount!=4))
-				return false;
-		}
+	return true
+end
 
-		return true;
-	}
+--八对
+function GameLogic.IsBaDui(cbCardIndex,WeaveItem,cbWeaveCount)
+	--组合判断
+	if cbWeaveCount~=0 then
+		return false
+	end
 
-	-- 八对
-	bool CGameLogic::IsBaDui(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount)
-	{
-		--组合判断
-		if (cbWeaveCount!=0)
-			return false;
-		--扑克判断
-		int iCount  = 0;
-		for (BYTE i=0;i<MAX_INDEX;i++)
-		{
-			BYTE cbCardCount=cbCardIndex[i];
-			if (0x00 != (cbCardCount%2))
-			{
-				++iCount;
-				if (iCount>1)
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+	--扑克判断
+	local iCount = 0
+	for i=0,cmd.MAX_INDEX-1,1 do
+		local cbCardCount=cbCardIndex[i]
+		if 0x00 ~= (cbCardCount%2) then
+			iCount=iCount+1
+			if iCount>1 then
+				return false
+			end
+		end
+	end
+	return true
 
+end
 
-	--扑克转换
-	BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex)
-	{
-		ASSERT(cbCardIndex<MAX_INDEX);
-		if (m_byGodsCardData>0)
-		{
-			if (SwitchToCardIndex(BAIBAN_CARD_DATA) == cbCardIndex)
-			{
-				return BAIBAN_CARD_DATA;
-			}
-			else if (SwitchToCardIndex(m_byGodsCardData) == cbCardIndex)
-			{
-				return m_byGodsCardData;
-			}
+--扑克转换
+function GameLogic.SwitchToCardData(...)
+	local arg={...}
+	local len=#arg
+	if len==1 then	GameLogic.SwitchToCardData_1(arg[1])
+	elseif len==2 then	GameLogic.SwitchToCardData_2(arg[1],arg[2])
+	else	print("SwitchToCardData 参数个数不符合")
+	end
+end
+--BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex)
+function GameLogic.SwitchToCardData_1(cbCardIndex)
+	if GameLogic.m_byGodsCardData>0 then
+			if GameLogic.SwitchToCardIndex(GameLogic.BAIBAN_CARD_DATA) == cbCardIndex then
+				return GameLogic.BAIBAN_CARD_DATA
+			elseif GameLogic.SwitchToCardIndex(GameLogic.m_byGodsCardData) == cbCardIndex then
+				return GameLogic.m_byGodsCardData
 			else
-			{
-				return ((cbCardIndex/9)<<4)|(cbCardIndex%9+1);
-			}
-		}
-		return ((cbCardIndex/9)<<4)|(cbCardIndex%9+1);
-	}
+				return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
+			end
+	end
 
-	--扑克转换
-	BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData)
-	{
-		ASSERT(IsValidCard(cbCardData));
-		if (m_byGodsCardData>0)
-		{
-			if (BAIBAN_CARD_DATA == cbCardData)    -- 将白板跟财神交换
-			{
-				cbCardData = m_byGodsCardData;
-			}
-			else if (m_byGodsCardData == cbCardData)
-			{
-				cbCardData = BAIBAN_CARD_DATA;
-			}
-		}
-		return ((cbCardData&MASK_COLOR)>>4)*9+(cbCardData&MASK_VALUE)-1;
-	}
+	return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
+end
 
-	--扑克转换
-	BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex[MAX_INDEX], BYTE cbCardData[MAX_COUNT])
-	{
-		BYTE cbPosition=0;
-		BYTE byIndex = 0xFF;
-		--转换扑克
-		if (m_byGodsCardData > 0)
-		{
-			-- 财神放在第一位
-			byIndex = SwitchToCardIndex(m_byGodsCardData);
-			if (0 != cbCardIndex[byIndex]) -- 首先把财神 加入
-			{
-				for (BYTE j=0;j<cbCardIndex[byIndex];j++)
-				{
-					ASSERT(cbPosition<MAX_COUNT);
-					cbCardData[cbPosition++]=SwitchToCardData(byIndex);
-				}
-			}
-		}
-		for (BYTE i=0;i<MAX_INDEX;i++)
-		{
-			if (byIndex == i)
-			{
-				continue ;
-			}
+--扑克转换
+function GameLogic.SwitchToCardIndex(...)
+	local arg={...}
+	local len=#arg
+	if len==1 then	GameLogic.SwitchToCardIndex_1(arg[1])
+	elseif len==3 then	GameLogic.SwitchToCardIndex_3(arg[1],arg[2],arg[3])
+	else	print("SwitchToCardIndex 参数个数不符合")
+	end
+end
+--BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData)
+function GameLogic.SwitchToCardIndex_1(cbCardData)
+	if GameLogic.m_byGodsCardData>0 then
+		if GameLogic.BAIBAN_CARD_DATA ==cbCardData then			 -- 将白板跟财神交换
+			cbCardData = GameLogic.m_byGodsCardData
+		elseif GameLogic.m_byGodsCardData ==cbCardData then
+			cbCardData = GameLogic.BAIBAN_CARD_DATA
+		end
+	end
 
-			if (cbCardIndex[i]!=0)
-			{
-				for (BYTE j=0;j<cbCardIndex[i];j++)
-				{
-					ASSERT(cbPosition<MAX_COUNT);
-					cbCardData[cbPosition++]=SwitchToCardData(i);
-				}
-			}
-		}
-		return cbPosition;
-	}
+	return (bit:_lshift((bit:_and(cbCardData, GameLogic.MASK_COLOR)), 4))*9+(bit:_and(cbCardData, GameLogic.MASK_VALUE))-1
+end
 
-	void CGameLogic::SetGodsCard(BYTE byCardData)
-	{
-		m_byGodsCardData = byCardData;
-	}
+--扑克转换
+--BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex[MAX_INDEX], BYTE cbCardData[MAX_COUNT])
+function GameLogic.SwitchToCardData_2(cbCardIndex,cbCardData)
+	local cbPosition=0
+	local byIndex = 0xFF
+	--转换扑克
+	if GameLogic.m_byGodsCardData>0 then
+		-- 财神放在第一位
+		byIndex = GameLogic.SwitchToCardIndex(GameLogic.m_byGodsCardData)
+		if 0 ~= cbCardIndex[byIndex] then -- 首先把财神 加入
+			for j=0,cbCardIndex[byIndex]-1,1 do
+				cbPosition=cbPosition+1
+				cbCardData[cbPosition]=GameLogic.SwitchToCardData(byIndex)
+			end
+		end
+	end
+	for i=0,cmd.MAX_INDEX-1,1 do
+		while true do
 
-	--扑克转换
-	BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX])
-	{
-		--设置变量
-		ZeroMemory(cbCardIndex,sizeof(BYTE)*MAX_INDEX);
+				if byIndex == i break	end
 
-		--转换扑克
-		for (BYTE i=0;i<cbCardCount;i++)
-		{
-			ASSERT(IsValidCard(cbCardData[i]));
-			cbCardIndex[SwitchToCardIndex(cbCardData[i])]++;
-		}
+				if cbCardIndex[i]~=0 then
+					for j=0,cbCardIndex[i]-1,1 do
+						cbPosition=cbPosition+1
+						cbCardData[cbPosition]=GameLogic.SwitchToCardData(i)
+					end
+				end
 
-		return cbCardCount;
-	}
+		break	end
+	end
 
-	--分析扑克
-	bool CGameLogic::AnalyseCard(BYTE cbCardIndex[MAX_INDEX], tagWeaveItem WeaveItem[], BYTE cbWeaveCount, CAnalyseItemArray & AnalyseItemArray)
-	{
-		--计算数目
-		BYTE cbCardCount=0;
-		for (BYTE i=0;i<MAX_INDEX;i++)
-			cbCardCount+=cbCardIndex[i];
+	return cbPosition
+end
 
-		--效验数目
-		ASSERT((cbCardCount>=2)&&(cbCardCount<=MAX_COUNT)&&((cbCardCount-2)%3==0));
-		if ((cbCardCount<2)||(cbCardCount>MAX_COUNT)||((cbCardCount-2)%3!=0))
-			return false;
+function GameLogic.SetGodsCard(byCardData)
+	GameLogic.m_byGodsCardData=byCardData
+end
+
+--扑克转换
+--BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX])
+function GameLogic.SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
+	--设置变量
+	--cbCardIndex=nil
+	cbCardIndex={}
+
+	--转换扑克
+	for i=0,cbCardCount-1,1 do
+		cbCardIndex[GameLogic.SwitchToCardIndex(cbCardData[i])]=cbCardIndex[GameLogic.SwitchToCardIndex(cbCardData[i])]+1
+	end
+
+	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1
+	return cbCardCount
+end
+
+--分析扑克
+function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArray)
+	--计算数目
+	local cbCardCount=0
+	for i=0,cmd.MAX_INDEX-1,1 do
+		cbCardCount=cbCardCount+cbCardIndex[i]
+	end
+
+	--效验数目
+	if (cbCardCount<2) or (cbCardCount>cmd.MAX_COUNT) or ((cbCardCount-2)%3~=0) then	return false	end
+
+	--变量定义
+	local cbKindItemCount=0
+	--tagKindItem KindItem[MAX_COUNT-2];
+	--ZeroMemory(KindItem,sizeof(KindItem));
+	local KindItem
+
+	--需求判断
+	local cbLessKindItem=(cbCardCount-2)/3;
+
+	local byGodsIndex = GameLogic.SwitchToCardIndex(GameLogic.m_byGodsCardData)
+	--单吊判断
+	if cbLessKindItem==0 then
+		--效验参数
+		--ASSERT((cbCardCount==2)&&(cbWeaveCount==MAX_WEAVE));
+
+		--牌眼判断
+		for i=0,cmd.MAX_INDEX-1,1 do
+			if (cbCardIndex[i]==2)
+			or ((cbCardIndex[i]==1)
+			and (i ~= byGodsIndex)
+			and (cbCardIndex[byGodsIndex]>0))
+			then
+				--变量定义
+				--tagAnalyseItem AnalyseItem;
+				--ZeroMemory(&AnalyseItem,sizeof(AnalyseItem));
+				--local AnalyseItem=nil
+				local AnalyseItem={}
+
+				--设置结果
+				for j=0,cbWeaveCount-1,1 do
+					AnalyseItem.cbWeaveKind[j]=WeaveItem[j].cbWeaveKind
+					AnalyseItem.cbCenterCard[j]=WeaveItem[j].cbCenterCard
+				end
+				AnalyseItem.cbCardEye=GameLogic.SwitchToCardData(i)
+
+				--插入结果
+				GameLogic.add(AnalyseItemArray,AnalyseItem)
+
+				return true
+			end
+		end
+
+		return false
+	end
+
+	-- 拆分分析
+	if cbCardCount>=3 then
+		for i=0,cmd.MAX_INDEX-1,1 do
+		--同牌判断
+			if cbCardIndex[i]>=3 then
+				KindItem[cbKindItemCount].cbCardIndex[0]=i
+				KindItem[cbKindItemCount].cbCardIndex[1]=i
+				KindItem[cbKindItemCount].cbCardIndex[2]=i
+				KindItem[cbKindItemCount].cbWeaveKind=GameLogic.WIK_PENG
+				cbKindItemCount=cbKindItemCount+1
+				KindItem[cbKindItemCount].cbCenterCard=GameLogic.SwitchToCardData(i)
+			end
+			-- 连牌判断
+			if (i<(cmd.MAX_INDEX-9)) and (cbCardIndex[i]>0) and ((i%9)<7) then
+				for j=0,cbCardIndex[i],1 do
+					if (cbCardIndex[i+1]>=j) and (cbCardIndex[i+2]>=j) then
+						KindItem[cbKindItemCount].cbCardIndex[0]=i
+						KindItem[cbKindItemCount].cbCardIndex[1]=i+1
+						KindItem[cbKindItemCount].cbCardIndex[2]=i+2
+						KindItem[cbKindItemCount].cbWeaveKind=GameLogic.WIK_LEFT
+						cbKindItemCount=cbKindItemCount+1
+						KindItem[cbKindItemCount].cbCenterCard=GameLogic.SwitchToCardData(i)
+					end
+				end
+			end
+		end
+	end
+
+	--组合分析
+	if cbKindItemCount>=cbLessKindItem then
+		--变量定义
+		--local cbCardIndexTemp=nil
+		local cbCardIndexTemp={}
+		--ZeroMemory(cbCardIndexTemp,sizeof(cbCardIndexTemp));
 
 		--变量定义
-		BYTE cbKindItemCount=0;
-		tagKindItem KindItem[MAX_COUNT-2];
-		ZeroMemory(KindItem,sizeof(KindItem));
+		local cbIndex={0,1,2,3,4}
+		--tagKindItem * pKindItem[MAX_WEAVE];
+		--ZeroMemory(&pKindItem,sizeof(pKindItem));
+		--local pKindItem=nil
+		local pKindItem={}
 
-		--需求判断
-		BYTE cbLessKindItem=(cbCardCount-2)/3;
-		ASSERT((cbLessKindItem+cbWeaveCount)==MAX_WEAVE);
+		--开始组合 do while
+		local notFirstLoop =0
+		while true do
+			notFirstLoop=notFirstLoop+1
+			--设置变量
+			cbCardIndexTemp=GameLogic.deepcopy(cbCardIndex)
+			for i=0,cbLessKindItem-1,1 do
+				pKindItem[i]=KindItem[cbIndex[i]]
+			end
 
-		BYTE byGodsIndex = SwitchToCardIndex(m_byGodsCardData);
-		--单吊判断
-		if (cbLessKindItem==0)
-		{
-			--效验参数
-			ASSERT((cbCardCount==2)&&(cbWeaveCount==MAX_WEAVE));
+			--数量判断
+			local bEnoughCard=true
+			for i=1,cbLessKindItem*3-1,1 do
+				--存在判断
+				local cbCardIndex=pKindItem[i/3].cbCardIndex[i%3]
+				if cbCardIndexTemp[cbCardIndex]==0 then
+					bEnoughCard=false
+					if notFirstLoop~=1 then
+						break
+					end
+				else
+					cbCardIndexTemp[cbCardIndex]=cbCardIndexTemp[cbCardIndex]-1
+				end
+			end
 
-			--牌眼判断
-			for (BYTE i=0;i<MAX_INDEX;i++)
-			{
-				if ((cbCardIndex[i]==2)
-					|| ((cbCardIndex[i]==1)
-					&& (i != byGodsIndex)
-					&& (cbCardIndex[byGodsIndex]>0)))
-				{
+			--胡牌判断
+			if bEnoughCard==true then
+				--牌眼判断
+				local cbCardEye=0
+				for i=0,cmd.MAX_INDEX-1,1 do
+					if cbCardIndexTemp[i]==2 then
+						cbCardEye=GameLogic.SwitchToCardData(i)
+						if notFirstLoop~=1 then
+							break
+						end
+					end
+				end
+
+				--组合类型
+				if cbCardEye~=0 then
 					--变量定义
-					tagAnalyseItem AnalyseItem;
-					ZeroMemory(&AnalyseItem,sizeof(AnalyseItem));
+					--local AnalyseItem=nil
+					local AnalyseItem={}
+					--tagAnalyseItem AnalyseItem;
+					--ZeroMemory(&AnalyseItem,sizeof(AnalyseItem));
 
-					--设置结果
-					for (BYTE j=0;j<cbWeaveCount;j++)
-					{
-						AnalyseItem.cbWeaveKind[j]=WeaveItem[j].cbWeaveKind;
-						AnalyseItem.cbCenterCard[j]=WeaveItem[j].cbCenterCard;
-					}
-					AnalyseItem.cbCardEye=SwitchToCardData(i);
+					--设置组合
+					for i=1,cbWeaveCount-1,1 do
+						AnalyseItem.cbWeaveKind[i]=WeaveItem[i].cbWeaveKind
+						AnalyseItem.cbCenterCard[i]=WeaveItem[i].cbCenterCard
+					end
+
+					--设置牌型
+					for i=0,cbLessKindItem-1,1 do
+						AnalyseItem.cbWeaveKind[i+cbWeaveCount]=pKindItem[i].cbWeaveKind
+						AnalyseItem.cbCenterCard[i+cbWeaveCount]=pKindItem[i].cbCenterCard
+					end
+
+					--设置牌眼
+					AnalyseItem.cbCardEye=cbCardEye
 
 					--插入结果
-					AnalyseItemArray.Add(AnalyseItem);
+					GameLogic.add(AnalyseItemArray,AnalyseItem)
 
-					return true;
-				}
-			}
-			return false;
-		}
+				end
+			end
 
-		-- 拆分分析
-		if (cbCardCount>=3)
-		{
-			for (BYTE i=0;i<MAX_INDEX;i++)
-			{
-				--同牌判断
-				if (cbCardIndex[i]>=3)
-				{
-					KindItem[cbKindItemCount].cbCardIndex[0]=i;
-					KindItem[cbKindItemCount].cbCardIndex[1]=i;
-					KindItem[cbKindItemCount].cbCardIndex[2]=i;
-					KindItem[cbKindItemCount].cbWeaveKind=WIK_PENG;
-					KindItem[cbKindItemCount++].cbCenterCard=SwitchToCardData(i);
-				}
+			--设置索引
+			if cbIndex[cbLessKindItem-1]==(cbKindItemCount-1) then
+				for i=cbLessKindItem-1,0+1,-1 do
+					if (cbIndex[i-1]+1)~=cbIndex[i] then
+						local cbNewIndex=cbIndex[i-1]
+						for j=(i-1),cbLessKindItem-1,1 do
+							cbIndex[j]=cbNewIndex+j-i+2
+						end
+						if notFirstLoop~=1 then
+							break
+						end
+					end
+				end
+				if i==0 then			--i 有定义么？ mark
+					if notFirstLoop~=1 then
+						break
+					end
+				end
+			else
+				cbIndex[cbLessKindItem-1]=cbIndex[cbLessKindItem-1]+1
+			end
+		end
+		--while (true);
+	end
 
-				-- 连牌判断
-				if ((i<(MAX_INDEX-9))&&(cbCardIndex[i]>0)&&((i%9)<7))
-				{
-					for (BYTE j=1;j<=cbCardIndex[i];j++)
-					{
-						if ((cbCardIndex[i+1]>=j)&&(cbCardIndex[i+2]>=j))
-						{
-							KindItem[cbKindItemCount].cbCardIndex[0]=i;
-							KindItem[cbKindItemCount].cbCardIndex[1]=i+1;
-							KindItem[cbKindItemCount].cbCardIndex[2]=i+2;
-							KindItem[cbKindItemCount].cbWeaveKind=WIK_LEFT;
-							KindItem[cbKindItemCount++].cbCenterCard=SwitchToCardData(i);
-						}
-					}
-				}
-			}
-		}
-
-		--组合分析
-		if (cbKindItemCount>=cbLessKindItem)
-		{
-			--变量定义
-			BYTE cbCardIndexTemp[MAX_INDEX];
-			ZeroMemory(cbCardIndexTemp,sizeof(cbCardIndexTemp));
-
-			--变量定义
-			BYTE cbIndex[MAX_WEAVE]={0,1,2,3,4};
-			tagKindItem * pKindItem[MAX_WEAVE];
-			ZeroMemory(&pKindItem,sizeof(pKindItem));
-
-			--开始组合
-			do
-			{
-				--设置变量
-				CopyMemory(cbCardIndexTemp,cbCardIndex,sizeof(cbCardIndexTemp));
-				for (BYTE i=0;i<cbLessKindItem;i++)
-					pKindItem[i]=&KindItem[cbIndex[i]];
-
-				--数量判断
-				bool bEnoughCard=true;
-				for (BYTE i=0;i<cbLessKindItem*3;i++)
-				{
-					--存在判断
-					BYTE cbCardIndex=pKindItem[i/3]->cbCardIndex[i%3];
-					if (cbCardIndexTemp[cbCardIndex]==0)
-					{
-						bEnoughCard=false;
-						break;
-					}
-					else
-						cbCardIndexTemp[cbCardIndex]--;
-				}
-
-				--胡牌判断
-				if (bEnoughCard==true)
-				{
-					--牌眼判断
-					BYTE cbCardEye=0;
-					for (BYTE i=0;i<MAX_INDEX;i++)
-					{
-						if (cbCardIndexTemp[i]==2)
-						{
-							cbCardEye=SwitchToCardData(i);
-							break;
-						}
-					}
-
-					--组合类型
-					if (cbCardEye!=0)
-					{
-						--变量定义
-						tagAnalyseItem AnalyseItem;
-						ZeroMemory(&AnalyseItem,sizeof(AnalyseItem));
-
-						--设置组合
-						for (BYTE i=0;i<cbWeaveCount;i++)
-						{
-							AnalyseItem.cbWeaveKind[i]=WeaveItem[i].cbWeaveKind;
-							AnalyseItem.cbCenterCard[i]=WeaveItem[i].cbCenterCard;
-						}
-
-						--设置牌型
-						for (BYTE i=0;i<cbLessKindItem;i++)
-						{
-							AnalyseItem.cbWeaveKind[i+cbWeaveCount]=pKindItem[i]->cbWeaveKind;
-							AnalyseItem.cbCenterCard[i+cbWeaveCount]=pKindItem[i]->cbCenterCard;
-						}
-
-						--设置牌眼
-						AnalyseItem.cbCardEye=cbCardEye;
-
-						--插入结果
-						AnalyseItemArray.Add(AnalyseItem);
-					}
-				}
-
-				--设置索引
-				if (cbIndex[cbLessKindItem-1]==(cbKindItemCount-1))
-				{
-					for (BYTE i=cbLessKindItem-1;i>0;i--)
-					{
-						if ((cbIndex[i-1]+1)!=cbIndex[i])
-						{
-							BYTE cbNewIndex=cbIndex[i-1];
-							for (BYTE j=(i-1);j<cbLessKindItem;j++)
-								cbIndex[j]=cbNewIndex+j-i+2;
-							break;
-						}
-					}
-					if (i==0)
-						break;
-				}
-				else
-					cbIndex[cbLessKindItem-1]++;
-
-			} while (true);
-
-		}
-
-		return (AnalyseItemArray.GetCount()>0);
-	}
+	return (GameLogic.table_leng(AnalyseItemArray)>0)
+end
 
 return GameLogic
