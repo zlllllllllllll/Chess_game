@@ -1,88 +1,497 @@
-local cmd = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.CMD_Game")
+local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 
 local GameViewLayer = class("GameViewLayer",function(scene)
-	local gameViewLayer =  cc.CSLoader:createNode(cmd.RES_PATH.."game/GameScene.csb")
+	--local gameViewLayer =  cc.CSLoader:createNode(cmd.RES_PATH.."game/GameScene.csb")
+	local gameViewLayer = display.newLayer()
     return gameViewLayer
 end)
 
-require("client/src/plaza/models/yl")
+--require("client/src/plaza/models/yl")
 local PopupInfoHead = appdf.req("client.src.external.PopupInfoHead")
 local ExternalFun = require(appdf.EXTERNAL_SRC .. "ExternalFun")
-local GameLogic = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.GameLogic")
-local CardLayer = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.views.layer.CardLayer")
-local ResultLayer = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.views.layer.ResultLayer")
-local SetLayer = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.views.layer.SetLayer")
+local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
+local CardLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardLayer")
+local ResultLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ResultLayer")
+local SetLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.SetLayer")
 local GameChatLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.game.GameChatLayer")
 local AnimationMgr = appdf.req(appdf.EXTERNAL_SRC .. "AnimationMgr")
 
-local anchorPointHead = {cc.p(1, 1), cc.p(0, 0.5), cc.p(0, 0), cc.p(1, 0.5)}
-local posHead = {cc.p(577, 295), cc.p(165, 332), cc.p(166, 257), cc.p(724, 273)}
-local posReady = {cc.p(-333, 0), cc.p(135, 0), cc.p(516, -140), cc.p(-134, 0)}
-local posPlate = {cc.p(667, 589), cc.p(237, 464), cc.p(667, 174), cc.p(1093, 455)}
-local posChat = {cc.p(873, 660), cc.p(229, 558), cc.p(270, 285), cc.p(1095, 528)}
+local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
+local ScoreControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ScoreControl")
+local ControlWnd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ControlWnd")
+--按钮标识
 
-GameViewLayer.SP_TABLE_BT_BG		= 1					--桌子按钮背景
-GameViewLayer.BT_CHAT 				= 41				--聊天按钮
-GameViewLayer.BT_SET 				= 42				--设置
-GameViewLayer.CBX_SOUNDOFF 			= 142				--声音开关
-GameViewLayer.BT_EXIT	 			= 43				--退出按钮
-GameViewLayer.BT_TRUSTEE 			= 44				--托管按钮
-GameViewLayer.BT_HOWPLAY 			= 45				--玩法按钮
+GameViewLayer.IDC_START									100								--开始按钮
+GameViewLayer.IDC_TRUSTEE_CONTROL				104								--托管控制
+GameViewLayer.IDC_MAI_DI				        105								-- 买底
+GameViewLayer.IDC_DING_DI				        106								-- 顶底
+GameViewLayer.IDC_MAI_CANCEL				    107								--托管控制
+GameViewLayer.IDC_DING_CANCEL						108
 
-GameViewLayer.BT_SWITCH 			= 2 				--按钮开关按钮
-GameViewLayer.BT_START 				= 3 				--开始按钮
+--动作标识
+GameViewLayer.IDI_BOMB_EFFECT						101								--动作标识
+GameViewLayer.IDI_TIP_SINGLE						102
+GameViewLayer.IDI_SIBO_PLAY       	    220
+--动作数目
+GameViewLayer.BOMB_EFFECT_COUNT					12								--动作数目
+GameViewLayer.DISC_EFFECT_COUNT					8									--丢弃效果
 
-GameViewLayer.BT_VOICE 				= 5					--语音按钮（语音关闭）
-GameViewLayer.BT_VOICEOPEN 			= 55				--语音按钮（语音开启）
+GameViewLayer.IDI_DISC_EFFECT						102								--丢弃效果     重复了什么情况
 
-GameViewLayer.SP_GAMEBTN 			= 6					--游戏操作按钮
-GameViewLayer.BT_BUMP 				= 62				--游戏操作按钮碰
-GameViewLayer.BT_BRIGDE 			= 63				--游戏操作按钮杠
-GameViewLayer.BT_LISTEN 			= 64				--游戏操作按钮听
-GameViewLayer.BT_WIN 				= 65				--游戏操作按钮胡
-GameViewLayer.BT_PASS 				= 66				--游戏操作按钮过
+local  btcallback = function(ref, type)
+  if type == ccui.TouchEventType.ended then
+   	this:onButtonClickedEvent(ref:getTag(),ref)
+  end
+end
+local this
 
-GameViewLayer.SP_ROOMINFO 			= 7					--房间信息
-GameViewLayer.TEXT_ROOMNUM 			= 1					--房间信息房号
-GameViewLayer.TEXT_ROOMNAME 		= 2					--房间信息房名
-GameViewLayer.TEXT_INDEX 			= 3					--房间信息局数
-GameViewLayer.TEXT_INNINGS 			= 4					--房间信息剩多少局
+function GameViewLayer:onButtonClickedEvent(tag, ref)
+	if tag == GameViewLayer.IDC_START then
+		print("开始按钮")
+		self:OnStart()
+	elseif tag == GameViewLayer.IDC_TRUSTEE_CONTROL then
+		print("托管控制 IDC_TRUSTEE_CONTROL")
+		self:OnStusteeControl()
+	elseif tag == GameViewLayer.IDC_MAI_DI then
+		print("买底")
+		self:OnMaiDi()
+	elseif tag == GameViewLayer.IDC_DING_DI then
+		print("顶底")
+		self:OnDingDi()
+	elseif tag == GameViewLayer.IDC_MAI_CANCEL then
+		print("_IDC_MAI_CANCEL")
+		self:OnMaiCancel()
+	elseif tag == GameViewLayer.IDC_DING_CANCEL then
+		print("_IDC_DING_CANCEL")
+		self:OnMaiCancel()
+	else
+		print("default")
+	end
+end
 
-GameViewLayer.SP_ANNOUNCEMENT 		= 8					--公告
+function GameViewLayer:ctor(scene)
+	this = self
+	self._scene = scene
+	self._gameFrame = scene._gameFrame
+	-- self:onInitData()
+	self:preloadUI()
+	-- self:initButtons()
 
-GameViewLayer.SP_CLOCK 				= 9					--计时器
-GameViewLayer.ASLAB_TIME 			= 1					--计时器时间
+	self.m_nXFace=48
+	self.m_nYFace=48
+	self.m_nXTimer=65
+	self.m_nYTimer=69
+	self.m_nXBorder=0
+	self.m_nYBorder=0
+	--标志变量
+	self.m_bOutCard=false
+	self.m_bWaitOther=false
+	self.m_bHuangZhuang=false
+	self.m_bListenStatus={}
 
-GameViewLayer.SP_LISTEN 			= 10				--听牌提示
+	--游戏属性
+	self.m_lBaseScore=0
+	self.m_wBankerUser=yl.INVALID_CHAIR
+	self.m_wCurrentUser=yl.INVALID_CHAIR
 
-GameViewLayer.NODEPLAYER_1 			= 11				--玩家节点1
-GameViewLayer.NODEPLAYER_2 			= 12				--玩家节点2
-GameViewLayer.NODEPLAYER_3 			= 13				--玩家节点3
-GameViewLayer.NODEPLAYER_4 			= 14				--玩家节点4
-GameViewLayer.SP_HEAD 				= 1					--玩家头像
-GameViewLayer.SP_HEADCOVER 			= 2					--玩家头像覆盖层
-GameViewLayer.TEXT_NICKNAME 		= 3					--玩家昵称
-GameViewLayer.ASLAB_SCORE 			= 4					--玩家金币
-GameViewLayer.SP_READY 				= 5					--玩家准备标志
-GameViewLayer.SP_TRUSTEE 			= 6					--玩家托管标志
-GameViewLayer.SP_BANKER 			= 7					--庄家
+	--动作动画
+	self.m_bBombEffect=false
+	self.m_cbBombFrameIndex=0
 
-GameViewLayer.SP_ROOMHOST 			= 16				--房主
+	--丢弃效果
+	self.m_wDiscUser=yl.INVALID_CHAIR
+	self.m_cbDiscFrameIndex=0
 
--- GameViewLayer.BT_EXIT	 			= 17				--退出按钮
--- GameViewLayer.BT_TRUSTEE 			= 18				--托管按钮
+	--用户状态
+	self.m_cbCardData=0
+	self.m_wOutCardUser=yl.INVALID_CHAIR
+	self.m_cbUserAction={}
+	self.m_bTrustee={}
+	self.m_szCenterText={}
 
-GameViewLayer.SP_PLATE 				= 19				--牌盘
-GameViewLayer.SP_PLATECARD		 	= 1					--排盘中的牌
+	--加载位图
+	--[[
+	HINSTANCE hInstance=AfxGetInstanceHandle();
+	m_ImageWait.LoadFromResource(hInstance,IDB_WAIT_TIP);
+	m_ImageBack.LoadFromResource(hInstance,IDB_VIEW_BACK);
+	m_ImageUserFlag.LoadFromResource(hInstance,IDB_USER_FLAG);
+	//m_ImageOutCard.LoadFromResource(IDB_OUT_CARD_TIP,hInstance);
+	m_ImageUserAction.LoadFromResource(hInstance,IDB_USER_ACTION);
+	m_ImageActionBack.LoadFromResource(hInstance,IDB_ACTION_BACK);
+	m_ImageCS.LoadFromResource(hInstance,IDB_CS_BACK);
+	m_ImageHuangZhuang.LoadFromResource(hInstance,IDB_HUANG_ZHUANG);
+	m_ImageListenStatusH.LoadFromResource(hInstance,IDB_LISTEN_FLAG_H);
+	m_ImageListenStatusV.LoadFromResource(hInstance,IDB_LISTEN_FLAG_V);
+	m_ImageTrustee.LoadImage(hInstance,TEXT("TRUSTEE"));
+	m_ImageActionAni.LoadImage(AfxGetInstanceHandle(),TEXT("ActionAni"));
+	//m_ImageDisc.LoadImage(AfxGetInstanceHandle(),TEXT("DISC"));
+	m_ImageArrow.LoadImage(AfxGetInstanceHandle(),TEXT("ARROW"));
+	m_ImageCenter.LoadFromResource(hInstance,IDB_VIEW_CENTER);
+	m_ImageSaizi.LoadFromResource(hInstance,IDB_ANIM_SAIZI);
 
-GameViewLayer.TEXT_REMAINNUM 		= 20				--牌堆剩多少张
+	m_ImageTipSingle.LoadFromResource(hInstance,IDB_TIP_SINGLE);
 
-GameViewLayer.SP_SICE1 				= 27				--筛子1
-GameViewLayer.SP_SICE2 				= 28				--筛子2
-GameViewLayer.SP_OPERATFLAG			= 29				--操作标志
+	ImageTimeBack.LoadFromResource(hInstance,IDB_TIME_BACK);
+	ImageTimeNumber.LoadFromResource(hInstance,IDB_TIME_NUMBER);
 
-GameViewLayer.SP_TRUSTEEBG 			= 1					--托管底图
+	m_ImageDingMai.LoadFromResource(hInstance,IDB_DINGMAI);;						// 顶买
+	m_ImageDingMaiFrame.LoadFromResource(hInstance,IDB_DINGMAI_FRAME);			// 顶买框
+	m_ImageNumber.LoadFromResource(hInstance,IDB_NUMBER);;				        // 数字
 
+	m_ImageReady.LoadFromResource(hInstance,IDB_READY);							//准备
+	--]]
+
+	self.m_byGodsData = 0x00
+	--m_pGameClientDlg=CONTAINING_RECORD(this,CGameClientEngine,m_GameClientView);  父指针
+	--self.m_arBall.RemoveAll(); typedef struct tagBall
+	self.m_arBall={}
+	self.m_iSicboAnimIndex = -1                                                 -- 骰子动画当前
+	self.m_bySicbo={}
+	self.m_byDingMai={}
+	--self.m_SicboAnimPoint = CPoint(0,0);
+	self.m_SicboAnimPoint = cc.p(0, 0)
+
+	self.m_bTipSingle=false
+	self.m_bBankerCount = 1
+	return
+end
+
+--批量创建
+function GameViewLayer:batchCreate(num,type)   --改长度需要使用 GameLogic.table_leng 不能使用 # 起始值不同 （此处键名不中断）
+		a={}
+		if type=="CHeapCard" then
+			for i=0,num-1,1 do
+				a[i]=CardControl:create_CHeapCard(self)				end
+		elseif type=="CTableCard" then
+			for i=0,num-1,1 do
+				a[i]=CardControl:create_CTableCard(self)			end
+		elseif type=="CDiscardCard" then
+			for i=0,num-1,1 do
+				a[i]=CardControl:create_CDiscardCard(self)		end
+		elseif type=="CWeaveCard" then
+			for i=0,num-1,1 do
+				a[i]=CardControl:create_CWeaveCard(self)		end
+		elseif type=="CUserCard" then
+			for i=0,num-1,1 do
+				a[i]=CardControl:create_CUserCard(self)		end
+		elseif type=="" then
+			--待补充
+		end
+		return a
+end
+
+function GameViewLayer:preloadUI()
+		--变量定义
+		self.Direction={CardControl.enDirection.Direction_North,CardControl.enDirection.Direction_East,CardControl.enDirection.Direction_South,CardControl.enDirection.Direction_West};
+		--用户扑克
+		self.m_HeapCard=self:batchCreate(4,"CHeapCard")
+
+		self.m_HeapCard[0]:SetDirection(self.Direction[0])
+		self.m_HeapCard[0]:SetGodsCard(0,0,0)
+		--用户扑克
+		self.m_HeapCard[1]:SetDirection(self.Direction[1])
+		self.m_HeapCard[1]:SetGodsCard(0,0,0)
+		--用户扑克
+		self.m_HeapCard[2]:SetDirection(self.Direction[2])
+		self.m_HeapCard[2]:SetGodsCard(0,0,0)
+		--用户扑克
+		self.m_HeapCard[3]:SetDirection(self.Direction[3])
+		self.m_HeapCard[3]:SetGodsCard(0,0,0)
+
+		--设置控件
+		self.m_TableCard=self:batchCreate(cmd.GAME_PLAYER,"CTableCard")
+		self.m_DiscardCard=self:batchCreate(cmd.GAME_PLAYER,"CDiscardCard")
+		for i=0,cmd.GAME_PLAYER-1,1 do
+			self.m_WeaveCard=self:batchCreate(cmd.MAX_WEAVE,"CWeaveCard")
+		end
+		for i=0,cmd.GAME_PLAYER-1,1 do
+			--用户扑克
+			self.m_TableCard[i]:SetDirection(self.Direction[i*2])
+			self.m_DiscardCard[i]:SetDirection(self.Direction[i*2])
+
+			--组合扑克
+			self.m_WeaveCard[i][0]:SetDisplayItem(true)
+			self.m_WeaveCard[i][1]:SetDisplayItem(true)
+			self.m_WeaveCard[i][2]:SetDisplayItem(true)
+			self.m_WeaveCard[i][3]:SetDisplayItem(true)
+			self.m_WeaveCard[i][4]:SetDisplayItem(true)
+			self.m_WeaveCard[i][0]:SetDirection(self.Direction[i*2])
+			self.m_WeaveCard[i][1]:SetDirection(self.Direction[i*2])
+			self.m_WeaveCard[i][2]:SetDirection(self.Direction[i*2])
+			self.m_WeaveCard[i][3]:SetDirection(self.Direction[i*2])
+			self.m_WeaveCard[i][4]:SetDirection(self.Direction[i*2])
+		end
+
+		--设置控件
+		self.m_UserCard=self:batchCreate(cmd.GAME_PLAYER,"CUserCard")
+		self.m_UserCard[0]:SetDirection(CardControl.enDirection.Direction_North)
+		self.m_UserCard[1]:SetDirection(CardControl.enDirection.Direction_East)
+
+
+		--创建控件
+		--CRect rcCreate(0,0,0,0);  mark 可能不显示
+		--m_ScoreControl.Create(NULL,NULL,WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,rcCreate,this,200);
+		self.m_ScoreControl=ScoreControl:create_CScoreControl(self)
+		self.m_ScoreControl:setTag(200)
+		self.m_ScoreControl:move(0,0)
+		self.m_ControlWnd=ControlWnd:create_CControlWnd(self)
+		self.m_ControlWnd:setTag(10)
+		self.m_ControlWnd:move(0,0)
+		--m_ControlWnd.m_cardControl=&m_HandCardControl;
+		self.m_HandCardControl=CardControl:create_CCardControl(self)
+		self.m_ControlWnd.m_cardControl=self.m_HandCardControl
+		--用户扑克
+		--self.m_ControlWnd:SetSinkWindow(AfxGetMainWnd());  --mark
+		--创建控件
+		self.m_btStart=ccui.Button:create("res/game/BT_START.png","res/game/BT_START.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_START)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+
+		--托管按钮
+		self.m_btStusteeControl=ccui.Button:create("res/game/BT_START_TRUSTEE.png","res/game/BT_START_TRUSTEE.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_TRUSTEE_CONTROL)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+		self.m_btMaiDi=ccui.Button:create("res/game/maidi.png","res/game/maidi.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_MAI_DI)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+		self.m_btDingDi=ccui.Button:create("res/game/mai_dingdi.png","res/game/mai_dingdi.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_DING_DI)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+		self.m_btMaiCancel=ccui.Button:create("res/game/mai_cancel.png","res/game/mai_cancel.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_MAI_CANCEL)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+		self.m_btDingCancel=ccui.Button:create("res/game/di_cancel.png","res/game/di_cancel.png")
+			:move(0,0)
+			:setTag(GameViewLayer.IDC_DING_CANCEL)
+			:setScale(1)
+			:addTo(self)
+			:addTouchEventListener(btcallback)
+		self.m_btMaiDi:setVisible(false)
+		self.m_btDingDi:setVisible(false)
+		self.m_btMaiCancel:setVisible(false)
+		self.m_btDingCancel:setVisible(false)
+
+		self.m_HandCardControl.pWnd=self
+end
+
+--重置界面     --有用到么？
+function GameViewLayer:ResetGameView()
+	--标志变量
+	self.m_bOutCard=false
+	self.m_bWaitOther=false
+	self.m_bHuangZhuang=false
+	self.m_bListenStatus={}
+
+	--游戏属性
+	self.m_lBaseScore=0
+	self.m_wBankerUser=yl.INVALID_CHAIR
+	self.m_wCurrentUser=yl.INVALID_CHAIR
+
+	--动作动画
+	self.m_bBombEffect=false
+	self.m_cbBombFrameIndex=0
+
+	--丢弃效果
+	self.m_wDiscUser=yl.INVALID_CHAIR
+	self.m_cbDiscFrameIndex=0
+
+	--用户状态
+	self.m_cbCardData=0
+	self.m_byGodsData = 0x00
+	self.m_wOutCardUser=yl.INVALID_CHAIR
+	self.m_cbUserAction={}
+	self.m_szCenterText={}
+
+	--界面设置
+
+	self.m_btStart:setVisible(false)
+	self.m_ControlWnd:setVisible(false)
+	self.m_ScoreControl:RestorationData()
+	self.m_btMaiDi:setVisible(false)
+	self.m_btDingDi:setVisible(false)
+	self.m_btMaiCancel:setVisible(false)
+	self.m_btDingCancel:setVisible(false)
+
+	--禁用控件
+	--m_btStusteeControl.EnableWindow(FALSE);
+
+	--扑克设置
+	self:m_UserCard[0]:SetCardData(0,false)
+	self:m_UserCard[1]:SetCardData(0,false)
+	self:m_HandCardControl:SetPositively(false)
+	self:m_HandCardControl:SetDisplayItem(false)
+	self:m_HandCardControl:SetCardData(nil,0,0)
+
+	for i=0,cmd.GAME_PLAYER-1,1 do          --创建的时候为 4个呀  GAME_PLAYER才2
+		self.m_HeapCard[i]:SetCardData(0,0,0)
+		self.m_HeapCard[i]:SetGodsCard(0,0,0)
+	end
+
+	--扑克设置
+	for i=0,cmd.GAME_PLAYER-1,1 do
+		self.m_TableCard[i]:SetCardData(nil,0)
+		self.m_DiscardCard[i]:SetCardData(nil,0)
+		self.m_WeaveCard[i][0]:SetCardData(nil,0)
+		self.m_WeaveCard[i][1]:SetCardData(nil,0)
+		self.m_WeaveCard[i][2]:SetCardData(nil,0)
+		self.m_WeaveCard[i][3]:SetCardData(nil,0)
+		self.m_WeaveCard[i][4]:SetCardData(nil,0)
+	end
+
+	--销毁定时器
+	self._scene:F_GVKillTimer(GameViewLayer.IDI_DISC_EFFECT)
+	self._scene:F_GVKillTimer(GameViewLayer.IDI_BOMB_EFFECT)
+	self.m_arBall={}
+	self.m_iSicboAnimIndex = -1                                                 -- 骰子动画当前
+	self.m_bySicbo={}
+	self.m_byDingMai={}
+	return
+end
+
+--调整控件
+function GameViewLayer:RectifyControl(nWidth,nHeight)
+	self.m_iSavedWidth=nWidth
+	self.m_iSavedHeight=nHeight
+	--设置坐标
+	--CGameFrameView CPoint		m_ptReady[MAX_CHAIR];			//准备位置  MAX_CHAIR 100
+	self.m_ptReady=self._scene:ergodicList(100)
+	self.m_ptReady[0].x=nWidth/2-33
+	self.m_ptReady[0].y=70
+	self.m_ptReady[1].x=nWidth/2-33
+	self.m_ptReady[1].y=nHeight-100
+	--CPoint							m_ptAvatar[MAX_CHAIR];				//头像位置
+	self.m_ptAvatar=self._scene:ergodicList(100)
+	self.m_ptAvatar[0].x=nWidth/2-self.m_nXFace
+	self.m_ptAvatar[0].y=5+self.m_nYBorder
+	--CPoint							m_ptNickName[MAX_CHAIR];			//昵称位置
+	self.m_ptNickName=self._scene:ergodicList(100)
+	self.m_ptNickName[0].x=nWidth/2-50
+	self.m_ptNickName[0].y=20+self.m_nYBorder
+	--CPoint							m_ptClock[MAX_CHAIR];					//时间位置
+	self.m_ptClock=self._scene:ergodicList(100)
+	self.m_ptClock[0].x=nWidth/2-self.m_nXFace-self.m_nXTimer-2
+	self.m_ptClock[0].y=17+self.m_nYBorder
+
+	self.m_UserFlagPos=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_UserFlagPos[0].x=self.m_ptNickName[0].x+100										--nWidth/2-m_nXFace-m_nXTimer-32;
+	self.m_UserFlagPos[0].y=5+self.m_nYBorder
+	self.m_UserListenPos=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_UserListenPos[0].x=nWidth/2
+	self.m_UserListenPos[0].y=self.m_nYBorder+100
+	self.m_PointTrustee=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_PointTrustee[0].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
+	self.m_PointTrustee[0].y=5+self.m_nYBorder
+	self.m_ptDingMai=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_ptDingMai[0].x =self.m_ptNickName[0].x+160											-- nWidth/2-m_nXFace-m_nXTimer + 40;
+	self.m_ptDingMai[0].y = 21+self.m_nYBorder
+
+	self.m_ptAvatar[1].x=nWidth/2-self.m_nXFace
+	self.m_ptAvatar[1].y=nHeight-self.m_nYBorder-self.m_nYFace-5
+	self.m_ptNickName[1].x=nWidth/2-50																		--+5+self.m_nXFace/2
+	self.m_ptNickName[1].y=nHeight-self.m_nYBorder-self.m_nYFace+8
+	self.m_ptClock[1].x=nWidth/2-self.m_nXFace/2-self.m_nXTimer-2
+	self.m_ptClock[1].y=nHeight-self.m_nYBorder-self.m_nYTimer-8+40
+	self.m_UserFlagPos[1].x=self.m_ptNickName[1].x+100										--nWidth/2-self.m_nXFace-self.m_nXTimer-32
+	self.m_UserFlagPos[1].y=nHeight-self.m_nYBorder-35
+	self.m_UserListenPos[1].x=nWidth/2
+	self.m_UserListenPos[1].y=nHeight-self.m_nYBorder-123
+	self.m_PointTrustee[1].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
+	self.m_PointTrustee[1].y=nHeight-self.m_nYBorder-self.m_nYFace-5
+	self.m_ptDingMai[1].x = self.m_ptNickName[1].x+160										--nWidth/2-self.m_nXFace-self.m_nXTimer+40
+	self.m_ptDingMai[1].y = nHeight-self.m_nYBorder-20
+
+	self.m_SicboAnimPoint = cc.p(nWidth/2,nHeight/2)
+
+	--对方在游戏过程中，手中的牌
+	self.m_UserCard[0]:SetControlPoint(nWidth/2-210,self.m_nYBorder+self.m_nYFace+20)
+	--自己在游戏过程中，手中的牌
+	self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20,CardControl.enXCollocateMode.enXCenter,CardControl.enYCollocateMode.enYBottom)
+
+	--桌面扑克，即游戏结束后显示的牌
+	self.m_TableCard[0]:SetControlPoint(nWidth/2-179,self.m_nYBorder+self.m_nYFace+20)							--对方的
+	self.m_TableCard[1]:SetControlPoint(nWidth/2+330,nHeight-self.m_nYFace-self.m_nYBorder-20)	 		--自己的
+
+	--组合扑克
+	self.m_WeaveCard[0][0]:SetControlPoint(nWidth/2+230,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][1]:SetControlPoint(nWidth/2+155,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][2]:SetControlPoint(nWidth/2+80,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][3]:SetControlPoint(nWidth/2+5,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][4]:SetControlPoint(nWidth/2-60,self.m_nYBorder+self.m_nYFace+20)
+
+	--组合扑克
+	self.m_WeaveCard[1][0]:SetControlPoint(nWidth/2-380,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][1]:SetControlPoint(nWidth/2-260,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][2]:SetControlPoint(nWidth/2-140,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][3]:SetControlPoint(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][4]:SetControlPoint(nWidth/2+100,nHeight-self.m_nYFace-self.m_nYBorder-20)
+
+	--堆积扑克
+	local nXCenter=nWidth/2
+	local nYCenter=nHeight/2-40
+
+	self.m_HeapCard[0]:SetControlPoint(nXCenter-152,nYCenter-207)
+	self.m_HeapCard[1]:SetControlPoint(nXCenter+256,nYCenter-95)
+	self.m_HeapCard[2]:SetControlPoint(nXCenter-152,nYCenter+207)
+	self.m_HeapCard[3]:SetControlPoint(nXCenter-251,nYCenter-95)
+
+	--丢弃扑克
+	self.m_DiscardCard[0]:SetControlPoint(nXCenter-158,nYCenter-100)
+	self.m_DiscardCard[1]:SetControlPoint(nXCenter+158,nYCenter+102)
+
+
+	--控制窗口
+	self.m_ControlWnd.SetBenchmarkPos(nWidth-10,nHeight-self.m_nYBorder-180)
+
+	--移动按钮
+	CRect rcButton;
+	HDWP hDwp=BeginDeferWindowPos(6);
+	m_btStart.GetWindowRect(&rcButton);
+	const UINT uFlags=SWP_NOACTIVATE|SWP_NOZORDER|SWP_NOCOPYBITS|SWP_NOSIZE;
+
+	//移动调整
+	DeferWindowPos(hDwp,m_btStart,NULL,(nWidth-rcButton.Width())/2,nHeight-120-m_nYBorder,0,0,uFlags);
+	//移动调整
+	DeferWindowPos(hDwp,m_btStusteeControl,NULL,nWidth-m_nXBorder-(rcButton.Width()+5),nHeight-m_nYBorder-rcButton.Height()+5,0,0,uFlags);
+	//移动成绩
+	CRect rcScoreControl;
+	m_ScoreControl.GetWindowRect(&rcScoreControl);
+	DeferWindowPos(hDwp,m_ScoreControl,NULL,(nWidth-rcScoreControl.Width())/2,(nHeight-rcScoreControl.Height())*2/5,0,0,uFlags);
+
+	m_btMaiDi.GetWindowRect(&rcButton);
+	DeferWindowPos(hDwp,m_btMaiDi,NULL,(nWidth/2-rcButton.Width()-10),nHeight-120-m_nYBorder,0,0,uFlags);
+	DeferWindowPos(hDwp,m_btDingDi,NULL,(nWidth/2-rcButton.Width()-10),nHeight-120-m_nYBorder,0,0,uFlags);
+	DeferWindowPos(hDwp,m_btMaiCancel,NULL,(nWidth/2 + 10),nHeight-120-m_nYBorder,0,0,uFlags);
+	DeferWindowPos(hDwp,m_btDingCancel,NULL,(nWidth/2 + 10),nHeight-120-m_nYBorder,0,0,uFlags);
+	//视频窗口
+//	CRect rcAVDlg;
+//	m_DlgVedioService[0].GetWindowRect(&rcAVDlg);
+//	DeferWindowPos(hDwp,m_DlgVedioService[1],NULL,nWidth-m_nXBorder-5-rcAVDlg.Width(),nHeight/2+30,0,0,uFlags);
+//	DeferWindowPos(hDwp,m_DlgVedioService[3],NULL,m_nXBorder+5,nHeight/2+30,0,0,uFlags);
+//	DeferWindowPos(hDwp,m_DlgVedioService[0],NULL,nWidth-m_nXBorder-5-rcAVDlg.Width(),5,0,0,uFlags);
+//	m_DlgVedioService[2].GetWindowRect(&rcAVDlg);
+//	DeferWindowPos(hDwp,m_DlgVedioService[2],NULL,m_nXBorder+5,nHeight-m_nYBorder-3-rcAVDlg.Height(),0,0,uFlags);
+
+	--结束移动
+	EndDeferWindowPos(hDwp);
+	return
+end
+
+------------------------------------------------------------------------------------------------------------------
 
 function GameViewLayer:onInitData()
 	self.cbActionCard = 0
@@ -123,126 +532,7 @@ function GameViewLayer:onExit()
     cc.SpriteFrameCache:getInstance():removeUnusedSpriteFrames()
 end
 
-local this
-function GameViewLayer:ctor(scene)
-	this = self
-	self._scene = scene
-	self:onInitData()
-	self:preloadUI()
-	self:initButtons()
-	self._cardLayer = CardLayer:create(self):addTo(self)							--牌图层
-	self._resultLayer = ResultLayer:create(self):addTo(self):setVisible(false)	--结算框
-    self._chatLayer = GameChatLayer:create(self._scene._gameFrame):addTo(self, 4)	--聊天框
-    self._setLayer = SetLayer:create(self):addTo(self, 4)
-	--聊天泡泡
-	self.chatBubble = {}
-	for i = 1 , cmd.GAME_PLAYER do
-		local strFile = ""
-		if i == 1 or i == 4 then
-			strFile = "#sp_bubble_2.png"
-		else
-			strFile = "#sp_bubble_1.png"
-		end
-		self.chatBubble[i] = display.newSprite(strFile, {scale9 = true ,capInsets = cc.rect(0, 0, 204, 68)})
-			:setAnchorPoint(cc.p(0.5, 0.5))
-			:move(posChat[i])
-			:setVisible(false)
-			:addTo(self, 3)
-	end
 
-
-	--节点事件
-	local function onNodeEvent(event)
-		if event == "exit" then
-			self:onExit()
-		end
-	end
-	self:registerScriptHandler(onNodeEvent)
-
-	self.nodePlayer = {}
-	for i = 1, cmd.GAME_PLAYER do
-		self.nodePlayer[i] = self:getChildByTag(GameViewLayer.NODEPLAYER_1 + i - 1)
-		self.nodePlayer[i]:setLocalZOrder(1)
-		self.nodePlayer[i]:setVisible(false)
-		self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_HEADCOVER):setLocalZOrder(1)
-		self.nodePlayer[i]:getChildByTag(GameViewLayer.TEXT_NICKNAME):setLocalZOrder(1)
-		self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_READY):move(posReady[i])
-		local sp_trustee = self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_TRUSTEE):setVisible(false)
-		local sp_banker = self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_BANKER)
-			:setLocalZOrder(1)
-			:setVisible(false)
-		if i == 2 or i == cmd.MY_VIEWID then
-			sp_trustee:move(65, -41)
-			sp_banker:move(44, 55)
-		end
-	end
-
-	self.spListenBg = self:getChildByTag(GameViewLayer.SP_LISTEN)
-		:setLocalZOrder(3)
-		:setVisible(false)
-		:setScale(0.7)
-	--庄家
-	self:getChildByTag(GameViewLayer.SP_ANNOUNCEMENT):setLocalZOrder(2):setVisible(false)
-	--托管覆盖层
-	self.spTrusteeCover = cc.Layer:create():setVisible(false):addTo(self, 4)
-	display.newSprite(cmd.RES_PATH.."game/sp_trusteeCover.png")
-		:move(667, 112)
-		:setScaleY(1.6)
-		:setTag(GameViewLayer.SP_TRUSTEEBG)
-		:addTo(self.spTrusteeCover)
-	display.newSprite(cmd.RES_PATH.."game/sp_trusteeMan.png")
-		:move(667, 108)
-		:addTo(self.spTrusteeCover)
-	self.spTrusteeCover:setTouchEnabled(true)
-	self.spTrusteeCover:registerScriptTouchHandler(function(eventType, x, y)
-		return self:onTrusteeTouchCallback(eventType, x, y)
-	end)
-	--牌盘
-	self.spCardPlate = self:getChildByTag(GameViewLayer.SP_PLATE):setLocalZOrder(3):setVisible(false)
-	display.newSprite("game/font_middle/card_down.png")
-		:move(61, 74)
-		--:setTag(GameViewLayer.SP_PLATECARD)
-		--:setTextureRect(cc.rect(0, 0, 69, 107))
-		:addTo(self.spCardPlate)
-	display.newSprite("game/font_middle/font_3_5.png")
-		:move(61, 82)
-		:setTag(GameViewLayer.SP_PLATECARD)
-		:addTo(self.spCardPlate)
-
-	self.spClock = self:getChildByTag(GameViewLayer.SP_CLOCK)
-	self.asLabTime = self.spClock:getChildByTag(GameViewLayer.ASLAB_TIME):setString("0")
-end
-
-function GameViewLayer:preloadUI()
-    print("欢迎来到我的酒馆！")
-    --导入动画
-    local animationCache = cc.AnimationCache:getInstance()
-    for i = 1, 12 do
-    	local strColor = ""
-    	local index = 0
-    	if i <= 6 then
-    		strColor = "white"
-    		index = i
-    	else
-    		strColor = "red"
-    		index = i - 6
-    	end
-		local animation = cc.Animation:create()
-		animation:setDelayPerUnit(0.1)
-		animation:setLoops(1)
-		for j = 1, 9 do
-			local strFile = cmd.RES_PATH.."Animate_sice_"..strColor..string.format("/sice_%d.png", index)
-			local spFrame = cc.SpriteFrame:create(strFile, cc.rect(133*(j - 1), 0, 133, 207))
-			animation:addSpriteFrame(spFrame)
-		end
-
-		local strName = "sice_"..strColor..string.format("_%d", index)
-		animationCache:addAnimation(animation, strName)
-	end
-
-    -- 语音动画
-    AnimationMgr.loadAnimationFromFrame("record_play_ani_%d.png", 1, 3, cmd.VOICE_ANIMATION_KEY)
-end
 
 function GameViewLayer:initButtons()
 	--按钮回调
@@ -418,7 +708,7 @@ function GameViewLayer:userChat(wViewChairId, chatString)
 
 		--创建label
 		local limWidth = 24*12
-		local labCountLength = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24)  
+		local labCountLength = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24)
 		if labCountLength:getContentSize().width > limWidth then
 			self.chatDetails[wViewChairId] = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24, cc.size(limWidth, 0))
 		else
@@ -676,7 +966,7 @@ function GameViewLayer:sendCardFinish()
 	local spSice2 = self:getChildByTag(GameViewLayer.SP_SICE2)
 	if spSice2 then
 		spSice2:removeFromParent()
-	end	
+	end
 	self._scene:sendCardFinish()
 end
 
@@ -939,7 +1229,7 @@ function GameViewLayer:showCardPlate(viewId, cbCardData)
 	if nil == viewId then
 		self.spCardPlate:setVisible(false)
 		return
-	end 
+	end
 	--local rectX = self._cardLayer:switchToCardRectX(cbCardData)
 	local nValue = math.mod(cbCardData, 16)
 	local nColor = math.floor(cbCardData/16)

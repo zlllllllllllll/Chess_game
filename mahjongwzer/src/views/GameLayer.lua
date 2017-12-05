@@ -72,6 +72,8 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   self.m_bySicboAnimCount = 0
   -- CMD_S_GamePlay   m_sGamePlay;  -- 游戏发牌消息
   self.m_sGamePlay={}
+  self.m_sGamePlay.byUserDingDi={}
+  self.m_sGamePlay.cbCardData=elf:ergodicList(17)
 
 	self.m_cbUserAction=0
 end
@@ -165,6 +167,13 @@ function GameLayer:F_GVSetTimer(id,time)
   self._gameView._GVSetTimer[id] = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
           self._gameView:OnTimer(id)
       end, time, false)
+end
+
+function GameLayer:F_GVKillTimer(id)
+	if self._gameView and self._gameView._GVSetTimer and nil ~= self._gameView._GVSetTimer[id] then
+    scheduler:unscheduleScriptEntry(self._gameView._GVSetTimer[id])
+    self._gameView._GVSetTimer[id] = nil
+	end
 end
 
 -- 设置计时器   多ID
@@ -931,8 +940,7 @@ function GameLayer:onEventGameScene(cbGameStatus,dataBuffer)
 
     --丢弃效果
     self._gameView:SetDiscUser(self:SwitchViewChairID(self.m_wOutCardUser))
-    self._gameView.SetTimer(IDI_DISC_EFFECT,250,NULL);
-
+    --self._gameView.SetTimer(IDI_DISC_EFFECT,250,NULL);
     self:F_GVSetTimer(self._gameView.IDI_DISC_EFFECT,250)
 
     --取消托管
@@ -1594,7 +1602,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
       local str
       str=pUserData:GetNickName()
   		--DWORD  le0 = CStringA(str).GetLength();        --这里不明白在干嘛 mark 可能是cstring和char转换 ？！？！？！？！？！？ 好像用不到我这
-  		local  le0 = #str
+  		local  le0 = GameLogic.table_leng(str)
 
   		local strFormat
 		  --strFormat.Format(TEXT("%%-%ds%%+-12I64d%%+-8I64d"),18-(le0-str.GetLength()));
@@ -1919,7 +1927,7 @@ function GameLayer:DeductionTableCard(bHeadCard)
 		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapHand][0]+self.m_cbHeapCardInfo[self.m_wHeapHand][1]
 
     if cbHeapCount==CardControl.HEAP_FULL_COUNT then
-			self.m_wHeapHand=(self.m_wHeapHand+1)%(#self.m_cbHeapCardInfo)
+			self.m_wHeapHand=(self.m_wHeapHand+1)%(GameLogic.table_leng(self.m_cbHeapCardInfo))
     end
 
 		--减少扑克
@@ -1939,7 +1947,7 @@ function GameLayer:DeductionTableCard(bHeadCard)
 		--切换索引
 		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapTail][0]+self.m_cbHeapCardInfo[self.m_wHeapTail][1]
     if cbHeapCount==CardControl.HEAP_FULL_COUNT then
-  		self.m_wHeapTail=(self.m_wHeapTail+1)%(#self.m_cbHeapCardInfo)
+  		self.m_wHeapTail=(self.m_wHeapTail+1)%(GameLogic.table_leng(self.m_cbHeapCardInfo))
     end
 
 		--减少扑克
@@ -1988,295 +1996,460 @@ function GameLayer:ShowOperateControl(cbUserAction, cbActionCard)
 	return true
 end
 
---开始按钮
---LRESULT CGameClientEngine::OnStart(WPARAM wParam, LPARAM lParam)   --   LRESULT   !!  mark
-function GameLayer:OnStart(wParam, lParam)
-end
-
---===========================================2017年11月27日18:36:00
-
-
---用户聊天
-function GameLayer:onUserChat(chat, wChairId)
-    self._gameView:userChat(self:SwitchViewChairID(wChairId), chat.szChatString)
-end
-
---用户表情
-function GameLayer:onUserExpression(expression, wChairId)
-    self._gameView:userExpression(self:SwitchViewChairID(wChairId), expression.wItemIndex)
-end
-
--- 语音播放开始
-function GameLayer:onUserVoiceStart( useritem, filepath )
-    self._gameView:onUserVoiceStart(self:SwitchViewChairID(useritem.wChairID))
-end
-
--- 语音播放结束
-function GameLayer:onUserVoiceEnded( useritem, filepath )
-    self._gameView:onUserVoiceEnded(self:SwitchViewChairID(useritem.wChairID))
-end
-
-
-
---听牌提示
-function GameLayer:onSubListenNotify(dataBuffer)
-	print("听牌提示")
-	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_Hu_Data, dataBuffer)
-	--dump(cmd_data, "CMD_S_Hu_Data")
-
-	self.cbListenPromptOutCard = {}
-	self.cbListenCardList = {}
-	for i = 1, cmd_data.cbOutCardCount do
-		self.cbListenPromptOutCard[i] = cmd_data.cbOutCardData[1][i]
-		self.cbListenCardList[i] = {}
-		for j = 1, cmd_data.cbHuCardCount[1][i] do
-			self.cbListenCardList[i][j] = cmd_data.cbHuCardData[i][j]
-		end
-		print("self.cbListenCardList"..i, table.concat(self.cbListenCardList[i], ","))
-	end
-	print("self.cbListenPromptOutCard", table.concat(self.cbListenPromptOutCard, ","))
-
-	return true
-end
-
-
-
-
---游戏记录（房卡）
-function GameLayer:onSubGameRecord(dataBuffer)
-	print("游戏记录")
-	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_Record, dataBuffer)
-	--dump(cmd_data, "CMD_S_Record")
-
-	self.m_userRecord = {}
-	local nInningsCount = cmd_data.nCount
-	for i = 1, self.cbPlayerCount do
-		self.m_userRecord[i] = {}
-		self.m_userRecord[i].cbHuCount = cmd_data.cbHuCount[1][i]
-		self.m_userRecord[i].cbMingGang = cmd_data.cbMingGang[1][i]
-		self.m_userRecord[i].cbAnGang = cmd_data.cbAnGang[1][i]
-		self.m_userRecord[i].cbMaCount = cmd_data.cbMaCount[1][i]
-		self.m_userRecord[i].lDetailScore = {}
-		for j = 1, nInningsCount do
-			self.m_userRecord[i].lDetailScore[j] = cmd_data.lDetailScore[i][j]
-		end
-	end
-	--dump(self.m_userRecord, "m_userRecord", 5)
-end
-
---*****************************    普通函数     *********************************--
---发牌完成
-function GameLayer:sendCardFinish()
-	--self:SetGameClock(self.wCurrentUser, cmd.IDI_OUT_CARD, self.cbTimeOutCard)
-
-	--提示操作
-	if self.cbActionMask then
-		self._gameView:recognizecbActionMask(self.cbActionMask, self.cbActionCard)
-	end
-
-	--提示听牌
-	if self.wBankerUser == self:GetMeChairID() then
-		self._gameView._cardLayer:promptListenOutCard(self.cbListenPromptOutCard)
-	end
-
-	self.bSendCardFinsh = true
-end
-
---解析筛子
-function GameLayer:analyseSice(wSiceCount)
-	local cbSiceCount1 = math.mod(wSiceCount, 256)
-	local cbSiceCount2 = math.floor(wSiceCount/256)
-	return cbSiceCount1, cbSiceCount2
-end
-
---设置操作时间
-function GameLayer:SetGameOperateClock()
-	self:SetGameClock(self:GetMeChairID(), cmd.IDI_OPERATE_CARD, self.cbTimeOperateCard)
-end
-
---播放麻将数据音效（哪张）
-function GameLayer:playCardDataSound(viewId, cbCardData)
-	local strGender = ""
-	if self.cbGender[viewId] == 1 then
-		strGender = "BOY"
-	else
-		strGender = "GIRL"
-	end
-	local color = {"W_", "S_", "T_", "F_"}
-	local nCardColor = math.floor(cbCardData/16) + 1
-	local nValue = math.mod(cbCardData, 16)
-	if cbCardData == GameLogic.MAGIC_DATA then
-		nValue = 5
-	end
-	local strFile = cmd.RES_PATH.."sound/"..strGender.."/"..color[nCardColor]..nValue..".wav"
-	self:PlaySound(strFile)
-end
---播放麻将操作音效
-function GameLayer:playCardOperateSound(viewId, bTail, operateCode)
-	assert(operateCode ~= GameLogic.WIK_NULL)
-
-	local strGender = ""
-	if self.cbGender[viewId] == 1 then
-		strGender = "BOY"
-	else
-		strGender = "GIRL"
-	end
-	local strName = ""
-	if bTail then
-		strName = "REPLACE.wav"
-	else
-		if operateCode >= GameLogic.WIK_CHI_HU then
-			strName = "CHI_HU.wav"
-		elseif operateCode == GameLogic.WIK_LISTEN then
-			strName = "TING.wav"
-		elseif operateCode == GameLogic.WIK_GANG then
-			strName = "GANG.wav"
-		elseif operateCode == GameLogic.WIK_PENG then
-			strName = "PENG.wav"
-		elseif operateCode <= GameLogic.WIK_RIGHT then
-			strName = "CHI.wav"
-		end
-	end
-	local strFile = cmd.RES_PATH.."sound/"..strGender.."/"..strName
-	self:PlaySound(strFile)
-end
---播放随机聊天音效
-function GameLayer:playRandomSound(viewId)
-	local strGender = ""
-	if self.cbGender[viewId] == 1 then
-		strGender = "BOY"
-	else
-		strGender = "GIRL"
-	end
-	local nRand = math.random(25) - 1
-	if nRand <= 6 then
-		local num = 6603000 + nRand
-		local strName = num..".wav"
-		local strFile = cmd.RES_PATH.."sound/PhraseVoice/"..strGender.."/"..strName
-		self:PlaySound(strFile)
-	end
-end
-
---插入到已出现牌中
-function GameLayer:insertAppearCard(cbCardData)
-	assert(type(cbCardData) == "table")
-	for i = 1, #cbCardData do
-		table.insert(self.cbAppearCardData, cbCardData[i])
-		--self._gameView:reduceListenCardNum(cbCardData[i])
-	end
-	table.sort(self.cbAppearCardData)
-	local str = ""
-	for i = 1, #self.cbAppearCardData do
-		str = str..string.format("%x,", self.cbAppearCardData[i])
-	end
-	--print("已出现的牌:", str)
-end
-
-function GameLayer:getDetailScore()
-	return self.m_userRecord
-end
-
-function GameLayer:getListenPromptOutCard()
-	return self.cbListenPromptOutCard
-end
-
-function GameLayer:getListenPromptHuCard(cbOutCard)
-	if not cbOutCard then
-		return nil
-	end
-
-	for i = 1, #self.cbListenPromptOutCard do
-		if self.cbListenPromptOutCard[i] == cbOutCard then
-			assert(#self.cbListenCardList > 0 and self.cbListenCardList[i] and #self.cbListenCardList[i] > 0)
-			return self.cbListenCardList[i]
-		end
-	end
-
-	return nil
-end
-
--- 刷新房卡数据
-function GameLayer:updatePriRoom()
-    if PriRoom and GlobalUserItem.bPrivateRoom then
-        if nil ~= self._gameView._priView and nil ~= self._gameView._priView.onRefreshInfo then
-            self._gameView._priView:onRefreshInfo()
-        end
-    end
-end
 
 --*****************************    发送消息     *********************************--
---开始游戏
-function GameLayer:sendGameStart()
+--开始按钮
+--LRESULT CGameClientEngine::OnStart(WPARAM wParam, LPARAM lParam)   --   LRESULT   !!  mark
+function GameLayer:OnStart()
+	--环境设置
+  self:KillGameClock(cmd.IDI_START_GAME)
+	self._gameView.m_btStart:setVisible(false)
+	self._gameView.m_ControlWnd:setVisible(false)
+	self._gameView.m_ScoreControl:RestorationData()
+
+	--设置界面
+	self._gameView:SetDiscUser(yl.INVALID_CHAIR)
+	self._gameView:SetHuangZhuang(false)
+	self._gameView:SetStatusFlag(false,false)
+	self._gameView:SetBankerUser(yl.INVALID_CHAIR)
+	self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
+	self._gameView:SetOutCardInfo(yl.INVALID_CHAIR,0)
+	self._gameView:SetUserListenStatus(yl.INVALID_CHAIR,false)
+
+	--扑克设置
+	self._gameView.m_UserCard[0]:SetCardData(0,false)
+	self._gameView.m_UserCard[1]:SetCardData(0,false)
+	self._gameView.m_HandCardControl:SetCardData(nil,0,0)
+	self._gameView:SetGodsCard( 0x00 )
+	self._gameView.m_HandCardControl:SetGodsCard( 0x00 )
+	self._gameView:SetDingMaiValue(nil)
+
+	--扑克设置
+  for i=0,cmd.GAME_PLAYER-1,1 do
+		self._gameView.m_TableCard[i]:SetCardData(nil,0)
+		self._gameView.m_DiscardCard[i]:SetCardData(nil,0)
+		self._gameView.m_WeaveCard[i][0]:SetCardData(nil,0)
+		self._gameView.m_WeaveCard[i][1]:SetCardData(nil,0)
+		self._gameView.m_WeaveCard[i][2]:SetCardData(nil,0)
+		self._gameView.m_WeaveCard[i][3]:SetCardData(nil,0)
+		self._gameView.m_WeaveCard[i][4]:SetCardData(nil,0)
+  end
+
+	--堆立扑克
+  for i=0,4-1,1 do
+		self.m_cbHeapCardInfo[i][0]=0
+		self.m_cbHeapCardInfo[i][1]=0
+		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
+		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][0],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+  end
+
+	--状态变量
+	self.m_bHearStatus=false
+	self.m_bWillHearStatus=false
+
+	--游戏变量
+	self.m_wCurrentUser=yl.INVALID_CHAIR
+
+	--出牌信息
+	self.m_cbOutCardData=0
+	self.m_wOutCardUser=yl.INVALID_CHAIR
+  self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_cbDiscardCount={}
+
+	--组合扑克
+  self.m_cbWeaveCount={}
+  self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+
+	--堆立扑克
+  self.m_wHeapHand=0
+  self.m_wHeapTail=0
+  self.m_cbHeapCardInfo=self:ergodicList(4)
+
+	--扑克变量
+  self.m_cbLeftCardCount=0
+  self.m_cbCardIndex={}
+
+	--发送消息
+	--SendUserReady(NULL,0);
 	self:SendUserReady()
-	self:OnResetGameEngine()
+
+	return 0   --return 0 注意是否使用改返回值当false判断！！ 下同
 end
---出牌
-function GameLayer:sendOutCard(card)
-	-- body
-	if card == GameLogic.MAGIC_DATA then
-		return false
-	end
 
-	self._gameView:HideGameBtn()
-	print("发送出牌", card)
+function GameLayer:OnOutInvalidCard()
+  if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
+		return 0
+  end
 
+	--出牌判断
+  if self.m_wCurrentUser~=self:GetMeChairID() then	return 0  end
+
+	self._gameView:m_bTipSingle=true
+	--self._gameView.SetTimer(102/*IDI_TIP_SINGLE*/,2500,NULL);
+  self:F_GVSetTimer(102,250)
+	self._gameView:RefreshGameView()
+
+	return 0
+end
+
+function GameLayer:OnOutCard(wParam, lParam)
+  self:KillGameClock(cmd.IDI_OPERATE_CARD)
+
+  if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
+		return 0
+  end
+
+	--出牌判断
+  if self.m_wCurrentUser~=self:GetMeChairID() then	return 0  end
+
+	--听牌判断
+  if ((self.m_bHearStatus==true) or (self.m_bWillHearStatus==true)) and ((self:VerdictOutCard(wParam)==false) or (self:VerdictOutCard(wParam)==0)) then
+		m_pIStringMessage->InsertSystemString(TEXT("出此牌不符合游戏规则!"));  --此处
+		return 0
+  end
+
+	--听牌设置
+  if self.m_bWillHearStatus==true then
+		self.m_bHearStatus=true
+		self.m_bWillHearStatus=false
+  end
+
+	--设置变量
+	self.m_wCurrentUser=yl.INVALID_CHAIR
+	local cbOutCardData=wParam
+	GameLogic.RemoveCard(self.m_cbCardIndex,cbOutCardData)
+
+	--设置扑克
+	local cbCardData={}
+	local cbCardCount=GameLogic.SwitchToCardData(self.m_cbCardIndex,cbCardData)
+	self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
+
+	--设置界面
+  self:KillGameClock(cmd.IDI_OPERATE_CARD)
+	self._gameView:RefreshGameView()
+	self._gameView:SetStatusFlag(false,false)
+	self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
+	self._gameView:SetOutCardInfo(1,cbOutCardData)
+	self._gameView.m_ControlWnd:setVisible(false)
+
+	--播放声音
+  self:PlayCardSound(self:GetMeChairID(),cbOutCardData)
+
+	--发送数据
 	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_OutCard)
-	cmd_data:pushbyte(card)
-	return self:SendData(cmd.SUB_C_OUT_CARD, cmd_data)
+	cmd_data:pushbyte(cbOutCardData)
+	self:SendData(cmd.SUB_C_OUT_CARD, cmd_data)
+
+	return 0
 end
---操作扑克
-function GameLayer:sendOperateCard(cbOperateCode, cbOperateCard)
-	print("发送操作提示：", cbOperateCode, table.concat(cbOperateCard, ","))
-	assert(type(cbOperateCard) == "table")
 
-	--听牌数据置空
-	self.cbListenPromptOutCard = {}
-	self.cbListenCardList = {}
-	self._gameView:setListeningCard(nil)
-	self._gameView._cardLayer:promptListenOutCard(nil)
+--听牌操作
+function GameLayer:OnListenCard()
+	return 0
+end
 
-	--发送操作
-	--local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_OperateCard)
-    local cmd_data = CCmd_Data:create(4)
+--扑克操作
+function GameLayer:OnCardOperate(wParam, lParam)
+	--变量定义
+	local cbOperateCode=wParam
+	local cbOperateCard=lParam
+
+	--状态判断
+  if (self.m_wCurrentUser==self:GetMeChairID()) and (cbOperateCode==GameLogic.WIK_NULL) then
+		self._gameView.m_ControlWnd:setVisible(false)
+		return 0
+  end
+
+	--删除时间
+  self:KillGameClock(cmd.IDI_OPERATE_CARD)
+
+	--环境设置
+	self._gameView:SetStatusFlag(false,true)
+	self._gameView.m_ControlWnd:setVisible(false)
+
+	--发送命令
+	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_OperateCard)
 	cmd_data:pushbyte(cbOperateCode)
-	for i = 1, 3 do
-		cmd_data:pushbyte(cbOperateCard[i])
-	end
-	--dump(cmd_data, "operate")
+	cmd_data:pushbyte(cbOperateCard)
 	self:SendData(cmd.SUB_C_OPERATE_CARD, cmd_data)
-end
---用户听牌
-function GameLayer:sendUserListenCard(bListen)
-	local cmd_data = CCmd_Data:create(1)
-	cmd_data:pushbool(bListen)
-	self:SendData(cmd.SUB_C_LISTEN_CARD, cmd_data)
-end
---用户托管
-function GameLayer:sendUserTrustee()
-	if not self.bSendCardFinsh then
-		return
-	end
 
-	local cmd_data = CCmd_Data:create(1)
-	cmd_data:pushbool(not self.bTrustee)
-	self:SendData(cmd.SUB_C_TRUSTEE, cmd_data)
+	return 0
 end
---用户补牌
--- function GameLayer:sendUserReplaceCard(card)
--- 	local cmd_data = ExternalFun.create_netdate(cmd.CMD_C_ReplaceCard)
--- 	cmd_data:pushbyte(card)
--- 	self:SendData(cmd.SUB_C_REPLACE_CARD, cmd_data)
--- end
---发送扑克
-function GameLayer:sendControlCard(cbControlGameCount, cbCardCount, wBankerUser, cbCardData)
-	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_SendCard)
-	cmd_data:pushbyte(cbControlGameCount)
-	cmd_data:pushbyte(cbCardCount)
-	cmd_data:pushword(wBankerUser)
-	for i = 1, #cbCardData do
-		cmd_data:pushbyte(cbCardData[i])
-	end
-	self:SendData(cmd.SUB_C_SEND_CARD, cmd_data)
+
+--扑克操作
+function GameLayer:OnStusteeControl(wParam, lParam)
+	--设置变量
+  self.m_wTimeOutCount=0
+
+	--设置状态
+  if self.m_bStustee==true then
+		self.m_bStustee=false
+		--self._gameView.m_btStusteeControl.SetButtonImage(IDB_BT_START_TRUSTEE,AfxGetInstanceHandle(),false,false);     mark 待完成界面后修改
+		m_pIStringMessage->InsertSystemString(_T("您取消了托管功能."));   --
+  	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_Trustee)
+  	cmd_data:pushbool(false)
+  	self:SendData(cmd.SUB_C_TRUSTEE, cmd_data)
+  else
+		self.m_bStustee=true
+		--self._gameView.m_btStusteeControl.SetButtonImage(IDB_BT_STOP_TRUSTEE,AfxGetInstanceHandle(),false,false);        mark 待完成界面后修改
+		m_pIStringMessage->InsertSystemString(_T("您选择了托管功能."));   --
+  	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_Trustee)
+  	cmd_data:pushbool(true)
+  	self:SendData(cmd.SUB_C_TRUSTEE, cmd_data)
+  end
+end
+
+--
+function GameLayer:OnDingDi(wParam, lParam)
+	self._gameView.m_btMaiDi:setVisible(false)
+	self._gameView.m_btDingDi:setVisible(false)
+	self._gameView.m_btMaiCancel:setVisible(false)
+	self._gameView.m_btDingCancel:setVisible(false)
+  if cmd.GS_MJ_MAIDI ~= self._gameFrame:GetGameStatus() then
+		return 0
+  end
+	self.m_wCurrentUser = yl.INVALID_CHAIR
+	-- 发送顶底消息
+  local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_DingDi)
+  cmd_data:pushbyte((2==wParam) and 0x02 or 0x01)
+  self:SendData(cmd.SUB_C_DINGDI, cmd_data)
+	return 0
+end
+
+function GameLayer:IsFreeze(void)
+	return false
+end
+
+--
+function GameLayer:OnDispatchCard(wParam, lParam)
+  self:KillGameClock(cmd.IDI_DINGDI_CARD)
+	self._gameView:StopSicboAnim()
+	self.m_bySicboAnimCount=self.m_bySicboAnimCount+1
+  if 1 == self.m_bySicboAnimCount then
+    --[[                                      mark  下同 有值吗
+		CMD_S_GamePlay *pGamePlay = &m_sGamePlay;
+		if (0 == wParam)
+		{
+			-- 打第二次骰子
+			BYTE bySicbo[2] = {HIBYTE(pGamePlay->wSiceCount3), LOBYTE(pGamePlay->wSiceCount3)};
+			m_GameClientView.StartSicboAnim(bySicbo);
+		}
+    --]]
+    local pGamePlay=self.m_sGamePlay
+    if 0 == wParam then
+			-- 打第二次骰子
+			local bySicbo = {bit:_rshift(pGamePlay.wSiceCount3,8) , bit:_and(pGamePlay.wSiceCount3, 0xff)}
+			self._gameView:StartSicboAnim(bySicbo)
+    end
+		return 0
+  elseif 2 == self.m_bySicboAnimCount then
+		-- 显示出牌
+    local pGamePlay=self.m_sGamePlay
+
+    local wMeChairID=self:GetMeChairID()
+		local bPlayerMode=true
+
+		self.m_wCurrentUser=pGamePlay.wCurrentUser
+		GameLogic.SetGodsCard(pGamePlay.byGodsCardData)
+		self._gameView:SetGodsCard(pGamePlay.byGodsCardData)
+
+    self.m_cbCardIndex={}
+
+		--设置扑克
+		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
+		GameLogic.SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],cbCardCount,self.m_cbCardIndex)
+		-- 换算出财神牌的位置
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail][1]
+		local bySicbo = bit:_rshift(pGamePlay.wSiceCount3,8) + bit:_and(pGamePlay.wSiceCount3, 0xff)
+		local byChairID = wMeChairID
+    if byCount >= bySicbo then
+			byChairID = self.m_wHeapTail
+    else
+			byChairID = (self.m_wHeapTail + 4 - 1)%4
+			bySicbo =  bySicbo - byCount
+    end
+		--转换椅子
+		local wViewChairID=self:SwitchHeapViewChairID(byChairID)
+		self._gameView.m_HeapCard[wViewChairID]:SetGodsCard(pGamePlay.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][1])
+
+		--更新界面
+		self._gameView:SetCenterText("")
+		-- 发牌，并打第三次骰子
+    if 0 == wParam then
+      local bySicbo = {bit:_rshift(pGamePlay.wSiceCount2,8) , bit:_and(pGamePlay.wSiceCount2, 0xff)}
+			self._gameView:StartSicboAnim(bySicbo)
+    end
+		return 0
+  else
+		--设置变量
+		--CMD_S_GamePlay *pGamePlay = &m_sGamePlay;
+    local pGamePlay=self.m_sGamePlay
+		self.m_bHearStatus=false
+		self.m_bWillHearStatus=false
+		self.m_cbLeftCardCount=cmd.MAX_REPERTORY-cmd.GAME_PLAYER*(cmd.MAX_COUNT-1)-1
+
+		self._gameView.m_HandCardControl:SetGodsCard(pGamePlay.byGodsCardData)
+
+		--出牌信息
+		self.m_cbOutCardData=0
+		self.m_wOutCardUser=yl.INVALID_CHAIR
+    self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+    self.m_cbDiscardCount={}
+
+		--组合扑克
+    self.m_cbWeaveCount={}
+    self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+    self.m_cbCardIndex={}
+
+    local wMeChairID=self:GetMeChairID()
+
+		--设置扑克
+		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
+		GameLogic.SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],cbCardCount,m_cbCardIndex)
+
+		--设置界面
+		local bPlayerMode=true
+		self._gameView:SetUserListenStatus(yl.INVALID_CHAIR,false)
+		self._gameView.m_HandCardControl:SetPositively(false)
+		self._gameView:SetBankerUser(self:SwitchViewChairID(self.m_wBankerUser))
+		self._gameView:SetDiscUser(yl.INVALID_CHAIR)
+
+		--旁观界面
+    if bPlayerMode==false then
+			self._gameView:SetHuangZhuang(false)
+			self._gameView:SetStatusFlag(false,false)
+			self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
+			self._gameView:SetOutCardInfo(yl.INVALID_CHAIR,0)
+    end
+
+    for i=0,4-1,1 do
+			self.m_cbHeapCardInfo[i][0]=0
+			self.m_cbHeapCardInfo[i][1]=0
+    end
+
+		-- 分发扑克
+		-- 第一把骰子的玩家 门前开始数牌
+		local cbSiceFirst=(bit:_rshift(pGamePlay.wSiceCount1,8) + bit:_and(pGamePlay.wSiceCount1, 0xff)-1)%4
+		local wTakeChairID = (self.m_wBankerUser*2 + 4 - cbSiceFirst)%4
+		local cbSiceSecond= bit:_rshift(pGamePlay.wSiceCount2,8) + bit:_and(pGamePlay.wSiceCount2, 0xff)
+			+ (bit:_rshift(pGamePlay.wSiceCount1,8) + bit:_and(pGamePlay.wSiceCount1, 0xff))
+    if (cbSiceSecond*2)>CardControl.HEAP_FULL_COUNT then
+			wTakeChairID = (wTakeChairID + 1)%4
+			cbSiceSecond = cbSiceSecond-(CardControl.HEAP_FULL_COUNT/2)
+    end
+		self.m_wHeapTail = wTakeChairID%4
+		------------------------------------------------------------------
+		local cbTakeCount=(cmd.MAX_COUNT-1)*2+1
+
+    while true do
+      for i=0,2-1,1 do
+  			--计算数目
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID][1]-((i==0) and (cbSiceSecond-1)*2 or 0)
+  			local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
+        if i==1 then cbRemoveCount=cbTakeCount end
+        self.m_cbHeapCardInfo[wTakeChairID][(i==0) and 1 or 0]=self.m_cbHeapCardInfo[wTakeChairID][(i==0) and 1 or 0]+cbRemoveCount*2
+
+        --提取扑克
+        cbTakeCount=cbTakeCount-cbRemoveCount
+
+  			--完成判断
+      	if cbTakeCount==0 then
+  				self.m_wHeapHand=wTakeChairID
+        break	end
+
+  			--切换索引
+  			wTakeChairID=(wTakeChairID+1)%4
+      end
+    break end
+    -------------------------------------------------------------------
+		self.m_wHeapHand = (self.m_wHeapTail+1)%4
+		self.m_cbHeapCardInfo[self.m_wHeapHand][0]=1
+
+    for i=0,4-1,1 do
+			--变量定义
+			local wViewChairID=self:SwitchHeapViewChairID(i)
+			self._gameView.m_HeapCard[wViewChairID]:SetCardData(self.m_cbHeapCardInfo[i][0],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+    end
+    -------------------------------------------------------------------
+		local byCardsIndex={0}
+		--ZeroMemory(byCardsIndex,sizeof(byCardsIndex));
+		GameLogic.SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],(cmd.MAX_COUNT-1),byCardsIndex)
+
+		local byCards={0}
+		--ZeroMemory(byCards,sizeof(byCards));
+		GameLogic.SwitchToCardData(byCardsIndex, byCards)
+
+  	--扑克设置
+    for i=0,cmd.GAME_PLAYER-1,1 do
+      --变量定义
+			local wViewChairID=self:SwitchViewChairID(i)
+
+			--组合界面
+			self._gameView.m_WeaveCard[i][0]:SetDisplayItem(true)
+			self._gameView.m_WeaveCard[i][1]:SetDisplayItem(true)
+			self._gameView.m_WeaveCard[i][2]:SetDisplayItem(true)
+			self._gameView.m_WeaveCard[i][3]:SetDisplayItem(true)
+			self._gameView.m_WeaveCard[i][4]:SetDisplayItem(true)
+
+			--用户扑克
+      if i~=wMeChairID then
+				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
+				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic.table_leng((pGamePlay.cbCardData[wMeChairID]))-1,(i==self.m_wBankerUser))
+      else
+				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID][cmd.MAX_COUNT-1] or 0
+				self._gameView.m_HandCardControl:SetCardData(byCards,cmd.MAX_COUNT-1,cbBankerCard)
+      end
+
+			--旁观界面
+      if bPlayerMode==false then
+				self._gameView.m_TableCard[wViewChairID]:SetCardData(nil,0)
+				self._gameView.m_DiscardCard[wViewChairID]:SetCardData(nil,0)
+				self._gameView.m_WeaveCard[wViewChairID][0]:SetCardData(nil,0)
+				self._gameView.m_WeaveCard[wViewChairID][1]:SetCardData(nil,0)
+				self._gameView.m_WeaveCard[wViewChairID][2]:SetCardData(nil,0)
+				self._gameView.m_WeaveCard[wViewChairID][3]:SetCardData(nil,0)
+				self._gameView.m_WeaveCard[wViewChairID][4]:SetCardData(nil,0)
+      end
+    end
+		self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
+
+		--更新界面
+		self._gameView:SetCenterText("")
+
+    self._gameFrame:SetGameStatus(cmd.GS_MJ_PLAY)
+		--出牌提示
+    if (bPlayerMode==true) and (self.m_wCurrentUser~=yl.INVALID_CHAIR) then
+      if self.m_wCurrentUser==wMeChairID then
+				--ActiveGameFrame();
+				self._gameView:SetStatusFlag(true,false)
+      end
+    end
+		self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
+		self._gameView.m_HandCardControl:SetPositively(bPlayerMode)  -- 现在才可以出牌
+
+		--动作处理
+    if (bPlayerMode==true) and (pGamePlay.cbUserAction~=GameLogic.WIK_NULL) then
+			self:ShowOperateControl(pGamePlay.cbUserAction,0)
+      self:SetGameClock(cmd.IDI_OPERATE_CARD, self:GetMeChairID(), cmd.IDI_OPERATE_CARD, cmd.TIME_OPERATE_CARD)
+    end
+
+		--设置时间
+    if self.m_wCurrentUser~=yl.INVALID_CHAIR then
+      if (self.m_wCurrentUser == wMeChairID) and (GameLogic.WIK_NULL==pGamePlay.cbUserAction) then
+				self._gameView.m_HandCardControl:UpdateCardDisable(true)
+      end
+			self._gameView:SetCurrentUser(self:SwitchViewChairID(self.m_wCurrentUser))
+      self:SetGameClock(cmd.IDI_OPERATE_CARD, self.m_wCurrentUser, cmd.IDI_OPERATE_CARD, cmd.TIME_OPERATE_CARD)
+    end
+  end
+  return 0
+end
+
+function GameLayer:SwitchHeapViewChairID(wChairID)
+	-- 转换椅子0位置为0， 1的位置为2
+	local wViewChairID=(wChairID+4-self:GetMeChairID()*2)
+	wViewChairID += 2
+	return wViewChairID%4
 end
 
 return GameLayer
