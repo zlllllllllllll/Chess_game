@@ -140,6 +140,31 @@ function GameViewLayer:ctor(scene)
 
 	m_ImageReady.LoadFromResource(hInstance,IDB_READY);							//准备
 	--]]
+	self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)
+	self.m_ImageBack=display.newSprite("res/game/VIEW_BACK.png"):setVisible(false):addTo(self)
+	self.m_ImageUserFlag=display.newSprite("res/game/USER_FLAG.png"):setVisible(false):addTo(self)
+	self.m_ImageUserAction=display.newSprite("res/game/USER_ACTION.png"):setVisible(false):addTo(self)
+	self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png"):setVisible(false):addTo(self)
+	self.m_ImageCS=display.newSprite("res/game/CS_BACK.png"):setVisible(false):addTo(self)
+	self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png"):setVisible(false):addTo(self)
+	self.m_ImageListenStatusH=display.newSprite("res/game/LISTEN_FLAG_H.png"):setVisible(false):addTo(self)
+	self.m_ImageListenStatusV=display.newSprite("res/game/LISTEN_FLAG_V.png"):setVisible(false):addTo(self)
+	self.m_ImageTrustee=display.newSprite("res/game/TRUSTEE.png"):setVisible(false):addTo(self)
+	self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png"):setVisible(false):addTo(self)
+	self.m_ImageArrow=display.newSprite("res/game/ARROW.png"):setVisible(false):addTo(self)
+	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png"):setVisible(false):addTo(self)
+	self.m_ImageSaizi=display.newSprite("res/game/SaiZi.png"):setVisible(false):addTo(self)
+
+	self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png"):setVisible(false):addTo(self)
+
+	self.ImageTimeBack=display.newSprite("res/game/TIME_BACK.png"):setVisible(false):addTo(self)
+	self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png"):setVisible(false):addTo(self)
+
+	self.m_ImageDingMai=display.newSprite("res/game/dingmai.png"):setVisible(false):addTo(self)
+	self.m_ImageDingMaiFrame=display.newSprite("res/game/DingMaiFrame.png"):setVisible(false):addTo(self)
+	self.m_ImageNumber=display.newSprite("res/game/num.png"):setVisible(false):addTo(self)
+
+	self.m_ImageReady=display.newSprite("res/game/READY.png"):setVisible(false):addTo(self)
 
 	self.m_byGodsData = 0x00
 	--m_pGameClientDlg=CONTAINING_RECORD(this,CGameClientEngine,m_GameClientView);  父指针
@@ -503,6 +528,7 @@ function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 	self.m_ImageCenter=display.newSprite("res/game/TIME_BACK.png")
 		:move(nXDrawPos-30,nYDrawPos-10)
 		:setColor(cc.c3b(255, 0, 255))
+		:setVisible(true)
 		:addTo(self)
 	--绘画号码
 	for i=0,lNumberCount-1,1 do
@@ -512,6 +538,7 @@ function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 		self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png")
 			:move(nXDrawPos,nYDrawPos)
 			:setColor(cc.c3b(0, 0, 0))
+			:setVisible(true)
 			:addTo(self)
 
 		--设置变量
@@ -533,10 +560,12 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		:setCapInsets(CCRectMake(40,40,20,20))
 		:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+		:setVisible(true)
 		:addTo(self)
 
 	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png")
 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+		:setVisible(true)
 		:addTo(self)
 
 	--[[
@@ -572,12 +601,14 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					:setContentSize(cc.size(nImageWidth, nImageHeight))
 					:setPosition(self.m_UserFlagPos[i].x-20,self.m_UserFlagPos[i].y)
 					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
 					:addTo(self)
 			end
 			if self.m_byDingMai[i]>0 then
 				self.m_ImageDingMai=display.newSprite("res/game/dingmai.png")
 					:setPosition(self.m_ptDingMai[i].x-15-iDingW/2,self.m_ptDingMai[i].y-iDingH/2)
 					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
 					:addTo(self)
 			end
 		end
@@ -609,6 +640,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png")
 			:setPosition((nWidth-self.m_ImageWait:getContentSize().width)/2,nHeight-145)
 			:setColor(cc.c3b(255, 0, 255))
+			:setVisible(true)
 			:addTo(self)
 	end
 
@@ -617,6 +649,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png")
 			:setPosition(nWidth-self.m_ImageHuangZhuang:getContentSize().width)/2,nHeight/2-103)
 			:setColor(cc.c3b(255, 0, 255))
+			:setVisible(true)
 			:addTo(self)
 	end
 
@@ -634,6 +667,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 				self.m_ImageListenStatusH=display.newSprite("res/game/HUANG_ZHUANG.png")
 					:setPosition(self.m_UserListenPos[i].x-nImageWidth/2,self.m_UserListenPos[i].y-nImageHeight/2-10)
 					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
 					:addTo(self)
 			else
 				--获取信息
@@ -644,6 +678,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 				self.m_ImageListenStatusV=display.newSprite("res/game/HUANG_ZHUANG.png")
 					:setPosition(self.m_UserListenPos[i].x-nImageWidth/2,self.m_UserListenPos[i].y-nImageHeight/2-10)
 					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
 					:addTo(self)
 			end
 		end
@@ -653,6 +688,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png")
 			:setPosition(nWidth/2-self.m_ImageTipSingle:getContentSize().width/2,nHeight/2+220)
 			:setColor(cc.c3b(255, 0, 255))
+			:setVisible(true)
 			:addTo(self)
 	end
 	--用户状态
@@ -670,93 +706,59 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 			--绘画动作
 			if self.m_cbUserAction[i]~=GameLogic.WIK_NULL then
-				local nXImagePos=-1
-				if bit:_and(self.m_cbUserAction[i], GameLogic.WIK_PENG) then nXImagePos=59
-				elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_GANG) then	nXImagePos=118
-				elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_LISTEN) then	nXImagePos=-1
-				elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_CHI_HU) then	nXImagePos=-1
-				else	nXImagePos=0
-				end
+				--绘画动作
+				if self.m_bBombEffect==true and i==0 then
+					local nXImagePos=-1
+					if bit:_and(self.m_cbUserAction[i], GameLogic.WIK_PENG) then nXImagePos=59
+					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_GANG) then	nXImagePos=118
+					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_LISTEN) then	nXImagePos=-1
+					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_CHI_HU) then	nXImagePos=-1
+					else	nXImagePos=0
+					end
 
-				if nXImagePos~=-1 then
-					--动作背景
-					self.m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
-						0,0,RGB(255,255,255),180);
-						m_ImageActionAni.DrawImage(pDC,nXPos+29,nYPos+29,59,65,nXImagePos,0,59,65);
+					if nXImagePos~=-1 then
+						--动作背景
+						--mark
+						-- self.m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
+						-- 	0,0,RGB(255,255,255),180);
+						self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
+							:setPosition(nXPos,nYPos)
+							:setColor(cc.c3b(255, 255, 255))
+							:setVisible(true)
+							:addTo(self)
+						self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png")
+							:setPosition(nXPos+29,nYPos+29)
+							:setVisible(true)
+							:addTo(self)
+					end
 				end
-
-				if(nXImagePos!=-1)
-				{
-				//动作背景
-				m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
-					0,0,RGB(255,255,255),180);
-					m_ImageActionAni.DrawImage(pDC,nXPos+29,nYPos+29,59,65,nXImagePos,0,59,65);
-				}
 			else
+				if i==0 then
+					--动作背景
+					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
+						:setPosition(nXPos,nYPos)
+						:setColor(cc.c3b(255, 255, 255))
+						:setVisible(true)
+						:addTo(self)
+					--绘画扑克
+					--mark
+					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,sekf.m_cbCardData,nXPos+39,nYPos+29);
+				else
+					--动作背景
+					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
+						:setPosition(nXPos,nYPos)
+						:setColor(cc.c3b(255, 255, 255))
+						:setVisible(true)
+						:addTo(self)
+					--绘画扑克
+					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,self.m_cbCardData,nXPos+39,nYPos+29);
+				end
 			end
 		end
 	end
-	for (WORD i=0;i<GAME_PLAYER;i++)
-	{
-		if ((m_wOutCardUser==i)||(m_cbUserAction[i]!=0))
-		{
-			//计算位置
-			int nXPos=0,nYPos=0;
 
-			//绘画动作
-			if (m_cbUserAction[i]!=WIK_NULL)
-			{
-
-				//绘画动作
-				if (m_bBombEffect==true && i==0)
-				{
-					int nXImagePos=-1;
-					if (m_cbUserAction[i]&WIK_PENG) nXImagePos=59;
-					else if (m_cbUserAction[i]&WIK_GANG) nXImagePos=118;
-					else if (m_cbUserAction[i]&WIK_LISTEN) nXImagePos=-1;
-					else if (m_cbUserAction[i]&WIK_CHI_HU) nXImagePos=-1;
-					else nXImagePos=0;
-
-
-					if(nXImagePos!=-1)
-					{
-					//动作背景
-					//CImageHandle ImageHandle(&m_ImageActionBack);
-					m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
-						0,0,RGB(255,255,255),180);
-						m_ImageActionAni.DrawImage(pDC,nXPos+29,nYPos+29,59,65,nXImagePos,0,59,65);
-					}
-				}
-			}
-			else
-			{
-				if(i==0)
-				{
-					//动作背景
-					//CImageHandle ImageHandle(&m_ImageActionBack);
-					m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
-							0,0,RGB(255,255,255),180);
-					//绘画扑克
-					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,m_cbCardData,nXPos+39,nYPos+29);
-
-				}
-				else
-				{
-					//动作背景
-					//CImageHandle ImageHandle(&m_ImageActionBack);
-					m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
-							0,0,RGB(255,255,255),180);
-					//绘画扑克
-					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,m_cbCardData,nXPos+39,nYPos+29);
-
-				}
-			}
-		}
-	}
-
-	int nXPos=15,nYPos=10;
-	//动作背景
-	//CImageHandle ImageHandle(&m_ImageCS);
+	local nXPos,nYPos=15,10
+	--动作背景
 	m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,m_ImageCS.GetWidth(),m_ImageCS.GetHeight(),0,0,RGB(255,0,255),255);
 	if (m_byGodsData>0)
 	{
