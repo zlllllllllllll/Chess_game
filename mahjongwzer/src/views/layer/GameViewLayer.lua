@@ -1195,60 +1195,84 @@ function GameViewLayer:OnTimer(nIDEvent)
 			return
 		end
 
-		// 绘制动画
-		m_iSicboAnimIndex ++;
-		if (m_iSicboAnimIndex<13)
-		{
-			//播放声音
-			if (NULL != m_pGameClientDlg && (m_iSicboAnimIndex<13)
-				&& (0 == m_iSicboAnimIndex%5))
-			{
-				//if (m_pGameClientDlg->IsEnableSound())
-				{
-					//m_pGameClientDlg->PlayGameSound(AfxGetInstanceHandle(),TEXT("SICBO_WAV"));
-				}
-			}
-			OnEnterRgn(150);
-		}
+		-- 绘制动画
+		self.m_iSicboAnimIndex=self.m_iSicboAnimIndex+1
+		if self.m_iSicboAnimIndex<13 then
+			--播放声音
+			if nil ~= self._gameFrame and (self.m_iSicboAnimIndex<13)
+				and (0 == self.m_iSicboAnimIndex%5) then
+					-- //if (m_pGameClientDlg->IsEnableSound())
+					-- {
+					-- 	//m_pGameClientDlg->PlayGameSound(AfxGetInstanceHandle(),TEXT("SICBO_WAV"));
+					-- }
+			end
+			self.OnEnterRgn(150)
+		end
 
-		if (m_iSicboAnimIndex > 20)
-		{
-			m_iSicboAnimIndex = -1;
-			KillTimer(IDI_SIBO_PLAY);
-			SendEngineMessage(IDM_DISPATCH_CARD,0,0);
-		}
-		if (m_iSicboAnimIndex > 13)
-		{
-			KillTimer(IDI_SIBO_PLAY);
-			SetTimer(IDI_SIBO_PLAY, 100, NULL);
-		}
-		else if (m_iSicboAnimIndex >9)
-		{
-			KillTimer(IDI_SIBO_PLAY);
-			SetTimer(IDI_SIBO_PLAY, 80, NULL);
-		}
-		else if (m_iSicboAnimIndex > 5)
-		{
-			KillTimer(IDI_SIBO_PLAY);
-			SetTimer(IDI_SIBO_PLAY, 50, NULL);
-		}
-		else if (m_iSicboAnimIndex>1)
-		{
-			KillTimer(IDI_SIBO_PLAY);
-			SetTimer(IDI_SIBO_PLAY, 20, NULL);
-		}
-		RefreshGameView();
+		if self.m_iSicboAnimIndex > 20 then
+			self.m_iSicboAnimIndex = -1
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+			self._scene:OnDispatchCard(0,0)
+		end
+		if self.m_iSicboAnimIndex > 13 then
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+	    self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,100)
+		elseif self.m_iSicboAnimIndex >9 then
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+	    self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,80)
+		elseif self.m_iSicboAnimIndex > 5 then
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+	    self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,50)
+		elseif self.m_iSicboAnimIndex>1 then
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+	    self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,20)
+		end
+		self:RefreshGameView()
 		return
 	end
+	--__super::OnTimer(nIDEvent)
+end
 
+function GameViewLayer:OnLButtonDblClk(nFlags,point)
+	-- // TODO: 在此添加消息处理程序代码和/或调用默认值
+	--
+	-- __super::OnLButtonDblClk(nFlags, point);
+	-- CRect rect(0,0,200,200);
+	-- if (rect.PtInRect(point))
+	-- {
+	-- 	//需要确认身份
+	-- 	m_pGameClientDlg->SendSocketData(SUB_C_CHECK_SUPER);
+	-- }
 
 end
------
-void CGameClientView::OnTimer(UINT nIDEvent)
-{
 
-	__super::OnTimer(nIDEvent);
-}
+-- 绘画掷骰子动画
+function GameViewLayer:DrawSicboAnim(pDC)
+	if (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
+		return
+	end
+	if cmd.GS_MJ_MAIDI ~= self._gameFrame:GetGameStatus() then
+		return
+	end
+	if self.m_iSicboAnimIndex > 0 then
+		--画骰子动画
+		local nImageHeight=self.m_ImageSaizi:getContentSize().height
+		local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
+		--mark  i<m_arBall.GetCount()
+		for i=0,GameLogic.table_leng(self.m_arBall)-1,1 do
+			local byIndex = self.m_arBall[i].iIndex%15+6
+			local iX = int(m_SicboAnimPoint.x+m_arBall[i].dbX-nImageWidth/2);
+			local iY = int(m_SicboAnimPoint.y+m_arBall[i].dbY-nImageHeight/2);
+			if self.m_iSicboAnimIndex>13 then
+				byIndex = m_bySicbo[i]-1;
+			end
+			m_ImageSaizi.TransDrawImage(pDC, iX,iY, nImageWidth, nImageHeight,byIndex *nImageWidth, 0,RGB(255,0,255));
+		end
+	end
+end
+
+-----
+
 
 ------------------------------------------------------------------------------------------------------------------
 
