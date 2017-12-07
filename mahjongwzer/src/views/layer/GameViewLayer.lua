@@ -575,10 +575,10 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	--]]
 
 	if #self.m_szCenterText > 0 then		--提示字符串
-		-- 设置字体
-		local font = cc.Label:createWithTTF("宋体","fonts/round_body.ttf", 24)
+		-- 设置字体  700
+		local font = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
 		font:move(nWidth/2-200,nHeight/2-100)
-		font:setColor(cc.c3b(255, 255, 255))
+		font:setTextColor(cc.c4b(255,255,255,255))
 	end
 
 	--用户标志
@@ -724,6 +724,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 						self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
 							:setPosition(nXPos,nYPos)
 							:setColor(cc.c3b(255, 255, 255))
+        			:setOpacity(180)
 							:setVisible(true)
 							:addTo(self)
 						self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png")
@@ -738,20 +739,23 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
 						:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 255, 255))
+						:setOpacity(180)
 						:setVisible(true)
 						:addTo(self)
-					--绘画扑克
-					--mark
-					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,sekf.m_cbCardData,nXPos+39,nYPos+29);
+					--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
+					self.g_CardResource=CardControl:create_CCardResource(self)
+					CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_cbCardData,nXPos+39,nYPos+29)
 				else
 					--动作背景
 					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
 						:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 255, 255))
+						:setOpacity(180)
 						:setVisible(true)
 						:addTo(self)
 					--绘画扑克
-					g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,self.m_cbCardData,nXPos+39,nYPos+29);
+					self.g_CardResource=CardControl:create_CCardResource(self)
+					CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_cbCardData,nXPos+39,nYPos+29)
 				end
 			end
 		end
@@ -759,69 +763,493 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 	local nXPos,nYPos=15,10
 	--动作背景
-	m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,m_ImageCS.GetWidth(),m_ImageCS.GetHeight(),0,0,RGB(255,0,255),255);
-	if (m_byGodsData>0)
-	{
-		//绘画扑克
-		g_CardResource.m_ImageUserBottom.DrawCardItem(pDC,m_byGodsData,nXPos+55,nYPos+13);
-	}
+	self.m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,m_ImageCS.GetWidth(),m_ImageCS.GetHeight(),0,0,RGB(255,0,255),255);
+	self.m_ImageCS:setPosition(nXPos,nYPos)
+		:setColor(cc.c3b(255, 255, 255))
+		:setOpacity(255)
+		:setVisible(true)
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	HFONT hFont=CreateFont(-14,0,0,0,400,0,0,0,134,3,2,1,2,TEXT("宋体"));
-	HFONT hOldFont=(HFONT)pDC->SelectObject(hFont);
-	//绘画用户
-	pDC->SetTextColor(RGB(255,255,0));
-	CString strScore;
-	for (WORD i=0;i<GAME_PLAYER;i++)
-	{
-		//变量定义
-	//	IClientUserItem * pUserData=GetUserInfo(i);
-		 IClientUserItem * pUserData=GetClientUserItem(i);
-		if (pUserData!=NULL)
-		{
-			//用户名字
-			pDC->SetTextAlign(TA_TOP|TA_RIGHT);
-			//DrawTextString(pDC,pUserData->szNickName,RGB(255,255,255),RGB(0,0,0),m_ptNickName[i].x,m_ptNickName[i].y);
-			//绘画字体
+	if self.m_byGodsData>0 then
+		--绘画扑克
+		self.g_CardResource=CardControl:create_CCardResource(self)
+		CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_byGodsData,nXPos+55,nYPos+13)
+	end
 
-			pDC->SetTextColor(RGB(255,255,255));
-			TextOut(pDC,m_ptNickName[i].x,m_ptNickName[i].y,pUserData->GetNickName());
+---------------=======================================================================================
 
-			pDC->SetTextAlign(TA_TOP|TA_LEFT);
-			pDC->SetTextColor(RGB(255,255,0));
-			strScore.Format(_T("财富:%I64d"),pUserData->GetUserScore());
-			TextOut(pDC,m_ptDingMai[i].x+30,m_ptNickName[i].y,strScore);
+	-- HFONT hFont=CreateFont(-14,0,0,0,400,0,0,0,134,3,2,1,2,TEXT("宋体"));
+	-- HFONT hOldFont=(HFONT)pDC->SelectObject(hFont);
 
-			//其他信息
-			WORD wUserTimer=GetUserClock(i);
-			if ((wUserTimer!=0)&&(m_wCurrentUser!=INVALID_CHAIR))
-			{
-				DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer);
-				if(m_wCurrentUser==0)
-					m_ImageArrow.DrawImage(pDC,nWidth/2-15,nHeight/2-m_ImageArrow.GetHeight()*2,m_ImageArrow.GetWidth()/4,m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4*m_wCurrentUser,0);
-				if(m_wCurrentUser==1)
-					m_ImageArrow.DrawImage(pDC,nWidth/2-15,nHeight/2+m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4,m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4*2,0);
-			}
-			if((wUserTimer!=0)&&(m_wCurrentUser==INVALID_CHAIR))
-			{
-				DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer);
-				if(i==0)
-					m_ImageArrow.DrawImage(pDC,nWidth/2-15,nHeight/2-m_ImageArrow.GetHeight()*2,m_ImageArrow.GetWidth()/4,m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4*i,0);
-				if(i==1)
-					m_ImageArrow.DrawImage(pDC,nWidth/2-15,nHeight/2+m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4,m_ImageArrow.GetHeight(),m_ImageArrow.GetWidth()/4*2,0);
-			}
+	--绘画用户
+	local strScore
+	for i=0,cmd.GAME_PLAYER-1,1 do
+		--变量定义
+		 --IClientUserItem * pUserData=GetClientUserItem(i);  mark 估计同
+		 local pUserData=self._gameFrame:GetTableUserItem(self:GetMeTableID(),i)
+		 if pUserData~=nil then
+ 			--用户名字
 
-			if (pUserData->GetUserStatus()==US_READY)
-			{
-				//CImageHandle ImageHandle(&m_ImageReady);
-				m_ImageReady.TransDrawImage(pDC,m_ptReady[i].x,m_ptReady[i].y,RGB(255,0,255));
-			}
-		}
-	}
-	pDC->SelectObject(hOldFont);
-	DrawSicboAnim(pDC);
+			cc.Label:createWithTTF(pUserData:GetNickName(),"fonts/round_body.ttf", 24)
+					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
+					:move(self.m_ptNickName[i].x,self.m_ptNickName[i].y)
+					:setTextColor(cc.c4b(255,255,255,255))
+
+			strScore="财富:"..pUserData:GetUserScore()
+
+			cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
+					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+					:move(self.m_ptDingMai[i].x+30,self.m_ptNickName[i].y)
+					:setTextColor(cc.c4b(255,255,0,255))
+
+			--其他信息
+			local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
+			if (wUserTimer~=0) and (self.m_wCurrentUser~=yl.INVALID_CHAIR) then
+				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
+				if self.m_wCurrentUser==0 then
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*self.m_wCurrentUser,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
+        		:setScaleX(1/4)
+						:setVisible(true)
+				end
+				if self.m_wCurrentUser==1 then
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize()/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+        		:setScaleX(1/4)
+						:setVisible(true)
+				end
+			end
+			if (wUserTimer~=0) and (self.m_wCurrentUser==yl.INVALID_CHAIR) then
+				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
+				if i==0 then
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*i,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
+        		:setScaleX(1/4)
+						:setVisible(true)
+				end
+				if i==1 then
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize()/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+						:setScaleX(1/4)
+						:setVisible(true)
+				end
+			end
+			if pUserData:GetUserStatus()==yl.US_READY then
+				self.m_ImageReady:setPosition(self.m_ptReady[i].x,self.m_ptReady[i].y)
+					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
+			end
+		 end
+	end
+
+	self:DrawSicboAnim(pDC)
 	return
 end
+
+--基础积分
+function GameViewLayer:SetBaseScore(lBaseScore)
+	--设置扑克
+	if lBaseScore~=self.m_lBaseScore then
+		--设置变量
+		self.m_lBaseScore=lBaseScore
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+
+--海底扑克
+function GameViewLayer:SetHuangZhuang(bHuangZhuang)
+	--设置扑克
+	if bHuangZhuang~=self.m_bHuangZhuang then
+		--设置变量
+		self.m_bHuangZhuang=bHuangZhuang
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+--庄家用户
+function GameViewLayer:SetBankerUser(wBankerUser)
+	--设置扑克
+	if wBankerUser~=self.m_wBankerUser then
+		--设置变量
+		self.m_wBankerUser=wBankerUser
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+--状态标志
+function GameViewLayer:SetStatusFlag(bOutCard,bWaitOther)
+		--设置变量
+		self.m_bOutCard=bOutCard
+		self.m_bWaitOther=bWaitOther
+
+		--更新界面
+		self:RefreshGameView()
+
+	return
+end
+
+--出牌信息
+function GameViewLayer:SetOutCardInfo(wViewChairID,cbCardData)
+		--设置变量
+		self.m_cbCardData=cbCardData
+		self.m_wOutCardUser=wViewChairID
+
+		--更新界面
+		self:RefreshGameView()
+
+	return
+end
+
+--动作信息
+function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
+	--设置变量
+	if wViewChairID<cmd.GAME_PLAYER then
+		self.m_cbUserAction[wViewChairID]=bUserAction
+		self:SetBombEffect(true)
+	else
+		self.m_cbUserAction={}
+		if self.m_bBombEffect then
+			self:SetBombEffect(false)
+		end
+	end
+	self.RectifyControl(m_iSavedWidth,m_iSavedHeight);
+
+	--更新界面
+	self:RefreshGameView()
+
+	return
+end
+
+--听牌标志
+function GameViewLayer:SetUserListenStatus(wViewChairID,bListenStatus)
+	--设置变量
+	if wViewChairID<cmd.GAME_PLAYER then
+		SetBombEffect(true)
+		self.m_cbUserAction[wViewChairID]=GameLogic.WIK_LISTEN
+		self.m_bListenStatus[wViewChairID]=bListenStatus
+	else
+		self.m_bListenStatus={}
+	end
+	--更新界面
+	self:RefreshGameView()
+
+	return
+end
+
+--设置动作
+function GameViewLayer:SetBombEffect(bBombEffect)
+	if bBombEffect==true then
+		--设置变量
+		self.m_bBombEffect=true
+		self.m_cbBombFrameIndex=0
+
+		--启动时间
+    self._scene:F_GVSetTimer(GameViewLayer.IDI_BOMB_EFFECT,250)
+	else
+		--停止动画
+		if self.m_bBombEffect==true then
+			--删除时间
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_BOMB_EFFECT)
+
+			--设置变量
+			self.m_bBombEffect=false
+			self.m_cbBombFrameIndex=0
+
+			--更新界面
+			self:RefreshGameView()
+		end
+	end
+	return true
+end
+
+--丢弃用户
+function GameViewLayer:SetDiscUser(wDiscUser)
+	if self.m_wDiscUser ~= wDiscUser then
+		--更新变量
+		self.m_wDiscUser=wDiscUser
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+--定时玩家
+function GameViewLayer:SetCurrentUser(wCurrentUser)
+	if self.m_wCurrentUser ~= wCurrentUser then
+		--更新变量
+		self.m_wCurrentUser=wCurrentUser
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+--设置托管
+function GameViewLayer:SetTrustee(wTrusteeUser,bTrustee)
+	if self.m_bTrustee[wTrusteeUser] ~=bTrustee then
+		--更新变量
+		self.m_bTrustee[wTrusteeUser]=bTrustee
+
+		--更新界面
+		self:RefreshGameView()
+	end
+
+	return
+end
+
+--设置中心文字
+function GameViewLayer:SetCenterText(szText)
+	if nil==szText then
+		self.m_szCenterText=""
+	else
+		self.m_szCenterText=szText
+	end
+	self:RefreshGameView()
+end
+
+function GameViewLayer:SetGodsCard(byGodsCard)
+	self.m_byGodsData = byGodsCard
+	self:RefreshGameView()
+end
+
+function GameViewLayer:GetGodsCard()
+	return self.m_byGodsData
+end
+
+function GameViewLayer:SetDingMaiValue(byDingMai)
+	if nil == byDingMai then
+		self.m_byDingMai={}
+	else
+		for i=0,cmd.GAME_PLAYER-1,1 do
+			self.m_byDingMai[i] = byDingMai[i]
+		end
+	end
+	self:RefreshGameView()
+end
+
+--艺术字体
+function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
+	--变量定义
+	local nStringLength=#pszString
+	local nXExcursion={1,1,1,0,-1,-1,-1,0}
+	local nYExcursion={-1,0,1,1,1,0,-1,-1}
+
+	--绘画边框
+	--pDC->SetTextColor(crFrame);
+	for i=0,GameLogic.table_leng(nXExcursion)-1,1 do
+		cc.Label:createWithTTF(pszString,"fonts/round_body.ttf", 24)
+				:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+				:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+				:move(nXPos+nXExcursion[i],nYPos+nYExcursion[i])
+				:setTextColor(cc.c4b(255,255,0,255))
+		--TextOut(pDC,nXPos+nXExcursion[i],nYPos+nYExcursion[i],pszString,nStringLength);  nStringLength 不清楚作用 下同
+	end
+
+	--绘画字体
+	cc.Label:createWithTTF(pszString,"fonts/round_body.ttf", 24)
+			:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+			:move(nXPos,nYPos)
+			:setTextColor(crText)
+
+	return
+end
+
+
+--光标消息
+function GameViewLayer:OnSetCursor(pWnd,nHitTest,uMessage)
+	--[[
+	--获取光标
+	CPoint MousePoint;
+	GetCursorPos(&MousePoint);
+	ScreenToClient(&MousePoint);
+
+	--点击测试
+	local bRePaint=false;
+	local bHandle=m_HandCardControl.OnEventSetCursor(MousePoint,bRePaint);
+
+	--重画控制
+	if (bRePaint==true)
+		RefreshGameView();
+
+	--光标控制
+	if (bHandle==false)
+		__super::OnSetCursor(pWnd,nHitTest,uMessage);
+
+	return true
+	--]]
+end
+
+--鼠标消息
+function GameViewLayer:OnLButtonDown(nFlags,Point)
+--[[
+	__super::OnLButtonDown(nFlags, Point);
+
+	--获取扑克
+	BYTE cbHoverCard=m_HandCardControl.GetHoverCard();
+	if (cbHoverCard!=0)
+		SendEngineMessage(IDM_OUT_CARD,cbHoverCard,cbHoverCard);
+	else
+		SendEngineMessage(IDM_OUT_INVALID_CARD,0,0);
+
+	return
+	--]]
+end
+
+--开始按钮
+function GameViewLayer:OnStart()
+	self.m_bTipSingle=false
+	--发送消息
+	self._scene:OnStart(0,0)
+	return
+end
+
+--拖管控制
+function GameViewLayer:OnStusteeControl()
+	self._scene:OnStusteeControl(0,0)
+	return
+end
+
+function GameViewLayer:OnMaiDi()
+	self._scene:OnDingDi(2,0)						 -- 买底
+end
+
+function GameViewLayer:OnDingDi()
+	self._scene:OnDingDi(2,0)						 -- 顶底
+end
+
+function GameViewLayer:OnMaiCancel()
+	self._scene:OnDingDi(1,0)						 -- 取消
+end
+
+------------------------------------------------------------------------------------------------------------------
+
+function GameViewLayer:OnTimer(nIDEvent)
+	if nIDEvent==GameViewLayer.IDI_TIP_SINGLE then
+		self.m_bTipSingle=false
+		self._scene:F_GVKillTimer(GameViewLayer.IDI_TIP_SINGLE)
+		self:RefreshGameView()
+	end
+	--动作动画
+	if nIDEvent==GameViewLayer.IDI_BOMB_EFFECT then
+		--停止判断
+		if self.m_bBombEffect==false then
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_BOMB_EFFECT)
+			return
+		end
+
+		--设置变量
+		if (self.m_cbBombFrameIndex+1)>=GameViewLayer.BOMB_EFFECT_COUNT then
+			--删除时间
+			self._scene:F_GVKillTimer(GameViewLayer.IDI_BOMB_EFFECT)
+
+			--设置变量
+			self.m_bBombEffect=false
+			self.m_cbBombFrameIndex=0
+		else
+			self.m_cbBombFrameIndex=self.m_cbBombFrameIndex+1
+		end
+
+		--更新界面
+		self:RefreshGameView()
+
+		return
+	end
+	if nIDEvent==GameViewLayer.IDI_DISC_EFFECT then
+		--设置变量
+		if (self.m_cbDiscFrameIndex+1)>=GameViewLayer.DISC_EFFECT_COUNT then
+			self.m_cbDiscFrameIndex=0
+		else
+			self.m_cbDiscFrameIndex++
+		end
+
+		--更新界面
+		self:RefreshGameView()
+
+		return
+	end
+	if GameViewLayer.IDI_SIBO_PLAY == nIDEvent then
+		--CGameClientEngine					*m_pGameClientDlg;					//父类指针
+		--if (NULL == m_pGameClientDlg)
+		if nil == self._gameFrame then
+			self:StopSicboAnim()
+			return
+		end
+
+		if cmd.GS_MJ_MAIDI~=self._gameFrame:GetGameStatus() then
+			self:StopSicboAnim()
+			return
+		end
+
+		// 绘制动画
+		m_iSicboAnimIndex ++;
+		if (m_iSicboAnimIndex<13)
+		{
+			//播放声音
+			if (NULL != m_pGameClientDlg && (m_iSicboAnimIndex<13)
+				&& (0 == m_iSicboAnimIndex%5))
+			{
+				//if (m_pGameClientDlg->IsEnableSound())
+				{
+					//m_pGameClientDlg->PlayGameSound(AfxGetInstanceHandle(),TEXT("SICBO_WAV"));
+				}
+			}
+			OnEnterRgn(150);
+		}
+
+		if (m_iSicboAnimIndex > 20)
+		{
+			m_iSicboAnimIndex = -1;
+			KillTimer(IDI_SIBO_PLAY);
+			SendEngineMessage(IDM_DISPATCH_CARD,0,0);
+		}
+		if (m_iSicboAnimIndex > 13)
+		{
+			KillTimer(IDI_SIBO_PLAY);
+			SetTimer(IDI_SIBO_PLAY, 100, NULL);
+		}
+		else if (m_iSicboAnimIndex >9)
+		{
+			KillTimer(IDI_SIBO_PLAY);
+			SetTimer(IDI_SIBO_PLAY, 80, NULL);
+		}
+		else if (m_iSicboAnimIndex > 5)
+		{
+			KillTimer(IDI_SIBO_PLAY);
+			SetTimer(IDI_SIBO_PLAY, 50, NULL);
+		}
+		else if (m_iSicboAnimIndex>1)
+		{
+			KillTimer(IDI_SIBO_PLAY);
+			SetTimer(IDI_SIBO_PLAY, 20, NULL);
+		}
+		RefreshGameView();
+		return
+	end
+
+
+end
+-----
+void CGameClientView::OnTimer(UINT nIDEvent)
+{
+
+	__super::OnTimer(nIDEvent);
+}
+
 ------------------------------------------------------------------------------------------------------------------
 
 function GameViewLayer:onInitData()
