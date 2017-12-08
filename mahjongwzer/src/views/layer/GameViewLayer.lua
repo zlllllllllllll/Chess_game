@@ -7,15 +7,7 @@ local GameViewLayer = class("GameViewLayer",function(scene)
 end)
 
 --require("client/src/plaza/models/yl")
-local PopupInfoHead = appdf.req("client.src.external.PopupInfoHead")
-local ExternalFun = require(appdf.EXTERNAL_SRC .. "ExternalFun")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
-local CardLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardLayer")
-local ResultLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ResultLayer")
-local SetLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.SetLayer")
-local GameChatLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.game.GameChatLayer")
-local AnimationMgr = appdf.req(appdf.EXTERNAL_SRC .. "AnimationMgr")
-
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ScoreControl")
 local ControlWnd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ControlWnd")
@@ -169,7 +161,7 @@ function GameViewLayer:ctor(scene)
 	self.m_byGodsData = 0x00
 	--m_pGameClientDlg=CONTAINING_RECORD(this,CGameClientEngine,m_GameClientView);  父指针
 	--self.m_arBall.RemoveAll(); typedef struct tagBall
-	self.m_arBall={}
+	self.m_arBall={}				--其实是二维
 	self.m_iSicboAnimIndex = -1                                                 -- 骰子动画当前
 	self.m_bySicbo={}
 	self.m_byDingMai={}
@@ -1258,818 +1250,230 @@ function GameViewLayer:DrawSicboAnim(pDC)
 		--画骰子动画
 		local nImageHeight=self.m_ImageSaizi:getContentSize().height
 		local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
-		--mark  i<m_arBall.GetCount()
+		--mark  i<m_arBall.GetCount()  m_arBall 尚未完全初始化
 		for i=0,GameLogic.table_leng(self.m_arBall)-1,1 do
 			local byIndex = self.m_arBall[i].iIndex%15+6
-			local iX = int(m_SicboAnimPoint.x+m_arBall[i].dbX-nImageWidth/2);
-			local iY = int(m_SicboAnimPoint.y+m_arBall[i].dbY-nImageHeight/2);
+			local iX = int(m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2)
+			local iY = int(m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2)
 			if self.m_iSicboAnimIndex>13 then
-				byIndex = m_bySicbo[i]-1;
+				byIndex = self.m_bySicbo[i]-1
 			end
-			m_ImageSaizi.TransDrawImage(pDC, iX,iY, nImageWidth, nImageHeight,byIndex *nImageWidth, 0,RGB(255,0,255));
+			--self.m_ImageSaizi.TransDrawImage(pDC, iX,iY, nImageWidth, nImageHeight,byIndex *nImageWidth, 0,RGB(255,0,255))
+			self.m_ImageSaizi:setPosition(iX,iY)
+				:setColor(cc.c3b(255, 0, 255))
+				:setVisible(true)
 		end
 	end
 end
 
------
-
-
-------------------------------------------------------------------------------------------------------------------
-
-function GameViewLayer:onInitData()
-	self.cbActionCard = 0
-	self.cbOutCardTemp = 0
-	self.chatDetails = {}
-	self.cbAppearCardIndex = {}
-	self.m_bNormalState = {}
-	--房卡需要
-	self.m_sparrowUserItem = {}
-end
-
-function GameViewLayer:onResetData()
-	self._cardLayer:onResetData()
-
-	self.spListenBg:removeAllChildren()
-	self.spListenBg:setVisible(false)
-	self.cbOutCardTemp = 0
-	self.cbAppearCardIndex = {}
-	local spFlag = self:getChildByTag(GameViewLayer.SP_OPERATFLAG)
-	if spFlag then
-		spFlag:removeFromParent()
-	end
-	self.spCardPlate:setVisible(false)
-	self.spTrusteeCover:setVisible(false)
-	for i = 1, cmd.GAME_PLAYER do
-		self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_TRUSTEE):setVisible(false)
-		self.nodePlayer[i]:getChildByTag(GameViewLayer.SP_BANKER):setVisible(false)
-	end
-	self:setRemainCardNum(112)
-	self.spGameBtn:getChildByTag(GameViewLayer.BT_PASS):setEnabled(true):setColor(cc.c3b(255, 255, 255))
-end
-
-function GameViewLayer:onExit()
-	print("GameViewLayer onExit")
-	cc.SpriteFrameCache:getInstance():removeSpriteFramesFromFile("gameScene.plist")
-	cc.Director:getInstance():getTextureCache():removeTextureForKey("gameScene.png")
-    cc.Director:getInstance():getTextureCache():removeUnusedTextures()
-    cc.SpriteFrameCache:getInstance():removeUnusedSpriteFrames()
-end
-
-
-
-function GameViewLayer:initButtons()
-	--按钮回调
-	local btnCallback = function(ref, eventType)
-		if eventType == ccui.TouchEventType.ended then
-			self:onButtonClickedEvent(ref:getTag(), ref)
-		elseif eventType == ccui.TouchEventType.began and ref:getTag() == GameViewLayer.BT_VOICE then
-			self:onButtonClickedEvent(GameViewLayer.BT_VOICEOPEN, ref)
+function GameViewLayer:OnEnterRgn(dbR)
+	-- 边界反弹
+	for i=0,GameLogic.table_leng(self.m_arBall)-1,1 do
+		-- 是否在圆内
+		--CRect rect(-dbR, -dbR, +dbR, +dbR)
+		local Trect=cc.rect(-dbR, -dbR, dbR*2, dbR*2)
+		local ptTemp=cc.p((self.m_arBall[i].dbX + self.m_arBall[i].dbDx),(self.m_arBall[i].dbY + self.m_arBall[i].dbDy))
+		if not cc.rectContainsPoint(Trect, ptTemp) then
+			self:mcFanTang(self.m_arBall[i])
+			self.m_arBall[i].dbX = self.m_arBall[i].dbX +self.m_arBall[i].dbDx
+			self.m_arBall[i].dbY = self.m_arBall[i].dbY +self.m_arBall[i].dbDy
 		end
-	end
 
-	--桌子操作按钮屏蔽层
-	local callbackShield = function(ref)
-		local pos = ref:getTouchEndPosition()
-        local rectBg = self.spTableBtBg:getBoundingBox()
-        if not cc.rectContainsPoint(rectBg, pos)then
-        	self:showTableBt(false)
-        end
-	end
-	self.layoutShield = ccui.Layout:create()
-		:setContentSize(cc.size(display.width, display.height))
-		:setTouchEnabled(false)
-		:addTo(self, 5)
-	self.layoutShield:addClickEventListener(callbackShield)
-	--桌子操作按钮
-	self.spTableBtBg = self:getChildByTag(GameViewLayer.SP_TABLE_BT_BG)
-		:setLocalZOrder(5)
-		:move(1486, 706)
-		:setVisible(false)
-	local btSet = self.spTableBtBg:getChildByTag(GameViewLayer.BT_SET)
-	--btSet:setSelected(not bAble)
-	btSet:addTouchEventListener(btnCallback)
-	local btChat = self.spTableBtBg:getChildByTag(GameViewLayer.BT_CHAT)	--聊天
-	btChat:addTouchEventListener(btnCallback)
-	local btExit = self.spTableBtBg:getChildByTag(GameViewLayer.BT_EXIT)	--退出
-	btExit:addTouchEventListener(btnCallback)
-	local btTrustee = self.spTableBtBg:getChildByTag(GameViewLayer.BT_TRUSTEE)	--托管
-	btTrustee:addTouchEventListener(btnCallback)
-	if GlobalUserItem.bPrivateRoom then
-		btTrustee:setEnabled(false)
-		btTrustee:setColor(cc.c3b(158, 112, 8))
-	end
-	local btHowPlay = self.spTableBtBg:getChildByTag(GameViewLayer.BT_HOWPLAY)	--玩法
-	btHowPlay:addTouchEventListener(btnCallback)
-
-	--桌子按钮开关
-	self.btSwitch = self:getChildByTag(GameViewLayer.BT_SWITCH)
-		:setLocalZOrder(2)
-	self.btSwitch:addTouchEventListener(btnCallback)
-	--开始
-	self.btStart = self:getChildByTag(GameViewLayer.BT_START)
-		:setLocalZOrder(2)
-		:setVisible(false)
-	self.btStart:addTouchEventListener(btnCallback)
-	--语音
-	local btVoice = self:getChildByTag(GameViewLayer.BT_VOICE)
-	btVoice:setLocalZOrder(2)
-	btVoice:setVisible(false)
-	btVoice:addTouchEventListener(btnCallback)
-
-	--游戏操作按钮
-	self.spGameBtn = self:getChildByTag(GameViewLayer.SP_GAMEBTN)
-		:setLocalZOrder(3)
-		:setVisible(false)
-	local btBump = self.spGameBtn:getChildByTag(GameViewLayer.BT_BUMP) 	--碰
-		:setEnabled(false)
-		:setColor(cc.c3b(158, 112, 8))
-	btBump:addTouchEventListener(btnCallback)
-	local btBrigde = self.spGameBtn:getChildByTag(GameViewLayer.BT_BRIGDE) 		--杠
-		:setEnabled(false)
-		:setColor(cc.c3b(158, 112, 8))
-	btBrigde:addTouchEventListener(btnCallback)
-	local btWin = self.spGameBtn:getChildByTag(GameViewLayer.BT_WIN)		--胡
-		:setEnabled(false)
-		:setColor(cc.c3b(158, 112, 8))
-	btWin:addTouchEventListener(btnCallback)
-	local btPass = self.spGameBtn:getChildByTag(GameViewLayer.BT_PASS)		--过
-	btPass:addTouchEventListener(btnCallback)
-end
-
-function GameViewLayer:showTableBt(bVisible)
-	if self.spTableBtBg:isVisible() == bVisible then
-		return false
-	end
-
-	local fSpacing = 334
-	if bVisible == true then
-        self.layoutShield:setTouchEnabled(true)
-		self.btSwitch:setVisible(false)
-		self.spTableBtBg:setVisible(true)
-		self.spTableBtBg:runAction(cc.MoveBy:create(0.3, cc.p(-fSpacing, 0)))
-	else
-        self.layoutShield:setTouchEnabled(false)
-		self.spTableBtBg:runAction(cc.Sequence:create(
-			cc.MoveBy:create(0.5, cc.p(fSpacing, 0)),
-			cc.CallFunc:create(function(ref)
-				self.btSwitch:setVisible(true)
-				self.spTableBtBg:setVisible(false)
-			end)))
-	end
-
-	return true
-end
-
---更新用户显示
-function GameViewLayer:OnUpdateUser(viewId, userItem)
-	if not viewId or viewId == yl.INVALID_CHAIR then
-		print("OnUpdateUser viewId is nil")
-		return
-	end
-
-	self.m_sparrowUserItem[viewId] = userItem
-	--头像
-	local head = self.nodePlayer[viewId]:getChildByTag(GameViewLayer.SP_HEAD)
-	if not userItem then
-		self.nodePlayer[viewId]:setVisible(false)
-		if head then
-			head:setVisible(false)
+		if (self.m_arBall[i].dbX<-dbR + self.m_arBall[i].dbWidth/2 and self.m_arBall[i].dbDx<0)
+			or (self.m_arBall[i].dbX>dbR-self.m_arBall[i].dbWidth/2 and self.m_arBall[i].dbDx>0) then
+				self.m_arBall[i].dbDx=self.m_arBall[i].dbDx* -1
 		end
-	else
-		self.nodePlayer[viewId]:setVisible(true)
-		self.nodePlayer[viewId]:getChildByTag(GameViewLayer.SP_READY):setVisible(userItem.cbUserStatus == yl.US_READY)
-		--头像
-		if not head then
-			head = PopupInfoHead:createNormal(userItem, 82)
-			head:setPosition(1, 12)			--初始位置
-			head:enableHeadFrame(false)
-			head:enableInfoPop(true, posHead[viewId], anchorPointHead[viewId])			--点击弹出的位置0
-			head:setTag(GameViewLayer.SP_HEAD)
-			self.nodePlayer[viewId]:addChild(head)
-		else
-			head:updateHead(userItem)
-			--掉线头像变灰
-			if userItem.cbUserStatus == yl.US_OFFLINE then
-				if self.m_bNormalState[viewId] then
-					convertToGraySprite(head.m_head.m_spRender)
-				end
-				self.m_bNormalState[viewId] = false
-			else
-				if not self.m_bNormalState[viewId] then
-					convertToNormalSprite(head.m_head.m_spRender)
-				end
-				self.m_bNormalState[viewId] = true
+
+		if (self.m_arBall[i].dbY<-dbR + self.m_arBall[i].dbHeight/2 and self.m_arBall[i].dbDy<0)
+			or (self.m_arBall[i].dbY>dbR-self.m_arBall[i].dbHeight/2 and self.m_arBall[i].dbDy>0) then
+				self.m_arBall[i].dbDy=self.m_arBall[i].dbDy* -1
+		end
+
+		--检测所有MC之间是否有碰撞，有就根据情况改变“增量”方向
+		for j=i+1,GameLogic.table_leng(self.m_arBall)-1,1 do
+			if self:myHitTest(self.m_arBall[i],self.m_arBall[j]) then
+					self:mc12(self.m_arBall[i], self.m_arBall[j])
+					self.m_arBall[i].dbX = self.m_arBall[i].dbX +self.m_arBall[i].dbDx
+					self.m_arBall[j].dbX = self.m_arBall[j].dbX +self.m_arBall[j].dbDx
+					self.m_arBall[i].dbY = self.m_arBall[i].dbY +self.m_arBall[i].dbDy
+					self.m_arBall[j].dbY = self.m_arBall[j].dbY +self.m_arBall[j].dbDy
 			end
 		end
-		head:setVisible(true)
-		--金币
-		local score = userItem.lScore
-		if userItem.lScore < 0 then
-			score = -score
+
+		--移动一个“增量”
+		self.m_arBall[i].dbX = self.m_arBall[i].dbX +self.m_arBall[i].dbDx
+		self.m_arBall[i].dbY = self.m_arBall[i].dbY +self.m_arBall[i].dbDy
+		if (math.abs(self.m_arBall[i].dbDx) < 0.5) and (math.abs(self.m_arBall[i].dbDy) < 0.5) then
+			self.m_arBall[i].dbDx=1.6
+			self.m_arBall[i].dbDy=2.7
 		end
-		local strScore = self:numInsertPoint(score)
-		if userItem.lScore < 0 then
-			strScore = "."..strScore
-		end
-		self.nodePlayer[viewId]:getChildByTag(GameViewLayer.ASLAB_SCORE):setString(strScore)
-		--昵称
-		local strNickname = string.EllipsisByConfig(userItem.szNickName, 90, string.getConfig("fonts/round_body.ttf", 14))
-		self.nodePlayer[viewId]:getChildByTag(GameViewLayer.TEXT_NICKNAME):setString(strNickname)
+		self.m_arBall[i].iIndex=self.m_arBall[i].iIndex+1
 	end
 end
 
---用户聊天
-function GameViewLayer:userChat(wViewChairId, chatString)
-	if chatString and #chatString > 0 then
-		self._chatLayer:showGameChat(false)
-		--取消上次
-		if self.chatDetails[wViewChairId] then
-			self.chatDetails[wViewChairId]:stopAllActions()
-			self.chatDetails[wViewChairId]:removeFromParent()
-			self.chatDetails[wViewChairId] = nil
-		end
+--碰撞函数，根据两球碰撞方向和自身运动方向合成新的增量值
+function GameViewLayer:mc12(mc1,mc2)
+	--碰撞角
+	--local  ang = atan2((mc2.dbY-mc1.dbY),mc2.dbX-mc1.dbX);
+	local  ang = math.deg(math.atan(((mc2.dbY-mc1.dbY),mc2.dbX-mc1.dbX))
+	--运动角
+	local ang1 = math.deg(math.atan(mc1.dbDy,mc1.dbDx))
+	local ang2 = math.deg(math.atan(mc2.dbDy, mc2.dbDx))
 
-		--创建label
-		local limWidth = 24*12
-		local labCountLength = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24)
-		if labCountLength:getContentSize().width > limWidth then
-			self.chatDetails[wViewChairId] = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24, cc.size(limWidth, 0))
-		else
-			self.chatDetails[wViewChairId] = cc.Label:createWithTTF(chatString,"fonts/round_body.ttf", 24)
-		end
-		self.chatDetails[wViewChairId]:setColor(cc.c3b(0, 0, 0))
-		self.chatDetails[wViewChairId]:move(posChat[wViewChairId].x, posChat[wViewChairId].y + 15)
-		self.chatDetails[wViewChairId]:setAnchorPoint(cc.p(0.5, 0.5))
-		self.chatDetails[wViewChairId]:addTo(self, 3)
+	--反射角
+	local _ang1 = 2*ang-ang1-math.pi
+	local _ang2 = 2*ang-ang2-math.pi
 
-	    --改变气泡大小
-		self.chatBubble[wViewChairId]:setContentSize(self.chatDetails[wViewChairId]:getContentSize().width+38, self.chatDetails[wViewChairId]:getContentSize().height + 54)
-			:setVisible(true)
-		--动作
-	    self.chatDetails[wViewChairId]:runAction(cc.Sequence:create(
-	    	cc.DelayTime:create(3),
-	    	cc.CallFunc:create(function(ref)
-	    		self.chatDetails[wViewChairId]:removeFromParent()
-				self.chatDetails[wViewChairId] = nil
-				self.chatBubble[wViewChairId]:setVisible(false)
-	    	end)))
-    end
+	--运动矢量
+	local r1=math.sqrt(mc1.dbDx*mc1.dbDx+mc1.dbDy*mc1.dbDy)
+	local r2=math.sqrt(mc2.dbDx*mc2.dbDx+mc2.dbDy*mc2.dbDy)
+
+	--碰撞矢量
+	local a1 = (mc1.dbDy/math.sin(math.rad(ang1)))*	math.cos(math.rad(ang-ang1))
+	local a2 = (mc2.dbDy/math.sin(math.rad(ang2)))*	math.cos(math.rad(ang-ang2))
+
+	--碰撞矢量合成
+	local dx1 = a1*math.cos(math.rad(ang))+a2*math.cos(math.rad(ang))
+	local dy1 = a1*math.sin(math.rad(ang))+a2*math.sin(math.rad(ang))
+
+	--碰撞后的增量
+	mc1.dbDx = r1*math.cos(math.rad(_ang1))+dx1
+	mc1.dbDy = r1*math.sin(math.rad(_ang1))+dy1
+	mc2.dbDx = r2*math.cos(math.rad(_ang2))+dx1
+	mc2.dbDy = r2*math.sin(math.rad(_ang2))+dy1
 end
 
---用户表情
-function GameViewLayer:userExpression(wViewChairId, wItemIndex)
-	if wItemIndex and wItemIndex >= 0 then
-		self._chatLayer:showGameChat(false)
-		--取消上次
-		if self.chatDetails[wViewChairId] then
-			self.chatDetails[wViewChairId]:stopAllActions()
-			self.chatDetails[wViewChairId]:removeFromParent()
-			self.chatDetails[wViewChairId] = nil
-		end
+--碰撞侦测
+function GameViewLayer:myHitTest(mc1,mc2)
+	local a=math.sqrt((mc1.dbX-mc2.dbX)*(mc1.dbX-mc2.dbX)
+		+(mc1.dbY-mc2.dbY)*(mc1.dbY-mc2.dbY))
 
-	    local strName = string.format("e(%d).png", wItemIndex)
-	    self.chatDetails[wViewChairId] = cc.Sprite:createWithSpriteFrameName(strName)
-	        :move(posChat[wViewChairId].x, posChat[wViewChairId].y + 15)
-			:setAnchorPoint(cc.p(0.5, 0.5))
-			:addTo(self, 3)
-	    --改变气泡大小
-		self.chatBubble[wViewChairId]:setContentSize(90,100)
-			:setVisible(true)
-
-	    self.chatDetails[wViewChairId]:runAction(cc.Sequence:create(
-	    	cc.DelayTime:create(3),
-	    	cc.CallFunc:create(function(ref)
-	    		self.chatDetails[wViewChairId]:removeFromParent()
-				self.chatDetails[wViewChairId] = nil
-				self.chatBubble[wViewChairId]:setVisible(false)
-	    	end)))
-    end
-end
-
-function GameViewLayer:onUserVoiceStart(viewId)
-	--取消上次
-	if self.chatDetails[viewId] then
-		self.chatDetails[viewId]:stopAllActions()
-		self.chatDetails[viewId]:removeFromParent()
-		self.chatDetails[viewId] = nil
-	end
-     -- 语音动画
-    local param = AnimationMgr.getAnimationParam()
-    param.m_fDelay = 0.1
-    param.m_strName = cmd.VOICE_ANIMATION_KEY
-    local animate = AnimationMgr.getAnimate(param)
-    self.m_actVoiceAni = cc.RepeatForever:create(animate)
-
-    self.chatDetails[viewId] = display.newSprite("#blank.png")
-    	:move(posChat[viewId].x, posChat[viewId].y + 15)
-		:setAnchorPoint(cc.p(0.5, 0.5))
-		:addTo(self, 3)
-	if viewId == 2 or viewId == 3 then
-		self.chatDetails[viewId]:setRotation(180)
-	end
-	self.chatDetails[viewId]:runAction(self.m_actVoiceAni)
-
-    --改变气泡大小
-	self.chatBubble[viewId]:setContentSize(90,100)
-		:setVisible(true)
-end
-
-function GameViewLayer:onUserVoiceEnded(viewId)
-	if self.chatDetails[viewId] then
-	    self.chatDetails[viewId]:removeFromParent()
-	    self.chatDetails[viewId] = nil
-	    self.chatBubble[viewId]:setVisible(false)
-	end
-end
-
-function GameViewLayer:onButtonClickedEvent(tag, ref)
-	if tag == GameViewLayer.BT_START then
-		print("红中麻将开始！")
-		self.btStart:setVisible(false)
-		self._scene:sendGameStart()
-	elseif tag == GameViewLayer.BT_SWITCH then
-		print("按钮开关")
-		self:showTableBt(true)
-	elseif tag == GameViewLayer.BT_CHAT then
-		print("聊天！")
-		self._chatLayer:showGameChat(true)
-		self:showTableBt(false)
-	elseif tag == GameViewLayer.BT_SET then
-		print("设置开关")
-		self:showTableBt(false)
-		self._setLayer:showLayer()
-		local data2 = {0x02, 0x03, 0x04, 0x04, 0x05, 0x06, 0x11, 0x12, 0x14, 0x17, 0x19, 0x19, 0x25,
-					0x02, 0x03, 0x04, 0x04, 0x05, 0x06, 0x11, 0x12, 0x14, 0x17, 0x19, 0x19, 0x25}
-		--self:setListeningCard(data2)
-	elseif tag == GameViewLayer.BT_HOWPLAY then
-		print("玩法！")
-        self._scene._scene:popHelpLayer(yl.HTTP_URL .. "/Mobile/Introduce.aspx?kindid=389&typeid=0")
-	elseif tag == GameViewLayer.BT_EXIT then
-		print("退出！")
-		-- self._cardLayer:bumpOrBridgeCard(1, {1, 1, 1}, GameLogic.SHOW_PENG)
-		-- self._cardLayer:bumpOrBridgeCard(2, {1, 1, 1, 1}, GameLogic.SHOW_PENG)
-		--self._cardLayer:bumpOrBridgeCard(3, {1, 1, 1, 1}, GameLogic.SHOW_AN_GANG)
-		-- self._cardLayer:bumpOrBridgeCard(4, {1, 1, 1, 1}, GameLogic.SHOW_FANG_GANG)
-		self._scene:onQueryExitGame()
-	elseif tag == GameViewLayer.BT_TRUSTEE then
-		print("托管")
-		self._scene:sendUserTrustee()
-	elseif tag == GameViewLayer.BT_VOICE then
-		print("语音关闭！")
-		local data1 = {0x11, 0x08, 0x06, 0x09, 0x08, 0x02, 0x02, 0x07}
-		local data2 = {0x02, 0x03, 0x04, 0x04, 0x05, 0x06, 0x11, 0x12, 0x14, 0x17, 0x19, 0x19, 0x25, 0x36}
-		local data3 = {0x22, 0x22, 0x22, 0x19, 0x19}
-		local data4 = {0x01, 0x03, 0x05, 0x15, 0x16, 0x17, 0x24, 0x24, 0x25, 0x25, 0x25, 0x27, 0x36, 0x29}
-		local data5 = {1, 1, 1, 6, 7, 8, 9, 18, 19, 20, 33, 34, 35, 53}
-		for i = 1, cmd.GAME_PLAYER do
-			self._cardLayer:setHandCard(i, 14, data5)
-		end
-	elseif tag == GameViewLayer.BT_VOICEOPEN then
-		print("语音开启！")
-	elseif tag == GameViewLayer.BT_BUMP then
-		print("碰！")
-
-		--发送碰牌
-		local cbOperateCard = {self.cbActionCard, self.cbActionCard, self.cbActionCard}
-		self._scene:sendOperateCard(GameLogic.WIK_PENG, cbOperateCard)
-
-		self:HideGameBtn()
-	elseif tag == GameViewLayer.BT_BRIGDE then
-		print("杠！")
-		local cbGangCard = self._cardLayer:getGangCard(self.cbActionCard)
-		local cbOperateCard = {cbGangCard, cbGangCard, cbGangCard}
-		self._scene:sendOperateCard(GameLogic.WIK_GANG, cbOperateCard)
-
-		self:HideGameBtn()
-	elseif tag == GameViewLayer.BT_WIN then
-		print("胡！")
-
-		local cbOperateCard = {self.cbActionCard, 0, 0}
-		self._scene:sendOperateCard(GameLogic.WIK_CHI_HU, cbOperateCard)
-
-		self:HideGameBtn()
-	elseif tag == GameViewLayer.BT_PASS then
-		print("过！")
-		local cbOperateCard = {0, 0, 0}
-		self._scene:sendOperateCard(GameLogic.WIK_NULL, cbOperateCard)
-
-		self:HideGameBtn()
-	else
-		print("default")
-	end
-end
-
---计时器刷新
-function GameViewLayer:OnUpdataClockView(viewId, time)
-	if not viewId or viewId == yl.INVALID_CHAIR or not time then
-		--self.spClock:setVisible(false)
-		self.asLabTime:setString(0)
-	else
-		--self.spClock:setVisible(true)
-		local res = string.format("sp_clock_%d.png", viewId)
-		self.spClock:setSpriteFrame(res)
-		self.asLabTime:setString(time)
-	end
-end
-
---开始
-function GameViewLayer:gameStart(startViewId, wHeapHead, cbCardData, cbCardCount, cbSiceCount1, cbSiceCount2)
-	--self:runSiceAnimate(cbSiceCount1, cbSiceCount2, function()
-		self._cardLayer:sendCard(cbCardData, cbCardCount)
-	--end)
-end
---用户出牌
-function GameViewLayer:gameOutCard(viewId, card)
-	self:showCardPlate(viewId, card)
-	self._cardLayer:removeHandCard(viewId, {card}, true)
-
-	self.cbOutCardTemp = card
-	self.cbOutUserTemp = viewId
-	--self._cardLayer:discard(viewId, card)
-end
---用户抓牌
-function GameViewLayer:gameSendCard(viewId, card, bTail)
-	--把上一个人打出的牌丢入弃牌堆
-	if self.cbOutCardTemp ~= 0 then
-		self._cardLayer:discard(self.cbOutUserTemp, self.cbOutCardTemp)
-		self.cbOutUserTemp = nil
-		self.cbOutCardTemp = 0
-	end
-
-	--清理之前的出牌
-	self:runAction(cc.Sequence:create(
-		cc.DelayTime:create(0.5),
-		cc.CallFunc:create(function()
-			self:showCardPlate(nil)
-			self:showOperateFlag(nil)
-		end)))
-
-	--当前的人抓牌
-	self._cardLayer:catchCard(viewId, card, bTail)
-end
---摇骰子
-function GameViewLayer:runSiceAnimate(cbSiceCount1, cbSiceCount2, callback)
-	local str1 = string.format("sice_red_%d", cbSiceCount1)
-	local str2 = string.format("sice_white_%d", cbSiceCount2)
-	local siceX1 = 667 - 320 + math.random(640) - 35
-	local siceY1 = 375 - 120 + math.random(240) + 43
-	local siceX2 = 667 - 320 + math.random(640) - 35
-	local siceY2 = 375 - 120 + math.random(240) + 43
-	display.newSprite()
-		:move(siceX1, siceY1)
-		:setTag(GameViewLayer.SP_SICE1)
-		:addTo(self, 0)
-		:runAction(cc.Sequence:create(
-			self:getAnimate(str1),
-			cc.DelayTime:create(1),
-			cc.CallFunc:create(function(ref)
-				--ref:removeFromParent()
-			end)))
-	display.newSprite()
-		:move(siceX2, siceY2)
-		:setTag(GameViewLayer.SP_SICE2)
-		:addTo(self, 0)
-		:runAction(cc.Sequence:create(
-			self:getAnimate(str2),
-			cc.DelayTime:create(1),
-			cc.CallFunc:create(function(ref)
-				--ref:removeFromParent()
-				if callback then
-					callback()
-				end
-			end)))
-	self._scene:PlaySound(cmd.RES_PATH.."sound/DRAW_SICE.wav")
-end
-
-function GameViewLayer:sendCardFinish()
-	local spSice1 = self:getChildByTag(GameViewLayer.SP_SICE1)
-	if spSice1 then
-		spSice1:removeFromParent()
-	end
-	local spSice2 = self:getChildByTag(GameViewLayer.SP_SICE2)
-	if spSice2 then
-		spSice2:removeFromParent()
-	end
-	self._scene:sendCardFinish()
-end
-
-function GameViewLayer:gameConclude()
-    for i = 1, cmd.GAME_PLAYER do
-		self:setUserTrustee(i, false)
-	end
-	self._cardLayer:gameEnded()
-end
-
-function GameViewLayer:HideGameBtn()
-	for i = GameViewLayer.BT_BUMP, GameViewLayer.BT_WIN do
-		local bt = self.spGameBtn:getChildByTag(i)
-		if bt then
-			bt:setEnabled(false)
-			bt:setColor(cc.c3b(158, 112, 8))
-		end
-	end
-	self.spGameBtn:setVisible(false)
-end
-
---识别动作掩码
-function GameViewLayer:recognizecbActionMask(cbActionMask, cbCardData)
-	print("收到提示操作：", cbActionMask, cbCardData)
-	if cbActionMask == GameLogic.WIK_NULL or cbActionMask == 32 then
-		assert("false")
-		return false
-	end
-
-	if self._cardLayer:isUserMustWin() then
-		--必须胡牌的情况
-		self.spGameBtn:getChildByTag(GameViewLayer.BT_PASS)
-			:setEnabled(false)
-			:setColor(cc.c3b(158, 112, 8))
-		-- self.spGameBtn:getChildByTag(GameViewLayer.BT_WIN)
-		-- 	:setEnabled(true)
-		-- 	:setColor(cc.c3b(255, 255, 255))
-		-- self.spGameBtn:setVisible(true)
-		-- self._scene:SetGameOperateClock()
-		-- return true
-	end
-
-	if cbCardData then
-		self.cbActionCard = cbCardData
-	end
-	if cbActionMask >= 128 then 				--放炮
-		cbActionMask = cbActionMask - 128
-		self.spGameBtn:getChildByTag(GameViewLayer.BT_WIN)
-			:setEnabled(true)
-			:setColor(cc.c3b(255, 255, 255))
-	end
-	if cbActionMask >= 64 then 					--胡
-		cbActionMask = cbActionMask - 64
-		self.spGameBtn:getChildByTag(GameViewLayer.BT_WIN)
-			:setEnabled(true)
-			:setColor(cc.c3b(255, 255, 255))
-	end
-	if cbActionMask >= 32 then 					--听
-		cbActionMask = cbActionMask - 32
-	end
-	if cbActionMask >= 16 then 					--杠
-		cbActionMask = cbActionMask - 16
-		self.spGameBtn:getChildByTag(GameViewLayer.BT_BRIGDE)
-			:setEnabled(true)
-			:setColor(cc.c3b(255, 255, 255))
-	end
-	if cbActionMask >= 8 then 					--碰
-		cbActionMask = cbActionMask - 8
-		if self._cardLayer:isUserCanBump() then
-			self.spGameBtn:getChildByTag(GameViewLayer.BT_BUMP)
-				:setEnabled(true)
-				:setColor(cc.c3b(255, 255, 255))
-		end
-	end
-	self.spGameBtn:setVisible(true)
-	self._scene:SetGameOperateClock()
-
-	return true
-end
-
-function GameViewLayer:getAnimate(name, bEndRemove)
-	local animation = cc.AnimationCache:getInstance():getAnimation(name)
-	local animate = cc.Animate:create(animation)
-
-	if bEndRemove then
-		animate = cc.Sequence:create(animate, cc.CallFunc:create(function(ref)
-			ref:removeFromParent()
-		end))
-	end
-
-	return animate
-end
---设置听牌提示
-function GameViewLayer:setListeningCard(cbCardData)
-	if cbCardData == nil then
-		self.spListenBg:setVisible(false)
-		return
-	end
-	assert(type(cbCardData) == "table")
-	self.spListenBg:removeAllChildren()
-	self.spListenBg:setVisible(true)
-
-	local cbCardCount = #cbCardData
-	local bTooMany = (cbCardCount >= 16)
-	--拼接块
-	local width = 44
-	local height = 67
-	local posX = 327
-	local fSpacing = 100
-	if not bTooMany then
-		for i = 1, fSpacing*cbCardCount do
-			display.newSprite("#sp_listenBg_2.png")
-				:move(posX, 46.5)
-				:setAnchorPoint(cc.p(0, 0.5))
-				:addTo(self.spListenBg)
-			posX = posX + 1
-			if i > 700 then
-				break
-			end
-		end
-	end
-	--尾块
-	display.newSprite("#sp_listenBg_3.png")
-		:move(posX, 46.5)
-		:setAnchorPoint(cc.p(0, 0.5))
-		:addTo(self.spListenBg)
-	--可胡牌过多，屏幕摆不下
-	if bTooMany then
-		local cardBack = display.newSprite("game/font_small/card_down.png")
-			:move(183 + 40, 46)
-			:addTo(self.spListenBg)
-		local cardFont = display.newSprite("game/font_small/font_3_5.png")
-			:move(width/2, height/2 + 8)
-			:addTo(cardBack)
-
-		local strFilePrompt = ""
-		local spListenCount = nil
-		if cbCardCount == 28 then 		--所有牌
-			strFilePrompt = "#389_sp_listen_anyCard.png"
-		else
-			strFilePrompt = "#389_sp_listen_manyCard.png"
-			spListenCount = cc.Label:createWithTTF(cbCardCount.."", "fonts/round_body.ttf", 30)
-		end
-
-		local spPrompt = display.newSprite(strFilePrompt)
-			:move(183 + 110, 46)
-			:setAnchorPoint(cc.p(0, 0.5))
-			:addTo(self.spListenBg)
-		if spListenCount then
-			spListenCount:move(70, 12):addTo(spPrompt)
-		end
-
-		-- cc.Label:createWithTTF("厉害了word哥！你可以胡的牌太多，摆不下了....", "fonts/round_body.ttf", 50)
-		-- 	:move(260, 40)
-		-- 	:setAnchorPoint(cc.p(0, 0.5))
-		-- 	:setColor(cc.c3b(0, 0, 0))
-		-- 	:addTo(self.spListenBg, 1)
-	end
-	--牌、番、数
-	self.cbAppearCardIndex = GameLogic.DataToCardIndex(self._scene.cbAppearCardData)
-	for i = 1, cbCardCount do
-		if bTooMany then
-			break
-		end
-		local tempX = fSpacing*(i - 1)
-		--local rectX = self._cardLayer:switchToCardRectX(cbCardData[i])
-		local cbCardIndex = GameLogic.SwitchToCardIndex(cbCardData[i])
-		local nLeaveCardNum = 4 - self.cbAppearCardIndex[cbCardIndex]
-		--牌底
-		local card = display.newSprite("game/font_small/card_down.png")
-			--:setTextureRect(cc.rect(width*rectX, 0, width, height))
-			:move(183 + tempX, 46)
-			:addTo(self.spListenBg)
-		--字体
-		local nValue = math.mod(cbCardData[i], 16)
-		local nColor = math.floor(cbCardData[i]/16)
-		local strFile = "game/font_small/font_"..nColor.."_"..nValue..".png"
-		local cardFont = display.newSprite(strFile)
-			:move(width/2, height/2 + 8)
-			:addTo(card)
-		cc.Label:createWithTTF("1", "fonts/round_body.ttf", 16)		--番数
-			:move(220 + tempX, 61)
-			:setColor(cc.c3b(254, 246, 165))
-			:addTo(self.spListenBg)
-		display.newSprite("#sp_listenTimes.png")
-			:move(244 + tempX, 61)
-			:addTo(self.spListenBg)
-		cc.Label:createWithTTF(nLeaveCardNum.."", "fonts/round_body.ttf", 16) 		--剩几张
-			:move(220 + tempX, 31)
-			:setColor(cc.c3b(254, 246, 165))
-			:setTag(cbCardIndex)
-			:addTo(self.spListenBg)
-		display.newSprite("#sp_listenNum.png")
-			:move(244 + tempX, 31)
-			:addTo(self.spListenBg)
-	end
-end
-
---减少可听牌数
-function GameViewLayer:reduceListenCardNum(cbCardData)
-	local cbCardIndex = GameLogic.SwitchToCardIndex(cbCardData)
-	if #self.cbAppearCardIndex == 0 then
-		self.cbAppearCardIndex = GameLogic.DataToCardIndex(self._scene.cbAppearCardData)
-	end
-	self.cbAppearCardIndex[cbCardIndex] = self.cbAppearCardIndex[cbCardIndex] + 1
-	local labelLeaveNum = self.spListenBg:getChildByTag(cbCardIndex)
-	if labelLeaveNum then
-		local nLeaveCardNum = 4 - self.cbAppearCardIndex[cbCardIndex]
-		labelLeaveNum:setString(nLeaveCardNum.."")
-	end
-end
-
-function GameViewLayer:setBanker(viewId)
-	if viewId < 1 or viewId > cmd.GAME_PLAYER then
-		print("chair id is error!")
-		return false
-	end
-	local spBanker = self.nodePlayer[viewId]:getChildByTag(GameViewLayer.SP_BANKER)
-	spBanker:setVisible(true)
-
-	return true
-end
-
-function GameViewLayer:setUserTrustee(viewId, bTrustee)
-	self.nodePlayer[viewId]:getChildByTag(GameViewLayer.SP_TRUSTEE):setVisible(bTrustee)
-	if viewId == cmd.MY_VIEWID then
-		self.spTrusteeCover:setVisible(bTrustee)
-	end
-end
-
---设置房间信息
-function GameViewLayer:setRoomInfo(tableId, chairId)
-end
-
-function GameViewLayer:onTrusteeTouchCallback(event, x, y)
-	if not self.spTrusteeCover:isVisible() then
-		return false
-	end
-
-	local rect = self.spTrusteeCover:getChildByTag(GameViewLayer.SP_TRUSTEEBG):getBoundingBox()
-	if cc.rectContainsPoint(rect, cc.p(x, y)) then
+	if a-5<(mc1.dbWidth+mc2.dbWidth)/2 then
 		return true
 	else
 		return false
 	end
 end
---设置剩余牌
-function GameViewLayer:setRemainCardNum(num)
-	local strRemianNum = string.format("剩%d张", num)
-	local textNum = self:getChildByTag(GameViewLayer.TEXT_REMAINNUM)
-	textNum:setString(strRemianNum)
-	-- if num == 112 then
-	-- 	text:setVisible(false)
-	-- else
-	-- 	text:setVisible(true)
-	-- end
-end
---牌托
-function GameViewLayer:showCardPlate(viewId, cbCardData)
-	if nil == viewId then
-		self.spCardPlate:setVisible(false)
-		return
-	end
-	--local rectX = self._cardLayer:switchToCardRectX(cbCardData)
-	local nValue = math.mod(cbCardData, 16)
-	local nColor = math.floor(cbCardData/16)
-	local strFile = "game/font_middle/font_"..nColor.."_"..nValue..".png"
-	self.spCardPlate:getChildByTag(GameViewLayer.SP_PLATECARD):setTexture(strFile)
-	self.spCardPlate:move(posPlate[viewId]):setVisible(true)
-end
---操作效果
-function GameViewLayer:showOperateFlag(viewId, operateCode)
-	local spFlag = self:getChildByTag(GameViewLayer.SP_OPERATFLAG)
-	if spFlag then
-		spFlag:removeFromParent()
-	end
-	if nil == viewId then
-		return false
-	end
-	local strFile = "#"
-	if operateCode == GameLogic.WIK_NULL then
-		return false
-	elseif operateCode == GameLogic.WIK_CHI_HU then
-		strFile = "#sp_flag_win.png"
-	elseif operateCode == GameLogic.WIK_LISTEN then
-		strFile = "#sp_flag_listen.png"
-	elseif operateCode == GameLogic.WIK_GANG then
-		strFile = "#sp_flag_bridge.png"
-	elseif operateCode == GameLogic.WIK_PENG then
-		strFile = "#sp_flag_bump.png"
-	elseif operateCode <= GameLogic.WIK_RIGHT then
-		strFile = "#sp_flag_eat.png"
-	end
-	display.newSprite(strFile)
-		:setTag(GameViewLayer.SP_OPERATFLAG)
-		:move(posPlate[viewId])
-		:addTo(self, 2)
 
-	return true
+--碰撞函数
+function GameViewLayer:mcFanTang(mc)
+	-- 小球运动方向与x坐标轴的夹角
+	local  ang = math.deg(math.atan(mc.dbDy,mc.dbDx))
+
+	-- 碰撞点与x坐标夹角
+	local ang1 = math.deg(math.atan(mc.dbY,mc.dbX))
+
+	-- 反射角
+	local _ang1 = 2*ang1-ang- math.pi
+
+	--运动矢量
+	local r1=math.sqrt(mc.dbDx*mc.dbDx+mc.dbDy*mc.dbDy)
+
+	-- 碰撞后的增量
+	mc.dbDx = r1*math.cos(math.rad((double)_ang1))
+	mc.dbDy = r1*math.sin(math.rad((double)_ang1))
 end
 
---数字中插入点
-function GameViewLayer:numInsertPoint(lScore)
-	assert(lScore >= 0)
-	local strRes = ""
-	local str = string.format("%d", lScore)
-	local len = string.len(str)
+function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
+	--memcpy(m_bySicbo, bySicbo, 2);
+	self.m_bySicbo=GameLogic.deepcopy(bySicbo)
+	self.m_iSicboAnimIndex = iStartIndex
 
-	local times = math.floor(len/3)
-	local remain = math.mod(len, 3)
-	strRes = strRes..string.sub(str, 1, remain)
-	for i = 1, times do
-		if strRes ~= "" then
-			strRes = strRes.."/"
+	-- 画骰子动画
+	local nImageHeight=self.m_ImageSaizi:getContentSize().height
+	local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
+	local sBall={}				--其实是二维
+	--self.m_arBall.RemoveAll();
+	self.m_arBall={}
+	sBall.dbX = -35.1
+	sBall.dbY = 30.4
+	sBall.dbWidth = nImageWidth-1
+	sBall.dbHeight = nImageHeight -1
+	sBall.dbDx = 7.8 * ((0==math.random()%2) and 1 or -1)
+	sBall.dbDy = 6.2 * ((0==math.random()%2) and 1 or -1)
+	sBall.iIndex = math.random()%25
+	--m_arBall.Add(sBall)
+	table.insert(self.m_arBall,sBall)
+
+	sBall.dbX = 20.3
+	sBall.dbY = -23.4
+	sBall.dbDx = 6.3 * ((0==math.random()%2) and 1 or -1)
+	sBall.dbDy = 5.3 * ((0==math.random()%2) and 1 or -1)
+	sBall.iIndex = math.random()%30
+	table.insert(self.m_arBall,sBall)
+	self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,100)
+	self:RefreshGameView()
+	if iStartIndex<20 then
+		self._scene:PlaySound(cmd.RES_PATH.."mahjong/sezi.wav")
+	end
+end
+
+--更新视图
+function GameViewLayer:RefreshGameView()
+	--mark
+	-- CRect rect;
+	-- GetClientRect(&rect);
+	-- InvalidGameView(rect.left,rect.top,rect.Width(),rect.Height());
+
+	return
+end
+
+function GameViewLayer:StopSicboAnim()
+	self._scene:F_GVKillTimer(GameViewLayer.IDI_SIBO_PLAY)
+	self.m_iSicboAnimIndex = -1
+	self:RefreshGameView()
+end
+
+--绘画数字
+function GameViewLayer:DrawNumberString(pDC,lNumber,nXPos,nYPos,bMeScore)
+	--加载资源
+
+	CSize SizeScoreNumber(,);
+	local cx=self.m_ImageNumber:getContentSize().width/10
+	local cy=self.m_ImageNumber:getContentSize().height
+
+	--计算数目
+	local lNumberCount=0
+	local lNumberTemp=lNumber
+
+	lNumberCount=lNumberCount+1
+	lNumberTemp=lNumberTemp/10
+	if lNumberTemp>0 then
+		lNumberCount=lNumberCount+1
+		lNumberTemp=lNumberTemp/10
+	end
+
+	--位置定义
+	local nYDrawPos=nYPos-cy/2
+	local nXDrawPos=nXPos+lNumberCount*cx/2-cx
+
+	--绘画桌号
+	for i=0,lNumberCount-1,1 do
+		--绘画号码
+		local lCellNumber=lNumber%10
+		if bMeScore and bMeScore~=0 then
+-- makr  数字图片 待处理
+			self.m_ImageNumber:setPosition(nXDrawPos,nYDrawPos)
+				:setColor(cc.c3b(255, 0, 255))
+				:setVisible(true)
+			self.m_ImageNumber
+			TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
+				lCellNumber*cx,0,RGB(255,0,255));
+		else
+			self.m_ImageNumber
+			TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
+				lCellNumber*cx,0,RGB(255,0,255));
 		end
-		local index = (i - 1)*3 + remain + 1	--截取起始位置
-		strRes = strRes..string.sub(str, index, index + 2)
-	end
 
-	return strRes
+		--设置变量
+		lNumber=lNumber/10
+		nXDrawPos=nXDrawPos-cx
+	end
+	return
 end
+
+-- function GameViewLayer:PreTranslateMessage(pMsg)
+-- 	return CGameFrameView::PreTranslateMessage(pMsg);
+-- end
 
 return GameViewLayer

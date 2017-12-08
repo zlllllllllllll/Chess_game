@@ -306,7 +306,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
           --if (time<=5) and (IsLookonMode()==false) then    -- 一律返回false 不许旁观
           if time<=5 then
     					--PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
-          		self:PlaySound(cmd.RES_PATH.."sound/GAME_WARN.wav")
+          		self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WARN.wav")
           end
   				return true
   		end,
@@ -327,7 +327,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
     			if (time<=3) and (chair==wMeChairID)
     			{
             --PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
-            self:PlaySound(cmd.RES_PATH.."sound/GAME_WARN.wav")
+            self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WARN.wav")
     			}
     			return true
   		end,
@@ -453,7 +453,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
     			--播放声音
           --if (time<=3) and (chair==self:GetMeChairID()) and (IsLookonMode()==false) then  --IsLookonMode  一律返回false 不许旁观
           if (time<=3) and (chair==self:GetMeChairID())  then
-              self:PlaySound(cmd.RES_PATH.."sound/GAME_WARN.wav")
+              self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WARN.wav")
           end
 
     			return true
@@ -1028,7 +1028,7 @@ function GameLayer:onSubGameStart(dataBuffer)
   end
 
 	--环境处理
-  self:PlaySound(cmd.RES_PATH.."sound/GAME_START.wav")
+  self:PlaySound(cmd.RES_PATH.."mahjong/GAME_START.wav")
 
   for i=0,cmd.GAME_PLAYER-1,1 do
 		self._gameView.m_HeapCard[i]:SetGodsCard(0,0,0)
@@ -1666,23 +1666,23 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	local switch = {
 	    [1] = function()    -- 软胡
         if bGirl then
-          self:PlaySound(cmd.RES_PATH.."sound/GIRL_HU_RUAN.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/female/Soft.wav")
         else
-          self:PlaySound(cmd.RES_PATH.."sound/BOY_HU_RUAN.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/male/Soft.wav")
         end
 	    end,
 	    [2] = function()    -- 硬胡
         if bGirl then
-          self:PlaySound(cmd.RES_PATH.."sound/GIRL_HU_YING.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/female/Hard.wav")
         else
-          self:PlaySound(cmd.RES_PATH.."sound/BOY_HU_YING.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/male/Hard.wav")
         end
 	    end,
 	    [3] = function()    --双翻
         if bGirl then
-          self:PlaySound(cmd.RES_PATH.."sound/GIRL_FANBEI.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/female/Double.wav")
         else
-          self:PlaySound(cmd.RES_PATH.."sound/BOY_FANBEI.wav")
+          self:PlaySound(cmd.RES_PATH.."mahjong/male/Double.wav")
         end
 	    end
 	}
@@ -1691,11 +1691,11 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	    f()
 	else  	-- for case default
     if lScore> 0 then
-      self:PlaySound(cmd.RES_PATH.."sound/GAME_WIN.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WIN.wav")
     elseif lScore< 0 then
-      self:PlaySound(cmd.RES_PATH.."sound/GAME_LOST.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/GAME_LOST.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GAME_END.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/GAME_END.wav")
     end
 	end
 
@@ -1810,6 +1810,7 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
     elseif cbValue==7 then
       strSoundName = "F_7"
     else
+      --BU_HUA?
       strSoundName = "BU_HUA"
     end
   elseif cbType==0X20 then --筒
@@ -1821,12 +1822,12 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
   end
 
   if not bGirl then
-		strSoundName = "BOY_"..strSoundName
+		strSoundName = "male"..strSoundName
   else
-		strSoundName = "GIRL_"..strSoundName
+		strSoundName = "female"..strSoundName
   end
 
-  self:PlaySound(cmd.RES_PATH.."sound/"..strSoundName..".wav")
+  self:PlaySound(cmd.RES_PATH.."mahjong/"..strSoundName..".wav")
 end
 
 --播放声音
@@ -1844,41 +1845,43 @@ function GameLayer:PlayActionSound(wChairID, cbAction)
 
   if cbAction==GameLogic.WIK_NULL then          --取消
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_OUT_CARD.wav")
+      --BOY_OUT_CARD
+      self:PlaySound(cmd.RES_PATH.."mahjong/OUT_CARD.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_OUT_CARD.wav")
+      --GIRL_OUT_CARD
+      self:PlaySound(cmd.RES_PATH.."mahjong/OUT_CARD.wav")
     end
   elseif cbAction==GameLogic.WIK_LEFT then
   elseif cbAction==GameLogic.WIK_CENTER then
   elseif cbAction==GameLogic.WIK_RIGHT then      --上牌
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_CHI.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/male/CHI.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_CHI.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/female/CHI.wav")
     end
   elseif cbAction==GameLogic.WIK_PENG then       --碰牌
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_PENG.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/male/PENG.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_PENG.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/female/PENG.wav")
     end
   elseif cbAction==GameLogic.WIK_GANG then       --杠牌
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_GANG.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/male/GANG.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_GANG.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/female/GANG.wav")
     end
   elseif cbAction==GameLogic.WIK_CHI_HU then     --吃胡
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_CHI_HU.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/male/CHI_HU.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_CHI_HU.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/female/CHI_HU.wav")
     end
   elseif cbAction==GameLogic.WIK_LISTEN then     --听牌
     if not bGirl then
-      self:PlaySound(cmd.RES_PATH.."sound/BOY_TING.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/male/TING.wav")
     else
-      self:PlaySound(cmd.RES_PATH.."sound/GIRL_TING.wav")
+      self:PlaySound(cmd.RES_PATH.."mahjong/female/TING.wav")
     end
   end
 

@@ -1,7 +1,6 @@
 local GameLogic = {}
 
 local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
-local ExternalFun =  appdf.req(appdf.EXTERNAL_SRC .. "ExternalFun")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 
 --------------------------------------------------------------------------
@@ -166,7 +165,7 @@ function GameLogic.table_leng(t)
   end
   return leng;
 end
---CWHArray append  PS 当键名不是数字的时候 中间键名可能不连续  并且其实为1不是0 table_leng换# 时为连续 
+--CWHArray append  PS 当键名不是数字的时候 中间键名可能不连续  并且其实为1不是0 table_leng换# 时为连续
 function GameLogic.append(a,b)
 	local c=GameLogic.table_leng(a)
 	for i=1,GameLogic.table_leng(b),1 do
