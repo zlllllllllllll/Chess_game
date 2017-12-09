@@ -94,7 +94,8 @@ function GameLayer:OnInitGameEngine()
 
 	--加载资源
 	-- g_CardResource.LoadResource();
-  CardControl.LoadResource()
+  self.g_CardResource=CardControl:create_CCardResource(self)
+  self.g_CardResource:LoadResource()
 
   --打开注册表
   --xxxxxxx m_bChineseVoice=true 估计无用

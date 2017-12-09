@@ -7,6 +7,7 @@ local GameViewLayer = class("GameViewLayer",function(scene)
 end)
 
 --require("client/src/plaza/models/yl")
+local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ScoreControl")
