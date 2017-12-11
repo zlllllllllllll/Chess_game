@@ -9,6 +9,7 @@ local CardControl = class("CardControl", function(scene)
 end)
 local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
+local GameViewLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.GameViewLayer")
 
 --扑克图片
 local CCardListImage = class("CCardListImage", cc.Layer)
@@ -52,6 +53,14 @@ CardControl.Direction_East		="Direction_East"					--东向
 CardControl.Direction_South		="Direction_South"				--南向
 CardControl.Direction_West		="Direction_West"					--西向
 CardControl.Direction_North		="Direction_North"				--北向
+
+function CardControl:ergodicList(b)
+	a={}
+	for i=0,b-1,1 do
+		a[i]={}
+	end
+	return a
+end
 
 function CardControl:ctor(scene)
 	self._scene = scene
@@ -541,7 +550,7 @@ function CWeaveCard:ctor()
 	return
 end
 
-function CWeaveCard.DrawCardControl(...)
+function CWeaveCard:DrawCardControl(...)
 	local arg={...}
 	local len=#arg
 	if len==1 then	CWeaveCard:DrawCardControl_1(arg[1])
@@ -845,10 +854,118 @@ end
 --===================================================================
 --丢弃扑克
 function CDiscardCard:ctor()
-	--
-	-- here  2017年12月9日18:12:45
-	--
-	--
+	--扑克数据
+	self.m_wCardCount=0
+	self.m_cbCardData={}
+
+	--控制变量
+	self.m_ControlPoint = cc.p(0, 0)
+	self.m_CardDirection=CardControl.Direction_East
+
+	return
+end
+
+--绘画扑克
+function CDiscardCard:DrawCardControl(pDC)
+	--绘画控制
+	if self.m_CardDirection==CardControl.Direction_East then				--东向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nXPos=self.m_ControlPoint.x+(i/8)*32
+				local nYPos=self.m_ControlPoint.y+(i%8)*20
+				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self.m_cbCardData[i],nXPos,nYPos)
+			end
+	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1-i)/8)*32
+				local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i)%8)*20
+				CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
+			end
+	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
+		for i=0,self.m_wCardCount-1,1 do
+			local nXPos=self.m_ControlPoint.x-(i%14)*24
+			local nYPos=self.m_ControlPoint.y+(i/14)*38
+			CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_cbCardData[i],nXPos,nYPos)
+		end
+	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
+		for i=0,self.m_wCardCount-1,1 do
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i)%14)*24
+			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i)/14)*38-11
+			CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
+		end
+	end
+end
+
+--增加扑克
+function CDiscardCard:AddCardItem(cbCardData)
+	--清理扑克
+	if self.m_wCardCount>=GameLogic.table_leng(self.m_cbCardData) then
+		self.m_wCardCount=self.m_wCardCount-1
+		--MoveMemory(m_cbCardData,m_cbCardData+1,CountArray(m_cbCardData)-1);  --遍历有限制
+		local tempData={}
+		for i=0,#self.m_cbCardData-2,1 do
+			tempData[i]=self.m_cbCardData[i+1]
+		end
+		self.m_cbCardData=tempData
+	end
+
+	--设置扑克
+	self.m_wCardCount=self.m_wCardCount+1
+	self.m_cbCardData[self.m_wCardCount]=cbCardData
+
+	return true
+end
+
+--设置扑克
+function CDiscardCard:SetCardData(cbCardData,wCardCount)
+	if wCardCount>GameLogic.table_leng(self.m_cbCardData)  then
+		wCardCount=GameLogic.table_leng(self.m_cbCardData)-1 --拷贝后面的数据
+	end
+	--设置扑克
+	self.m_wCardCount=wCardCount
+	--CopyMemory(m_cbCardData,cbCardData,sizeof(m_cbCardData[0])*wCardCount);
+	self.m_cbCardData=GameLogic.deepcopy(cbCardData)
+
+	return true
+end
+
+--获取位置
+function CDiscardCard:GetLastCardPosition()
+	--绘画控制
+	if self.m_CardDirection==CardControl.Direction_East then				--东向
+			--变量定义
+			local nCellWidth=CardControl.CCardList["m_ImageTableRight"].m_nViewWidth
+			local nCellHeight=CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1)/8)*30+5
+			local nYPos=self.m_ControlPoint.y+((self.m_wCardCount-1)%8)*20-15
+
+			return cc.p(nXPos,nYPos)
+	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
+			--变量定义
+			local nCellWidth=CardControl.CCardList["m_ImageTableLeft"].m_nViewWidth
+			local nCellHeight=CardControl.CCardList["m_ImageTableLeft"].m_nViewHeight
+			local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1)/8)*30
+			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1)%8)*20-18
+			return CPoint(nXPos,nYPos)
+	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
+			--变量定义
+			local nCellWidth=CardControl.CCardList["m_ImageTableBottom"].m_nViewWidth
+			local nCellHeight=CardControl.CCardList["m_ImageTableBottom"].m_nViewHeight
+			local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1)%14)*24-5
+			local nYPos=self.m_ControlPoint.y+((self.m_wCardCount-1)/14)*38-8
+
+			return CPoint(nXPos,nYPos)
+	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
+		{
+			--变量定义
+			local nCellWidth=CardControl.CCardList["m_ImageTableTop"].m_nViewWidth
+			local nCellHeight=CardControl.CCardList["m_ImageTableTop"].m_nViewHeight
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1)%14)*24
+			local nYPos=self.m_ControlPoint.y+((-self.m_wCardCount+1)/14)*38-21
+			return CPoint(nXPos,nYPos)
+	end
+	return cc.p(0,0)
 end
 
 --设置方向
@@ -862,6 +979,62 @@ end
 --===================================================================
 --桌面扑克
 function CTableCard:ctor()
+	--扑克数据
+	self.m_wCardCount=0
+	self.m_cbCardData={}
+
+	--控制变量
+	self.m_ControlPoint = cc.p(0, 0)
+	self.m_CardDirection=CardControl.Direction_East
+
+	return
+end
+
+--绘画扑克
+function CTableCard:DrawCardControl(pDC)
+	--绘画控制
+	if self.m_CardDirection==CardControl.Direction_East then				--东向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nXPos=self.m_ControlPoint.x-33
+				local nYPos=self.m_ControlPoint.y+i*21
+				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
+			end
+	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nXPos=self.m_ControlPoint.x
+				local nYPos=self.m_ControlPoint.y-(m_wCardCount-i)*21
+				CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_cbCardData[i],nXPos,nYPos)
+			end
+	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nYPos=self.m_ControlPoint.y-CardControl.CCardList["m_ImageWaveBottom"].m_nViewHeight
+				local nXPos=self.m_ControlPoint.x-(m_wCardCount-i)*39
+				CCardListImage:DrawCardItem("m_ImageWaveBottom",pDC,self.m_cbCardData[i],nXPos,nYPos)
+			end
+	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
+			--绘画扑克
+			for i=0,self.m_wCardCount-1,1 do
+				local nYPos=self.m_ControlPoint.y
+				local nXPos=self.m_ControlPoint.x+i*24
+				CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
+			end
+	end
+	return
+end
+
+--设置扑克
+function CTableCard:SetCardData(cbCardData,wCardCount)
+	if wCardCount>GameLogic.table_leng(self.m_cbCardData) then return false	end
+
+	--设置扑克
+	self.m_wCardCount=wCardCount
+	self.m_cbCardData=GameLogic.deepcopy(cbCardData)
+	--CopyMemory(m_cbCardData,cbCardData,sizeof(m_cbCardData[0])*wCardCount);
+
+	return true
 end
 
 --设置方向
@@ -874,7 +1047,423 @@ function CTableCard:SetControlPoint(nXPos,nYPos)
 end
 --===================================================================
 --扑克控件
+CCardControl.m_byGodsData= 0x00
 function CCardControl:ctor()
+	--状态变量
+	self.m_bPositively=false
+	self.m_bDisplayItem=false
+
+	--位置变量
+	self.m_XCollocateMode=CardControl.enXCenter
+	self.m_YCollocateMode=CardControl.enYCenter
+	self.m_BenchmarkPos = cc.p(0, 0)
+
+	--扑克数据
+	self.m_wCardCount=0
+	self.m_wHoverItem=CardControl.INVALID_ITEM
+	self.m_CurrentCard={}
+  self.m_CardItemArray=CardControl:ergodicList(cmd.MAX_COUNT)
+
+	--加载设置
+	self.m_ControlPoint=cc.p(0, 0)
+	self.m_ControlSize={}
+	self.m_ControlSize.cy=CardControl.CARD_HEIGHT+CardControl.POS_SHOOT
+	self.m_ControlSize.cx=(GameLogic.table_leng(m_CardItemArray)+1)*CardControl.CARD_WIDTH+CardControl.POS_SPACE
+	self.m_cbOutCardIndex={}
+	self.m_bCardDisable={}
+	self.m_bShowDisable = false
+	self.pWnd=nil
+	--HINSTANCE hInstance=AfxGetInstanceHandle()
+	return
+end
+
+function CCardControl:SetBenchmarkPos(...)
+	local arg={...}
+	local len=#arg
+	if len==3 then	CCardControl:SetBenchmarkPos_3(arg[1],arg[2],arg[3])
+	elseif len==4 then	CCardControl:SetBenchmarkPos_4(arg[1],arg[2],arg[3]),arg[4])
+	else	print("SetBenchmarkPos 参数个数不符")
+	end
+end
+--基准位置
+function CCardControl:SetBenchmarkPos_4(nXPos,nYPos,XCollocateMode,YCollocateMode)
+	--设置变量
+	self.m_BenchmarkPos.x=nXPos
+	self.m_BenchmarkPos.y=nYPos
+	self.m_XCollocateMode=XCollocateMode
+	self.m_YCollocateMode=YCollocateMode
+
+	--横向位置
+	if self.m_XCollocateMode==CardControl.enXLeft then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x
+	elseif self.m_XCollocateMode==CardControl.enXCenter then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x-self.m_ControlSize.cx/2
+	elseif self.m_XCollocateMode==CardControl.enXRight then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x-self.m_ControlSize.cx
+	end
+
+	--竖向位置
+	if self.m_YCollocateMode==CardControl.enYTop then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y
+	elseif self.m_YCollocateMode==CardControl.enYCenter then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y-self.m_ControlSize.cy/2
+	elseif self.m_YCollocateMode==CardControl.enYBottom then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y-self.m_ControlSize.cy
+	end
+	return
+end
+
+--获取扑克
+function CCardControl:SetBenchmarkPos_3(BenchmarkPos,XCollocateMode,YCollocateMode)
+	--设置变量
+	self.m_BenchmarkPos=BenchmarkPos
+	self.m_BenchmarkPos.y=nYPos
+	self.m_XCollocateMode=XCollocateMode
+	self.m_YCollocateMode=YCollocateMode
+
+	--横向位置
+	if self.m_XCollocateMode==CardControl.enXLeft then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x
+	elseif self.m_XCollocateMode==CardControl.enXCenter then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x-self.m_ControlSize.cx/2
+	elseif self.m_XCollocateMode==CardControl.enXRight then
+		self.m_ControlPoint.x=self.m_BenchmarkPos.x-self.m_ControlSize.cx
+	end
+
+	--竖向位置
+	if self.m_YCollocateMode==CardControl.enYTop then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y
+	elseif self.m_YCollocateMode==CardControl.enYCenter then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y-self.m_ControlSize.cy/2
+	elseif self.m_YCollocateMode==CardControl.enYBottom then
+		self.m_ControlPoint.y=self.m_BenchmarkPos.y-self.m_ControlSize.cy
+	end
+	return
+end
+--获取扑克
+function CCardControl:GetHoverCard()
+	--获取扑克
+	local byCardData = 0x00
+	if self.m_wHoverItem~=CardControl.INVALID_ITEM then
+		if self.m_wHoverItem==#self.m_CardItemArray then
+			byCardData =  self.m_CurrentCard.cbCardData
+		else
+			byCardData = self.m_CardItemArray[self.m_wHoverItem].cbCardData
+		end
+
+		GameLogic.SetGodsCard(self.m_byGodsData)
+		local byIndex = GameLogic.SwitchToCardIndex(byCardData)
+		if self.m_bCardDisable[byIndex] then
+			byCardData = 0x00
+		end
+
+		if byCardData == self.m_byGodsData then
+			local bAllGods = true
+			if self.m_CurrentCard.cbCardData ~= self.m_byGodsData then
+				bAllGods = false
+			end
+			if bAllGods then
+				while true do
+					for i=0,self.m_wCardCount-1,1 do
+						if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
+							bAllGods = false
+						break	end
+					end
+				break end
+			end
+			if not bAllGods then
+				byCardData = 0x00
+			end
+		end
+	end
+
+	return byCardData
+end
+
+--设置扑克
+function CCardControl:SetCurrentCard(cbCardData)
+	if nil~=cbCardData and type(cbCardData)=="table" then
+		--设置变量
+		self.m_CurrentCard.bShoot=cbCardData.bShoot
+		self.m_CurrentCard.cbCardData=cbCardData.cbCardData
+		return true
+	elseif nil~=cbCardData then
+		--设置变量
+		self.m_CurrentCard.bShoot=false
+		self.m_CurrentCard.cbCardData=cbCardData
+		return true
+	end
+end
+
+--设置扑克
+function CCardControl:SetCardData(cbCardData,wCardCount,cbCurrentCard)
+	if wCardCount>GameLogic.table_leng(self.m_CardItemArray) then
+		return false
+	end
+
+	--当前扑克
+	self.m_CurrentCard.bShoot=false
+	self.m_CurrentCard.cbCardData=cbCurrentCard
+
+	--设置扑克
+	self.m_wCardCount=wCardCount
+	for i=0,self.m_wCardCount-1,1 do
+		self.m_CardItemArray[i].bShoot=false
+		self.m_CardItemArray[i].cbCardData=cbCardData[i]
+	end
+	return true
+end
+
+--设置扑克
+function CCardControl:SetCardItem(CardItemArray,wCardCount)
+	if wCardCount>GameLogic.table_leng(self.m_CardItemArray) then
+		return false
+	end
+
+	--设置扑克
+	self.m_wCardCount=wCardCount
+	for i=0,self.m_wCardCount-1,1 do
+		self.m_CardItemArray[i].bShoot=CardItemArray[i].bShoot
+		self.m_CardItemArray[i].cbCardData=CardItemArray[i].cbCardData
+	end
+	return true
+end
+
+function CCardControl:SetOutCardData(...)
+	local arg={...}
+	local len=#arg
+	if len==3 then	CCardControl:SetOutCardData_1(arg[1])
+	elseif len==4 then	CCardControl:SetOutCardData_2(arg[1],arg[2])
+	else	print("SetBenchmarkPos 参数个数不符")
+	end
+end
+function CCardControl:SetOutCardData_2(cbCardDataIndex,wCardCount)
+	self.m_cbOutCardIndex={}
+	if nil ~= cbCardDataIndex then
+		--CopyMemory(m_cbOutCardIndex, cbCardDataIndex, wCardCount);
+		self.m_cbOutCardIndex=GameLogic.deepcopy(cbCardDataIndex)
+	end
+end
+
+function CCardControl:SetOutCardData_1(cbCardDataIndex)
+	if cbCardDataIndex>(#self.m_cbOutCardIndex/#self.m_cbOutCardIndex[0]) then
+		return
+	end
+	self.m_cbOutCardIndex[cbCardDataIndex]=self.m_cbOutCardIndex[cbCardDataIndex]+1
+end
+
+--设置响应
+function CCardControl:SetGodsCard(cbCardData)
+	self.m_byGodsData = cbCardData
+end
+
+function CCardControl:UpdateCardDisable(bShowDisable)
+	self.m_bCardDisable={}
+	self.m_bShowDisable = bShowDisable
+	if not bShowDisable then	return end
+	GameLogic.SetGodsCard(self.m_byGodsData)
+
+	-- 只要有单张的风， 所有的数字牌都要变灰
+	local bHaveSingle = false
+	local byIndexCount={}  -- 牌的张数
+	if 0x00 == self.m_byGodsData then	return	end
+	local byGodsIndex = GameLogic.SwitchToCardIndex(self.m_byGodsData)
+	for i=0,self.m_wCardCount-1.1 do
+		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
+		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
+			local byIndex = GameLogic.SwitchToCardIndex(cbCardData)
+			byIndexCount[byIndex]=byIndexCount[byIndex]+1
+		end
+	end
+
+	if self.m_CurrentCard.cbCardData~=0 then
+		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
+		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
+			local byIndex = GameLogic.SwitchToCardIndex(cbCardData)
+			byIndexCount[byIndex]=byIndexCount[byIndex]+1
+		end
+	end
+
+	-- 单张风
+	while true do
+		for i=27,cmd.MAX_INDEX-1,1 do
+			if (1 == byIndexCount[i]) and (byGodsIndex ~= i) then
+				bHaveSingle = true
+			break	end
+		end
+	break end
+	if not bHaveSingle then  --没有单张的风,所有牌可以出
+		self.m_bCardDisable={}
+		return
+	end
+
+	-- 先把所有的牌都初始化为不可以出
+	bHaveSingle = false  -- 是否存在单牌已经出过
+	local bHaveDouble = false
+	for i=0,cmd.MAX_INDEX-1,1 do
+		while true do
+			self.m_bCardDisable[i] = true
+			if (i<27) or (byGodsIndex == i) then break end
+
+			-- 在已经出牌中找到此牌
+			if self.m_cbOutCardIndex[i]>0 then		--已经出过
+				bHaveDouble = true
+				self.m_bCardDisable[i]=false
+				if 1 == byIndexCount[i] then
+					bHaveSingle = true
+				end
+			end
+		break end
+	end
+	-- 所有的单牌都可以出
+	if not bHaveSingle then
+		for i=27,cmd.MAX_INDEX-1,1 do
+			while true do
+				if byGodsIndex == i then break end
+
+				if (1 == byIndexCount[i]) or (not bHaveDouble and byIndexCount[i]>0) then
+					self.m_bCardDisable[i]=false
+				end
+			end
+		end
+	end
+end
+
+--绘画扑克
+function CCardControl:DrawCardControl(pDC)
+	--绘画准备
+	local nXExcursion=self.m_ControlPoint.x+(GameLogic.table_leng(self.m_CardItemArray)-self.m_wCardCount)*CardControl.CARD_WIDTH
+
+	GameLogic.SetGodsCard(self.m_byGodsData)
+	--绘画扑克
+	for i=0,self.m_wCardCount-1,1 do
+		--计算位置
+		local nXScreenPos=nXExcursion+CardControl.CARD_WIDTH*i
+		local nYScreenPos=self.m_ControlPoint.y+(((self.m_CardItemArray[i].bShoot==false) and (self.m_wHoverItem~=i)) and CardControl.POS_SHOOT or 0)
+
+		--绘画扑克
+		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
+		if (0 ~= cbCardData) and self.m_bShowDisable then
+			local byIndex = GameLogic.SwitchToCardIndex(cbCardData)
+			CCardListImage:DrawCardItem("m_ImageUserBottom",pDC,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData)
+		else
+			CCardListImage:DrawCardItem("m_ImageUserBottom",pDC,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData)
+		end
+	end
+
+	--当前扑克
+	if self.m_CurrentCard.cbCardData~=0 then
+		--计算位置
+		local nXScreenPos=self.m_ControlPoint.x+self.m_ControlSize.cx-CardControl.CARD_WIDTH
+		local nYScreenPos=self.m_ControlPoint.y+(((self.m_CurrentCard.bShoot==false) and (self.m_wHoverItem~=GameLogic.table_leng(self.m_CardItemArray))) and CardControl.POS_SHOOT or 0)
+
+		--绘画扑克
+		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
+		if (0 ~= cbCardData) and self.m_bShowDisable) then
+			local byIndex = GameLogic.SwitchToCardIndex(cbCardData)
+			CCardListImage:DrawCardItem("m_ImageUserBottom",pDC,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
+		else
+			CCardListImage:DrawCardItem("m_ImageUserBottom",pDC,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
+		end
+	end
+
+	return
+end
+
+--索引切换
+function CCardControl:SwitchCardPoint(MousePoint)
+	--基准位置
+	local nXPos=MousePoint.x-self.m_ControlPoint.x
+	local nYPos=MousePoint.y-self.m_ControlPoint.y
+
+	--范围判断
+	if (nXPos<0) or (nXPos>self.m_ControlSize.cx) then CardControl.INVALID_ITEM	end
+	if (nYPos<CardControl.POS_SHOOT) or (nYPos>self.m_ControlSize.cy) then CardControl.INVALID_ITEM	end
+
+	--牌列子项
+	if nXPos<CardControl.CARD_WIDTH*GameLogic.table_leng(self.m_CardItemArray) then
+		local wViewIndex=(nXPos/CardControl.CARD_WIDTH)+self.m_wCardCount
+		if wViewIndex>=GameLogic.table_leng(self.m_CardItemArray) then
+			return wViewIndex-GameLogic.table_leng(self.m_CardItemArray)
+		end
+		return CardControl.INVALID_ITEM
+	end
+
+	--当前子项
+	if (self.m_CurrentCard.cbCardData~=0) and (nXPos>=(self.m_ControlSize.cx-CardControl.CARD_WIDTH)) then
+		return GameLogic.table_leng(self.m_CardItemArray)
+	end
+
+	return CardControl.INVALID_ITEM
+end
+
+--光标消息
+function CCardControl:OnEventSetCursor(Point,bRePaint)
+	--获取索引
+	local wHoverItem=self:SwitchCardPoint(Point)
+
+	--响应判断
+	if (self.m_bPositively==false) and (self.m_wHoverItem~=CardControl.INVALID_ITEM) then
+		bRePaint=true
+		self.m_wHoverItem=CardControl.INVALID_ITEM
+	end
+
+	--更新判断
+	if (wHoverItem ~= self.m_wHoverItem) and (self.m_bPositively==true) then
+		bRePaint=true
+		self.m_wHoverItem=wHoverItem
+		--SetCursor(LoadCursor(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDC_CARD_CUR)));  手机端无光标
+	end
+
+	return (wHoverItem~=CardControl.INVALID_ITEM)
+end
+
+function CCardControl:GetMeOutCard()
+	GameLogic.SetGodsCard(self.m_byGodsData)
+
+	local iIndex = GameLogic.SwitchToCardIndex(self.m_CurrentCard.cbCardData)
+	if not self.m_bCardDisable[iIndex] and (self.m_CurrentCard.cbCardData ~= self.m_byGodsData) then
+		return self.m_CurrentCard.cbCardData
+	end
+
+	for i=0,self.m_wCardCount-1,1 do
+		local cbCardData=self.m_CardItemArray[i].cbCardData
+		iIndex = GameLogic.SwitchToCardIndex(cbCardData)
+		if not self.m_bCardDisable[iIndex] and (cbCardData ~= self.m_byGodsData) then
+			return cbCardData
+		end
+	end
+	if self.m_wCardCount>0 then
+		local cbCardData=self.m_CardItemArray[0].cbCardData
+		return cbCardData
+	end
+	return 0x00
+end
+
+function CCardControl:SetShootCard(cbCard1,cbCard2,cbCard3)
+	--先全部放下
+	if cbCard1==0 and cbCard2==0 and cbCard3==0 then
+		for i=0,self.m_wCardCount-1,1 do
+			self.m_CardItemArray[i].bShoot=false
+		end
+	end
+	local b1,b2,b3=false,false,false
+	for i=0,self.m_wCardCount-1,1 do
+		if self.m_CardItemArray[i].cbCardData==cbCard1 and not b1 then
+			self.m_CardItemArray[i].bShoot=true
+			b1=true
+		end
+		if self.m_CardItemArray[i].cbCardData==cbCard2 and not b2 then
+			self.m_CardItemArray[i].bShoot=true
+			b2=true
+		end
+		if self.m_CardItemArray[i].cbCardData==cbCard3 and not b3 then
+			self.m_CardItemArray[i].bShoot=true
+			b3=true
+		end
+
+	end
+	GameViewLayer:RefreshGameView()
 end
 
 --获取扑克

@@ -148,7 +148,6 @@ function GameLogic.deepcopy(object)
         local new_table = {}
         lookup_table[object] = new_table
 
-
         for index, value in pairs(object) do
             new_table[_copy(index)] = _copy(value)
         end
@@ -163,7 +162,7 @@ function GameLogic.table_leng(t)
   for k, v in pairs(t) do
     leng=leng+1
   end
-  return leng;
+  return leng
 end
 --CWHArray append  PS 当键名不是数字的时候 中间键名可能不连续  并且其实为1不是0 table_leng换# 时为连续
 function GameLogic.append(a,b)
@@ -1174,16 +1173,18 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 
 			--数量判断
 			local bEnoughCard=true
-			for i=1,cbLessKindItem*3-1,1 do
-				--存在判断
-				local cbCardIndex=pKindItem[i/3].cbCardIndex[i%3]
-				if cbCardIndexTemp[cbCardIndex]==0 then
-					bEnoughCard=false
-					if notFirstLoop~=1 then
-						break
+			while true do
+				for i=1,cbLessKindItem*3-1,1 do
+					--存在判断
+					local cbCardIndex=pKindItem[i/3].cbCardIndex[i%3]
+					if cbCardIndexTemp[cbCardIndex]==0 then
+						bEnoughCard=false
+						if notFirstLoop~=1 then
+							break
+						end
+					else
+						cbCardIndexTemp[cbCardIndex]=cbCardIndexTemp[cbCardIndex]-1
 					end
-				else
-					cbCardIndexTemp[cbCardIndex]=cbCardIndexTemp[cbCardIndex]-1
 				end
 			end
 
@@ -1191,11 +1192,13 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 			if bEnoughCard==true then
 				--牌眼判断
 				local cbCardEye=0
-				for i=0,cmd.MAX_INDEX-1,1 do
-					if cbCardIndexTemp[i]==2 then
-						cbCardEye=GameLogic.SwitchToCardData(i)
-						if notFirstLoop~=1 then
-							break
+				while true do
+					for i=0,cmd.MAX_INDEX-1,1 do
+						if cbCardIndexTemp[i]==2 then
+							cbCardEye=GameLogic.SwitchToCardData(i)
+							if notFirstLoop~=1 then
+								break
+							end
 						end
 					end
 				end
@@ -1231,14 +1234,16 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 
 			--设置索引
 			if cbIndex[cbLessKindItem-1]==(cbKindItemCount-1) then
-				for i=cbLessKindItem-1,0+1,-1 do
-					if (cbIndex[i-1]+1)~=cbIndex[i] then
-						local cbNewIndex=cbIndex[i-1]
-						for j=(i-1),cbLessKindItem-1,1 do
-							cbIndex[j]=cbNewIndex+j-i+2
-						end
-						if notFirstLoop~=1 then
-							break
+				while true do
+					for i=cbLessKindItem-1,0+1,-1 do
+						if (cbIndex[i-1]+1)~=cbIndex[i] then
+							local cbNewIndex=cbIndex[i-1]
+							for j=(i-1),cbLessKindItem-1,1 do
+								cbIndex[j]=cbNewIndex+j-i+2
+							end
+							if notFirstLoop~=1 then
+								break
+							end
 						end
 					end
 				end
