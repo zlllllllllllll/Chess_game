@@ -179,6 +179,31 @@ function GameLogic.add(m_pData,newElement)
 	--return m_pData
 end
 
+--ZeroMemory
+function GameLogic:ergodicList(b)
+	a={}
+	for i=0,b-1,1 do
+		a[i]={}
+	end
+	return a
+end
+
+function GameLogic:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight)
+	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft)
+	self:FillSolidRect(x, y, 1, cy - 1, clrTopLeft)
+	self:FillSolidRect(x + cx, y, -1, cy, clrBottomRight)
+	self:FillSolidRect(x, y + cy, cx, -1, clrBottomRight)
+end
+
+function GameLogic:FillSolidRect(x, y, cx, cy, color)
+  local dr=cc.DrawNode:create()
+    :setPosition(cc.p(x+cx/2,y+cy/2))
+    :drawSolidRect(cc.p(x,y), cc.p(x+cx,y+cy), color)
+		:setAnchorPoint(cc.p(0.5,0.5))
+		:addTo(self)
+	return dr
+end
+
 --混乱扑克
 function GameLogic.RandCardData(cbCardData,cbMaxCount,userid)	--这个里面的随机要加二个用户的userid之合，不然会牌一样的
 	--混乱准备

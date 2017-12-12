@@ -54,14 +54,6 @@ CardControl.Direction_South		="Direction_South"				--南向
 CardControl.Direction_West		="Direction_West"					--西向
 CardControl.Direction_North		="Direction_North"				--北向
 
-function CardControl:ergodicList(b)
-	a={}
-	for i=0,b-1,1 do
-		a[i]={}
-	end
-	return a
-end
-
 function CardControl:ctor(scene)
 	self._scene = scene
 	self:onInitData()
@@ -72,21 +64,6 @@ function CardControl:onInitData()
 end
 
 function CardControl:onResetData()
-end
-
-function CardControl:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight)
-	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft)
-	self:FillSolidRect(x, y, 1, cy - 1, clrTopLeft)
-	self:FillSolidRect(x + cx, y, -1, cy, clrBottomRight)
-	self:FillSolidRect(x, y + cy, cx, -1, clrBottomRight)
-end
-function CardControl:FillSolidRect(x, y, cx, cy, color)
-    local dr=cc.DrawNode:create()
-	        :setPosition(cc.p(x+cx/2,y+cy/2))
-	        :drawSolidRect(cc.p(x,y), cc.p(x+cx,y+cy), color)
-					:setAnchorPoint(cc.p(0.5,0.5))
-					:addTo(self)
-		return dr
 end
 
 --扑克图片
@@ -589,7 +566,7 @@ function CWeaveCard:DrawCardControl_1(pDC)
 				local nYScreenPos=self.m_ControlPoint.y-CardControl.CCardList["m_ImageWaveBottom"].m_nViewHeight
 				CCardListImage:DrawCardItem("m_ImageWaveBottom",pDC,self:GetCardData(i),nXScreenPos,nYScreenPos)
 				if self.m_cbWikCard~=0 and self.m_cbWikCard==self:GetCardData(i) then
-					CardControl:Draw3dRect(nXScreenPos+3,nYScreenPos+3,34,45,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
+					GameLogic:Draw3dRect(nXScreenPos+3,nYScreenPos+3,34,45,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
 				end
 		end
 
@@ -619,8 +596,8 @@ function CWeaveCard:DrawCardControl_1(pDC)
 				local nYScreenPos=self.m_ControlPoint.y
 				local nXScreenPos=self.m_ControlPoint.x-(i+1)*24
 				CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self:GetCardData(2-i),nXScreenPos,nYScreenPos)
-				if self.m_cbWikCard!=0 and self.m_cbWikCard==self:GetCardData(2-i) then
-					CardControl:Draw3dRect(nXScreenPos+1,nYScreenPos+2,21,27,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
+				if self.m_cbWikCard~=0 and self.m_cbWikCard==self:GetCardData(2-i) then
+					GameLogic:Draw3dRect(nXScreenPos+1,nYScreenPos+2,21,27,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
 				end
 		end
 
@@ -1062,7 +1039,7 @@ function CCardControl:ctor()
 	self.m_wCardCount=0
 	self.m_wHoverItem=CardControl.INVALID_ITEM
 	self.m_CurrentCard={}
-  self.m_CardItemArray=CardControl:ergodicList(cmd.MAX_COUNT)
+  self.m_CardItemArray=GameLogic:ergodicList(cmd.MAX_COUNT)
 
 	--加载设置
 	self.m_ControlPoint=cc.p(0, 0)

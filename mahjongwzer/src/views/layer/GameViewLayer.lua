@@ -249,10 +249,10 @@ function GameViewLayer:preloadUI()
 		--创建控件
 		--CRect rcCreate(0,0,0,0);  mark 可能不显示
 		--m_ScoreControl.Create(NULL,NULL,WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,rcCreate,this,200);
-		self.m_ScoreControl=ScoreControl:create_CScoreControl(self)
+		self.m_ScoreControl=ScoreControl:create(self):addTo(self)
 		self.m_ScoreControl:setTag(200)
 		self.m_ScoreControl:move(0,0)
-		self.m_ControlWnd=ControlWnd:create_CControlWnd(self)
+		self.m_ControlWnd=ControlWnd:create(self):addTo(self)
 		self.m_ControlWnd:setTag(10)
 		self.m_ControlWnd:move(0,0)
 		--m_ControlWnd.m_cardControl=&m_HandCardControl;
@@ -387,34 +387,34 @@ function GameViewLayer:RectifyControl(nWidth,nHeight)
 	self.m_iSavedHeight=nHeight
 	--设置坐标
 	--CGameFrameView CPoint		m_ptReady[MAX_CHAIR];			//准备位置  MAX_CHAIR 100
-	self.m_ptReady=self._scene:ergodicList(100)
+	self.m_ptReady=GameLogic:ergodicList(100)
 	self.m_ptReady[0].x=nWidth/2-33
 	self.m_ptReady[0].y=70
 	self.m_ptReady[1].x=nWidth/2-33
 	self.m_ptReady[1].y=nHeight-100
 	--CPoint							m_ptAvatar[MAX_CHAIR];				//头像位置
-	self.m_ptAvatar=self._scene:ergodicList(100)
+	self.m_ptAvatar=GameLogic:ergodicList(100)
 	self.m_ptAvatar[0].x=nWidth/2-self.m_nXFace
 	self.m_ptAvatar[0].y=5+self.m_nYBorder
 	--CPoint							m_ptNickName[MAX_CHAIR];			//昵称位置
-	self.m_ptNickName=self._scene:ergodicList(100)
+	self.m_ptNickName=GameLogic:ergodicList(100)
 	self.m_ptNickName[0].x=nWidth/2-50
 	self.m_ptNickName[0].y=20+self.m_nYBorder
 	--CPoint							m_ptClock[MAX_CHAIR];					//时间位置
-	self.m_ptClock=self._scene:ergodicList(100)
+	self.m_ptClock=GameLogic:ergodicList(100)
 	self.m_ptClock[0].x=nWidth/2-self.m_nXFace-self.m_nXTimer-2
 	self.m_ptClock[0].y=17+self.m_nYBorder
 
-	self.m_UserFlagPos=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_UserFlagPos=GameLogic:ergodicList(cmd.GAME_PLAYER)
 	self.m_UserFlagPos[0].x=self.m_ptNickName[0].x+100										--nWidth/2-m_nXFace-m_nXTimer-32;
 	self.m_UserFlagPos[0].y=5+self.m_nYBorder
-	self.m_UserListenPos=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_UserListenPos=GameLogic:ergodicList(cmd.GAME_PLAYER)
 	self.m_UserListenPos[0].x=nWidth/2
 	self.m_UserListenPos[0].y=self.m_nYBorder+100
-	self.m_PointTrustee=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_PointTrustee=GameLogic:ergodicList(cmd.GAME_PLAYER)
 	self.m_PointTrustee[0].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
 	self.m_PointTrustee[0].y=5+self.m_nYBorder
-	self.m_ptDingMai=self._scene:ergodicList(cmd.GAME_PLAYER)
+	self.m_ptDingMai=GameLogic:ergodicList(cmd.GAME_PLAYER)
 	self.m_ptDingMai[0].x =self.m_ptNickName[0].x+160											-- nWidth/2-m_nXFace-m_nXTimer + 40;
 	self.m_ptDingMai[0].y = 21+self.m_nYBorder
 
@@ -736,8 +736,8 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 						:setVisible(true)
 						:addTo(self)
 					--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
-					self.g_CardResource=CardControl:create_CCardResource(self)
-					CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_cbCardData,nXPos+39,nYPos+29)
+					self.g_CardResource=CardControl:create_CCardListImage(self)
+					self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
 				else
 					--动作背景
 					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
@@ -747,8 +747,8 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 						:setVisible(true)
 						:addTo(self)
 					--绘画扑克
-					self.g_CardResource=CardControl:create_CCardResource(self)
-					CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_cbCardData,nXPos+39,nYPos+29)
+					self.g_CardResource=CardControl:create_CCardListImage(self)
+					self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
 				end
 			end
 		end
@@ -764,8 +764,8 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 	if self.m_byGodsData>0 then
 		--绘画扑克
-		self.g_CardResource=CardControl:create_CCardResource(self)
-		CardControl:DrawCardItem(pDC,self.g_CardResource.m_ImageUserBottom,self.m_byGodsData,nXPos+55,nYPos+13)
+		self.g_CardResource=CardControl:create_CCardListImage(self)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+55,nYPos+13)
 	end
 
 ---------------=======================================================================================

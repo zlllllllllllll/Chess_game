@@ -18,15 +18,6 @@ function GameLayer:CreateView()
     return GameViewLayer:create(self):addTo(self)
 end
 
---ZeroMemory
-function GameLayer:ergodicList(b)
-	a={}
-	for i=0,b-1,1 do
-		a[i]={}
-	end
-	return a
-end
-
 function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnInitGameEngine() bool CGameClientEngine::OnResetGameEngine() 相同部分
 
   --游戏变量
@@ -42,7 +33,7 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   self.m_wHeapTail=0
   --	BYTE	m_cbHeapCardInfo[4][2];		--堆牌信息  lua  索引值是以 1 为起始 不是0
   --ZeroMemory(m_cbHeapCardInfo,sizeof(m_cbHeapCardInfo))
-  self.m_cbHeapCardInfo=self:ergodicList(4)
+  self.m_cbHeapCardInfo=GameLogic:ergodicList(4)
 
   --托管变量
   self.m_bStustee=false
@@ -55,7 +46,7 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   --	BYTE		m_cbDiscardCard[GAME_PLAYER][55];	--丢弃记录
   --ZeroMemory(m_cbDiscardCard,sizeof(m_cbDiscardCard))
   --ZeroMemory(m_cbDiscardCount,sizeof(m_cbDiscardCount))   下同
-  self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
   self.m_cbDiscardCount={}
 
 
@@ -63,7 +54,7 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   -- BYTE	m_cbWeaveCount[GAME_PLAYER];		--组合数目
   -- tagWeaveItem	m_WeaveItemArray[GAME_PLAYER][MAX_WEAVE];	--组合扑克
   self.m_cbWeaveCount={}
-  self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
 
   --扑克变量
   self.m_cbLeftCardCount=0
@@ -73,7 +64,7 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   -- CMD_S_GamePlay   m_sGamePlay;  -- 游戏发牌消息
   self.m_sGamePlay={}
   self.m_sGamePlay.byUserDingDi={}
-  self.m_sGamePlay.cbCardData=elf:ergodicList(17)
+  self.m_sGamePlay.cbCardData=GameLogic:ergodicList(17)
 
 	self.m_cbUserAction=0
 end
@@ -1070,12 +1061,12 @@ function GameLayer:OnSubGamePlay(dataBuffer)
 	--出牌信息
 	self.m_cbOutCardData=0
 	self.m_wOutCardUser=yl.INVALID_CHAIR
-  self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
   self.m_cbDiscardCount={}
 
 	--组合扑克
   self.m_cbWeaveCount={}
-  self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
   self.m_bySicboAnimCount = 0
 
 	--设置界面
@@ -1572,9 +1563,9 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	--tagScoreInfo ScoreInfo;
 	--tagWeaveInfo WeaveInfo;
   local ScoreInfo,WeaveInfo={},{}
-  ScoreInfo.cbCardData={}  ScoreInfo.szUserName=self:ergodicList(cmd.NAME_LEN)  ScoreInfo.lGameScore={}
+  ScoreInfo.cbCardData={}  ScoreInfo.szUserName=GameLogic:ergodicList(cmd.NAME_LEN)  ScoreInfo.lGameScore={}
   ScoreInfo.lGodsScore={}  ScoreInfo.byDingDi={}  ScoreInfo.dwChiHuKind={} ScoreInfo.dwChiHuRight={}
-  WeaveInfo.cbCardCount={}  WeaveInfo.cbPublicWeave={}  WeaveInfo.cbCardData=self:ergodicList(4)
+  WeaveInfo.cbCardCount={}  WeaveInfo.cbPublicWeave={}  WeaveInfo.cbCardData=GameLogic:ergodicList(4)
 
 	--成绩变量
 	ScoreInfo.wBankerUser=self.m_wBankerUser
@@ -2057,17 +2048,17 @@ function GameLayer:OnStart()
 	--出牌信息
 	self.m_cbOutCardData=0
 	self.m_wOutCardUser=yl.INVALID_CHAIR
-  self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
   self.m_cbDiscardCount={}
 
 	--组合扑克
   self.m_cbWeaveCount={}
-  self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
 
 	--堆立扑克
   self.m_wHeapHand=0
   self.m_wHeapTail=0
-  self.m_cbHeapCardInfo=self:ergodicList(4)
+  self.m_cbHeapCardInfo=GameLogic:ergodicList(4)
 
 	--扑克变量
   self.m_cbLeftCardCount=0
@@ -2297,12 +2288,12 @@ function GameLayer:OnDispatchCard(wParam, lParam)
 		--出牌信息
 		self.m_cbOutCardData=0
 		self.m_wOutCardUser=yl.INVALID_CHAIR
-    self.m_cbDiscardCard=self:ergodicList(cmd.GAME_PLAYER)
+    self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
     self.m_cbDiscardCount={}
 
 		--组合扑克
     self.m_cbWeaveCount={}
-    self.m_WeaveItemArray=self:ergodicList(cmd.GAME_PLAYER)
+    self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
     self.m_cbCardIndex={}
 
     local wMeChairID=self:GetMeChairID()
