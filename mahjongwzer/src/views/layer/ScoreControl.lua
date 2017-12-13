@@ -2,12 +2,17 @@
 -- Author: zml
 -- Date: 2017-12-8 15:48:39
 --
+local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.CMD_Game")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
+local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = class("ScoreControl", function(scene)
 	local ScoreControl = display.newLayer()
 	return ScoreControl
 end)
+
+--按钮标识
+ScoreControl.IDC_CLOSE_SCORE				=100									--关闭成绩
 
 function ScoreControl:ctor()
 	--设置变量
@@ -40,25 +45,37 @@ function ScoreControl:ctor()
 	for i=0,cmd.MAX_WEAVE-1,1 do	self.m_WeaveCard[i]:SetDirection(CardControl.Direction_South) end
 
 	--设置窗口
-	SetWindowPos(NULL,0,0,m_ImageGameScore.GetWidth(),m_ImageGameScore.GetHeight(),SWP_NOZORDER|SWP_NOMOVE);
-	CBitmap bmp;
-	if(bmp.LoadBitmap(IDB_GAME_SCORE))
-	{
-		HRGN rgn;
-		rgn = BitmapToRegion((HBITMAP)bmp, RGB(255, 0, 255));
-		SetWindowRgn(rgn, TRUE);
-		bmp.DeleteObject();
-	}
+	--SetWindowPos(NULL,0,0,m_ImageGameScore.GetWidth(),m_ImageGameScore.GetHeight(),SWP_NOZORDER|SWP_NOMOVE);
+	self:move(0,0)
+	local bmp=display.newSprite("res/game/GAME_SCORE.png")
+			:setVisible(true)
+			:setColor(cc.c3b(255, 0, 255))
+			:addTo(self)
+	--self:BitmapToRegion(bmp,RGB(255, 0, 255))
+
+	-- CBitmap bmp;
+	-- if(bmp.LoadBitmap(IDB_GAME_SCORE))
+	-- {
+	-- 	HRGN rgn;
+	-- 	rgn = BitmapToRegion((HBITMAP)bmp, RGB(255, 0, 255));
+	-- 	--重绘区域
+	-- 	SetWindowRgn(rgn, TRUE);
+	-- 	bmp.DeleteObject();
+	-- }
+
+	local  btcallback = function(ref, type)
+	  if type == ccui.TouchEventType.ended then
+	   	self:OnBnClickedClose()
+	  end
+	end
 
 	--创建按钮
-	CRect rcCreate(0,0,0,0);
-	m_btCloseScore.Create(NULL,WS_CHILD|WS_VISIBLE,rcCreate,this,IDC_CLOSE_SCORE);
-	m_btCloseScore.SetButtonImage(IDB_BT_SCORE_CLOSE,AfxGetInstanceHandle(),false,false);
-
-	--调整按钮
-	CRect rcClient;
-	GetClientRect(&rcClient);
-	m_btCloseScore.SetWindowPos(NULL,178,250,0,0,SWP_NOSIZE|SWP_NOZORDER);
+	self.m_btCloseScore=ccui.Button:create("res/game/BT_SCORE_CLOSE.png")
+		:move(178,250)
+		:setTag(ScoreControl.IDC_CLOSE_SCORE)
+		--:setEnabled(false)
+		:addTo(self)
+		:addTouchEventListener(btcallback)
 
 	return 0;
 end
@@ -66,11 +83,19 @@ end
 --复位数据
 function ScoreControl:RestorationData()
 	--设置变量
-	m_cbWeaveCount=0;
-	ZeroMemory(&m_ScoreInfo,sizeof(m_ScoreInfo));
+	self.m_cbWeaveCount=0
+	self.m_ScoreInfo={}
+	self.m_ScoreInfo.cbCardData={}
+	self.m_ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)
+	self.m_ScoreInfo.lGameScore={}
+	self.m_ScoreInfo.lGodsScore={}
+	self.m_ScoreInfo.byDingDi={}
+	self.m_ScoreInfo.dwChiHuKind={}
+	self.m_ScoreInfo.dwChiHuRight={}
 
 	--隐藏窗口
-	if (m_hWnd!=NULL) ShowWindow(SW_HIDE);
+	--if (m_hWnd!=NULL) ShowWindow(SW_HIDE);
+	self:setVisible(false)
 
 	return
 end
@@ -78,20 +103,19 @@ end
 --设置积分
 function ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,dwMeUserID)
 	--设置变量
-	m_ScoreInfo=ScoreInfo;
-	m_cbWeaveCount=WeaveInfo.cbWeaveCount;
-	m_dwMeUserID=dwMeUserID;
+	self.m_ScoreInfo=ScoreInfo
+	self.m_cbWeaveCount=WeaveInfo.cbWeaveCount
+	self.m_dwMeUserID=dwMeUserID
 
 	--组合变量
-	for (BYTE i=0;i<m_cbWeaveCount;i++)
-	{
-		bool bPublicWeave=(WeaveInfo.cbPublicWeave[i]==TRUE);
-		m_WeaveCard[i].SetCardData(WeaveInfo.cbCardData[i],WeaveInfo.cbCardCount[i]);
-		m_WeaveCard[i].SetDisplayItem(true);
-	}
+	for i=0,self.m_cbWeaveCount-1,1 do
+		local bPublicWeave=(WeaveInfo.cbPublicWeave[i]==true)
+		self.m_WeaveCard[i]:SetCardData(WeaveInfo.cbCardData[i],WeaveInfo.cbCardCount[i])
+		self.m_WeaveCard[i]:SetDisplayItem(true)
+	end
 
 	--显示窗口
-	ShowWindow(SW_SHOW);
+	self:setVisible(true)
 
 	return
 end
@@ -99,84 +123,87 @@ end
 --关闭按钮
 function ScoreControl:OnBnClickedClose()
 	--隐藏窗口
-	RestorationData();
+	self:RestorationData()
 
 	return
 end
 
 function ScoreControl:GetHardSoftHu()
 	--牌型信息
-	DWORD dwCardKind[]={CHK_PENG_PENG,CHK_QI_XIAO_DUI,CHK_SHI_SAN_YAO,CHK_YING_PAI,CHK_SAN_GODS,CHK_BA_DUI,CHK_YING_BA_DUI};
+	local dwCardKind={GameLogic.CHK_PENG_PENG,GameLogic.CHK_QI_XIAO_DUI,GameLogic.CHK_SHI_SAN_YAO,GameLogic.CHK_YING_PAI,GameLogic.CHK_SAN_GODS,GameLogic.CHK_BA_DUI,GameLogic.CHK_YING_BA_DUI}
 
-
-	int iChiType=0;
-	for (WORD i=0;i<GAME_PLAYER;i++)
-	{
+	local iChiType=0
+	while true do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		--用户过虑
-		if (m_ScoreInfo.dwChiHuKind[i]==CHK_NULL) continue;
-
-		--牌型信息
-		for (BYTE j=0;j<CountArray(dwCardKind);j++)
-		{
-			if (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j])
-			{
-				if (CHK_BA_DUI == (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j]))
-				{
-					if (CHK_YING_BA_DUI == (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j+1]))
-					{
-						continue;
-					}
-				}
-				iChiType|=dwCardKind[j];
-				break;
-			}
-		}
-		if(iChiType==0)
-		{
-			if(m_ScoreInfo.wProvideUser==i)
-				iChiType=2;
-			else
-				iChiType=1;--软胡
-		}
-		else if(iChiType & CHK_YING_PAI)
-			iChiType=2;--硬胡
-		else if((iChiType & CHK_YING_BA_DUI)|| (iChiType&CHK_SAN_GODS))
-			iChiType=3;--双翻
+		if self.m_ScoreInfo.dwChiHuKind[i]==GameLogic.CHK_NULL then
 		else
-			iChiType=0;
-		break;
-	}
+			--牌型信息
+			while true do
+			for j=0,GameLogic.table_leng(dwCardKind)-1,1 do
+				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
+					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
+						--continue;
+					else
+						iChiType=bit:_or(iChiType,dwCardKind[j])
+						break
+					end
+				end
+			end
+			break end
+
+			if iChiType==0 then
+				if self.m_ScoreInfo.wProvideUser==i then
+					iChiType=2
+				else
+					iChiType=1 --软胡
+				end
+			elseif bit:_and(iChiType , GameLogic.CHK_YING_PAI) then
+					iChiType=2 	--硬胡
+			elseif bit:_and(iChiType , GameLogic.CHK_YING_BA_DUI) or bit:_and(iChiType , GameLogic.CHK_SAN_GODS) then
+					iChiType=3  --双翻
+			else
+				iChiType=0
+				break
+			end
+		end
+	end
+	break end
 
 	return iChiType
 end
 
 --重画函数
 function ScoreControl:OnPaint()
-	CPaintDC dc(this);
+	-- CPaintDC dc(this);
 
 	--获取位置
-	CRect rcClient;
-	GetClientRect(&rcClient);
+	-- CRect rcClient;
+	-- GetClientRect(&rcClient);
+	--mark
+	local rcClient={}
+	rcClient.left=0
+	rcClient.top=100
+	rcClient.right=100
+	rcClient.bottom=0
+	rcClient.width=rcClient.right-rcClient.left
+	rcClient.height=rcClient.top-rcClient.bottom
 
 	--创建字体
-	CFont InfoFont;
+	--CFont InfoFont;
 	--InfoFont.CreatePointFont(110,TEXT("宋体"),&dc);
-	InfoFont.CreateFont(-16,0,0,0,FW_BOLD,0,0,0,134,3,2,1,2,TEXT("宋体"));
+	--InfoFont.CreateFont(-16,0,0,0,FW_BOLD,0,0,0,134,3,2,1,2,TEXT("宋体"));
 
 	--创建缓冲
-	CDC DCBuffer;
-	CBitmap ImageBuffer;
-	DCBuffer.CreateCompatibleDC(&dc);
-	ImageBuffer.CreateCompatibleBitmap(&dc,rcClient.Width(),rcClient.Height());
+	-- CDC DCBuffer;
+	-- CBitmap ImageBuffer;
+	-- DCBuffer.CreateCompatibleDC(&dc);
+	-- ImageBuffer.CreateCompatibleBitmap(&dc,rcClient.Width(),rcClient.Height());
 
 	--设置 DC
-	DCBuffer.SetBkMode(TRANSPARENT);
-	DCBuffer.SelectObject(&ImageBuffer);
-	--DCBuffer.SetTextColor(RGB(0,0,0));
-	--DCBuffer.SelectObject(CSkinResourceManager::GetDefaultFont());
+	-- DCBuffer.SetBkMode(TRANSPARENT);
+	-- DCBuffer.SelectObject(&ImageBuffer);
 	--设置 DC
-	DCBuffer.SelectObject(InfoFont);
-	DCBuffer.SetTextColor(RGB(0,0,0));
 
 	--加载资源
 	--CImageHandle HandleWin(&m_ImageWin);
@@ -184,415 +211,230 @@ function ScoreControl:OnPaint()
 	--CImageHandle HandleGameScoreFlag(&m_ImageGameScoreFlag);
 
 	--绘画背景
-	m_ImageGameScore.Draw(DCBuffer.GetSafeHdc(),0,0);
+	--self.m_ImageGameScore.Draw(DCBuffer.GetSafeHdc(),0,0);
+	--self.m_ImageGameScore=GameLogic:FillSolidRect(0, 0, rcClient.width, rcClient.height, cc.c4f(255,255,255,0))
+	self.m_ImageGameScore:move(0,0)
+				:setVisible(true)
 	--绘画扑克
-	if(m_ScoreInfo.lGameScore[m_dwMeUserID]<0L)
-	{
-
+	if self.m_ScoreInfo.lGameScore[self.m_dwMeUserID]<0 then
 		--位置变量
-		int nCardSpace=2;
-		int nItemWidth=g_CardResource.m_ImageTableBottom.GetViewWidth();
-		int nTotalWidth=m_cbWeaveCount*(nItemWidth*3+nCardSpace)+nItemWidth*m_ScoreInfo.cbCardCount+nCardSpace;
+		local nCardSpace=2
+		local nItemWidth=CardControl.CCardList["m_ImageTableBottom"].m_nViewWidth
+		local nTotalWidth=self.m_cbWeaveCount*(nItemWidth*3+nCardSpace)+nItemWidth*self.m_ScoreInfo.cbCardCount+nCardSpace
 
 		--计算位置
-		int nYCardPos=79;
-		int nXCardPos=(m_ImageGameScore.GetWidth()-nTotalWidth)/2;
+		local nYCardPos=79
+		local nXCardPos=(self.m_ImageGameScore:getContentSize().width-nTotalWidth)/2
 
 		--绘画组合
-		for (BYTE i=0;i<m_cbWeaveCount;i++)
-		{
+		for i=0,self.m_cbWeaveCount-1,1 do
 			--绘画扑克
-			m_WeaveCard[i].DrawCardControl(&DCBuffer,nXCardPos,nYCardPos);
+			self.m_WeaveCard[i]:DrawCardControl(nil,nXCardPos,nYCardPos)
 
 			--设置位置
-			nXCardPos+=(nCardSpace+nItemWidth*3);
-		}
+			nXCardPos=nXCardPos+(nCardSpace+nItemWidth*3)
+		end
 
-		nXCardPos += 3;
-		for (BYTE i=0;i<m_ScoreInfo.cbCardCount;i++)
-		{
+		nXCardPos =nXCardPos+ 3
+		for i=0,self.m_ScoreInfo.cbCardCount-1,1 do
 			--绘画扑克
-			int nXCurrentPos=nXCardPos;
-			int nYCurrentPos=nYCardPos-g_CardResource.m_ImageTableBottom.GetViewHeight()-5;
-			g_CardResource.m_ImageTableBottom.DrawCardItem(&DCBuffer,m_ScoreInfo.cbCardData[i],nXCurrentPos,nYCurrentPos);
+			local nXCurrentPos=nXCardPos
+			local nYCurrentPos=nYCardPos-CardControl.CCardList["m_ImageTableBottom"].m_nViewHeight-5
+			self.g_CardResource=CardControl:create_CCardListImage(self)
+			self.g_CardResource:DrawCardItem("m_ImageTableBottom",nil,self.m_ScoreInfo.cbCardData[i],nXCurrentPos,nYCurrentPos)
 
 			--设置位置
-			nXCardPos+=nItemWidth;
-			if ((i+2)==m_ScoreInfo.cbCardCount)
-			{
-				nXCardPos+=nCardSpace + 3;
-			}
-		}
-	}
+			nXCardPos=nXCardPos+nItemWidth
+			if (i+2)==self.m_ScoreInfo.cbCardCount then
+				nXCardPos=nXCardPos+nCardSpace + 3
+			end
+		end
+	end
 
 	--绘画牌型
-	for (WORD i=0;i<GAME_PLAYER;i++)
-	{
+	while true do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		--用户过虑
-		if (m_ScoreInfo.dwChiHuKind[i]==CHK_NULL) continue;
+		if self.m_ScoreInfo.dwChiHuKind[i]==GameLogic.CHK_NULL then
+			-- continue;
+		else
+			--牌型信息
+			local dwCardKind={GameLogic.CHK_PENG_PENG,GameLogic.CHK_QI_XIAO_DUI,GameLogic.CHK_SHI_SAN_YAO,GameLogic.CHK_YING_PAI,GameLogic.CHK_SAN_GODS,GameLogic.CHK_BA_DUI,GameLogic.CHK_YING_BA_DUI}
+			local dwCardRight={GameLogic.CHR_DI,GameLogic.CHR_TIAN,GameLogic.CHR_QING_YI_SE,GameLogic.CHR_QIANG_GANG,GameLogic.CHK_QUAN_QIU_REN}
 
-		--牌型信息
-		DWORD dwCardKind[]={CHK_PENG_PENG,CHK_QI_XIAO_DUI,CHK_SHI_SAN_YAO,CHK_YING_PAI,CHK_SAN_GODS,CHK_BA_DUI,CHK_YING_BA_DUI};
-		DWORD dwCardRight[]={CHR_DI,CHR_TIAN,CHR_QING_YI_SE,CHR_QIANG_GANG,CHK_QUAN_QIU_REN};
+			--牌型信息
+			local strCardInfo=""
+			local pszCardKind={"碰碰胡","七小对","十三幺","硬胡","三财神","八对","硬八对"}
+			local pszCardRight={"地胡","天胡","清一色","杠胡","全求人"}
 
-		--牌型信息
-		CString strCardInfo=TEXT("");
-		LPCTSTR pszCardKind[]={TEXT("碰碰胡"),TEXT("七小对"),TEXT("十三幺"),TEXT("硬胡"),TEXT("三财神"),TEXT("八对"),TEXT("硬八对")};
-		LPCTSTR pszCardRight[]={TEXT("地胡"),TEXT("天胡"),TEXT("清一色"),TEXT("杠胡"),TEXT("全求人")};
+			--牌型信息
+			while true do
+			for j=0,GameLogic.table_leng(dwCardKind)-1,1 do
+				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j])
+					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
+						--continue;
+					else
+						strCardInfo=pszCardKind[j]
+						break
+					end
+			end
+			break end
+			--if strCardInfo.IsEmpty() then  IsEmpty 判断未初始化 问题是已经初始化
+			--if strCardInfo==nil then
+			if strCardInfo== "" or strCardInfo == nil then
+				if self.m_ScoreInfo.wProvideUser==i then
+					strCardInfo = "硬胡"
+				else
+					strCardInfo = "软胡"
+				end
+			end
+			-- CRect rcCardKind(125,100,175,116);--修改175-375
+			-- DCBuffer.DrawText(strCardInfo,rcCardKind,DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER);
+			cc.Label:createWithTTF(strCardInfo,"fonts/round_body.ttf", 24)
+				:move((125+175)/2,(100+116)/2)
+				:setTextColor(cc.c4b(0,0,0,255))
+			--牌权信息
+			strCardInfo=""
+			while true do
+			for j=0,GameLogic.table_leng(dwCardRight)-1,1 do
+				if bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
+					if GameLogic.CHR_QIANG_GANG == bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
+						--continue
+					else
+						strCardInfo=pszCardRight[j]
+						break
+					end
+				end
+			end
+			break end
+			if strCardInfo== "" or strCardInfo == nil then
+				strCardInfo = "普通"
+			end
 
-		--牌型信息
-		for (BYTE j=0;j<CountArray(dwCardKind);j++)
-		{
-			if (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j])
-			{
-				if (CHK_BA_DUI == (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j]))
-				{
-					if (CHK_YING_BA_DUI == (m_ScoreInfo.dwChiHuKind[i]&dwCardKind[j+1]))
-					{
-						continue;
-					}
-				}
-				strCardInfo=pszCardKind[j];
-				break;
-			}
-		}
-		if (strCardInfo.IsEmpty())
-		{
-			if(m_ScoreInfo.wProvideUser==i)
-				strCardInfo = TEXT("硬胡");
-			else
-				strCardInfo = TEXT("软胡");
-		}
-		CRect rcCardKind(125,100,175,116);--修改175-375
-		DCBuffer.DrawText(strCardInfo,rcCardKind,DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER);
-		--牌权信息
-		strCardInfo="";
-		for (BYTE j=0;j<CountArray(dwCardRight);j++)
-		{
-			if (m_ScoreInfo.dwChiHuRight[i]&dwCardRight[j])
-			{
-				if (CHR_QIANG_GANG == (m_ScoreInfo.dwChiHuRight[i]&dwCardRight[j]))
-				{
-					continue ;
-				}
-				strCardInfo=pszCardRight[j];
-				break;
-			}
-		}
-		if (strCardInfo.IsEmpty())
-		{
-			strCardInfo = TEXT("普通");
-		}
+			--绘画信息
+			-- CRect rcCardInfo(355,100,405,116);
+			-- DCBuffer.DrawText(strCardInfo,rcCardInfo,DT_SINGLELINE|DT_END_ELLIPSIS);
+			cc.Label:createWithTTF(strCardInfo,"fonts/round_body.ttf", 24)
+				:move((355+405)/2,(100+116)/2)
+				:setTextColor(cc.c4b(0,0,0,255))
 
-		--绘画信息
-		CRect rcCardInfo(355,100,405,116);
-		DCBuffer.DrawText(strCardInfo,rcCardInfo,DT_SINGLELINE|DT_END_ELLIPSIS);
-
-		break;
-	}
+			break
+		end
+	end
+	break end
 
 
 	--积分信息
-	for (WORD i=0;i<GAME_PLAYER;i++)
-	{
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		--变量定义
-		TCHAR szUserScore[16]=TEXT("");
-		_sntprintf(szUserScore,CountArray(szUserScore),TEXT("%I64d"),m_ScoreInfo.lGameScore[i]);
+		local szUserScore=""
+		szUserScore=self.m_ScoreInfo.lGameScore[i]
+		--_sntprintf(szUserScore,CountArray(szUserScore),TEXT("%I64d"),m_ScoreInfo.lGameScore[i]);
 
 		--位置计算
-		CRect rcName(135+i*140,123,135+140+i*140,160);
+		local rcName={}
+		rcName.left=135+i*140	rcName.top=123	rcName.right=135+140+i*140	rcName.bottom=160
+		rcName.width=rcName.right-rcName.left 	rcName.height=rcName.top-rcName.bottom
 
-		CRect rcDingDi(123,165+i*30,158,165+(i+1)*30);
-		CRect rcGods(181,165+i*30,236,165+(i+1)*30);
-		CRect rcScore(160,215,320,230);--,165+i*30,302,165+(i+1)*30);
-		CRect rcStatus(323,165+i*30,363,165+(i+1)*30);
+		local rcDingDi={}
+		rcDingDi.left=123	rcDingDi.top=165+i*30	rcDingDi.right=158	rcDingDi.bottom=165+(i+1)*30
+		rcDingDi.width=rcDingDi.right-rcDingDi.left		rcDingDi.height=rcDingDi.top-rcDingDi.bottom
+		local rcGods={}
+		rcGods.left=181	rcGods.top=165+i*30	rcGods.right=236	rcGods.bottom=165+(i+1)*30
+		rcGods.width=rcGods.right-rcGods.left		rcGods.height=rcGods.top-rcGods.bottom
+		local rcScore={}
+		rcScore.left=160	rcScore.top=215	rcScore.right=320	rcScore.bottom=230
+		rcScore.width=rcScore.right-rcScore.left		rcScore.height=rcScore.top-rcScore.bottom
+		local rcStatus={}
+		rcStatus.left=323	rcStatus.top=165+i*30	rcStatus.right=363	rcStatus.bottom=165+(i+1)*30
+		rcStatus.width=rcStatus.right-rcStatus.left		rcStatus.height=rcStatus.top-rcStatus.bottom
 
 		--绘画信息
-		UINT nFormat=DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER;
+		--local nFormat=DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER;
 
-		if(m_dwMeUserID==i)
-		{
-			DCBuffer.DrawText(szUserScore,lstrlen(szUserScore),&rcScore,nFormat);
-			if(m_ScoreInfo.lGameScore[i]>0L)
-			{--胜
-				m_ImageWin.TransDrawImage(&DCBuffer,90,14,RGB(255,0,255));
-			}
-			if(m_ScoreInfo.lGameScore[i]<0L)
-			{--负
-				CString strInfo;
-				strInfo.Format(_T("玩家：%s 胡了！"),m_ScoreInfo.szUserName[1-i]);
-				DCBuffer.SetTextColor(RGB(255,255,58));
-				CRect rcInfo(7,9,443,29);
-				DCBuffer.DrawText(strInfo,&rcInfo,nFormat|DT_CENTER);
-				DCBuffer.SetTextColor(RGB(0,0,0));
-			}
-			if(m_ScoreInfo.lGameScore[i]==0L)
-			{--流局
-				m_ImageDraw.TransDrawImage(&DCBuffer,102,7,RGB(255,0,255));
-			}
-		}
+		if self.m_dwMeUserID==i then
+			--DCBuffer.DrawText(szUserScore,lstrlen(szUserScore),&rcScore,nFormat);
+			cc.Label:createWithTTF(szUserScore,"fonts/round_body.ttf", 24)
+				:move((355+405)/2,(100+116)/2)
+				:setTextColor(cc.c4b(0,0,0,255))
+			if self.m_ScoreInfo.lGameScore[i]>0 then	--胜
+				self.m_ImageWin:setPosition(90,14)
+					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
+			end
+			if self.m_ScoreInfo.lGameScore[i]<0 then--负
+				local strInfo="玩家："..self.m_ScoreInfo.szUserName[1-i].." 胡了！"
+				--CRect rcInfo(7,9,443,29);
+				cc.Label:createWithTTF(strInfo,"fonts/round_body.ttf", 24)
+					:move((7+443)/2,(9+29)/2)
+					:setTextColor(cc.c4b(255,255,58,255))
+			end
+			if self.m_ScoreInfo.lGameScore[i]==0 then--流局
+				self.m_ImageDraw:setPosition(102,7)
+					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
+			end
+		end
 
-		DCBuffer.DrawText(m_ScoreInfo.szUserName[i],lstrlen(m_ScoreInfo.szUserName[i]),&rcName,nFormat|DT_CENTER);
-
-		--TCHAR szText[25]=TEXT("");
-		--_sntprintf(szText,CountArray(szText),TEXT("%u"),m_ScoreInfo.byDingDi[i]);
-		--DCBuffer.DrawText(szText,lstrlen(szText),&rcDingDi,nFormat|DT_CENTER);
-		--_sntprintf(szText,CountArray(szText),TEXT("%I64d"),m_ScoreInfo.lGodsScore[i]);
-		--DCBuffer.DrawText(szText,lstrlen(szText),&rcGods,nFormat|DT_CENTER);
+		cc.Label:createWithTTF(self.m_ScoreInfo.szUserName[i],"fonts/round_body.ttf", 24)
+			:move((rcName.left+rcName.right)/2,(rcName.bottom+rcName.top)/2)
+			:setTextColor(cc.c4b(0,0,0,255))
 
 		--庄家标志
-		if (m_ScoreInfo.wBankerUser==i)
-		{
-			--int nImageWidht=m_ImageGameScoreFlag.GetWidth();
-			--int nImageHeight=m_ImageGameScoreFlag.GetHeight();
-			--m_ImageGameScoreFlag.BlendDrawImage(&DCBuffer,395,168+i*30,RGB(255,0,255),240);
-			if(m_ScoreInfo.byDingDi[i]>0)--买底
-				m_ImageGameScoreFlag.TransDrawImage(&DCBuffer,195+i*140,155,RGB(255,0,255));
-		}
+		if self.m_ScoreInfo.wBankerUser==i then
+			if self.m_ScoreInfo.byDingDi[i]>0 then		--买底
+				self.m_ImageGameScoreFlag:setPosition(195+i*140,155)
+					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
+			end
 		else
-		{
-			if(m_ScoreInfo.byDingDi[i]>0)--顶底
-				m_ImageGameScoreFlag.TransDrawImage(&DCBuffer,195+i*140,185,RGB(255,0,255));
-		}
-
-		----用户状态
-		--if ((m_ScoreInfo.dwChiHuKind[i]!=0)&&((m_ScoreInfo.wProvideUser!=i)))
-		--DCBuffer.DrawText(TEXT("胡牌"),lstrlen(TEXT("胡牌")),&rcStatus,nFormat|DT_CENTER);
-
-		----用户状态
-		--if ((m_ScoreInfo.wProvideUser==i)&&(m_ScoreInfo.dwChiHuKind[i]==0))
-		--	DCBuffer.DrawText(TEXT("放炮"),lstrlen(TEXT("放炮")),&rcStatus,nFormat|DT_CENTER);
-
-		----用户状态
-		--if ((m_ScoreInfo.dwChiHuKind[i]!=0)&&((m_ScoreInfo.wProvideUser==i)))
-		--DCBuffer.DrawText(TEXT("自摸"),lstrlen(TEXT("自摸")),&rcStatus,nFormat|DT_CENTER);
-
-
-
-		--输赢标志
-		--int nImageWidht=m_ImageWinLose.GetWidth()/3;
-		--int nImageHeight=m_ImageWinLose.GetHeight();
-
-		----绘画标志
-		--if(m_dwMeUserID==i)
-		--{
-		--	if(m_ScoreInfo.lGameScore[i]>0L)
-		--	{--胜
-		--		m_ImageWin.TransDrawImage(&DCBuffer,90,14,RGB(255,0,255));
-		--	}
-		--	if(m_ScoreInfo.lGameScore[i]<0L)
-		--	{--负
-
-		--	}
-		--	if(m_ScoreInfo.lGameScore[i]==0L)
-		--	{--流局
-		--		m_ImageDraw.TransDrawImage(&DCBuffer,102,7,RGB(255,0,255));
-		--	}
-		--	--int nImageExcursion=2*nImageWidht;
-		--	--if (m_ScoreInfo.lGameScore[i]>0L) nImageExcursion=0;
-		--	--if (m_ScoreInfo.lGameScore[i]<0L) nImageExcursion=nImageWidht;
-		--	--m_ImageWinLose.BlendDrawImage(&DCBuffer,460,169+i*29,nImageWidht,nImageHeight,nImageExcursion,0,RGB(255,0,255),240);
-		--}
-	}
+			if self.m_ScoreInfo.byDingDi[i]>0 then		--顶底
+				self.m_ImageGameScoreFlag:setPosition(195+i*140,185)
+					:setColor(cc.c3b(255, 0, 255))
+					:setVisible(true)
+			end
+		end
+	end
 	--胜、负、流局
 
 	--绘画界面
-	dc.BitBlt(0,0,rcClient.Width(),rcClient.Height(),&DCBuffer,0,0,SRCCOPY);
-
+	--dc.BitBlt(0,0,rcClient.Width(),rcClient.Height(),&DCBuffer,0,0,SRCCOPY);
 	--清理资源
-	DCBuffer.DeleteDC();
-	InfoFont.DeleteObject();
-	ImageBuffer.DeleteObject();
-
 	return
 end
 
 --绘画背景
 function ScoreControl:OnEraseBkgnd(pDC)
 	--更新界面
-	Invalidate(FALSE);
-	UpdateWindow();
+	--Invalidate(FALSE);
+	--UpdateWindow()
 
 	return true
 end
 
 --鼠标消息
 function ScoreControl:OnLButtonDown(nFlags,Point)
-	__super::OnLButtonDown(nFlags,Point);
+	--__super::OnLButtonDown(nFlags,Point);
 
 	--消息模拟
-	PostMessage(WM_NCLBUTTONDOWN,HTCAPTION,MAKELPARAM(Point.x,Point.y));
+	--PostMessage(WM_NCLBUTTONDOWN,HTCAPTION,MAKELPARAM(Point.x,Point.y));
 
 	return
 end
 
 function ScoreControl:OnMove(x,y)
-	__super::OnMove(x, y);
-
-	--更新界面
-	Invalidate(FALSE);
-	UpdateWindow();
+	-- __super::OnMove(x, y);
+	--
+	-- --更新界面
+	-- Invalidate(FALSE);
+	-- UpdateWindow();
 end
 
 --HRGN CScoreControl::BitmapToRegion(HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance)
 function ScoreControl:BitmapToRegion(hBmp, cTransparentColor, cTolerance)
-	HRGN hRgn = NULL;
-
-	if (hBmp)
-	{
-		HDC hMemDC = CreateCompatibleDC(NULL);
-		if (hMemDC)
-		{
-			BITMAP bm;
-			GetObject(hBmp, sizeof(bm), &bm);
-
-			--创建一个32位色的位图，并选进内存设备环境
-			BITMAPINFOHEADER RGB32BITSBITMAPINFO = {
-				sizeof(BITMAPINFOHEADER),		-- biSize
-				bm.bmWidth,					-- biWidth;
-				bm.bmHeight,				-- biHeight;
-				1,							-- biPlanes;
-				32,							-- biBitCount
-				BI_RGB,						-- biCompression;
-				0,							-- biSizeImage;
-				0,							-- biXPelsPerMeter;
-				0,							-- biYPelsPerMeter;
-				0,							-- biClrUsed;
-				0							-- biClrImportant;
-			};
-			VOID * pbits32;
-			HBITMAP hbm32 = CreateDIBSection(hMemDC,(BITMAPINFO *)&RGB32BITSBITMAPINFO, DIB_RGB_COLORS, &pbits32, NULL, 0);
-			if (hbm32)
-			{
-				HBITMAP holdBmp = (HBITMAP)SelectObject(hMemDC, hbm32);
-
-				-- Create a DC just to copy the bitmap into the memory DC
-				HDC hDC = CreateCompatibleDC(hMemDC);
-				if (hDC)
-				{
-					-- Get how many bytes per row we have for the bitmap bits (rounded up to 32 bits)
-					BITMAP bm32;
-					GetObject(hbm32, sizeof(bm32), &bm32);
-					while (bm32.bmWidthBytes % 4)
-						bm32.bmWidthBytes++;
-
-					-- Copy the bitmap into the memory DC
-					HBITMAP holdBmp = (HBITMAP)SelectObject(hDC, hBmp);
-					BitBlt(hMemDC, 0, 0, bm.bmWidth, bm.bmHeight, hDC, 0, 0, SRCCOPY);
-
-					-- For better performances, we will use the ExtCreateRegion() function to create the
-					-- region. This function take a RGNDATA structure on entry. We will add rectangles by
-					-- amount of ALLOC_UNIT number in this structure.
-#define ALLOC_UNIT	100
-					DWORD maxRects = ALLOC_UNIT;
-					HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(RGNDATAHEADER) + (sizeof(RECT) * maxRects));
-					RGNDATA *pData = (RGNDATA *)GlobalLock(hData);
-					pData->rdh.dwSize = sizeof(RGNDATAHEADER);
-					pData->rdh.iType = RDH_RECTANGLES;
-					pData->rdh.nCount = pData->rdh.nRgnSize = 0;
-					SetRect(&pData->rdh.rcBound, MAXLONG, MAXLONG, 0, 0);
-
-					-- Keep on hand highest and lowest values for the "transparent" pixels
-					BYTE lr = GetRValue(cTransparentColor);
-					BYTE lg = GetGValue(cTransparentColor);
-					BYTE lb = GetBValue(cTransparentColor);
-					BYTE hr = min(0xff, lr + GetRValue(cTolerance));
-					BYTE hg = min(0xff, lg + GetGValue(cTolerance));
-					BYTE hb = min(0xff, lb + GetBValue(cTolerance));
-
-					-- Scan each bitmap row from bottom to top (the bitmap is inverted vertically)
-					BYTE *p32 = (BYTE *)bm32.bmBits + (bm32.bmHeight - 1) * bm32.bmWidthBytes;
-					for (int y = 0; y < bm.bmHeight; y++)
-					{
-						-- Scan each bitmap pixel from left to right
-						for (int x = 0; x < bm.bmWidth; x++)
-						{
-							-- Search for a continuous range of "non transparent pixels"
-							int x0 = x;
-							LONG *p = (LONG *)p32 + x;
-							while (x < bm.bmWidth)
-							{
-								BYTE b = GetRValue(*p);
-								if (b >= lr && b <= hr)
-								{
-									b = GetGValue(*p);
-									if (b >= lg && b <= hg)
-									{
-										b = GetBValue(*p);
-										if (b >= lb && b <= hb)
-											-- This pixel is "transparent"
-											break;
-									}
-								}
-								p++;
-								x++;
-							}
-
-							if (x > x0)
-							{
-								-- Add the pixels (x0, y) to (x, y+1) as a new rectangle in the region
-								if (pData->rdh.nCount >= maxRects)
-								{
-									GlobalUnlock(hData);
-									maxRects += ALLOC_UNIT;
-									hData = GlobalReAlloc(hData, sizeof(RGNDATAHEADER) + (sizeof(RECT) * maxRects), GMEM_MOVEABLE);
-									pData = (RGNDATA *)GlobalLock(hData);
-								}
-								RECT *pr = (RECT *)&pData->Buffer;
-								SetRect(&pr[pData->rdh.nCount], x0, y, x, y+1);
-								if (x0 < pData->rdh.rcBound.left)
-									pData->rdh.rcBound.left = x0;
-								if (y < pData->rdh.rcBound.top)
-									pData->rdh.rcBound.top = y;
-								if (x > pData->rdh.rcBound.right)
-									pData->rdh.rcBound.right = x;
-								if (y+1 > pData->rdh.rcBound.bottom)
-									pData->rdh.rcBound.bottom = y+1;
-								pData->rdh.nCount++;
-
-								-- On Windows98, ExtCreateRegion() may fail if the number of rectangles is too
-								-- large (ie: > 4000). Therefore, we have to create the region by multiple steps.
-								if (pData->rdh.nCount == 2000)
-								{
-									HRGN h = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + (sizeof(RECT) * maxRects), pData);
-									if (hRgn)
-									{
-										CombineRgn(hRgn, hRgn, h, RGN_OR);
-										DeleteObject(h);
-									}
-									else
-										hRgn = h;
-									pData->rdh.nCount = 0;
-									SetRect(&pData->rdh.rcBound, MAXLONG, MAXLONG, 0, 0);
-								}
-							}
-						}
-
-						-- Go to next row (remember, the bitmap is inverted vertically)
-						p32 -= bm32.bmWidthBytes;
-					}
-
-					-- Create or extend the region with the remaining rectangles
-					HRGN h = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + (sizeof(RECT) * maxRects), pData);
-					if (hRgn)
-					{
-						CombineRgn(hRgn, hRgn, h, RGN_OR);
-						DeleteObject(h);
-					}
-					else
-						hRgn = h;
-
-					-- Clean up
-					GlobalFree(hData);
-					SelectObject(hDC, holdBmp);
-					DeleteDC(hDC);
-				}
-				DeleteObject(SelectObject(hMemDC, holdBmp));
-			}
-			DeleteDC(hMemDC);
-		}
-	}
-	return hRgn
+		--
+		-- mark
+		-- 
 end
 
 return ScoreControl
