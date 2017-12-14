@@ -42,7 +42,7 @@ function CGameOption:OnInitDialog()
 	--设置控件
 	if self.m_bEnableSound==true then
 		--mark 下同
-		GetDlgItem(IDC_ENABLE_SOUND))->SetCheck(BST_CHECKED);
+		GetDlgItem(IDC_ENABLE_SOUND):SetCheck(BST_CHECKED);
 	end
 
 	return true
@@ -51,7 +51,7 @@ end
 --确定消息
 function CGameOption:OnOK()
 	--获取变量
-	self.m_bEnableSound=((GetDlgItem(IDC_ENABLE_SOUND))->GetCheck()==BST_CHECKED);
+	self.m_bEnableSound=(GetDlgItem(IDC_ENABLE_SOUND):GetCheck()==BST_CHECKED);
 
 	-- if ((!m_bHaveVoiceCard)&&m_bEnableSound)
 	-- {

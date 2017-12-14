@@ -7,7 +7,7 @@ local GameRoomLayer = class("GameRoomLayer", RoomLayerModel)
 
 --获取桌子参数(背景、椅子布局)
 function GameRoomLayer:getTableParam()
-    local table_bg = cc.Sprite:create("game/yule/sparrowhz/res/roomlist/roomtable.png")
+    local table_bg = cc.Sprite:create("game/yule/mahjongwzer/res/roomlist/roomtable.png")
 
     if nil ~= table_bg then
         local bgSize = table_bg:getContentSize()

@@ -143,7 +143,7 @@ function GameLayer:OnResetGameEngine()
   end
 
 	--堆立扑克
-  for i=0,cmd.4-1,1 do
+  for i=0,4-1,1 do
 		self.m_cbHeapCardInfo[i][0]=0
 		self.m_cbHeapCardInfo[i][1]=0
 		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
@@ -309,18 +309,16 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
       				return true;
       			}
           --]]
-    			local wMeChairID=self:GetMeChairID()
-    			if (self.m_wCurrentUser == wMeChairID) and (0 == time)
-    			{
+					local wMeChairID=self:GetMeChairID()
+					if self.m_wCurrentUser == wMeChairID and 0 == time  then
     				self:OnDingDi(1, 0)
     				return true
-    			}
+					end
 
-    			if (time<=3) and (chair==wMeChairID)
-    			{
+					if time<=3 and chair==wMeChairID then
             --PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
             self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WARN.wav")
-    			}
+					end
     			return true
   		end,
   		[cmd.IDI_OPERATE_CARD] = function()    --操作定时器
@@ -347,7 +345,8 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
               if self.m_bStustee==false and self.m_bHearStatus==false and self.m_wTimeOutCount>=3 then
                 self.m_wTimeOutCount=0
     						self:OnStusteeControl(0,0)
-    						--m_pIStringMessage->InsertSystemString(TEXT("由于您多次超时，切换为“系统托管”模式.")); -mark
+								--m_pIStringMessage->InsertSystemString(TEXT("由于您多次超时，切换为“系统托管”模式.")); -mark
+								print("由于您多次超时，切换为“系统托管”模式.")
               end
 
               if self.m_wCurrentUser==wMeChairID then
@@ -398,7 +397,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
     								self:OnOutCard(cbCardData,cbCardData)
                     self:KillGameClock(cmd.IDI_OPERATE_CARD)
     								return true
-                  break	end
+                  end
                 end
 
 
@@ -419,7 +418,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
     								self:OnOutCard(cbCardData,cbCardData)
                     self:KillGameClock(cmd.IDI_OPERATE_CARD)
     								return true
-                  break	end
+                  end
                 end
 
                 for i=0,cmd.MAX_INDEX-1,1 do
@@ -432,7 +431,7 @@ function GameLayer:OnEventGameClockInfo(chair,time,clockId)
     								self:OnOutCard(cbCardData,cbCardData)
                     self:KillGameClock(cmd.IDI_OPERATE_CARD)
     								return true
-                  break	end
+                  end
                 end
     					else
     						self:OnCardOperate(GameLogic.WIK_NULL,0)
@@ -499,8 +498,9 @@ function GameLayer:onEventGameMessage(sub, dataBuffer)
 	elseif sub == cmd.SUB_S_GAME_PLAY then 			  	--
 		return self:OnSubGamePlay(dataBuffer)
 	elseif sub == cmd.SUB_C_CHECK_SUPER then 				--弹出提牌器
-		CCardExtractor ret
+		print("弹出提牌器")
     --[[ --mark
+		CCardExtractor ret 
 		ret.m_pClientDlg = this
 		ret.DoModal()
 		return true
@@ -737,7 +737,7 @@ function GameLayer:onEventGameScene(cbGameStatus,dataBuffer)
 
     --丢弃效果
     if self.m_wOutCardUser~= yl.INVALID_CHAIR then
-      self._gameView:SetDiscUser(self:SwitchViewChairID(self:m_wOutCardUser))
+      self._gameView:SetDiscUser(self:SwitchViewChairID(self.m_wOutCardUser))
     end
     self:F_GVSetTimer(self._gameView.IDI_DISC_EFFECT,250)
 
@@ -1573,11 +1573,13 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	ScoreInfo.cbProvideCard=cmd_data.cbProvideCard
 
 	--设置积分
-	m_pIStringMessage->InsertNormalString(TEXT("本局结算信息:"));          --mark  自定义方法
+	--m_pIStringMessage->InsertNormalString(TEXT("本局结算信息:"));          --mark  自定义方法
+	print("本局结算信息:")
 	local szBuffer=""
 	_sntprintf(szBuffer,CountArray(szBuffer),TEXT("%-14s%-10s%-6s\n"),TEXT("用户昵称"),TEXT("成绩"),TEXT("财神"));
-  szBuffer="%          用户昵称        成绩    财神\n"
-	m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
+  szBuffer="          用户昵称        成绩    财神\n"
+	--m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
+	print(szBuffer)
   for i=0,cmd.GAME_PLAYER-1,1 do
       local pUserData=self._gameFrame:GetTableUserItem(self:GetMeTableID(),i)
   		ScoreInfo.byDingDi[i] = cmd_data.byDingDi[i]
@@ -1600,8 +1602,9 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 		  --strFormat.Format(TEXT("%%-%ds%%+-12I64d%%+-8I64d"),18-(le0-str.GetLength()));
   		--strFormat=="%%-%ds%%+-12I64d%%+-8I64d" 未知空格 暂时2个
 
-      szBuffer=pUserData:："  "..GetNickName().."  "..cmd_data.lGameScore[i].."  "..cmd_data.lGodsScore[i]
-  		m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
+      szBuffer=pUserData:GetNickName().."  "..cmd_data.lGameScore[i].."  "..cmd_data.lGodsScore[i]
+  		--m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
+			print(szBuffer)
 
       --胡牌扑克
       if (ScoreInfo.cbCardCount==0) and (cmd_data.dwChiHuKind[i]~=GameLogic.CHK_NULL) then
@@ -1724,7 +1727,8 @@ function GameLayer:onSubTrustee(dataBuffer)
       szBuffer="玩家["..pUserData:GetNickName().."]选择了托管功能."
     else
       szBuffer="玩家["..pUserData:GetNickName().."]取消了托管功能."
-		m_pIStringMessage->InsertSystemString(szBuffer);    -------此处
+		--m_pIStringMessage->InsertSystemString(szBuffer);    -------此处
+		print(szBuffer)
     end
   end
 
@@ -1806,11 +1810,11 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
       strSoundName = "BU_HUA"
     end
   elseif cbType==0X20 then --筒
-    strSoundName."T_"..cbValue
+    strSoundName="T_"..cbValue
   elseif cbType==0X10 then --索
-    strSoundName."S_"..cbValue
+    strSoundName="S_"..cbValue
   elseif cbType==0X00 then --万
-    strSoundName."W_"..cbValue
+    strSoundName= "W_"..cbValue
   end
 
   if not bGirl then
@@ -1890,7 +1894,7 @@ function GameLayer:VerdictOutCard(cbCardData)
 		local cbWeaveCount=self.m_cbWeaveCount[wMeChairID]
 
 		--构造扑克
-		local cbCardIndexTemp[cmd.MAX_INDEX]
+		local cbCardIndexTemp={}
   	local cbCardIndexTemp=GameLogic.deepcopy(self.m_cbCardIndex)
 
 		--删除扑克
@@ -2079,7 +2083,7 @@ function GameLayer:OnOutInvalidCard()
 	--出牌判断
   if self.m_wCurrentUser~=self:GetMeChairID() then	return 0  end
 
-	self._gameView:m_bTipSingle=true
+	self._gameView.m_bTipSingle=true
 	--self._gameView.SetTimer(102/*IDI_TIP_SINGLE*/,2500,NULL);
   self:F_GVSetTimer(102,250)
 	self._gameView:RefreshGameView()
@@ -2099,7 +2103,8 @@ function GameLayer:OnOutCard(wParam, lParam)
 
 	--听牌判断
   if ((self.m_bHearStatus==true) or (self.m_bWillHearStatus==true)) and ((self:VerdictOutCard(wParam)==false) or (self:VerdictOutCard(wParam)==0)) then
-		m_pIStringMessage->InsertSystemString(TEXT("出此牌不符合游戏规则!"));  --此处
+		--m_pIStringMessage->InsertSystemString(TEXT("出此牌不符合游戏规则!"));  --此处
+		print("出此牌不符合游戏规则")
 		return 0
   end
 
@@ -2180,14 +2185,16 @@ function GameLayer:OnStusteeControl(wParam, lParam)
   if self.m_bStustee==true then
 		self.m_bStustee=false
 		--self._gameView.m_btStusteeControl.SetButtonImage(IDB_BT_START_TRUSTEE,AfxGetInstanceHandle(),false,false);     mark 待完成界面后修改
-		m_pIStringMessage->InsertSystemString(_T("您取消了托管功能."));   --
+		print("您取消了托管功能")
+		--m_pIStringMessage->InsertSystemString(_T("您取消了托管功能."));   --
   	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_Trustee)
   	cmd_data:pushbool(false)
   	self:SendData(cmd.SUB_C_TRUSTEE, cmd_data)
   else
 		self.m_bStustee=true
 		--self._gameView.m_btStusteeControl.SetButtonImage(IDB_BT_STOP_TRUSTEE,AfxGetInstanceHandle(),false,false);        mark 待完成界面后修改
-		m_pIStringMessage->InsertSystemString(_T("您选择了托管功能."));   --
+		print("您选择了托管功能")
+		--m_pIStringMessage->InsertSystemString(_T("您选择了托管功能."));   --
   	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_Trustee)
   	cmd_data:pushbool(true)
   	self:SendData(cmd.SUB_C_TRUSTEE, cmd_data)
@@ -2443,7 +2450,7 @@ end
 function GameLayer:SwitchHeapViewChairID(wChairID)
 	-- 转换椅子0位置为0， 1的位置为2
 	local wViewChairID=(wChairID+4-self:GetMeChairID()*2)
-	wViewChairID += 2
+	wViewChairID =wViewChairID + 2
 	return wViewChairID%4
 end
 

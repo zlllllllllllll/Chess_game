@@ -2,14 +2,14 @@
 -- Author: zml
 -- Date: 2017-12-8 15:48:39
 --
-local cmd = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.CMD_Game")
+local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 local CardControl = class("CardControl", function(scene)
 	local CardControl = display.newLayer()
 	return CardControl
 end)
 local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
-local GameViewLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.GameViewLayer")
+--local GameViewLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.GameViewLayer")
 
 --扑克图片
 local CCardListImage = class("CCardListImage", cc.Layer)
@@ -144,7 +144,7 @@ function CCardListImage:DestroyResource(id)
 	CardControl.CCardList[id].m_nItemHeight=nil
 
 	--释放资源
-	CardControl.CCardList[id]:m_CardListImage:removeFromParent()
+	CardControl.CCardList[id].m_CardListImage:removeFromParent()
 
 	return true
 end
@@ -473,7 +473,7 @@ function CHeapCard:DrawCardControl(pDC,s)
 					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) && (m_byShowCard>0) && (0 == wShowCardPos%2) then
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 					end
 				end
@@ -613,7 +613,7 @@ end
 
 --设置扑克
 function CWeaveCard:SetCardData(cbCardData,wCardCount,cbWikCard)
-	if wCardCount>GameLogic.table_leng(self.m_cbCardData) return false end
+	if wCardCount>GameLogic.table_leng(self.m_cbCardData) then return false end
 
 	--设置扑克
 	self.m_wCardCount=wCardCount
@@ -772,8 +772,8 @@ function CUserCard:DrawCardControl(pDC)
 
 			--当前扑克
 			if self.m_bCurrentCard==true then
-				local nXPos=self:m_ControlPoint.x
-				local nYPos=self:m_ControlPoint.y-49
+				local nXPos=self.m_ControlPoint.x
+				local nYPos=self.m_ControlPoint.y-49
 				CCardResource.m_ImageUserLeft:setPosition(nXPos,nYPos)
 					:setColor(cc.c3b(255, 0, 255))
 					:setVisible(true)
@@ -789,7 +789,7 @@ function CUserCard:DrawCardControl(pDC)
 			end
 
 			--正常扑克
-			if self.m_wCardCount> then
+			if self.m_wCardCount>0 then
 				local nXPos,nYPos=0,0
 				for i=0,self.m_wCardCount-1,1 do
 					nYPos=self.m_ControlPoint.y
@@ -934,7 +934,6 @@ function CDiscardCard:GetLastCardPosition()
 
 			return CPoint(nXPos,nYPos)
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
-		{
 			--变量定义
 			local nCellWidth=CardControl.CCardList["m_ImageTableTop"].m_nViewWidth
 			local nCellHeight=CardControl.CCardList["m_ImageTableTop"].m_nViewHeight
@@ -1058,7 +1057,7 @@ function CCardControl:SetBenchmarkPos(...)
 	local arg={...}
 	local len=#arg
 	if len==3 then	CCardControl:SetBenchmarkPos_3(arg[1],arg[2],arg[3])
-	elseif len==4 then	CCardControl:SetBenchmarkPos_4(arg[1],arg[2],arg[3]),arg[4])
+	elseif len==4 then	CCardControl:SetBenchmarkPos_4(arg[1],arg[2],arg[3],arg[4])
 	else	print("SetBenchmarkPos 参数个数不符")
 	end
 end
@@ -1336,7 +1335,7 @@ function CCardControl:DrawCardControl(pDC)
 
 		--绘画扑克
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
-		if (0 ~= cbCardData) and self.m_bShowDisable) then
+		if (0 ~= cbCardData) and self.m_bShowDisable then
 			local byIndex = GameLogic.SwitchToCardIndex(cbCardData)
 			CCardListImage:DrawCardItem("m_ImageUserBottom",pDC,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
 		else
@@ -1354,8 +1353,8 @@ function CCardControl:SwitchCardPoint(MousePoint)
 	local nYPos=MousePoint.y-self.m_ControlPoint.y
 
 	--范围判断
-	if (nXPos<0) or (nXPos>self.m_ControlSize.cx) then CardControl.INVALID_ITEM	end
-	if (nYPos<CardControl.POS_SHOOT) or (nYPos>self.m_ControlSize.cy) then CardControl.INVALID_ITEM	end
+	if (nXPos<0) or (nXPos>self.m_ControlSize.cx) then return CardControl.INVALID_ITEM	end
+	if (nYPos<CardControl.POS_SHOOT) or (nYPos>self.m_ControlSize.cy) then return CardControl.INVALID_ITEM	end
 
 	--牌列子项
 	if nXPos<CardControl.CARD_WIDTH*GameLogic.table_leng(self.m_CardItemArray) then

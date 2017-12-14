@@ -62,45 +62,45 @@ GameLogic.CHK_QUAN_QIU_REN=			0x00001000							--全求权位
 --------------------------------------------------------------------------
 
 --类型子项
-GameLogic.tagKindItem
+GameLogic.tagKindItem=
 {
 	{k = "cbWeaveKind", t = "byte"},					--组合类型
 	{k = "cbCenterCard", t = "byte"},					--中心扑克
 	{k = "cbCardIndex", t = "byte",l = {3}} 	--扑克索引
-};
+}
 
 --组合子项
-GameLogic.tagWeaveItem
+GameLogic.tagWeaveItem=
 {
 	{k = "cbWeaveKind", t = "byte"},					--组合类型
 	{k = "cbCenterCard", t = "byte"},					--中心扑克
 	{k = "cbPublicCard", t = "byte"},					--公开标志
 	{k = "wProvideUser", t = "word"}					--供应用户
-};
+}
 
 --胡牌结果
-GameLogic.tagChiHuResult
+GameLogic.tagChiHuResult=
 {
 	{k = "dwChiHuKind", t = "dword"},					--吃胡类型
 	{k = "dwChiHuRight", t = "dword"},				--胡牌权位
 	{k = "dwWinTimes", t = "dword"}						--番数数目
-};
+}
 
 --杠牌结果
-GameLogic.tagGangCardResult
+GameLogic.tagGangCardResult=
 {
 	{k = "cbCardCount", t = "byte"},					--扑克数目
 	{k = "cbCardData", t = "byte",l = {4}},		--扑克数据
 	{k = "cbGangType", t = "byte"}						--杠牌类型
-};
+}
 
 --分析子项
-GameLogic.tagAnalyseItem
+GameLogic.tagAnalyseItem=
 {
 	{k = "cbCardEye", t = "byte"},						--牌眼扑克
 	{k = "cbWeaveKind", t = "byte",l = {cmd.MAX_WEAVE}},			--组合类型
-	{k = "cbCenterCard", t = "byte" ,l = {cmd.MAX_WEAVE}},		--中心扑克
-};
+	{k = "cbCenterCard", t = "byte" ,l = {cmd.MAX_WEAVE}}		--中心扑克
+}
 
 GameLogic.BAIBAN_CARD_DATA  = 0x37   -- 白板
 
@@ -133,7 +133,7 @@ GameLogic.m_cbCardDataArray=
 	0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 									--番子
 	0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 									--番子
 	0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 									--番子
-};
+}
 
 --拷贝数组
 function GameLogic.deepcopy(object)
@@ -296,7 +296,7 @@ function GameLogic.RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCoun
 	-- ASSERT(cbRemoveCount<=cbCardCount);
 
 	--定义变量
-	local cbDeleteCount=0,cbTempCardData={};
+	local cbDeleteCount,cbTempCardData =0,{}
 	if cbCardCount>cmd.MAX_COUNT then
 		return false
 	end
@@ -457,7 +457,7 @@ function GameLogic.EstimateEatCard(cbCardIndex,cbCurrentCard)
 	--ASSERT(IsValidCard(cbCurrentCard))
 
 		-- 财神不可以吃
-		if cbCurrentCard == GameLogic.m_byGodsCardData
+		if cbCurrentCard == GameLogic.m_byGodsCardData then
 			return GameLogic.WIK_NULL
 		end
 
@@ -466,7 +466,7 @@ function GameLogic.EstimateEatCard(cbCardIndex,cbCurrentCard)
 		if (cbCurrentCard>= 0x31) and (GameLogic.BAIBAN_CARD_DATA ~= cbCurrentCard) then
 			return GameLogic.WIK_NULL
 		end
-		if (cbCurrentCard>= 0x31) and ((GameLogic.BAIBAN_CARD_DATA == cbCurrentCard) and (GameLogic.m_byGodsCardData>= 0x31))
+		if (cbCurrentCard>= 0x31) and ((GameLogic.BAIBAN_CARD_DATA == cbCurrentCard) and (GameLogic.m_byGodsCardData>= 0x31)) then
 			return GameLogic.WIK_NULL
 		end
 
@@ -477,21 +477,20 @@ function GameLogic.EstimateEatCard(cbCardIndex,cbCurrentCard)
 		--吃牌判断
 		local cbEatKind,cbFirstIndex=0,0
 		local cbCurrentIndex=GameLogic.SwitchToCardIndex(cbCurrentCard)
-		if (cbCurrentIndex > 27)
-		{
+		if cbCurrentIndex > 27  then
 			return GameLogic.WIK_NULL
-		}
+		end
 
 		for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 				local cbValueIndex=cbCurrentIndex%9
 				while (cbValueIndex>=cbExcursion[i]) and ((cbValueIndex-cbExcursion[i])<=6) do
 						--吃牌判断
 						cbFirstIndex=cbCurrentIndex-cbExcursion[i]
-						if (cbCurrentIndex~=cbFirstIndex) and (cbCardIndex[cbFirstIndex]==0) break	end
+						if (cbCurrentIndex~=cbFirstIndex) and (cbCardIndex[cbFirstIndex]==0) then  break	end
 
-						if (cbCurrentIndex~=(cbFirstIndex+1)) and (cbCardIndex[cbFirstIndex+1]==0) break	end
+						if (cbCurrentIndex~=(cbFirstIndex+1)) and (cbCardIndex[cbFirstIndex+1]==0) then  break	end
 
-						if (cbCurrentIndex~=(cbFirstIndex+2)) and (cbCardIndex[cbFirstIndex+2]==0) break	end
+						if (cbCurrentIndex~=(cbFirstIndex+2)) and (cbCardIndex[cbFirstIndex+2]==0) then break	end
 
 						--设置类型
 						cbEatKind=bit:_or(cbEatKind,cbItemKind[i])
@@ -521,7 +520,6 @@ end
 
 --听牌分析
 function GameLogic.AnalyseTingCard(cbCardIndex, WeaveItem,cbItemCount,dwChiHuRight)
-{
 	-- 温州麻将没有听牌功能
 	----变量定义
 	--tagChiHuResult ChiHuResult;
@@ -558,7 +556,7 @@ function GameLogic.AnalyseTingCard(cbCardIndex, WeaveItem,cbItemCount,dwChiHuRig
 	--}
 
 	return GameLogic.WIK_NULL
-}
+end
 
 --杠牌分析    GameLogic.tagWeaveItem WeaveItem   --   GameLogic.tagGangCardResult GangCardResult
 function GameLogic.AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardResult)
@@ -629,7 +627,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	--OUTPUT_DEBUG_STRING(TEXT("服务端财神 0x%02X"), m_byGodsCardData);
 	if 1== cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
-		local cbCardIndexUser[cmd.MAX_INDEX]
+		local cbCardIndexUser={}
 		for i=0,cmd.MAX_INDEX-1,1 do
 			cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 			cbCardIndexUser[i]=cbCardIndexUser[i]+1
@@ -652,7 +650,6 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			end
 		end
 		--OUTPUT_DEBUG_STRING(TEXT("一个财神时 %s可以胡牌"), AnalyseItemArray.GetCount()>0?TEXT(""):TEXT("不"))
-	end
 	elseif 2 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
@@ -683,7 +680,6 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			end
 		end
 		--OUTPUT_DEBUG_STRING(TEXT("两个财神时 %s可以胡牌"), AnalyseItemArray.GetCount()>0?TEXT(""):TEXT("不"));
-	end
 	elseif 3 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
@@ -718,7 +714,6 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			end
 		end
 		--OUTPUT_DEBUG_STRING(TEXT("三个财神时 %s可以胡牌"), AnalyseItemArray.GetCount()>0?TEXT(""):TEXT("不"));
-	end
 	elseif 4 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
@@ -765,7 +760,6 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			end
 		end
 		--OUTPUT_DEBUG_STRING(TEXT("四个财神时 %s可以胡牌"), AnalyseItemArray.GetCount()>0?TEXT(""):TEXT("不"));
-	end
 	else
 		GameLogic.AnalyseCard(cbCardIndexTemp,WeaveItem,cbWeaveCount,AnalyseItemArray)
 		if not bIsBaDui then
@@ -791,7 +785,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 		-- 单张胡牌
 		local byCount = 0
 		for i=0,cmd.MAX_INDEX-1,1 do
-			byCount += cbCardIndexTemp[byGodsCardIndex]
+			byCount = byCount+ cbCardIndexTemp[byGodsCardIndex]
 		end
 		if 0x02 == byCount then
 			dwChiHuKind=bit:_or(dwChiHuKind,GameLogic.CHK_SINGLE_PAI)
@@ -833,7 +827,6 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 
 		end
 
-	end
 	else
 		if 0x03 == cbCardIndexTemp[byGodsCardIndex] then	 -- 有三财神，没有其他胡牌
 			if not bIsBaDui then
@@ -904,8 +897,8 @@ function GameLogic.IsShiSanYao(cbCardIndex,WeaveItem,cbWeaveCount)
 			if cbCardIndex[i+8]==0 then return false end
 
 			--牌眼判断
-			if (bCardEye==false) and (cbCardIndex[i]==2) then return bCardEye=true end
-			if (bCardEye==false) and (cbCardIndex[i+8]==2) then return bCardEye=true end
+			if (bCardEye==false) and (cbCardIndex[i]==2) then bCardEye=true end
+			if (bCardEye==false) and (cbCardIndex[i+8]==2) then bCardEye=true end
 		end
 
 		--番子判断
@@ -915,7 +908,7 @@ function GameLogic.IsShiSanYao(cbCardIndex,WeaveItem,cbWeaveCount)
 		end
 
 		--牌眼判断
-		if bCardEye==false return false
+		if bCardEye==false then return false end
 
 		return true
 end
@@ -1053,7 +1046,7 @@ function GameLogic.SwitchToCardData_2(cbCardIndex,cbCardData)
 	for i=0,cmd.MAX_INDEX-1,1 do
 		while true do
 
-				if byIndex == i break	end
+				if byIndex == i then break	end
 
 				if cbCardIndex[i]~=0 then
 					for j=0,cbCardIndex[i]-1,1 do

@@ -12,24 +12,26 @@ local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLog
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ScoreControl")
 local ControlWnd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ControlWnd")
+local ExternalFun = require(appdf.EXTERNAL_SRC .. "ExternalFun")
+local g_var = ExternalFun.req_var 
 --按钮标识
 
-GameViewLayer.IDC_START									100								--开始按钮
-GameViewLayer.IDC_TRUSTEE_CONTROL				104								--托管控制
-GameViewLayer.IDC_MAI_DI				        105								-- 买底
-GameViewLayer.IDC_DING_DI				        106								-- 顶底
-GameViewLayer.IDC_MAI_CANCEL				    107								--托管控制
-GameViewLayer.IDC_DING_CANCEL						108
+GameViewLayer.IDC_START						=	100								--开始按钮
+GameViewLayer.IDC_TRUSTEE_CONTROL			=	104								--托管控制
+GameViewLayer.IDC_MAI_DI				    =   105								-- 买底
+GameViewLayer.IDC_DING_DI				    =   106								-- 顶底
+GameViewLayer.IDC_MAI_CANCEL				=   107								--托管控制
+GameViewLayer.IDC_DING_CANCEL				=	108
 
 --动作标识
-GameViewLayer.IDI_BOMB_EFFECT						101								--动作标识
-GameViewLayer.IDI_TIP_SINGLE						102
-GameViewLayer.IDI_SIBO_PLAY       	    220
+GameViewLayer.IDI_BOMB_EFFECT				=	101								--动作标识
+GameViewLayer.IDI_TIP_SINGLE				=	102
+GameViewLayer.IDI_SIBO_PLAY       	    	=	220
 --动作数目
-GameViewLayer.BOMB_EFFECT_COUNT					12								--动作数目
-GameViewLayer.DISC_EFFECT_COUNT					8									--丢弃效果
+GameViewLayer.BOMB_EFFECT_COUNT				=	12								--动作数目
+GameViewLayer.DISC_EFFECT_COUNT				=	8								--丢弃效果
 
-GameViewLayer.IDI_DISC_EFFECT						102								--丢弃效果     重复了什么情况
+GameViewLayer.IDI_DISC_EFFECT				=	102								--丢弃效果     重复了什么情况
 
 local  btcallback = function(ref, type)
   if type == ccui.TouchEventType.ended then
@@ -66,6 +68,7 @@ function GameViewLayer:ctor(scene)
 	this = self
 	self._scene = scene
 	self._gameFrame = scene._gameFrame
+	self:addSerchPaths()
 	-- self:onInitData()
 	self:preloadUI()
 	-- self:initButtons()
@@ -174,6 +177,23 @@ function GameViewLayer:ctor(scene)
 	return
 end
 
+function GameViewLayer:addSerchPaths( )
+   --搜索路径
+    -- local gameList = self._scene._scene:getApp()._gameList;
+    -- local gameInfo = {};
+	-- for k,v in pairs(gameList) do
+    --       if tonumber(v._KindID) == tonumber(cmd.KIND_ID) then
+    --         gameInfo = v;
+    --         break;
+    --     end
+    -- end
+
+    -- if nil ~= gameInfo._KindName then
+    --     self._searchPath = device.writablePath.."game/" .. gameInfo._Module .. "/res/";
+    --     cc.FileUtils:getInstance():addSearchPath(self._searchPath);
+    -- end
+end
+
 --批量创建
 function GameViewLayer:batchCreate(num,type)   --改长度需要使用 GameLogic.table_leng 不能使用 # 起始值不同 （此处键名不中断）
 		a={}
@@ -200,7 +220,7 @@ end
 
 function GameViewLayer:preloadUI()
 		--变量定义
-		self.Direction={CardControl.enDirection.Direction_North,CardControl.enDirection.Direction_East,CardControl.enDirection.Direction_South,CardControl.enDirection.Direction_West};
+		self.Direction={CardControl.Direction_North,CardControl.Direction_East,CardControl.Direction_South,CardControl.Direction_West};
 		--用户扑克
 		self.m_HeapCard=self:batchCreate(4,"CHeapCard")
 
@@ -219,8 +239,10 @@ function GameViewLayer:preloadUI()
 		--设置控件
 		self.m_TableCard=self:batchCreate(cmd.GAME_PLAYER,"CTableCard")
 		self.m_DiscardCard=self:batchCreate(cmd.GAME_PLAYER,"CDiscardCard")
+		self.m_WeaveCard={} 
 		for i=0,cmd.GAME_PLAYER-1,1 do
-			self.m_WeaveCard=self:batchCreate(cmd.MAX_WEAVE,"CWeaveCard")
+			self.m_WeaveCard[i] = {} 
+			self.m_WeaveCard[i]=self:batchCreate(cmd.MAX_WEAVE,"CWeaveCard")
 		end
 		for i=0,cmd.GAME_PLAYER-1,1 do
 			--用户扑克
@@ -242,8 +264,8 @@ function GameViewLayer:preloadUI()
 
 		--设置控件
 		self.m_UserCard=self:batchCreate(cmd.GAME_PLAYER,"CUserCard")
-		self.m_UserCard[0]:SetDirection(CardControl.enDirection.Direction_North)
-		self.m_UserCard[1]:SetDirection(CardControl.enDirection.Direction_East)
+		self.m_UserCard[0]:SetDirection(CardControl.Direction_North)
+		self.m_UserCard[1]:SetDirection(CardControl.Direction_East)
 
 
 		--创建控件
@@ -349,11 +371,11 @@ function GameViewLayer:ResetGameView()
 	--m_btStusteeControl.EnableWindow(FALSE);
 
 	--扑克设置
-	self:m_UserCard[0]:SetCardData(0,false)
-	self:m_UserCard[1]:SetCardData(0,false)
-	self:m_HandCardControl:SetPositively(false)
-	self:m_HandCardControl:SetDisplayItem(false)
-	self:m_HandCardControl:SetCardData(nil,0,0)
+	self.m_UserCard[0]:SetCardData(0,false)
+	self.m_UserCard[1]:SetCardData(0,false)
+	self.m_HandCardControl:SetPositively(false)
+	self.m_HandCardControl:SetDisplayItem(false)
+	self.m_HandCardControl:SetCardData(nil,0,0)
 
 	for i=0,cmd.GAME_PLAYER-1,1 do          --创建的时候为 4个呀  GAME_PLAYER才2
 		self.m_HeapCard[i]:SetCardData(0,0,0)
@@ -485,12 +507,12 @@ function GameViewLayer:RectifyControl(nWidth,nHeight)
 	local rcButton=self.m_btStart:getContentSize()
 	self.m_btStart:setPosition(cc.p((nWidth-rcButton.width)/2,nHeight-120-self.m_nYBorder))
 	--移动调整
-	self.m_btStusteeControl:setPosition( cc.p( (nWidth-self.m_nXBorder-(rcButton.width+5),nHeight-self.m_nYBorder-rcButton.height+5 ) )
+	self.m_btStusteeControl:setPosition( cc.p( nWidth-self.m_nXBorder-(rcButton.width+5),nHeight-self.m_nYBorder-rcButton.height+5 ))  
 	--移动成绩
 	--CRect rcScoreControl;
 	--m_ScoreControl.GetWindowRect(&rcScoreControl);
-	local rcScoreControl=self.m_ScoreControl:getContentSize()
-	self.m_ScoreControl:setPosition( cc.p( (nWidth-rcScoreControl.width)/2,(nHeight-rcScoreControl.height)*2/5 ) )
+	local xxcoreControl=self.m_ScoreControl:getContentSize()
+	self.m_ScoreControl:setPosition( cc.p( (nWidth-xxcoreControl.width)/2,(nHeight-xxcoreControl.height)*2/5 ) )
 
 	--m_btMaiDi.GetWindowRect(&rcButton);
 	rcButton=self.m_btMaiDi:getContentSize()
@@ -535,8 +557,8 @@ function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 			:addTo(self)
 
 		--设置变量
-		wTime/=10
-		nXDrawPos-=nNumberWidth+1
+		wTime=wTime /10
+		nXDrawPos=nXDrawPos- nNumberWidth+1
 	end
 
 end
@@ -640,7 +662,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	--荒庄标志
 	if self.m_bHuangZhuang==true then
 		self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png")
-			:setPosition(nWidth-self.m_ImageHuangZhuang:getContentSize().width)/2,nHeight/2-103)
+			:setPosition((nWidth-self.m_ImageHuangZhuang:getContentSize().width)/2,nHeight/2-103)
 			:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 			:addTo(self)
@@ -1167,7 +1189,7 @@ function GameViewLayer:OnTimer(nIDEvent)
 		if (self.m_cbDiscFrameIndex+1)>=GameViewLayer.DISC_EFFECT_COUNT then
 			self.m_cbDiscFrameIndex=0
 		else
-			self.m_cbDiscFrameIndex++
+			self.m_cbDiscFrameIndex=self.m_cbDiscFrameIndex+1
 		end
 
 		--更新界面
@@ -1316,7 +1338,7 @@ end
 function GameViewLayer:mc12(mc1,mc2)
 	--碰撞角
 	--local  ang = atan2((mc2.dbY-mc1.dbY),mc2.dbX-mc1.dbX);
-	local  ang = math.deg(math.atan(((mc2.dbY-mc1.dbY),mc2.dbX-mc1.dbX))
+	local  ang = math.deg(math.atan((mc2.dbY-mc1.dbY),mc2.dbX-mc1.dbX))
 	--运动角
 	local ang1 = math.deg(math.atan(mc1.dbDy,mc1.dbDx))
 	local ang2 = math.deg(math.atan(mc2.dbDy, mc2.dbDx))
@@ -1349,7 +1371,7 @@ function GameViewLayer:myHitTest(mc1,mc2)
 	local a=math.sqrt((mc1.dbX-mc2.dbX)*(mc1.dbX-mc2.dbX)
 		+(mc1.dbY-mc2.dbY)*(mc1.dbY-mc2.dbY))
 
-	if a-5<(mc1.dbWidth+mc2.dbWidth)/2 then
+	if a-5 <(mc1.dbWidth+mc2.dbWidth)/2 then
 		return true
 	else
 		return false
@@ -1371,8 +1393,8 @@ function GameViewLayer:mcFanTang(mc)
 	local r1=math.sqrt(mc.dbDx*mc.dbDx+mc.dbDy*mc.dbDy)
 
 	-- 碰撞后的增量
-	mc.dbDx = r1*math.cos(math.rad((double)_ang1))
-	mc.dbDy = r1*math.sin(math.rad((double)_ang1))
+	mc.dbDx = r1*math.cos(math.rad(_ang1))
+	mc.dbDy = r1*math.sin(math.rad(_ang1))
 end
 
 function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
@@ -1429,7 +1451,6 @@ end
 function GameViewLayer:DrawNumberString(pDC,lNumber,nXPos,nYPos,bMeScore)
 	--加载资源
 
-	CSize SizeScoreNumber(,);
 	local cx=self.m_ImageNumber:getContentSize().width/10
 	local cy=self.m_ImageNumber:getContentSize().height
 
@@ -1457,13 +1478,13 @@ function GameViewLayer:DrawNumberString(pDC,lNumber,nXPos,nYPos,bMeScore)
 			self.m_ImageNumber:setPosition(nXDrawPos,nYDrawPos)
 				:setColor(cc.c3b(255, 0, 255))
 				:setVisible(true)
-			self.m_ImageNumber
-			TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
-				lCellNumber*cx,0,RGB(255,0,255));
+			-- self.m_ImageNumber
+			-- TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
+			-- 	lCellNumber*cx,0,RGB(255,0,255));
 		else
-			self.m_ImageNumber
-			TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
-				lCellNumber*cx,0,RGB(255,0,255));
+			-- self.m_ImageNumber
+			-- TransDrawImage(pDC,nXDrawPos,nYDrawPos,cx,cy,
+			-- 	lCellNumber*cx,0,RGB(255,0,255));
 		end
 
 		--设置变量

@@ -3,7 +3,7 @@
 -- Date: 2017-12-8 15:48:39
 --
 local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
-local cmd = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.CMD_Game")
+local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = class("ScoreControl", function(scene)
@@ -270,13 +270,14 @@ function ScoreControl:OnPaint()
 			--牌型信息
 			while true do
 			for j=0,GameLogic.table_leng(dwCardKind)-1,1 do
-				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j])
+				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
 					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
 						--continue;
 					else
 						strCardInfo=pszCardKind[j]
 						break
 					end
+				end
 			end
 			break end
 			--if strCardInfo.IsEmpty() then  IsEmpty 判断未初始化 问题是已经初始化
