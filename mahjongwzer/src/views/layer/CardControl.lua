@@ -120,14 +120,14 @@ function CCardListImage:Cfound(id)
 	CardControl.CCardList[id].m_nViewHeight=0
 end
 --加载资源
-function CCardListImage:LoadResource(id,uResourceID,nViewWidth,nViewHeight)
+function CCardListImage:LoadResource(Parent,id,uResourceID,nViewWidth,nViewHeight)
 	--加载资源
 	if false == cc.FileUtils:getInstance():isFileExist(uResourceID) then
 		uResourceID = "CARD_USER_BOTTOM"
 	end
-	CardControl.CCardList[id].m_CardListImage=display.newSprite("res/game/"..uResourceID..".png"):setVisible(false):addTo(self)
-	CardControl.CCardList[id].m_csFlag=display.newSprite("res/game/CS_FLAG.png"):setVisible(false):addTo(self)
-	CardControl.CCardList[id].m_CardBack=display.newSprite("res/game/CARD_BACK.png"):setVisible(false):addTo(self)
+	CardControl.CCardList[id].m_CardListImage=display.newSprite("res/game/"..uResourceID..".png"):setVisible(false):addTo(Parent)
+	CardControl.CCardList[id].m_csFlag=display.newSprite("res/game/CS_FLAG.png"):setVisible(false):addTo(Parent)
+	CardControl.CCardList[id].m_CardBack=display.newSprite("res/game/CARD_BACK.png"):setVisible(false):addTo(Parent)
 	--设置变量
 	CardControl.CCardList[id].m_nViewWidth=nViewWidth
 	CardControl.CCardList[id].m_nViewHeight=nViewHeight
@@ -216,26 +216,27 @@ function CCardResource:ctor()
 end
 
 --加载资源
-function CCardResource:LoadResource()
+function CCardResource:LoadResource(Parent)
 	--用户扑克
-	self.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false):addTo(self)
-	self.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false):addTo(self)
-	self.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false):addTo(self)
-	CCardListImage:LoadResource("m_ImageUserBottom","CARD_USER_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
-	CCardListImage:LoadResource("m_ImageWaveBottom","CARD_WAVE_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
+print(parent,self)
+	self.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false) :addTo(Parent)
+	CCardListImage:LoadResource(Parent,"m_ImageUserBottom","CARD_USER_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
+	CCardListImage:LoadResource(Parent,"m_ImageWaveBottom","CARD_WAVE_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
 	--桌子扑克
-	CCardListImage:LoadResource("m_ImageTableTop","CARD_TABLE_TOP",24,35)
-	CCardListImage:LoadResource("m_ImageTableLeft","CARD_TABLE_LEFT",32,28)
-	CCardListImage:LoadResource("m_ImageTableRight","CARD_TABLE_RIGHT",32,28)
-	CCardListImage:LoadResource("m_ImageTableBottom","CARD_TABLE_BOTTOM",24,35)
+	CCardListImage:LoadResource(Parent,"m_ImageTableTop","CARD_TABLE_TOP",24,35)
+	CCardListImage:LoadResource(Parent,"m_ImageTableLeft","CARD_TABLE_LEFT",32,28)
+	CCardListImage:LoadResource(Parent,"m_ImageTableRight","CARD_TABLE_RIGHT",32,28)
+	CCardListImage:LoadResource(Parent,"m_ImageTableBottom","CARD_TABLE_BOTTOM",24,35)
 
 	--牌堆扑克
-	self.m_ImageBackH=display.newSprite("res/game/CARD_BACK_H.png"):setVisible(false):addTo(self)
-	self.m_ImageBackV=display.newSprite("res/game/CARD_BACK_V.png"):setVisible(false):addTo(self)
-	self.m_ImageHeapSingleV=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png"):setVisible(false):addTo(self)
-	self.m_ImageHeapSingleH=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png"):setVisible(false):addTo(self)
-	self.m_ImageHeapDoubleV=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png"):setVisible(false):addTo(self)
-	self.m_ImageHeapDoubleH=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png"):setVisible(false):addTo(self)
+	self.m_ImageBackH=display.newSprite("res/game/CARD_BACK_H.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageBackV=display.newSprite("res/game/CARD_BACK_V.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageHeapSingleV=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageHeapSingleH=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageHeapDoubleV=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png"):setVisible(false) :addTo(Parent)
+	self.m_ImageHeapDoubleH=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png"):setVisible(false) :addTo(Parent)
 
 	return true
 end
@@ -1038,13 +1039,13 @@ function CCardControl:ctor()
 	self.m_wCardCount=0
 	self.m_wHoverItem=CardControl.INVALID_ITEM
 	self.m_CurrentCard={}
-  self.m_CardItemArray=GameLogic:ergodicList(cmd.MAX_COUNT)
+  	self.m_CardItemArray=GameLogic:ergodicList(cmd.MAX_COUNT)
 
 	--加载设置
 	self.m_ControlPoint=cc.p(0, 0)
 	self.m_ControlSize={}
 	self.m_ControlSize.cy=CardControl.CARD_HEIGHT+CardControl.POS_SHOOT
-	self.m_ControlSize.cx=(GameLogic.table_leng(m_CardItemArray)+1)*CardControl.CARD_WIDTH+CardControl.POS_SPACE
+	self.m_ControlSize.cx=(GameLogic.table_leng(self.m_CardItemArray)+1)*CardControl.CARD_WIDTH+CardControl.POS_SPACE
 	self.m_cbOutCardIndex={}
 	self.m_bCardDisable={}
 	self.m_bShowDisable = false

@@ -35,6 +35,7 @@ function ScoreControl:ctor()
 
 	--设置控件
 	--CWeaveCard						m_WeaveCard[MAX_WEAVE];					//组合扑克
+	self.m_WeaveCard={} 
 	self.m_WeaveCard[0]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[1]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[2]=CardControl:create_CWeaveCard(self)
@@ -70,12 +71,14 @@ function ScoreControl:ctor()
 	end
 
 	--创建按钮
-	self.m_btCloseScore=ccui.Button:create("res/game/BT_SCORE_CLOSE.png")
+	ccui.Button:create("res/game/BT_SCORE_CLOSE.png")
 		:move(178,250)
+		:setName("m_btCloseScore")
 		:setTag(ScoreControl.IDC_CLOSE_SCORE)
 		--:setEnabled(false)
 		:addTo(self)
 		:addTouchEventListener(btcallback)
+	self.m_btCloseScore=self:getChildByName("m_btCloseScore")
 
 	return 0;
 end

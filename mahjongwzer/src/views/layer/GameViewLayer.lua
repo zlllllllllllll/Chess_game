@@ -33,13 +33,6 @@ GameViewLayer.DISC_EFFECT_COUNT				=	8								--丢弃效果
 
 GameViewLayer.IDI_DISC_EFFECT				=	102								--丢弃效果     重复了什么情况
 
-local  btcallback = function(ref, type)
-  if type == ccui.TouchEventType.ended then
-   	this:onButtonClickedEvent(ref:getTag(),ref)
-  end
-end
-local this
-
 function GameViewLayer:onButtonClickedEvent(tag, ref)
 	if tag == GameViewLayer.IDC_START then
 		print("开始按钮")
@@ -178,20 +171,24 @@ function GameViewLayer:ctor(scene)
 end
 
 function GameViewLayer:addSerchPaths( )
-   --搜索路径
-    -- local gameList = self._scene._scene:getApp()._gameList;
-    -- local gameInfo = {};
-	-- for k,v in pairs(gameList) do
-    --       if tonumber(v._KindID) == tonumber(cmd.KIND_ID) then
-    --         gameInfo = v;
-    --         break;
-    --     end
-    -- end
+	--搜索路径
+	local gameList = self._scene._scene:getApp()._gameList;
+	local gameInfo = {};
+	for k,v in pairs(gameList) do
+		if tonumber(v._KindID) == tonumber(cmd.KIND_ID) then
+			gameInfo = v
+			break
+		end
+	end
 
-    -- if nil ~= gameInfo._KindName then
-    --     self._searchPath = device.writablePath.."game/" .. gameInfo._Module .. "/res/";
-    --     cc.FileUtils:getInstance():addSearchPath(self._searchPath);
-    -- end
+	if nil ~= gameInfo._KindName then
+		self._searchPath = device.writablePath.."game/" .. gameInfo._Module
+		cc.FileUtils:getInstance():addSearchPath(self._searchPath)
+	end
+	print(self._searchPath)
+	print(cc.FileUtils:getInstance():isFileExist("res/game/SCORE_WIN.png"))   --正常
+	print(cc.FileUtils:getInstance():isFileExist("game/SCORE_WIN.png"))		  --正常 
+	print(cc.FileUtils:getInstance():isFileExist("SCORE_WIN.png"))
 end
 
 --批量创建
@@ -283,48 +280,65 @@ function GameViewLayer:preloadUI()
 		--用户扑克
 		--self.m_ControlWnd:SetSinkWindow(AfxGetMainWnd());  --mark
 		--创建控件
-		self.m_btStart=ccui.Button:create("res/game/BT_START.png","res/game/BT_START.png")
+		local  btcallback = function(ref, type)
+		if type == ccui.TouchEventType.ended then
+			self:onButtonClickedEvent(ref:getTag(),ref)
+		end
+		end
+		ccui.Button:create("res/game/BT_START.png","res/game/BT_START.png")
 			:move(0,0)
+            :setName("m_btStart")
 			:setTag(GameViewLayer.IDC_START)
 			:setScale(1)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
+		self.m_btStart=self:getChildByName("m_btStart")
 
 		--托管按钮
-		self.m_btStusteeControl=ccui.Button:create("res/game/BT_START_TRUSTEE.png","res/game/BT_START_TRUSTEE.png")
+		ccui.Button:create("res/game/BT_START_TRUSTEE.png","res/game/BT_START_TRUSTEE.png")
 			:move(0,0)
+            :setName("m_btStusteeControl")
 			:setTag(GameViewLayer.IDC_TRUSTEE_CONTROL)
 			:setScale(1)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
-		self.m_btMaiDi=ccui.Button:create("res/game/maidi.png","res/game/maidi.png")
+		self.m_btStusteeControl=self:getChildByName("m_btStusteeControl")
+		ccui.Button:create("res/game/maidi.png","res/game/maidi.png")
 			:move(0,0)
+            :setName("m_btMaiDi")
 			:setTag(GameViewLayer.IDC_MAI_DI)
 			:setScale(1)
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
-		self.m_btDingDi=ccui.Button:create("res/game/mai_dingdi.png","res/game/mai_dingdi.png")
+		self.m_btMaiDi=self:getChildByName("m_btMaiDi")
+		ccui.Button:create("res/game/mai_dingdi.png","res/game/mai_dingdi.png")
 			:move(0,0)
+            :setName("m_btDingDi")
 			:setTag(GameViewLayer.IDC_DING_DI)
 			:setScale(1)
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
-		self.m_btMaiCancel=ccui.Button:create("res/game/mai_cancel.png","res/game/mai_cancel.png")
+		self.m_btDingDi=self:getChildByName("m_btDingDi")
+		ccui.Button:create("res/game/mai_cancel.png","res/game/mai_cancel.png")
 			:move(0,0)
+            :setName("m_btMaiCancel")
 			:setTag(GameViewLayer.IDC_MAI_CANCEL)
 			:setScale(1)
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
-		self.m_btDingCancel=ccui.Button:create("res/game/di_cancel.png","res/game/di_cancel.png")
+		self.m_btMaiCancel=self:getChildByName("m_btMaiCancel")
+		ccui.Button:create("res/game/di_cancel.png","res/game/di_cancel.png")
 			:move(0,0)
+            :setName("m_btDingCancel")
 			:setTag(GameViewLayer.IDC_DING_CANCEL)
 			:setScale(1)
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
-		self.m_btMaiDi:setVisible(false)
-		self.m_btDingDi:setVisible(false)
-		self.m_btMaiCancel:setVisible(false)
-		self.m_btDingCancel:setVisible(false)
+		self.m_btDingCancel=self:getChildByName("m_btDingCancel")
 
 		self.m_HandCardControl.pWnd=self
 end
@@ -937,7 +951,7 @@ function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
 			self:SetBombEffect(false)
 		end
 	end
-	self.RectifyControl(m_iSavedWidth,m_iSavedHeight);
+	self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
 
 	--更新界面
 	self:RefreshGameView()

@@ -4,7 +4,7 @@ cmd.RES_PATH 				= "game/yule/mahjongwzer/res/"
 --
 --公共宏定义
 
-cmd.KIND_ID					=	105									 --游戏 I D
+cmd.KIND_ID					=	306									 --游戏 I D
 cmd.GAME_PLAYER				=	2									 --游戏人数
 cmd.GAME_NAME				=	"传统温州麻将"						--游戏名字
 cmd.GAME_GENRE			=		(GAME_GENRE_SCORE or GAME_GENRE_MATCH or GAME_GENRE_GOLD)	--游戏类型
