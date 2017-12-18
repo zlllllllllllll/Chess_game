@@ -1,6 +1,6 @@
 local GameLogic = {}
 
---local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
+local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 
 --------------------------------------------------------------------------
@@ -182,7 +182,7 @@ end
 --ZeroMemory
 function GameLogic:ergodicList(b)
 	a={}
-	for i=1,b,1 do
+	for i=0,b-1,1 do
 		a[i]={}
 	end
 	return a
@@ -261,7 +261,7 @@ end
 --====   RemoveCard3
 function GameLogic.RemoveCard_3(cbCardIndex,cbRemoveCard,cbRemoveCount)
 	--删除扑克
-	for i=1,cbRemoveCount,1 do
+	for i=0,cbRemoveCount-1,1 do
 		--效验扑克
 		--ASSERT(IsValidCard(cbRemoveCard[i]));
 		--ASSERT(cbCardIndex[SwitchToCardIndex(cbRemoveCard[i])]>0);
@@ -273,7 +273,7 @@ function GameLogic.RemoveCard_3(cbCardIndex,cbRemoveCard,cbRemoveCount)
 			if cbCardIndex[cbRemoveIndex]==0 then
 
 				--还原删除
-				for j=1,i,1 do
+				for j=0,i-1,1 do
 					--ASSERT(IsValidCard(cbRemoveCard[j]))
 					cbCardIndex[GameLogic.SwitchToCardIndex(cbRemoveCard[j])]=cbCardIndex[GameLogic.SwitchToCardIndex(cbRemoveCard[j])]+1
 				end
@@ -305,9 +305,9 @@ function GameLogic.RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCoun
 	local cbTempCardData=GameLogic.deepcopy(cbCardData)
 
 	--置零扑克
-	for i=1,cbRemoveCount,1 do
+	for i=0,cbRemoveCount-1,1 do
 		while true do
-			for j=1,cbCardCount,1 do
+			for j=0,cbCardCount-1,1 do
 				if cbRemoveCard[i]==cbTempCardData[j] then
 					cbDeleteCount=cbDeleteCount+1
 					cbTempCardData[j]=0
@@ -324,7 +324,7 @@ function GameLogic.RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCoun
 
 	--清理扑克
 	local cbCardPos = 0
-	for i=1,cbCardCount,1 do
+	for i=0,cbCardCount-1,1 do
 		if cbTempCardData[i]~=0 then
 			cbCardPos=cbCardPos+1
 			cbCardData[cbCardPos]=cbTempCardData[i];
@@ -344,7 +344,7 @@ end
 --扑克数目
 function GameLogic.GetCardCount(cbCardIndex)
 	local cbCardCount = 0
-	for i=1,cmd.MAX_COUNT,1 do
+	for i=0,cmd.MAX_COUNT-1,1 do
 		cbCardCount=cbCardCount+cbCardIndex[i]
 	end
 	return cbCardCount;
@@ -359,10 +359,10 @@ function GameLogic.GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					if GameLogic.BAIBAN_CARD_DATA == cbCenterCard then
 						cbCenterCard = GameLogic.m_byGodsCardData
 					end
-					cbCardBuffer[1]=cbCenterCard
-					cbCardBuffer[2]=cbCenterCard+1
-					cbCardBuffer[3]=cbCenterCard+2
-					for i=1, i<3, 1 do
+					cbCardBuffer[0]=cbCenterCard
+					cbCardBuffer[1]=cbCenterCard+1
+					cbCardBuffer[2]=cbCenterCard+2
+					for i=0, i<3-1, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
@@ -374,10 +374,10 @@ function GameLogic.GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					if GameLogic.BAIBAN_CARD_DATA == cbCenterCard then
 						cbCenterCard = GameLogic.m_byGodsCardData
 					end
-					cbCardBuffer[1]=cbCenterCard-2
-					cbCardBuffer[2]=cbCenterCard-1
-					cbCardBuffer[3]=cbCenterCard
-					for i=1, i<3, 1 do
+					cbCardBuffer[0]=cbCenterCard-2
+					cbCardBuffer[1]=cbCenterCard-1
+					cbCardBuffer[2]=cbCenterCard
+					for i=0, i<3-1, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
@@ -389,10 +389,10 @@ function GameLogic.GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					if GameLogic.BAIBAN_CARD_DATA == cbCenterCard then
 						cbCenterCard = GameLogic.m_byGodsCardData
 					end
-					cbCardBuffer[1]=cbCenterCard-1
-					cbCardBuffer[2]=cbCenterCard
-					cbCardBuffer[3]=cbCenterCard+1
-					for i=1, i<3, 1 do
+					cbCardBuffer[0]=cbCenterCard-1
+					cbCardBuffer[1]=cbCenterCard
+					cbCardBuffer[2]=cbCenterCard+1
+					for i=0, i<3-1, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
@@ -401,18 +401,18 @@ function GameLogic.GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 	    end,
 	    [GameLogic.WIK_PENG] = function()    --碰牌操作
 					--设置变量
+					cbCardBuffer[0]=cbCenterCard
 					cbCardBuffer[1]=cbCenterCard
 					cbCardBuffer[2]=cbCenterCard
-					cbCardBuffer[3]=cbCenterCard
 
 					return 3
 	    end,
 	    [GameLogic.WIK_GANG] = function()    --杠牌操作
 					--设置变量
+					cbCardBuffer[0]=cbCenterCard
 					cbCardBuffer[1]=cbCenterCard
 					cbCardBuffer[2]=cbCenterCard
 					cbCardBuffer[3]=cbCenterCard
-					cbCardBuffer[4]=cbCenterCard
 
 					return 4
 	    end
@@ -481,7 +481,7 @@ function GameLogic.EstimateEatCard(cbCardIndex,cbCurrentCard)
 			return GameLogic.WIK_NULL
 		end
 
-		for i=1,GameLogic.table_leng(cbItemKind),1 do
+		for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 				local cbValueIndex=cbCurrentIndex%9
 				while (cbValueIndex>=cbExcursion[i]) and ((cbValueIndex-cbExcursion[i])<=6) do
 						--吃牌判断
@@ -568,7 +568,7 @@ function GameLogic.AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 	GangCardResult={}
 
 	--手上杠牌
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		if cbCardIndex[i]==4 then
 			cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
 			if GangCardResult.cbCardCount then print("!!!AnalyseGangCard GangCardResult.cbCardCount 不能为nil") return end
@@ -579,7 +579,7 @@ function GameLogic.AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 	end
 
 	--组合杠牌
-	for i=1,cbWeaveCount,1 do
+	for i=0,cbWeaveCount-1,1 do
 		if WeaveItem[i].cbWeaveKind==GameLogic.WIK_PENG then
 			if cbCardIndex[GameLogic.SwitchToCardIndex(WeaveItem[i].cbCenterCard)]==1 then
 				cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
@@ -628,7 +628,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	if 1== cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser={}
-		for i=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
 			cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 			cbCardIndexUser[i]=cbCardIndexUser[i]+1
 			cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
@@ -653,8 +653,8 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	elseif 2 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
-		for i=1,cmd.MAX_INDEX,1 do
-			for j=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
+			for j=0,cmd.MAX_INDEX-1,1 do
 				cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 				cbCardIndexUser[i]=cbCardIndexUser[i]+1
 				cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
@@ -683,9 +683,9 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	elseif 3 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
-		for i=1,cmd.MAX_INDEX,1 do
-			for j=1,cmd.MAX_INDEX,1 do
-				for h=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
+			for j=0,cmd.MAX_INDEX-1,1 do
+				for h=0,cmd.MAX_INDEX-1,1 do
 					cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 					cbCardIndexUser[i]=cbCardIndexUser[i]+1
 					cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
@@ -717,10 +717,10 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 	elseif 4 == cbCardIndexTemp[byGodsCardIndex] then
 		local AnalyseItemArrayTemp
 		local cbCardIndexUser
-		for i=1,cmd.MAX_INDEX,1 do
-			for j=1,cmd.MAX_INDEX,1 do
-				for h=1,cmd.MAX_INDEX,1 do
-					for m=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
+			for j=0,cmd.MAX_INDEX-1,1 do
+				for h=0,cmd.MAX_INDEX-1,1 do
+					for m=0,cmd.MAX_INDEX-1,1 do
 						cbCardIndexUser=GameLogic.deepcopy(cbCardIndexTemp)
 						cbCardIndexUser[i]=cbCardIndexUser[i]+1
 						cbCardIndexUser[byGodsCardIndex]=cbCardIndexUser[byGodsCardIndex]-1
@@ -784,7 +784,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 
 		-- 单张胡牌
 		local byCount = 0
-		for i=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
 			byCount = byCount+ cbCardIndexTemp[byGodsCardIndex]
 		end
 		if 0x02 == byCount then
@@ -797,7 +797,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 		end
 
 		--牌型分析
-		for i=1,GameLogic.table_leng(AnalyseItemArray),1 do
+		for i=0,GameLogic.table_leng(AnalyseItemArray)-1,1 do
 			--变量定义
 			local bLianCard,bPengCard=false,false
 			--tagAnalyseItem * pAnalyseItem=&AnalyseItemArray[i];
@@ -806,7 +806,7 @@ function GameLogic.AnalyseChiHuCard(cbCardIndex,WeaveItem,cbWeaveCount,cbCurrent
 			--牌型分析
 			--mark
 			--for (BYTE j=0;j<CountArray(pAnalyseItem->cbWeaveKind);j++)
-			for j=1,GameLogic.table_leng(pAnalyseItem[cbWeaveKind]),1 do
+			for i=0,GameLogic.table_leng(pAnalyseItem[cbWeaveKind]),1 do
 				local cbWeaveKind=pAnalyseItem.cbWeaveKind[j]
 				bPengCard=(bit:_and(cbWeaveKind, (bit:_or(GameLogic.WIK_GANG,GameLogic.WIK_PENG)))~=0) and true or bPengCard
 				bLianCard=(bit:_and(cbWeaveKind, (bit:_or(GameLogic.WIK_LEFT,(bit:_or(GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT)))))~=0) and true or bLianCard
@@ -891,7 +891,7 @@ function GameLogic.IsShiSanYao(cbCardIndex,WeaveItem,cbWeaveCount)
 		local bCardEye=false
 
 		--一九判断
-		for i=1,27,9 do
+		for i=0,26,9 do
 			--无效判断
 			if cbCardIndex[i]==0 then return false end
 			if cbCardIndex[i+8]==0 then return false end
@@ -916,7 +916,7 @@ end
 --清一色牌
 function GameLogic.IsQingYiSe(cbCardIndex,WeaveItem,cbItemCount)
 	local cbCardColor= 0xFF
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		if cbCardIndex[i]~=0 then
 			--花色判断
 			if cbCardColor~= 0xFF then
@@ -932,7 +932,7 @@ function GameLogic.IsQingYiSe(cbCardIndex,WeaveItem,cbItemCount)
 	end
 
 	--组合判断
-	for i=1,cbItemCount,1 do
+	for i=0,cbItemCount-1,1 do
 		local cbCenterCard=WeaveItem[i].cbCenterCard
 		if bit:_and(cbCenterCard, GameLogic.MASK_COLOR)~=cbCardColor then
 			return false
@@ -949,7 +949,7 @@ function GameLogic.IsQiXiaoDui(cbCardIndex,WeaveItem,cbWeaveCount)
 	end
 
 	--扑克判断
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		local cbCardCount=cbCardIndex[i]
 		if (cbCardCount~=0) and (cbCardCount~=2) and (cbCardCount~=4) then
 			return false
@@ -968,7 +968,7 @@ function GameLogic.IsBaDui(cbCardIndex,WeaveItem,cbWeaveCount)
 
 	--扑克判断
 	local iCount = 0
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		local cbCardCount=cbCardIndex[i]
 		if 0x00 ~= (cbCardCount%2) then
 			iCount=iCount+1
@@ -1011,7 +1011,7 @@ function GameLogic.SwitchToCardIndex(...)
 	local len=#arg
 	if len==1 then	GameLogic.SwitchToCardIndex_1(arg[1])
 	elseif len==3 then	GameLogic.SwitchToCardIndex_3(arg[1],arg[2],arg[3])
-	else	print("SwitchToCardIndex 参数个数不符合 len",len)
+	else	print("SwitchToCardIndex 参数个数不符合")
 	end
 end
 --BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData)
@@ -1037,19 +1037,19 @@ function GameLogic.SwitchToCardData_2(cbCardIndex,cbCardData)
 		-- 财神放在第一位
 		byIndex = GameLogic.SwitchToCardIndex(GameLogic.m_byGodsCardData)
 		if 0 ~= cbCardIndex[byIndex] then -- 首先把财神 加入
-			for j=1,cbCardIndex[byIndex],1 do
+			for j=0,cbCardIndex[byIndex]-1,1 do
 				cbPosition=cbPosition+1
 				cbCardData[cbPosition]=GameLogic.SwitchToCardData(byIndex)
 			end
 		end
 	end
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		while true do
 
 				if byIndex == i then break	end
 
 				if cbCardIndex[i]~=0 then
-					for j=1,cbCardIndex[i],1 do
+					for j=0,cbCardIndex[i]-1,1 do
 						cbPosition=cbPosition+1
 						cbCardData[cbPosition]=GameLogic.SwitchToCardData(i)
 					end
@@ -1073,7 +1073,7 @@ function GameLogic.SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
 	cbCardIndex={}
 
 	--转换扑克
-	for i=1,cbCardCount,1 do
+	for i=0,cbCardCount-1,1 do
 		cbCardIndex[GameLogic.SwitchToCardIndex(cbCardData[i])]=cbCardIndex[GameLogic.SwitchToCardIndex(cbCardData[i])]+1
 	end
 
@@ -1085,7 +1085,7 @@ end
 function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArray)
 	--计算数目
 	local cbCardCount=0
-	for i=1,cmd.MAX_INDEX,1 do
+	for i=0,cmd.MAX_INDEX-1,1 do
 		cbCardCount=cbCardCount+cbCardIndex[i]
 	end
 
@@ -1108,7 +1108,7 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 		--ASSERT((cbCardCount==2)&&(cbWeaveCount==MAX_WEAVE));
 
 		--牌眼判断
-		for i=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
 			if (cbCardIndex[i]==2)
 			or ((cbCardIndex[i]==1)
 			and (i ~= byGodsIndex)
@@ -1121,7 +1121,7 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 				local AnalyseItem={}
 
 				--设置结果
-				for j=1,cbWeaveCount,1 do
+				for j=0,cbWeaveCount-1,1 do
 					AnalyseItem.cbWeaveKind[j]=WeaveItem[j].cbWeaveKind
 					AnalyseItem.cbCenterCard[j]=WeaveItem[j].cbCenterCard
 				end
@@ -1139,23 +1139,23 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 
 	-- 拆分分析
 	if cbCardCount>=3 then
-		for i=1,cmd.MAX_INDEX,1 do
+		for i=0,cmd.MAX_INDEX-1,1 do
 		--同牌判断
 			if cbCardIndex[i]>=3 then
+				KindItem[cbKindItemCount].cbCardIndex[0]=i
 				KindItem[cbKindItemCount].cbCardIndex[1]=i
 				KindItem[cbKindItemCount].cbCardIndex[2]=i
-				KindItem[cbKindItemCount].cbCardIndex[3]=i
 				KindItem[cbKindItemCount].cbWeaveKind=GameLogic.WIK_PENG
 				cbKindItemCount=cbKindItemCount+1
 				KindItem[cbKindItemCount].cbCenterCard=GameLogic.SwitchToCardData(i)
 			end
 			-- 连牌判断
 			if (i<(cmd.MAX_INDEX-9)) and (cbCardIndex[i]>0) and ((i%9)<7) then
-				for j=1,cbCardIndex[i],1 do
+				for j=0,cbCardIndex[i],1 do
 					if (cbCardIndex[i+1]>=j) and (cbCardIndex[i+2]>=j) then
-						KindItem[cbKindItemCount].cbCardIndex[1]=i
-						KindItem[cbKindItemCount].cbCardIndex[2]=i+1
-						KindItem[cbKindItemCount].cbCardIndex[3]=i+2
+						KindItem[cbKindItemCount].cbCardIndex[0]=i
+						KindItem[cbKindItemCount].cbCardIndex[1]=i+1
+						KindItem[cbKindItemCount].cbCardIndex[2]=i+2
 						KindItem[cbKindItemCount].cbWeaveKind=GameLogic.WIK_LEFT
 						cbKindItemCount=cbKindItemCount+1
 						KindItem[cbKindItemCount].cbCenterCard=GameLogic.SwitchToCardData(i)
@@ -1185,7 +1185,7 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 			notFirstLoop=notFirstLoop+1
 			--设置变量
 			cbCardIndexTemp=GameLogic.deepcopy(cbCardIndex)
-			for i=1,cbLessKindItem,1 do
+			for i=0,cbLessKindItem-1,1 do
 				pKindItem[i]=KindItem[cbIndex[i]]
 			end
 
@@ -1211,7 +1211,7 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 				--牌眼判断
 				local cbCardEye=0
 				while true do
-					for i=1,cmd.MAX_INDEX,1 do
+					for i=0,cmd.MAX_INDEX-1,1 do
 						if cbCardIndexTemp[i]==2 then
 							cbCardEye=GameLogic.SwitchToCardData(i)
 							if notFirstLoop~=1 then
@@ -1236,7 +1236,7 @@ function GameLogic.AnalyseCard(cbCardIndex,WeaveItem,cbWeaveCount,AnalyseItemArr
 					end
 
 					--设置牌型
-					for i=1,cbLessKindItem,1 do
+					for i=0,cbLessKindItem-1,1 do
 						AnalyseItem.cbWeaveKind[i+cbWeaveCount]=pKindItem[i].cbWeaveKind
 						AnalyseItem.cbCenterCard[i+cbWeaveCount]=pKindItem[i].cbCenterCard
 					end

@@ -2,6 +2,7 @@
 -- Author: zml
 -- Date: 2017-12-8 15:48:39
 --
+local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 --local GameLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.GameLayer")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
@@ -69,7 +70,7 @@ function CControlWnd:ctor(scene)
 	--设置位图
 	ccui.Button:create("res/game/BT_HU.png")
 		:setName("m_btChiHu")
-		:move(yl.WIDTH/3,70)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_CHIHU)
     --:setEnabled(false)
 		:addTo(self)
@@ -78,7 +79,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_QU_XIAO.png")
 		:setName("m_btGiveUp")
-		:move(yl.WIDTH/3,50)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_GIVEUP)
     --:setEnabled(false)
 		:addTo(self)
@@ -87,7 +88,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_CHI_SHANG.png")
 		:setName("m_btChiShang")
-		:move(yl.WIDTH/3,30)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_CHI_SHANG)
 		--:setEnabled(false)
 		:addTo(self)
@@ -96,7 +97,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_CHI_ZHONG.png")
 		:setName("m_btChiZhong")
-		:move(yl.WIDTH/3,10)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_CHI_ZHONG)
     	--:setEnabled(false)
 		:addTo(self)
@@ -105,7 +106,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_CHI_XIA.png")
 		:setName("m_btChiXia")
-		:move(yl.WIDTH/3*2,60)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_CHI_XIA)
     	--:setEnabled(false)
 		:addTo(self)
@@ -114,7 +115,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_PENG.png")
 		:setName("m_btPeng")
-		:move(yl.WIDTH/3*2,40)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_PENG)
     	--:setEnabled(false)
 		:addTo(self)
@@ -123,7 +124,7 @@ function CControlWnd:ctor(scene)
 
 	ccui.Button:create("res/game/BT_GANG.png")
 		:setName("m_btGang")
-		:move(yl.WIDTH/3*2,20)
+		:move(0,0)
 		:setTag(CControlWnd.IDC_GANG)
     	--:setEnabled(false)
 		:addTo(self)
@@ -185,7 +186,7 @@ function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 
 	--杠牌信息
 	self.m_cbGangCard={}
-	for i=1,GangCardResult.cbCardCount,1 do
+	for i=0,GangCardResult.cbCardCount-1,1 do
 		self.m_cbItemCount=self.m_cbItemCount+1
 		self.m_cbGangCard[i]=GangCardResult.cbCardData[i]
 	end
@@ -193,7 +194,7 @@ function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 	--计算数目
 	local cbItemKind={GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG}
 
-	for i=1,GameLogic.table_leng(cbItemKind),1 do
+	for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 		if (bit:_and(self.m_cbActionMask, cbItemKind[i]))~=0 then
 			self.m_cbItemCount=self.m_cbItemCount+1
 		end
@@ -219,8 +220,8 @@ function CControlWnd:RectifyControl()
 	--CRect rcRect;
 	local rcRect={}
 	rcRect.right=self.m_PointBenchmark.x
-	rcRect.bottom=self.m_PointBenchmark.y
-	rcRect.left=self.m_PointBenchmark.x-CControlWnd.CONTROL_WIDTH
+	rcRect.bottom=self..m_PointBenchmark.y;
+	rcRect.left=self..m_PointBenchmark.x-CControlWnd.CONTROL_WIDTH
 	rcRect.top=self.m_PointBenchmark.y-CControlWnd.ITEM_HEIGHT*self.m_cbItemCount-CControlWnd.CONTROL_HEIGHT-CControlWnd.CONTROL_TOP
 
 	--移动窗口
@@ -280,7 +281,7 @@ function CControlWnd:OnPeng()
 end
 
 function CControlWnd:OnGang()
-	for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+	for i=0,GameLogic.table_leng(self.m_cbGangCard)-1,1 do
 		if self.m_cbGangCard[i]~=0 then
 			GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
 			return
@@ -346,10 +347,10 @@ function CControlWnd:OnPaint()
 
 
 	--绘画扑克
-	for i=1,GameLogic.table_leng(cbItemKind),1 do
+	for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 		if bit:_and(self.m_cbActionMask,cbItemKind[i]) ~=0 then
 			--绘画扑克
-			for j=1,3,1 do
+			for j=0,3-1,1 do
 				local cbCardData=self.m_cbCenterCard
 				if i<GameLogic.table_leng(cbExcursion) then			-- 吃牌
 					if (GameLogic.BAIBAN_CARD_DATA == self.m_cbCenterCard) and (CardControl.m_byGodsData>0) then
@@ -394,13 +395,13 @@ function CControlWnd:OnPaint()
 
 	--杠牌扑克
 	while true do
-		for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+		for i=0,GameLogic.table_leng(self.m_cbGangCard)-1,1 do
 			if self.m_cbGangCard[i]~=0 then
 				--m_btGang.EnableWindow(TRUE);
 				--绘画扑克
-				for j=1,4,1 do
+				for j=0,4-1,1 do
 					self.g_CardResource=CardControl:create_CCardListImage(self)
-					self.g_CardResource:DrawCardItem("m_ImageTableBottom",nil,m_cbGangCard[i],(j-1)*26+12,nYPos+5)
+					self.g_CardResource:DrawCardItem("m_ImageTableBottom",nil,m_cbGangCard[i],j*26+12,nYPos+5)
 				end
 
 				--绘画边框
@@ -445,7 +446,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		local cbItemKind={GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG}
 
 		--类型子项
-		for i=1,GameLogic.table_leng(cbItemKind),1 do
+		for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
 			cbIndex = cbIndex + 1 
 			if (bit:_and(self.m_cbActionMask,cbItemKind[i])~=0) and (self.m_cbCurrentItem==cbIndex) then
 				GameLayer:OnCardOperate( cbItemKind[i],self.m_cbCenterCard )
@@ -454,7 +455,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		end
 
 		--杠牌子项
-		for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+		for i=0,GameLogic.table_leng(self.m_cbGangCard)-1,1 do
 			cbIndex = cbIndex + 1 
 			if (self.m_cbGangCard[i]~=0) and (self.m_cbCurrentItem==cbIndex) then
 				GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
@@ -532,12 +533,12 @@ function CControlWnd:PreTranslateMessage(pMsg)
 		local pBtChi={self.m_btChiShang,self.m_btChiZhong,self.m_btChiXia}
 
 		--绘画扑克
-		for i=1,GameLogic.table_leng(cbItemKind),1 do
-			cbCard[1],cbCard[2],cbCard[4]=0,0,0   
+		for i=0,GameLogic.table_leng(cbItemKind)-1,1 do
+			cbCard[0],cbCard[1],cbCard[3]=0,0,0   
 			local p=0
 			if bit:_and(self.m_cbActionMask,cbItemKind[i])~=0 then
 				--绘画扑克
-				for j=1,3,1 do
+				for j=0,3-1,1 do
 					local cbCardData=self.m_cbCenterCard
 					if (GameLogic.BAIBAN_CARD_DATA == self.m_cbCenterCard) and (CCardControl.m_byGodsData>0) then
 						cbCardData = CCardControl.m_byGodsData
@@ -555,7 +556,7 @@ function CControlWnd:PreTranslateMessage(pMsg)
 				end
 
 				if pButton==pBtChi[i] then
-					self.m_cardControl:SetShootCard(cbCard[1],cbCard[2])
+					self.m_cardControl:SetShootCard(cbCard[0],cbCard[1])
 				end
 			end
 		end

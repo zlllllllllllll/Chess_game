@@ -100,6 +100,28 @@ function GameViewLayer:ctor(scene)
 
 	--加载位图
 	--[[
+	HINSTANCE hInstance=AfxGetInstanceHandle();
+	m_ImageWait.LoadFromResource(hInstance,IDB_WAIT_TIP);
+	m_ImageBack.LoadFromResource(hInstance,IDB_VIEW_BACK);
+	m_ImageUserFlag.LoadFromResource(hInstance,IDB_USER_FLAG);
+	//m_ImageOutCard.LoadFromResource(IDB_OUT_CARD_TIP,hInstance);
+	m_ImageUserAction.LoadFromResource(hInstance,IDB_USER_ACTION);
+	m_ImageActionBack.LoadFromResource(hInstance,IDB_ACTION_BACK);
+	m_ImageCS.LoadFromResource(hInstance,IDB_CS_BACK);
+	m_ImageHuangZhuang.LoadFromResource(hInstance,IDB_HUANG_ZHUANG);
+	m_ImageListenStatusH.LoadFromResource(hInstance,IDB_LISTEN_FLAG_H);
+	m_ImageListenStatusV.LoadFromResource(hInstance,IDB_LISTEN_FLAG_V);
+	m_ImageTrustee.LoadImage(hInstance,TEXT("TRUSTEE"));
+	m_ImageActionAni.LoadImage(AfxGetInstanceHandle(),TEXT("ActionAni"));
+	//m_ImageDisc.LoadImage(AfxGetInstanceHandle(),TEXT("DISC"));
+	m_ImageArrow.LoadImage(AfxGetInstanceHandle(),TEXT("ARROW"));
+	m_ImageCenter.LoadFromResource(hInstance,IDB_VIEW_CENTER);
+	m_ImageSaizi.LoadFromResource(hInstance,IDB_ANIM_SAIZI);
+
+	m_ImageTipSingle.LoadFromResource(hInstance,IDB_TIP_SINGLE);
+
+	ImageTimeBack.LoadFromResource(hInstance,IDB_TIME_BACK);
+	ImageTimeNumber.LoadFromResource(hInstance,IDB_TIME_NUMBER);
 
 	m_ImageDingMai.LoadFromResource(hInstance,IDB_DINGMAI);;						// 顶买
 	m_ImageDingMaiFrame.LoadFromResource(hInstance,IDB_DINGMAI_FRAME);			// 顶买框
@@ -173,19 +195,19 @@ end
 function GameViewLayer:batchCreate(num,type)   --改长度需要使用 GameLogic.table_leng 不能使用 # 起始值不同 （此处键名不中断）
 		a={}
 		if type=="CHeapCard" then
-			for i=1,num,1 do
+			for i=0,num-1,1 do
 				a[i]=CardControl:create_CHeapCard(self)				end
 		elseif type=="CTableCard" then
-			for i=1,num,1 do
+			for i=0,num-1,1 do
 				a[i]=CardControl:create_CTableCard(self)			end
 		elseif type=="CDiscardCard" then
-			for i=1,num,1 do
+			for i=0,num-1,1 do
 				a[i]=CardControl:create_CDiscardCard(self)		end
 		elseif type=="CWeaveCard" then
-			for i=1,num,1 do
+			for i=0,num-1,1 do
 				a[i]=CardControl:create_CWeaveCard(self)		end
 		elseif type=="CUserCard" then
-			for i=1,num,1 do
+			for i=0,num-1,1 do
 				a[i]=CardControl:create_CUserCard(self)		end
 		elseif type=="" then
 			--待补充
@@ -199,6 +221,9 @@ function GameViewLayer:preloadUI()
 		--用户扑克
 		self.m_HeapCard=self:batchCreate(4,"CHeapCard")
 
+		self.m_HeapCard[0]:SetDirection(self.Direction[0])
+		self.m_HeapCard[0]:SetGodsCard(0,0,0)
+		--用户扑克
 		self.m_HeapCard[1]:SetDirection(self.Direction[1])
 		self.m_HeapCard[1]:SetGodsCard(0,0,0)
 		--用户扑克
@@ -207,40 +232,37 @@ function GameViewLayer:preloadUI()
 		--用户扑克
 		self.m_HeapCard[3]:SetDirection(self.Direction[3])
 		self.m_HeapCard[3]:SetGodsCard(0,0,0)
-		--用户扑克
-		self.m_HeapCard[4]:SetDirection(self.Direction[4])
-		self.m_HeapCard[4]:SetGodsCard(0,0,0)
 
 		--设置控件
 		self.m_TableCard=self:batchCreate(cmd.GAME_PLAYER,"CTableCard")
 		self.m_DiscardCard=self:batchCreate(cmd.GAME_PLAYER,"CDiscardCard")
 		self.m_WeaveCard={} 
-		for i=1,cmd.GAME_PLAYER,1 do
+		for i=0,cmd.GAME_PLAYER-1,1 do
 			self.m_WeaveCard[i] = {} 
 			self.m_WeaveCard[i]=self:batchCreate(cmd.MAX_WEAVE,"CWeaveCard")
 		end
-		for i=1,cmd.GAME_PLAYER,1 do
+		for i=0,cmd.GAME_PLAYER-1,1 do
 			--用户扑克
 			self.m_TableCard[i]:SetDirection(self.Direction[i*2])
 			self.m_DiscardCard[i]:SetDirection(self.Direction[i*2])
 
 			--组合扑克
+			self.m_WeaveCard[i][0]:SetDisplayItem(true)
 			self.m_WeaveCard[i][1]:SetDisplayItem(true)
 			self.m_WeaveCard[i][2]:SetDisplayItem(true)
 			self.m_WeaveCard[i][3]:SetDisplayItem(true)
 			self.m_WeaveCard[i][4]:SetDisplayItem(true)
-			self.m_WeaveCard[i][5]:SetDisplayItem(true)
+			self.m_WeaveCard[i][0]:SetDirection(self.Direction[i*2])
 			self.m_WeaveCard[i][1]:SetDirection(self.Direction[i*2])
 			self.m_WeaveCard[i][2]:SetDirection(self.Direction[i*2])
 			self.m_WeaveCard[i][3]:SetDirection(self.Direction[i*2])
 			self.m_WeaveCard[i][4]:SetDirection(self.Direction[i*2])
-			self.m_WeaveCard[i][5]:SetDirection(self.Direction[i*2])
 		end
 
 		--设置控件
 		self.m_UserCard=self:batchCreate(cmd.GAME_PLAYER,"CUserCard")
-		self.m_UserCard[1]:SetDirection(CardControl.Direction_North)
-		self.m_UserCard[2]:SetDirection(CardControl.Direction_East)
+		self.m_UserCard[0]:SetDirection(CardControl.Direction_North)
+		self.m_UserCard[1]:SetDirection(CardControl.Direction_East)
 
 
 		--创建控件
@@ -264,7 +286,7 @@ function GameViewLayer:preloadUI()
 		end
 		end
 		ccui.Button:create("res/game/BT_START.png","res/game/BT_START.png")
-			:move(yl.WIDTH/2,150)
+			:move(0,0)
             :setName("m_btStart")
 			:setTag(GameViewLayer.IDC_START)
 			:setScale(1)
@@ -274,7 +296,7 @@ function GameViewLayer:preloadUI()
 
 		--托管按钮
 		ccui.Button:create("res/game/BT_START_TRUSTEE.png","res/game/BT_START_TRUSTEE.png")
-			:move(yl.WIDTH-100,50)
+			:move(0,0)
             :setName("m_btStusteeControl")
 			:setTag(GameViewLayer.IDC_TRUSTEE_CONTROL)
 			:setScale(1)
@@ -282,7 +304,7 @@ function GameViewLayer:preloadUI()
 			:addTouchEventListener(btcallback)
 		self.m_btStusteeControl=self:getChildByName("m_btStusteeControl")
 		ccui.Button:create("res/game/maidi.png","res/game/maidi.png")
-			:move(yl.WIDTH-200,90)
+			:move(0,0)
             :setName("m_btMaiDi")
 			:setTag(GameViewLayer.IDC_MAI_DI)
 			:setScale(1)
@@ -291,16 +313,16 @@ function GameViewLayer:preloadUI()
 			:addTouchEventListener(btcallback)
 		self.m_btMaiDi=self:getChildByName("m_btMaiDi")
 		ccui.Button:create("res/game/mai_dingdi.png","res/game/mai_dingdi.png")
-			:move(yl.WIDTH-300,80)
+			:move(0,0)
             :setName("m_btDingDi")
 			:setTag(GameViewLayer.IDC_DING_DI)
 			:setScale(1)
-			--:setVisible(false) 
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btDingDi=self:getChildByName("m_btDingDi")
 		ccui.Button:create("res/game/mai_cancel.png","res/game/mai_cancel.png")
-			:move(yl.WIDTH-300,70)
+			:move(0,0)
             :setName("m_btMaiCancel")
 			:setTag(GameViewLayer.IDC_MAI_CANCEL)
 			:setScale(1)
@@ -309,7 +331,7 @@ function GameViewLayer:preloadUI()
 			:addTouchEventListener(btcallback)
 		self.m_btMaiCancel=self:getChildByName("m_btMaiCancel")
 		ccui.Button:create("res/game/di_cancel.png","res/game/di_cancel.png")
-			:move(yl.WIDTH-300,60)
+			:move(0,0)
             :setName("m_btDingCancel")
 			:setTag(GameViewLayer.IDC_DING_CANCEL)
 			:setScale(1)
@@ -323,7 +345,6 @@ end
 
 --重置界面     --有用到么？
 function GameViewLayer:ResetGameView()
-print("重置界面 GameViewLayer:ResetGameView")
 	--标志变量
 	self.m_bOutCard=false
 	self.m_bWaitOther=false
@@ -364,26 +385,26 @@ print("重置界面 GameViewLayer:ResetGameView")
 	--m_btStusteeControl.EnableWindow(FALSE);
 
 	--扑克设置
+	self.m_UserCard[0]:SetCardData(0,false)
 	self.m_UserCard[1]:SetCardData(0,false)
-	self.m_UserCard[2]:SetCardData(0,false)
 	self.m_HandCardControl:SetPositively(false)
 	self.m_HandCardControl:SetDisplayItem(false)
 	self.m_HandCardControl:SetCardData(nil,0,0)
 
-	for i=1,cmd.GAME_PLAYER,1 do          --创建的时候为 4个呀  GAME_PLAYER才2
+	for i=0,cmd.GAME_PLAYER-1,1 do          --创建的时候为 4个呀  GAME_PLAYER才2
 		self.m_HeapCard[i]:SetCardData(0,0,0)
 		self.m_HeapCard[i]:SetGodsCard(0,0,0)
 	end
 
 	--扑克设置
-	for i=1,cmd.GAME_PLAYER,1 do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		self.m_TableCard[i]:SetCardData(nil,0)
 		self.m_DiscardCard[i]:SetCardData(nil,0)
+		self.m_WeaveCard[i][0]:SetCardData(nil,0)
 		self.m_WeaveCard[i][1]:SetCardData(nil,0)
 		self.m_WeaveCard[i][2]:SetCardData(nil,0)
 		self.m_WeaveCard[i][3]:SetCardData(nil,0)
 		self.m_WeaveCard[i][4]:SetCardData(nil,0)
-		self.m_WeaveCard[i][5]:SetCardData(nil,0)
 	end
 
 	--销毁定时器
@@ -398,98 +419,97 @@ end
 
 --调整控件
 function GameViewLayer:RectifyControl(nWidth,nHeight)
-	--
 	self.m_iSavedWidth=nWidth
 	self.m_iSavedHeight=nHeight
 	--设置坐标
 	--CGameFrameView CPoint		m_ptReady[MAX_CHAIR];			//准备位置  MAX_CHAIR 100
 	self.m_ptReady=GameLogic:ergodicList(100)
+	self.m_ptReady[0].x=nWidth/2-33
+	self.m_ptReady[0].y=70
 	self.m_ptReady[1].x=nWidth/2-33
-	self.m_ptReady[1].y=70
-	self.m_ptReady[2].x=nWidth/2-33
-	self.m_ptReady[2].y=nHeight-100
+	self.m_ptReady[1].y=nHeight-100
 	--CPoint							m_ptAvatar[MAX_CHAIR];				//头像位置
 	self.m_ptAvatar=GameLogic:ergodicList(100)
-	self.m_ptAvatar[1].x=nWidth/2-self.m_nXFace
-	self.m_ptAvatar[1].y=5+self.m_nYBorder
+	self.m_ptAvatar[0].x=nWidth/2-self.m_nXFace
+	self.m_ptAvatar[0].y=5+self.m_nYBorder
 	--CPoint							m_ptNickName[MAX_CHAIR];			//昵称位置
 	self.m_ptNickName=GameLogic:ergodicList(100)
-	self.m_ptNickName[1].x=nWidth/2-50
-	self.m_ptNickName[1].y=20+self.m_nYBorder
+	self.m_ptNickName[0].x=nWidth/2-50
+	self.m_ptNickName[0].y=20+self.m_nYBorder
 	--CPoint							m_ptClock[MAX_CHAIR];					//时间位置
 	self.m_ptClock=GameLogic:ergodicList(100)
-	self.m_ptClock[1].x=nWidth/2-self.m_nXFace-self.m_nXTimer-2
-	self.m_ptClock[1].y=17+self.m_nYBorder
+	self.m_ptClock[0].x=nWidth/2-self.m_nXFace-self.m_nXTimer-2
+	self.m_ptClock[0].y=17+self.m_nYBorder
 
 	self.m_UserFlagPos=GameLogic:ergodicList(cmd.GAME_PLAYER)
-	self.m_UserFlagPos[1].x=self.m_ptNickName[1].x+100										--nWidth/2-m_nXFace-m_nXTimer-32;
-	self.m_UserFlagPos[1].y=5+self.m_nYBorder
+	self.m_UserFlagPos[0].x=self.m_ptNickName[0].x+100										--nWidth/2-m_nXFace-m_nXTimer-32;
+	self.m_UserFlagPos[0].y=5+self.m_nYBorder
 	self.m_UserListenPos=GameLogic:ergodicList(cmd.GAME_PLAYER)
-	self.m_UserListenPos[1].x=nWidth/2
-	self.m_UserListenPos[1].y=self.m_nYBorder+100
+	self.m_UserListenPos[0].x=nWidth/2
+	self.m_UserListenPos[0].y=self.m_nYBorder+100
 	self.m_PointTrustee=GameLogic:ergodicList(cmd.GAME_PLAYER)
-	self.m_PointTrustee[1].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
-	self.m_PointTrustee[1].y=5+self.m_nYBorder
+	self.m_PointTrustee[0].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
+	self.m_PointTrustee[0].y=5+self.m_nYBorder
 	self.m_ptDingMai=GameLogic:ergodicList(cmd.GAME_PLAYER)
-	self.m_ptDingMai[1].x =self.m_ptNickName[1].x+160											-- nWidth/2-m_nXFace-m_nXTimer + 40;
-	self.m_ptDingMai[1].y = 21+self.m_nYBorder
+	self.m_ptDingMai[0].x =self.m_ptNickName[0].x+160											-- nWidth/2-m_nXFace-m_nXTimer + 40;
+	self.m_ptDingMai[0].y = 21+self.m_nYBorder
 
-	self.m_ptAvatar[2].x=nWidth/2-self.m_nXFace
-	self.m_ptAvatar[2].y=nHeight-self.m_nYBorder-self.m_nYFace-5
-	self.m_ptNickName[2].x=nWidth/2-50																		--+5+self.m_nXFace/2
-	self.m_ptNickName[2].y=nHeight-self.m_nYBorder-self.m_nYFace+8
-	self.m_ptClock[2].x=nWidth/2-self.m_nXFace/2-self.m_nXTimer-2
-	self.m_ptClock[2].y=nHeight-self.m_nYBorder-self.m_nYTimer-8+40
-	self.m_UserFlagPos[2].x=self.m_ptNickName[2].x+100										--nWidth/2-self.m_nXFace-self.m_nXTimer-32
-	self.m_UserFlagPos[2].y=nHeight-self.m_nYBorder-35
-	self.m_UserListenPos[2].x=nWidth/2
-	self.m_UserListenPos[2].y=nHeight-self.m_nYBorder-123
-	self.m_PointTrustee[2].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
-	self.m_PointTrustee[2].y=nHeight-self.m_nYBorder-self.m_nYFace-5
-	self.m_ptDingMai[2].x = self.m_ptNickName[2].x+160										--nWidth/2-self.m_nXFace-self.m_nXTimer+40
-	self.m_ptDingMai[2].y = nHeight-self.m_nYBorder-20
+	self.m_ptAvatar[1].x=nWidth/2-self.m_nXFace
+	self.m_ptAvatar[1].y=nHeight-self.m_nYBorder-self.m_nYFace-5
+	self.m_ptNickName[1].x=nWidth/2-50																		--+5+self.m_nXFace/2
+	self.m_ptNickName[1].y=nHeight-self.m_nYBorder-self.m_nYFace+8
+	self.m_ptClock[1].x=nWidth/2-self.m_nXFace/2-self.m_nXTimer-2
+	self.m_ptClock[1].y=nHeight-self.m_nYBorder-self.m_nYTimer-8+40
+	self.m_UserFlagPos[1].x=self.m_ptNickName[1].x+100										--nWidth/2-self.m_nXFace-self.m_nXTimer-32
+	self.m_UserFlagPos[1].y=nHeight-self.m_nYBorder-35
+	self.m_UserListenPos[1].x=nWidth/2
+	self.m_UserListenPos[1].y=nHeight-self.m_nYBorder-123
+	self.m_PointTrustee[1].x=nWidth/2-self.m_nXFace-20-self.m_nXFace/2
+	self.m_PointTrustee[1].y=nHeight-self.m_nYBorder-self.m_nYFace-5
+	self.m_ptDingMai[1].x = self.m_ptNickName[1].x+160										--nWidth/2-self.m_nXFace-self.m_nXTimer+40
+	self.m_ptDingMai[1].y = nHeight-self.m_nYBorder-20
 
 	self.m_SicboAnimPoint = cc.p(nWidth/2,nHeight/2)
 
 	--对方在游戏过程中，手中的牌
-	self.m_UserCard[1]:SetControlPoint(nWidth/2-210,self.m_nYBorder+self.m_nYFace+20)
+	self.m_UserCard[0]:SetControlPoint(nWidth/2-210,self.m_nYBorder+self.m_nYFace+20)
 	--自己在游戏过程中，手中的牌
-	self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20,CardControl.enXCenter,CardControl.enYBottom)
+	self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20,CardControl.enXCollocateMode.enXCenter,CardControl.enYCollocateMode.enYBottom)
 
 	--桌面扑克，即游戏结束后显示的牌
-	self.m_TableCard[1]:SetControlPoint(nWidth/2-179,self.m_nYBorder+self.m_nYFace+20)							--对方的
-	self.m_TableCard[2]:SetControlPoint(nWidth/2+330,nHeight-self.m_nYFace-self.m_nYBorder-20)	 		--自己的
+	self.m_TableCard[0]:SetControlPoint(nWidth/2-179,self.m_nYBorder+self.m_nYFace+20)							--对方的
+	self.m_TableCard[1]:SetControlPoint(nWidth/2+330,nHeight-self.m_nYFace-self.m_nYBorder-20)	 		--自己的
 
 	--组合扑克
-	self.m_WeaveCard[1][1]:SetControlPoint(nWidth/2+230,self.m_nYBorder+self.m_nYFace+20)
-	self.m_WeaveCard[1][2]:SetControlPoint(nWidth/2+155,self.m_nYBorder+self.m_nYFace+20)
-	self.m_WeaveCard[1][3]:SetControlPoint(nWidth/2+80,self.m_nYBorder+self.m_nYFace+20)
-	self.m_WeaveCard[1][4]:SetControlPoint(nWidth/2+5,self.m_nYBorder+self.m_nYFace+20)
-	self.m_WeaveCard[1][5]:SetControlPoint(nWidth/2-60,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][0]:SetControlPoint(nWidth/2+230,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][1]:SetControlPoint(nWidth/2+155,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][2]:SetControlPoint(nWidth/2+80,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][3]:SetControlPoint(nWidth/2+5,self.m_nYBorder+self.m_nYFace+20)
+	self.m_WeaveCard[0][4]:SetControlPoint(nWidth/2-60,self.m_nYBorder+self.m_nYFace+20)
 
 	--组合扑克
-	self.m_WeaveCard[2][1]:SetControlPoint(nWidth/2-380,nHeight-self.m_nYFace-self.m_nYBorder-20)
-	self.m_WeaveCard[2][2]:SetControlPoint(nWidth/2-260,nHeight-self.m_nYFace-self.m_nYBorder-20)
-	self.m_WeaveCard[2][3]:SetControlPoint(nWidth/2-140,nHeight-self.m_nYFace-self.m_nYBorder-20)
-	self.m_WeaveCard[2][4]:SetControlPoint(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20)
-	self.m_WeaveCard[2][5]:SetControlPoint(nWidth/2+100,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][0]:SetControlPoint(nWidth/2-380,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][1]:SetControlPoint(nWidth/2-260,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][2]:SetControlPoint(nWidth/2-140,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][3]:SetControlPoint(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20)
+	self.m_WeaveCard[1][4]:SetControlPoint(nWidth/2+100,nHeight-self.m_nYFace-self.m_nYBorder-20)
 
 	--堆积扑克
 	local nXCenter=nWidth/2
 	local nYCenter=nHeight/2-40
 
-	self.m_HeapCard[1]:SetControlPoint(nXCenter-152,nYCenter-207)
-	self.m_HeapCard[2]:SetControlPoint(nXCenter+256,nYCenter-95)
-	self.m_HeapCard[3]:SetControlPoint(nXCenter-152,nYCenter+207)
-	self.m_HeapCard[4]:SetControlPoint(nXCenter-251,nYCenter-95)
+	self.m_HeapCard[0]:SetControlPoint(nXCenter-152,nYCenter-207)
+	self.m_HeapCard[1]:SetControlPoint(nXCenter+256,nYCenter-95)
+	self.m_HeapCard[2]:SetControlPoint(nXCenter-152,nYCenter+207)
+	self.m_HeapCard[3]:SetControlPoint(nXCenter-251,nYCenter-95)
 
 	--丢弃扑克
-	self.m_DiscardCard[1]:SetControlPoint(nXCenter-158,nYCenter-100)
-	self.m_DiscardCard[2]:SetControlPoint(nXCenter+158,nYCenter+102)
+	self.m_DiscardCard[0]:SetControlPoint(nXCenter-158,nYCenter-100)
+	self.m_DiscardCard[1]:SetControlPoint(nXCenter+158,nYCenter+102)
 
 
 	--控制窗口
-	self.m_ControlWnd:SetBenchmarkPos(nWidth-10,nHeight-self.m_nYBorder-180)
+	self.m_ControlWnd.SetBenchmarkPos(nWidth-10,nHeight-self.m_nYBorder-180)
 
 	--移动按钮
 	--CRect rcButton;
@@ -510,8 +530,6 @@ function GameViewLayer:RectifyControl(nWidth,nHeight)
 
 	--m_btMaiDi.GetWindowRect(&rcButton);
 	rcButton=self.m_btMaiDi:getContentSize()
-print(" ==RectifyControl  ")
-print("self.m_btMaiDi setP ",nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder)
 	self.m_btMaiDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btDingDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btMaiCancel:setPosition( cc.p( nWidth/2 + 10,nHeight-120-self.m_nYBorder ) )
@@ -542,7 +560,7 @@ function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 		:setVisible(true)
 		:addTo(self)
 	--绘画号码
-	for i=1,lNumberCount,1 do
+	for i=0,lNumberCount-1,1 do
 		--绘画号码
 		local wCellNumber=wTime%10
 		--self.ImageTimeNumber.TransDrawImage(pDC,nXDrawPos,nYDrawPos,nNumberWidth-5,nNumberHeight,wCellNumber*nNumberWidth,0,RGB(0,0,0)) 	--mark
@@ -604,7 +622,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		local iDingH = self.m_ImageDingMai:getContentSize().height
 
 		--绘画标志
-		for i=1,cmd.GAME_PLAYER,1 do
+		for i=0,cmd.GAME_PLAYER-1,1 do
 			if i == self.m_wBankerUser then
 				--self.m_ImageUserFlag.TransDrawImage(pDC,m_UserFlagPos[i].x-20,m_UserFlagPos[i].y,nImageWidth,nImageHeight,(m_bBankerCount-1)*nImageWidth,0,RGB(255,0,255));
 				self.m_ImageUserFlag=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
@@ -626,24 +644,24 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	end
 
 	--桌面扑克
-	for i=1,cmd.GAME_PLAYER,1 do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		self.m_TableCard[i]:DrawCardControl(pDC)					--桌面麻将，在结束以后才显示
 		self.m_DiscardCard[i]:DrawCardControl(pDC)				--丢弃麻将
+		self.m_WeaveCard[i][0]:DrawCardControl(pDC)				--吃碰杠麻将
 		self.m_WeaveCard[i][1]:DrawCardControl(pDC)				--吃碰杠麻将
 		self.m_WeaveCard[i][2]:DrawCardControl(pDC)				--吃碰杠麻将
 		self.m_WeaveCard[i][3]:DrawCardControl(pDC)				--吃碰杠麻将
 		self.m_WeaveCard[i][4]:DrawCardControl(pDC)				--吃碰杠麻将
-		self.m_WeaveCard[i][5]:DrawCardControl(pDC)				--吃碰杠麻将
 	end
 
 	--堆积扑克
+	self.m_HeapCard[0]:DrawCardControl(pDC,"")
 	self.m_HeapCard[1]:DrawCardControl(pDC,"")
 	self.m_HeapCard[2]:DrawCardControl(pDC,"")
 	self.m_HeapCard[3]:DrawCardControl(pDC,"")
-	self.m_HeapCard[4]:DrawCardControl(pDC,"")
 
 	--用户扑克
-	self.m_UserCard[1]:DrawCardControl(pDC)						--对方手中的麻将，游戏进行中显示
+	self.m_UserCard[0]:DrawCardControl(pDC)						--对方手中的麻将，游戏进行中显示
 	self.m_HandCardControl:DrawCardControl(pDC)				--自己手中的麻将，游戏进行中显示
 
 	--等待提示
@@ -665,11 +683,11 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	end
 
 	--听牌标志
-	for i=1,cmd.GAME_PLAYER,1 do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		if self.m_bListenStatus[i]==true then
 			--加载资源
 			--CImageHandle HandleListenStatus(((i%2)==0)?&m_ImageListenStatusH:&m_ImageListenStatusV);
-			if ((i-1)%2)==0 then
+			if (i%2)==0 then
 				--获取信息
 				local nImageWidth=self.m_ImageListenStatusH:getContentSize().width
 				local nImageHeight=self.m_ImageListenStatusH:getContentSize().height
@@ -703,11 +721,11 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 			:addTo(self)
 	end
 	--用户状态
-	for i=1,cmd.GAME_PLAYER,1 do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		if (self.m_wOutCardUser==i) or (self.m_cbUserAction[i]~=0) then
 			--计算位置
 			local nXPos,nYPos=0,0
-			if (i-1)==0 then						--北向
+			if i==0 then						--北向
 				nXPos=nWidth/2-32
 				nYPos=self.m_nYBorder+95
 			elseif i==1 then				--南向
@@ -718,7 +736,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 			--绘画动作
 			if self.m_cbUserAction[i]~=GameLogic.WIK_NULL then
 				--绘画动作
-				if self.m_bBombEffect==true and (i-1)==0 then
+				if self.m_bBombEffect==true and i==0 then
 					local nXImagePos=-1
 					if bit:_and(self.m_cbUserAction[i], GameLogic.WIK_PENG) then nXImagePos=59
 					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_GANG) then	nXImagePos=118
@@ -793,10 +811,10 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 	--绘画用户
 	local strScore
-	for i=1,cmd.GAME_PLAYER,1 do
+	for i=0,cmd.GAME_PLAYER-1,1 do
 		--变量定义
 		 --IClientUserItem * pUserData=GetClientUserItem(i);  mark 估计同
-		 local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i)
+		 local pUserData=self._gameFrame:GetTableUserItem(self:GetMeTableID(),i)
 		 if pUserData~=nil then
  			--用户名字
 
@@ -831,19 +849,18 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 			end
 			if (wUserTimer~=0) and (self.m_wCurrentUser==yl.INVALID_CHAIR) then
 				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
-				if (i-1)==0 then
+				if i==0 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*i,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
         		:setScaleX(1/4)
 						:setVisible(true)
 				end
-				if (i-1)==1 then
+				if i==1 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize()/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
 						:setScaleX(1/4)
 						:setVisible(true)
 				end
 			end
 			if pUserData:GetUserStatus()==yl.US_READY then
-print("self.m_ImageReady:setPositio",self.m_ptReady[i].x,self.m_ptReady[i].y)
 				self.m_ImageReady:setPosition(self.m_ptReady[i].x,self.m_ptReady[i].y)
 					:setColor(cc.c3b(255, 0, 255))
 					:setVisible(true)
@@ -934,8 +951,6 @@ function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
 			self:SetBombEffect(false)
 		end
 	end
-	-- self.m_iSavedWidth,self.m_iSavedHeight 目前无值 暂时为1300 300
-	self.m_iSavedWidth,self.m_iSavedHeight=1300,300
 	self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
 
 	--更新界面
@@ -1048,7 +1063,7 @@ function GameViewLayer:SetDingMaiValue(byDingMai)
 	if nil == byDingMai then
 		self.m_byDingMai={}
 	else
-		for i=1,cmd.GAME_PLAYER,1 do
+		for i=0,cmd.GAME_PLAYER-1,1 do
 			self.m_byDingMai[i] = byDingMai[i]
 		end
 	end
@@ -1064,7 +1079,7 @@ function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
 
 	--绘画边框
 	--pDC->SetTextColor(crFrame);
-	for i=1,GameLogic.table_leng(nXExcursion),1 do
+	for i=0,GameLogic.table_leng(nXExcursion)-1,1 do
 		cc.Label:createWithTTF(pszString,"fonts/round_body.ttf", 24)
 				:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
 				:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
@@ -1273,7 +1288,7 @@ function GameViewLayer:DrawSicboAnim(pDC)
 		local nImageHeight=self.m_ImageSaizi:getContentSize().height
 		local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
 		--mark  i<m_arBall.GetCount()  m_arBall 尚未完全初始化
-		for i=1,GameLogic.table_leng(self.m_arBall),1 do
+		for i=0,GameLogic.table_leng(self.m_arBall)-1,1 do
 			local byIndex = self.m_arBall[i].iIndex%15+6
 			local iX = int(m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2)
 			local iY = int(m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2)
@@ -1290,7 +1305,7 @@ end
 
 function GameViewLayer:OnEnterRgn(dbR)
 	-- 边界反弹
-	for i=1,GameLogic.table_leng(self.m_arBall),1 do
+	for i=0,GameLogic.table_leng(self.m_arBall)-1,1 do
 		-- 是否在圆内
 		--CRect rect(-dbR, -dbR, +dbR, +dbR)
 		local Trect=cc.rect(-dbR, -dbR, dbR*2, dbR*2)
