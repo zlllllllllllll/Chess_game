@@ -36,19 +36,20 @@ function ScoreControl:ctor()
 	--设置控件
 	--CWeaveCard						m_WeaveCard[MAX_WEAVE];					//组合扑克
 	self.m_WeaveCard={} 
-	self.m_WeaveCard[0]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[1]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[2]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[3]=CardControl:create_CWeaveCard(self)
 	self.m_WeaveCard[4]=CardControl:create_CWeaveCard(self)
+	self.m_WeaveCard[5]=CardControl:create_CWeaveCard(self)
 
 	--for (BYTE i=0;i<CountArray(m_WeaveCard);i++) m_WeaveCard[i].SetDirection(Direction_South);
-	for i=0,cmd.MAX_WEAVE-1,1 do	self.m_WeaveCard[i]:SetDirection(CardControl.Direction_South) end
+	for i=1,cmd.MAX_WEAVE,1 do	self.m_WeaveCard[i]:SetDirection(CardControl.Direction_South) end
 
 	--设置窗口
 	--SetWindowPos(NULL,0,0,m_ImageGameScore.GetWidth(),m_ImageGameScore.GetHeight(),SWP_NOZORDER|SWP_NOMOVE);
 	self:move(0,0)
 	local bmp=display.newSprite("res/game/GAME_SCORE.png")
+			:move(300,300)
 			:setVisible(true)
 			:setColor(cc.c3b(255, 0, 255))
 			:addTo(self)
@@ -111,7 +112,7 @@ function ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,dwMeUserID)
 	self.m_dwMeUserID=dwMeUserID
 
 	--组合变量
-	for i=0,self.m_cbWeaveCount-1,1 do
+	for i=1,self.m_cbWeaveCount,1 do
 		local bPublicWeave=(WeaveInfo.cbPublicWeave[i]==true)
 		self.m_WeaveCard[i]:SetCardData(WeaveInfo.cbCardData[i],WeaveInfo.cbCardCount[i])
 		self.m_WeaveCard[i]:SetDisplayItem(true)
@@ -137,13 +138,13 @@ function ScoreControl:GetHardSoftHu()
 
 	local iChiType=0
 	while true do
-	for i=0,cmd.GAME_PLAYER-1,1 do
+	for i=1,cmd.GAME_PLAYER,1 do
 		--用户过虑
 		if self.m_ScoreInfo.dwChiHuKind[i]==GameLogic.CHK_NULL then
 		else
 			--牌型信息
 			while true do
-			for j=0,GameLogic.table_leng(dwCardKind)-1,1 do
+			for j=1,GameLogic.table_leng(dwCardKind),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
 					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
 						--continue;
@@ -156,7 +157,7 @@ function ScoreControl:GetHardSoftHu()
 			break end
 
 			if iChiType==0 then
-				if self.m_ScoreInfo.wProvideUser==i then
+				if self.m_ScoreInfo.wProvideUser==(i-1) then
 					iChiType=2
 				else
 					iChiType=1 --软胡
@@ -230,7 +231,7 @@ function ScoreControl:OnPaint()
 		local nXCardPos=(self.m_ImageGameScore:getContentSize().width-nTotalWidth)/2
 
 		--绘画组合
-		for i=0,self.m_cbWeaveCount-1,1 do
+		for i=1,self.m_cbWeaveCount,1 do
 			--绘画扑克
 			self.m_WeaveCard[i]:DrawCardControl(nil,nXCardPos,nYCardPos)
 
@@ -239,7 +240,7 @@ function ScoreControl:OnPaint()
 		end
 
 		nXCardPos =nXCardPos+ 3
-		for i=0,self.m_ScoreInfo.cbCardCount-1,1 do
+		for i=1,self.m_ScoreInfo.cbCardCount,1 do
 			--绘画扑克
 			local nXCurrentPos=nXCardPos
 			local nYCurrentPos=nYCardPos-CardControl.CCardList["m_ImageTableBottom"].m_nViewHeight-5
@@ -248,7 +249,7 @@ function ScoreControl:OnPaint()
 
 			--设置位置
 			nXCardPos=nXCardPos+nItemWidth
-			if (i+2)==self.m_ScoreInfo.cbCardCount then
+			if (i+2-1)==self.m_ScoreInfo.cbCardCount then
 				nXCardPos=nXCardPos+nCardSpace + 3
 			end
 		end
@@ -256,7 +257,7 @@ function ScoreControl:OnPaint()
 
 	--绘画牌型
 	while true do
-	for i=0,cmd.GAME_PLAYER-1,1 do
+	for i=1,cmd.GAME_PLAYER,1 do
 		--用户过虑
 		if self.m_ScoreInfo.dwChiHuKind[i]==GameLogic.CHK_NULL then
 			-- continue;
@@ -272,7 +273,7 @@ function ScoreControl:OnPaint()
 
 			--牌型信息
 			while true do
-			for j=0,GameLogic.table_leng(dwCardKind)-1,1 do
+			for j=1,GameLogic.table_leng(dwCardKind),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
 					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
 						--continue;
@@ -300,7 +301,7 @@ function ScoreControl:OnPaint()
 			--牌权信息
 			strCardInfo=""
 			while true do
-			for j=0,GameLogic.table_leng(dwCardRight)-1,1 do
+			for j=1,GameLogic.table_leng(dwCardRight),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
 					if GameLogic.CHR_QIANG_GANG == bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
 						--continue
@@ -329,7 +330,7 @@ function ScoreControl:OnPaint()
 
 
 	--积分信息
-	for i=0,cmd.GAME_PLAYER-1,1 do
+	for i=1,cmd.GAME_PLAYER,1 do
 		--变量定义
 		local szUserScore=""
 		szUserScore=self.m_ScoreInfo.lGameScore[i]
@@ -356,7 +357,7 @@ function ScoreControl:OnPaint()
 		--绘画信息
 		--local nFormat=DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER;
 
-		if self.m_dwMeUserID==i then
+		if self.m_dwMeUserID==(i-1) then
 			--DCBuffer.DrawText(szUserScore,lstrlen(szUserScore),&rcScore,nFormat);
 			cc.Label:createWithTTF(szUserScore,"fonts/round_body.ttf", 24)
 				:move((355+405)/2,(100+116)/2)
