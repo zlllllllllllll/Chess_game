@@ -144,7 +144,7 @@ function ScoreControl:GetHardSoftHu()
 		else
 			--牌型信息
 			while true do
-			for j=1,GameLogic.table_leng(dwCardKind),1 do
+			for j=1,GameLogic:table_leng(dwCardKind),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
 					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
 						--continue;
@@ -273,7 +273,7 @@ function ScoreControl:OnPaint()
 
 			--牌型信息
 			while true do
-			for j=1,GameLogic.table_leng(dwCardKind),1 do
+			for j=1,GameLogic:table_leng(dwCardKind),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) then
 					if GameLogic.CHK_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j]) and GameLogic.CHK_YING_BA_DUI == bit:_and(self.m_ScoreInfo.dwChiHuKind[i],dwCardKind[j+1]) then
 						--continue;
@@ -301,7 +301,7 @@ function ScoreControl:OnPaint()
 			--牌权信息
 			strCardInfo=""
 			while true do
-			for j=1,GameLogic.table_leng(dwCardRight),1 do
+			for j=1,GameLogic:table_leng(dwCardRight),1 do
 				if bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
 					if GameLogic.CHR_QIANG_GANG == bit:_and(self.m_ScoreInfo.dwChiHuRight[i],dwCardRight[j]) then
 						--continue

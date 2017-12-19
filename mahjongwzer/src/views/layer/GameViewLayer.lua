@@ -286,7 +286,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiDi")
 			:setTag(GameViewLayer.IDC_MAI_DI)
 			:setScale(1)
-			:setVisible(false) 
+			--:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiDi=self:getChildByName("m_btMaiDi")
@@ -304,7 +304,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiCancel")
 			:setTag(GameViewLayer.IDC_MAI_CANCEL)
 			:setScale(1)
-			:setVisible(false) 
+			--:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiCancel=self:getChildByName("m_btMaiCancel")
@@ -313,7 +313,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btDingCancel")
 			:setTag(GameViewLayer.IDC_DING_CANCEL)
 			:setScale(1)
-			:setVisible(false) 
+			--:setVisible(false)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btDingCancel=self:getChildByName("m_btDingCancel")
@@ -512,6 +512,7 @@ function GameViewLayer:RectifyControl(nWidth,nHeight)
 	rcButton=self.m_btMaiDi:getContentSize()
 print(" ==RectifyControl  ")
 print("self.m_btMaiDi setP ",nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder)
+print("self.m_btMaiDi setP ",nWidth/2 + 10,nHeight-120-self.m_nYBorder)
 	self.m_btMaiDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btDingDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btMaiCancel:setPosition( cc.p( nWidth/2 + 10,nHeight-120-self.m_nYBorder ) )
@@ -1064,7 +1065,7 @@ function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
 
 	--绘画边框
 	--pDC->SetTextColor(crFrame);
-	for i=1,GameLogic.table_leng(nXExcursion),1 do
+	for i=1,GameLogic:table_leng(nXExcursion),1 do
 		cc.Label:createWithTTF(pszString,"fonts/round_body.ttf", 24)
 				:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
 				:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
@@ -1273,7 +1274,7 @@ function GameViewLayer:DrawSicboAnim(pDC)
 		local nImageHeight=self.m_ImageSaizi:getContentSize().height
 		local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
 		--mark  i<m_arBall.GetCount()  m_arBall 尚未完全初始化
-		for i=1,GameLogic.table_leng(self.m_arBall),1 do
+		for i=1,GameLogic:table_leng(self.m_arBall),1 do
 			local byIndex = self.m_arBall[i].iIndex%15+6
 			local iX = int(m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2)
 			local iY = int(m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2)
@@ -1290,7 +1291,7 @@ end
 
 function GameViewLayer:OnEnterRgn(dbR)
 	-- 边界反弹
-	for i=1,GameLogic.table_leng(self.m_arBall),1 do
+	for i=1,GameLogic:table_leng(self.m_arBall),1 do
 		-- 是否在圆内
 		--CRect rect(-dbR, -dbR, +dbR, +dbR)
 		local Trect=cc.rect(-dbR, -dbR, dbR*2, dbR*2)
@@ -1312,7 +1313,7 @@ function GameViewLayer:OnEnterRgn(dbR)
 		end
 
 		--检测所有MC之间是否有碰撞，有就根据情况改变“增量”方向
-		for j=i+1,GameLogic.table_leng(self.m_arBall)-1,1 do
+		for j=i+1,GameLogic:table_leng(self.m_arBall)-1,1 do
 			if self:myHitTest(self.m_arBall[i],self.m_arBall[j]) then
 					self:mc12(self.m_arBall[i], self.m_arBall[j])
 					self.m_arBall[i].dbX = self.m_arBall[i].dbX +self.m_arBall[i].dbDx
@@ -1398,7 +1399,7 @@ end
 
 function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
 	--memcpy(m_bySicbo, bySicbo, 2);
-	self.m_bySicbo=GameLogic.deepcopy(bySicbo)
+	self.m_bySicbo=GameLogic:deepcopy(bySicbo)
 	self.m_iSicboAnimIndex = iStartIndex
 
 	-- 画骰子动画

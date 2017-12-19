@@ -193,7 +193,7 @@ function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 	--计算数目
 	local cbItemKind={GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG}
 
-	for i=1,GameLogic.table_leng(cbItemKind),1 do
+	for i=1,GameLogic:table_leng(cbItemKind),1 do
 		if (bit:_and(self.m_cbActionMask, cbItemKind[i]))~=0 then
 			self.m_cbItemCount=self.m_cbItemCount+1
 		end
@@ -280,7 +280,7 @@ function CControlWnd:OnPeng()
 end
 
 function CControlWnd:OnGang()
-	for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+	for i=1,GameLogic:table_leng(self.m_cbGangCard),1 do
 		if self.m_cbGangCard[i]~=0 then
 			GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
 			return
@@ -346,12 +346,12 @@ function CControlWnd:OnPaint()
 
 
 	--绘画扑克
-	for i=1,GameLogic.table_leng(cbItemKind),1 do
+	for i=1,GameLogic:table_leng(cbItemKind),1 do
 		if bit:_and(self.m_cbActionMask,cbItemKind[i]) ~=0 then
 			--绘画扑克
 			for j=1,3,1 do
 				local cbCardData=self.m_cbCenterCard
-				if i<GameLogic.table_leng(cbExcursion) then			-- 吃牌
+				if i<GameLogic:table_leng(cbExcursion) then			-- 吃牌
 					if (GameLogic.BAIBAN_CARD_DATA == self.m_cbCenterCard) and (CardControl.m_byGodsData>0) then
 						cbCardData = CCardControl.m_byGodsData
 					end
@@ -394,7 +394,7 @@ function CControlWnd:OnPaint()
 
 	--杠牌扑克
 	while true do
-		for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+		for i=1,GameLogic:table_leng(self.m_cbGangCard),1 do
 			if self.m_cbGangCard[i]~=0 then
 				--m_btGang.EnableWindow(TRUE);
 				--绘画扑克
@@ -445,7 +445,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		local cbItemKind={GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG}
 
 		--类型子项
-		for i=1,GameLogic.table_leng(cbItemKind),1 do
+		for i=1,GameLogic:table_leng(cbItemKind),1 do
 			cbIndex = cbIndex + 1 
 			if (bit:_and(self.m_cbActionMask,cbItemKind[i])~=0) and (self.m_cbCurrentItem==cbIndex) then
 				GameLayer:OnCardOperate( cbItemKind[i],self.m_cbCenterCard )
@@ -454,7 +454,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		end
 
 		--杠牌子项
-		for i=1,GameLogic.table_leng(self.m_cbGangCard),1 do
+		for i=1,GameLogic:table_leng(self.m_cbGangCard),1 do
 			cbIndex = cbIndex + 1 
 			if (self.m_cbGangCard[i]~=0) and (self.m_cbCurrentItem==cbIndex) then
 				GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
@@ -532,7 +532,7 @@ function CControlWnd:PreTranslateMessage(pMsg)
 		local pBtChi={self.m_btChiShang,self.m_btChiZhong,self.m_btChiXia}
 
 		--绘画扑克
-		for i=1,GameLogic.table_leng(cbItemKind),1 do
+		for i=1,GameLogic:table_leng(cbItemKind),1 do
 			cbCard[1],cbCard[2],cbCard[4]=0,0,0   
 			local p=0
 			if bit:_and(self.m_cbActionMask,cbItemKind[i])~=0 then

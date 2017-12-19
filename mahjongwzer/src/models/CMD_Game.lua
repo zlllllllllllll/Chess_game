@@ -95,7 +95,7 @@ cmd.CMD_S_StatusFree=
 	{k = "lCellScore", t = "int"},							--基础金币
 	{k = "wBankerUser", t = "word"},						--庄家用户
 	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}},		--是否托管
-	{k = "szRoomName", t = "tchar", s = 32}
+	{k = "szRoomName", t = "string", s = 32}
 }
 
 cmd.CMD_S_StatusMaiDi=
@@ -106,7 +106,7 @@ cmd.CMD_S_StatusMaiDi=
 	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}},		--是否托管
 	{k = "bBankerMaiDi", t = "bool"},	    			-- 庄家是否需要买底
 	{k = "bMeDingDi", t = "bool"},	    			-- 自己是否需要顶底
-	{k = "szRoomName", t = "tchar", s = 32}
+	{k = "szRoomName", t = "string", s = 32}
 }
 
 --游戏状态
@@ -145,7 +145,8 @@ cmd.CMD_S_StatusPlay=
 	--组合扑克
  	 {k="cbWeaveCount",t="byte", l = {cmd.GAME_PLAYER}},				--组合数目
 	{k="WeaveItemArray", t = "table", d = cmd.CMD_WeaveItem, l = {5, 5}},	--组合扑克
-	{k="szRoomName", t = "tchar", s = 32}
+	--{k="szRoomName", t = "tchar", s = 32}
+	{k="szRoomName", t = "string", s = 32}
 }
 
 --游戏开始
