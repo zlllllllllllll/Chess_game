@@ -198,27 +198,27 @@ end
 --===================================================================
 --扑克资源
 function CCardResource:ctor()
-	CCardListImage:Cfound("m_ImageUserTop")
-	CCardListImage:Cfound("m_ImageUserLeft")
-	CCardListImage:Cfound("m_ImageUserRight")
+	--CCardListImage:Cfound("m_ImageUserTop")
+	--CCardListImage:Cfound("m_ImageUserLeft")
+	--CCardListImage:Cfound("m_ImageUserRight")
 	CCardListImage:Cfound("m_ImageUserBottom")
 	CCardListImage:Cfound("m_ImageWaveBottom")
 	CCardListImage:Cfound("m_ImageTableTop")
 	CCardListImage:Cfound("m_ImageTableLeft")
 	CCardListImage:Cfound("m_ImageTableRight")
 	CCardListImage:Cfound("m_ImageTableBottom")
-	CCardListImage:Cfound("m_ImageBackH")
-	CCardListImage:Cfound("m_ImageBackV")
-	CCardListImage:Cfound("m_ImageHeapSingleV")
-	CCardListImage:Cfound("m_ImageHeapSingleH")
-	CCardListImage:Cfound("m_ImageHeapDoubleV")
-	CCardListImage:Cfound("m_ImageHeapDoubleH")
+	--CCardListImage:Cfound("m_ImageBackH")
+	--CCardListImage:Cfound("m_ImageBackV")
+	--CCardListImage:Cfound("m_ImageHeapSingleV")
+	--CCardListImage:Cfound("m_ImageHeapSingleH")
+	--CCardListImage:Cfound("m_ImageHeapDoubleV")
+	--CCardListImage:Cfound("m_ImageHeapDoubleH")
 end
 
 --加载资源
 function CCardResource:LoadResource(Parent)
 	--用户扑克
-print(parent,self)
+print("CCardResource:LoadResource", parent,self)
 	self.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false) :addTo(Parent)
 	self.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false) :addTo(Parent)
 	self.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false) :addTo(Parent)
@@ -1050,7 +1050,7 @@ function CCardControl:ctor()
 	--扑克数据
 	CCardControl.m_wCardCount=0
 	CCardControl.m_wHoverItem=CardControl.INVALID_ITEM
-	CCardControl.m_CurrentCard={}
+	CCardControl.m_CurrentCard=GameLogic:sizeM(2)
   	CCardControl.m_CardItemArray=GameLogic:ergodicList(cmd.MAX_COUNT)
 
 	--加载设置
@@ -1058,8 +1058,8 @@ function CCardControl:ctor()
 	CCardControl.m_ControlSize={}
 	CCardControl.m_ControlSize.cy=CardControl.CARD_HEIGHT+CardControl.POS_SHOOT
 	CCardControl.m_ControlSize.cx=(GameLogic:table_leng(CCardControl.m_CardItemArray)+1)*CardControl.CARD_WIDTH+CardControl.POS_SPACE
-	CCardControl.m_cbOutCardIndex={}
-	CCardControl.m_bCardDisable={}
+	CCardControl.m_cbOutCardIndex=GameLogic:sizeM(cmd.MAX_INDEX) 
+	CCardControl.m_bCardDisable=GameLogic:sizeM(cmd.MAX_INDEX)
 	CCardControl.m_bShowDisable = false
 	CCardControl.pWnd=nil
 	--HINSTANCE hInstance=AfxGetInstanceHandle()
@@ -1227,7 +1227,7 @@ function CCardControl:SetOutCardData(...)
 	end
 end
 function CCardControl:SetOutCardData_2(cbCardDataIndex,wCardCount)
-	self.m_cbOutCardIndex={}
+	self.m_cbOutCardIndex=GameLogic:sizeM(cmd.MAX_INDEX) 
 	if nil ~= cbCardDataIndex then
 		--CopyMemory(m_cbOutCardIndex, cbCardDataIndex, wCardCount);
 		self.m_cbOutCardIndex=GameLogic:deepcopy(cbCardDataIndex)
@@ -1235,7 +1235,8 @@ function CCardControl:SetOutCardData_2(cbCardDataIndex,wCardCount)
 end
 
 function CCardControl:SetOutCardData_1(cbCardDataIndex)
-	if cbCardDataIndex>(#self.m_cbOutCardIndex/#self.m_cbOutCardIndex[1]) then
+	--if cbCardDataIndex>(#self.m_cbOutCardIndex/#self.m_cbOutCardIndex[1]) then
+	if cbCardDataIndex>(#self.m_cbOutCardIndex) then
 		return
 	end
 	self.m_cbOutCardIndex[cbCardDataIndex]=self.m_cbOutCardIndex[cbCardDataIndex]+1

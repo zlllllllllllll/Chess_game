@@ -187,6 +187,13 @@ function GameLogic:ergodicList(b)
 	end
 	return a
 end
+function GameLogic:sizeM(b)
+	a={}
+	for i=1,b,1 do
+		a[i]=0
+	end
+	return a
+end
 
 function GameLogic:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight)
 	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft)
@@ -1024,8 +1031,9 @@ function GameLogic:SwitchToCardIndex_1(cbCardData)
 		end
 	end
 	local tem_val1=bit:_and(cbCardData, GameLogic.MASK_COLOR)
-	local tem_val2=(bit:_lshift(tem_val1, 4))*9
+	local tem_val2=(bit:_rshift(tem_val1, 4))*9
 	local tem_val3=bit:_and(cbCardData, GameLogic.MASK_VALUE)-1
+--print(tem_val1,tem_val2,tem_val3,tem_val2+tem_val3)
 	return tem_val2+tem_val3 
 end
 
@@ -1039,7 +1047,7 @@ function GameLogic:SwitchToCardData_2(cbCardIndex,cbCardData)
 		-- 财神放在第一位
 		byIndex = GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData)
 		if 0 ~= cbCardIndex[byIndex] then -- 首先把财神 加入
-			for j=1,cbCardIndex[byIndex],1 do
+			for j=1,cbCardIndex[byIndex]+1,1 do
 				cbPosition=cbPosition+1
 				cbCardData[cbPosition]=GameLogic:SwitchToCardData(byIndex)
 			end
@@ -1071,13 +1079,14 @@ end
 --BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX])
 function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
 	--设置变量
-	--cbCardIndex=nil
-	cbCardIndex={}
+	--cbCardIndex={}
+  	cbCardIndex=GameLogic:sizeM(GameLogic:table_leng(cbCardIndex))
 
 	--转换扑克
 	for i=1,cbCardCount,1 do
 		local tem_i =GameLogic:SwitchToCardIndex(cbCardData[i])
-		cbCardIndex[tem_i]=cbCardIndex[tem_i]+1
+        --print(tem_i)
+		cbCardIndex[tem_i+1]=cbCardIndex[tem_i+1]+1
 	end
 
 	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1

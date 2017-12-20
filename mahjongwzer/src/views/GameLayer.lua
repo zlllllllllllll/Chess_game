@@ -55,13 +55,13 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   --组合扑克
   -- BYTE	m_cbWeaveCount[GAME_PLAYER];		--组合数目
   -- tagWeaveItem	m_WeaveItemArray[GAME_PLAYER][MAX_WEAVE];	--组合扑克
-  self.m_cbWeaveCount={}
+  self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
   self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
 
   --扑克变量
   self.m_cbLeftCardCount=0
   --BYTE	m_cbCardIndex[MAX_INDEX];			--手中扑克
-  self.m_cbCardIndex={}
+  self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
   self.m_bySicboAnimCount = 0
   -- CMD_S_GamePlay   m_sGamePlay;  -- 游戏发牌消息
   self.m_sGamePlay={}
@@ -96,7 +96,7 @@ function GameLayer:OnInitGameEngine()
 	-- CGlobalUnits *pGlobalUnits=CGlobalUnits::GetInstance();
 	-- IGameFrameWnd * pIGameFrameWnd=(IGameFrameWnd *)pGlobalUnits->QueryGlobalModule(MODULE_GAME_FRAME_WND,IID_IGameFrameWnd,VER_IGameFrameWnd);
 	-- if(pIGameFrameWnd)pIGameFrameWnd->RestoreWindow();
-
+print("GetMeChairID",self:GetMeChairID())
 	print("Hello Hello!")
 end
 
@@ -159,7 +159,7 @@ end
 function GameLayer:F_GVSetTimer(id,time)
   if self._gameView._GVSetTimer==nil then  self._gameView._GVSetTimer={}  end
   self._gameView._GVSetTimer[id] = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
-          self._gameView:OnTimer(id)
+          if self._gameView~=nil and self._gameView.OnTimer then self._gameView:OnTimer(id)  else print("self._gameView.OnTimer is nil") end
       end, time, false)
 end
 
@@ -173,7 +173,7 @@ end
 -- 设置计时器   多ID
 function GameLayer:SetGameClock(Fid,chair,id,time)
 		--GameLayer.super:SetGameClock(chair,id,time)
-    GameLayer.super.SetGameClock(self,chair,id,time)
+    --GameLayer.super.SetGameClock(self,chair,id,time)
     -- self._ClockList[Fid]={}
     -- if not self._ClockList[Fid]._ClockFun then
     --     local this = self
@@ -186,6 +186,18 @@ function GameLayer:SetGameClock(Fid,chair,id,time)
     -- self._ClockList[Fid]._ClockTime = time
     -- self._ClockList[Fid]._ClockViewChair = self:SwitchViewChairID(chair)
     -- self:OnUpdataClockView(Fid)
+print("==SetGameClock",chair,id,tim)
+    if not self._ClockFun then
+        local this = self
+				self._ClockFun = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
+							if this.OnClockUpdata then this:OnClockUpdata()	else print("SetGameClock  this OnClockUpdata is nil  ") end
+            end, 1, false)
+    end
+    self._ClockChair = chair
+    self._ClockID = id
+    self._ClockTime = time
+    self._ClockViewChair = self:SwitchViewChairID(chair)
+    self:OnUpdataClockView()
 end
 --[[
 function GameLayer:GetClockViewID()
@@ -880,12 +892,13 @@ print(i,j)
 
 		local cbTakeCount=cmd.MAX_REPERTORY-self.m_cbLeftCardCount-(cmd.MAX_COUNT-1)*cmd.GAME_PLAYER
 		self.m_wHeapHand = (self.m_wHeapTail+1)%4
-		self.m_cbHeapCardInfo[self.m_wHeapHand][1] = cbTakeCount
+print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCardInfo[self.m_wHeapHand+1])
+		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = cbTakeCount
     if cbTakeCount >= CardControl.HEAP_FULL_COUNT then
-			self.m_cbHeapCardInfo[self.m_wHeapHand][1] = CardControl.HEAP_FULL_COUNT
+			self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = CardControl.HEAP_FULL_COUNT
 			cbTakeCount = cbTakeCount - CardControl.HEAP_FULL_COUNT
 			self.m_wHeapHand = (self.m_wHeapHand+1)%4
-			self.m_cbHeapCardInfo[self.m_wHeapHand][1] = self.m_wHeapHand
+			self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = self.m_wHeapHand
     end
 
   	--堆立界面
@@ -893,7 +906,7 @@ print(i,j)
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 		--换算出财神牌的位置
-		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail][1]
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
 		local bySicbo = bit:_rshift(cmd_data.wSiceCount3,8) + bit:_and(cmd_data.wSiceCount3, 0xff)
 		local byChairID = wMeChairID
     if byCount >= bySicbo then
@@ -1101,7 +1114,7 @@ function GameLayer:OnSubGamePlay(dataBuffer)
   self.m_cbDiscardCount={}
 
 	--组合扑克
-  self.m_cbWeaveCount={}
+  self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
   self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
   self.m_bySicboAnimCount = 0
 
@@ -1610,7 +1623,8 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	--tagScoreInfo ScoreInfo;
 	--tagWeaveInfo WeaveInfo;
   local ScoreInfo,WeaveInfo={},{}
-  ScoreInfo.cbCardData={}  ScoreInfo.szUserName=GameLogic:ergodicList(cmd.NAME_LEN)  ScoreInfo.lGameScore={}
+	--ScoreInfo.cbCardData=GameLogic:sizeM(cmd.MAX_COUNT)
+  ScoreInfo.cbCardData={}  ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)  ScoreInfo.lGameScore={}
   ScoreInfo.lGodsScore={}  ScoreInfo.byDingDi={}  ScoreInfo.dwChiHuKind={} ScoreInfo.dwChiHuRight={}
   WeaveInfo.cbCardCount={}  WeaveInfo.cbPublicWeave={}  WeaveInfo.cbCardData=GameLogic:ergodicList(4)
 
@@ -1639,7 +1653,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
   		ScoreInfo.lGodsScore[i]=cmd_data.lGodsScore[i]
 			--lstrcpyn(ScoreInfo.szUserName[i],pUserData->GetNickName(),CountArray(ScoreInfo.szUserName[i]))
       --ScoreInfo.szUserName[i]=ScoreInfo.szUserName[i]..pUserData:GetNickName()
-      ScoreInfo.szUserName[i]=ScoreInfo.szUserName[i]..pUserData.szNickName
+      ScoreInfo.szUserName[i]=pUserData.szNickName
 
       local str
       --str=pUserData:GetNickName()
@@ -1706,7 +1720,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	local lScore=cmd_data.lGameScore[self:GetMeChairID()]
   local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),1)
 	--local bGirl = ((pUserData->GetGender()==GENDER_MANKIND) ?  false:true);    --mark  getTableUserItem 中 确定存在GetGender？
-	local bGirl = not (pUserData:GetGender()==yl.GENDER_MANKIND)
+	local bGirl = not (pUserData.cbGender==yl.GENDER_MANKIND)
 
 	local switch = {
 	    [1] = function()    -- 软胡
@@ -1831,7 +1845,7 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
 		--assert(0 && "得不到玩家信息");
 		return
   end
-	local bGirl = (pUserData:GetGender()~=yl.GENDER_MANKIND) and true or false
+	local bGirl = (pUserData.cbGender~=yl.GENDER_MANKIND) and true or false
 	local cbType= bit:_and(cbCardData,GameLogic.MASK_COLOR)
 	local cbValue= bit:_and(cbCardData,GameLogic.MASK_VALUE)
   if cbType== 0x30 and cbValue==7 then --白板，打财神的牌
@@ -1887,7 +1901,7 @@ function GameLayer:PlayActionSound(wChairID, cbAction)
   if wChairID < 0 or wChairID > 3 then
 		return
   end
-	local bGirl = (pUserData:GetGender()~=yl.GENDER_MANKIND) and true or false
+	local bGirl = (pUserData.cbGender~=yl.GENDER_MANKIND) and true or false
 
   if cbAction==GameLogic.WIK_NULL then          --取消
     if not bGirl then
@@ -1973,7 +1987,8 @@ end
 function GameLayer:DeductionTableCard(bHeadCard)
   if bHeadCard==true then
 		--切换索引
-		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapHand][1]+self.m_cbHeapCardInfo[self.m_wHeapHand][1]
+print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCardInfo[self.m_wHeapHand+1])
+		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
 
     if cbHeapCount==CardControl.HEAP_FULL_COUNT then
 			self.m_wHeapHand=(self.m_wHeapHand+1)%(GameLogic:table_leng(self.m_cbHeapCardInfo))
@@ -1981,7 +1996,7 @@ function GameLayer:DeductionTableCard(bHeadCard)
 
 		--减少扑克
 		self.m_cbLeftCardCount=self.m_cbLeftCardCount-1
-		self.m_cbHeapCardInfo[self.m_wHeapHand][1]=self.m_cbHeapCardInfo[self.m_wHeapHand][1]+1
+		self.m_cbHeapCardInfo[self.m_wHeapHand][1]=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+1
 
 		--堆立扑克
 		--WORD wHeapViewID=SwitchViewChairID(m_wHeapHand);
@@ -1989,25 +2004,25 @@ function GameLayer:DeductionTableCard(bHeadCard)
 		--WORD wHeapViewID=(m_wHeapHand+6-GetMeChairID()*2)%4;
 		--if(wHeapViewID==2)wHeapViewID=1;
 		--else if(wHeapViewID==1)wHeapViewID=2;;
-		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapHand][1]
-		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapHand][2]
+		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
+		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][2]
 		self._gameView.m_HeapCard[wHeapViewID]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   else
 		--切换索引
-		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapTail][1]+self.m_cbHeapCardInfo[self.m_wHeapTail][2]
+		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]+self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
     if cbHeapCount==CardControl.HEAP_FULL_COUNT then
   		self.m_wHeapTail=(self.m_wHeapTail+1)%(GameLogic:table_leng(self.m_cbHeapCardInfo))
     end
 
 		--减少扑克
 		self.m_cbLeftCardCount=self.m_cbLeftCardCount-1
-		self.m_cbHeapCardInfo[self.m_wHeapTail][1]=self.m_cbHeapCardInfo[self.m_wHeapTail][1]+1
+		self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]+1
 
 		--堆立扑克
 		local wHeapViewID=self:SwitchHeapViewChairID(self.m_wHeapTail)
 	  --WORD wHeapViewID=SwitchViewChairID(m_wHeapTail);
-		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapTail][1]
-		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapTail][2]
+		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
+		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
 		self._gameView.m_HeapCard[wHeapViewID]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   end
 
@@ -2107,7 +2122,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
   self.m_cbDiscardCount={}
 
 	--组合扑克
-  self.m_cbWeaveCount={}
+  self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
   self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
 
 	--堆立扑克
@@ -2117,7 +2132,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 
 	--扑克变量
   self.m_cbLeftCardCount=0
-  self.m_cbCardIndex={}
+  self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 
 	--发送消息
 	--SendUserReady(NULL,0);
@@ -2306,16 +2321,14 @@ function GameLayer:OnDispatchCard(wParam, lParam)
 		GameLogic:SetGodsCard(pGamePlay.byGodsCardData)
 		self._gameView:SetGodsCard(pGamePlay.byGodsCardData)
 
-    self.m_cbCardIndex={}
+  	self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 
 		--设置扑克
 		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
-print("===mark 3")
-print(pGamePlay.cbCardData[wMeChairID],cbCardCount,self.m_cbCardIndex,wMeChairID)
-dump(pGamePlay,"pGamePlay",6)
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],cbCardCount,self.m_cbCardIndex)
+		--GetMeChairID 0 ~ 1 此处1起始 为 1 ~ 2
+		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
 		-- 换算出财神牌的位置
-		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail][1]
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
 		local bySicbo = bit:_rshift(pGamePlay.wSiceCount3,8) + bit:_and(pGamePlay.wSiceCount3, 0xff)
 		local byChairID = wMeChairID
     if byCount >= bySicbo then
@@ -2326,7 +2339,8 @@ dump(pGamePlay,"pGamePlay",6)
     end
 		--转换椅子
 		local wViewChairID=self:SwitchHeapViewChairID(byChairID)
-		self._gameView.m_HeapCard[wViewChairID]:SetGodsCard(pGamePlay.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][1])
+    --mark 不确定wViewChairID 下标是否正确
+		self._gameView.m_HeapCard[wViewChairID+1]:SetGodsCard(pGamePlay.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID+1][1])
 
 		--更新界面
 		self._gameView:SetCenterText("")
@@ -2353,15 +2367,15 @@ dump(pGamePlay,"pGamePlay",6)
     self.m_cbDiscardCount={}
 
 		--组合扑克
-    self.m_cbWeaveCount={}
+  	self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
     self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
-    self.m_cbCardIndex={}
+  	self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 
     local wMeChairID=self:GetMeChairID()
 
 		--设置扑克
 		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],cbCardCount,m_cbCardIndex)
+		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
 
 		--设置界面
 		local bPlayerMode=true
@@ -2400,10 +2414,10 @@ dump(pGamePlay,"pGamePlay",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID][1]-((i==0) and (cbSiceSecond-1)*2 or 0)
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][1]-((i==0) and (cbSiceSecond-1)*2 or 0)
   			local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
         if i==1 then cbRemoveCount=cbTakeCount end
-        self.m_cbHeapCardInfo[wTakeChairID][(i==0) and 1 or 0]=self.m_cbHeapCardInfo[wTakeChairID][(i==0) and 1 or 0]+cbRemoveCount*2
+        self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]+cbRemoveCount*2
 
         --提取扑克
         cbTakeCount=cbTakeCount-cbRemoveCount
@@ -2419,20 +2433,22 @@ dump(pGamePlay,"pGamePlay",6)
     break end
     -------------------------------------------------------------------
 		self.m_wHeapHand = (self.m_wHeapTail+1)%4
-		self.m_cbHeapCardInfo[self.m_wHeapHand][1]=1
+		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]=1
 
     for i=1,4,1 do
 			--变量定义
 			local wViewChairID=self:SwitchHeapViewChairID(i)
-			self._gameView.m_HeapCard[wViewChairID]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
     end
     -------------------------------------------------------------------
-		local byCardsIndex={0}
-		--ZeroMemory(byCardsIndex,sizeof(byCardsIndex));
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID],(cmd.MAX_COUNT-1),byCardsIndex)
+		byCardsIndex=GameLogic:sizeM(cmd.MAX_INDEX)
+		-- BYTE byCardsIndex[MAX_INDEX]={0};
+		-- ZeroMemory(byCardsIndex,sizeof(byCardsIndex));
+		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
 
-		local byCards={0}
-		--ZeroMemory(byCards,sizeof(byCards));
+		byCards=GameLogic:sizeM(cmd.MAX_COUNT)
+		-- BYTE byCards[MAX_COUNT]={0};
+		-- ZeroMemory(byCards,sizeof(byCards));
 		GameLogic:SwitchToCardData(byCardsIndex, byCards)
 
   	--扑克设置
@@ -2448,11 +2464,13 @@ dump(pGamePlay,"pGamePlay",6)
 			self._gameView.m_WeaveCard[i][5]:SetDisplayItem(true)
 
 			--用户扑克
+print("===mark 3",wMeChairID)
+dump(pGamePlay,"pGamePlay",6)
       if i~=wMeChairID then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
-				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID]))-1,(i==self.m_wBankerUser))
+				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1]))-1,(i==self.m_wBankerUser))
       else
-				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID][cmd.MAX_COUNT-1] or 0
+				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
 				self._gameView.m_HandCardControl:SetCardData(byCards,cmd.MAX_COUNT-1,cbBankerCard)
       end
 
