@@ -257,7 +257,7 @@ cmd.SUB_C_CHECK_SUPER		= 7
 --游戏定时器
 cmd.IDI_START_GAME			=	200									--开始定时器
 cmd.IDI_OPERATE_CARD		=	201									--操作定时器
-cmd.IDI_DINGDI_CARD			=  202								--操作定时器
+cmd.IDI_DINGDI_CARD			=  202									--操作定时器
 
 --游戏定时器
 cmd.TIME_START_GAME			=	60									--开始定时器

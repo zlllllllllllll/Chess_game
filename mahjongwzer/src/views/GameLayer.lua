@@ -88,7 +88,7 @@ function GameLayer:OnInitGameEngine()
 	--加载资源
 	-- g_CardResource.LoadResource();
   self.g_CardResource=CardControl:create_CCardResource(self)
-  self.g_CardResource:LoadResource(self)
+	self.g_CardResource:LoadResource(self)
 
   --打开注册表
   --xxxxxxx m_bChineseVoice=true 估计无用
@@ -101,6 +101,7 @@ print("GetMeChairID",self:GetMeChairID())
 end
 
 function GameLayer:OnResetGameEngine()
+print("GameLayer:OnResetGameEngin")
   GameLayer.super:OnResetGameEngine(self)
   --self._gameView:onResetData()   未确定需要
 
@@ -337,7 +338,7 @@ print("OnEventGameClockInfo",chair,time,clockId)
           end
   				return true
   		end,
-  		[cmd.IDI_DINGDI_CARD] = function()    --开始游戏
+  		[cmd.IDI_DINGDI_CARD] = function()    --
           --[[   一律返回false 不许旁观
       			if (IsLookonMode())
       			{
@@ -1801,7 +1802,7 @@ end
 
 --庄家买底
 function GameLayer:OnSubDingDi(dataBuffer)
-	print("用户托管")
+	print("庄家买底")
 	self.m_wCurrentUser = yl.INVALID_CHAIR
   self:KillGameClock(cmd.IDI_DINGDI_CARD)
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_DingDi, dataBuffer)
@@ -2006,7 +2007,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 		--else if(wHeapViewID==1)wHeapViewID=2;;
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][2]
-		self._gameView.m_HeapCard[wHeapViewID]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
+		self._gameView.m_HeapCard[wHeapViewID+1]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   else
 		--切换索引
 		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]+self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
@@ -2023,7 +2024,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 	  --WORD wHeapViewID=SwitchViewChairID(m_wHeapTail);
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
-		self._gameView.m_HeapCard[wHeapViewID]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
+		self._gameView.m_HeapCard[wHeapViewID+1]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   end
 
 	return
@@ -2138,7 +2139,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	--SendUserReady(NULL,0);
 	self:SendUserReady()
 
-	return 0   --return 0 注意是否使用改返回值当false判断！！ 下同
+	return 0
 end
 
 function GameLayer:OnOutInvalidCard()

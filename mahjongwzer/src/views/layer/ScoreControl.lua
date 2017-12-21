@@ -80,8 +80,8 @@ function ScoreControl:ctor()
 		:addTo(self)
 		:addTouchEventListener(btcallback)
 	self.m_btCloseScore=self:getChildByName("m_btCloseScore")
-
-	return 0;
+	
+	return 0
 end
 
 --复位数据

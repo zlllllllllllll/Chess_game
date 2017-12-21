@@ -170,8 +170,8 @@ function CCardListImage:DrawCardItem(id,pDestDC,cbCardData,xDest,yDest,cbGodsDat
 
 	local nDrawWidth=CardControl.CCardList[id].m_nItemWidth
 	local nDrawHeight=CardControl.CCardList[id].m_nItemHeight
-	if nItemHeight>0 then nDrawHeight=nItemHeight	end
-	if nItemWidth>0 then nDrawWidth=nItemWidth	end
+	if nItemHeight and nItemHeight>0 then nDrawHeight=nItemHeight	end
+	if nItemWidth and nItemWidth>0 then nDrawWidth=nItemWidth	end
 	--绘画子项
 	if cbCardData<=GameLogic.BAIBAN_CARD_DATA then
 		local nImageXPos=CCardListImage:GetImageIndex(cbCardData)*CardControl.CCardList[id].m_nItemWidth
@@ -284,6 +284,7 @@ function CHeapCard:ctor()
 end
 
 function CHeapCard:DrawCardControl(pDC,s)
+print("CHeapCard:DrawCardControl")
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
 		if (self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount)>0 then
@@ -336,7 +337,7 @@ print("m_ImageTableRight",nXPos,nYPos)
 				end
 		end
 		cc.Label:createWithTTF(s,"fonts/round_body.ttf", 24)
-			:move(m_ControlPoint.x,m_ControlPoint.y)
+			:move(self.m_ControlPoint.x,self.m_ControlPoint.y)
 		--	:setTextColor(cc.c4b(255,255,255,255))
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
 		--绘画扑克
@@ -352,8 +353,8 @@ print("m_ImageTableRight",nXPos,nYPos)
 
 				--尾部扑克
 				if self.m_wMinusLastCount%2~=0 then
-					nYPos=m_ControlPoint.y+6
-					nXPos=m_ControlPoint.x+wHeapIndex*18
+					nYPos=self.m_ControlPoint.y+6
+					nXPos=self.m_ControlPoint.x+wHeapIndex*18
 					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -365,8 +366,8 @@ print("m_ImageTableBottom",nXPos,nYPos)
 
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-1,1 do
-					nYPos=m_ControlPoint.y
-					nXPos=m_ControlPoint.x+i*18
+					nYPos=self.m_ControlPoint.y
+					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -378,8 +379,8 @@ print("m_ImageTableBottom",nXPos,nYPos)
 
 				--头部扑克
 				if self.m_wMinusHeadCount%2~=0 then
-					nYPos=m_ControlPoint.y+6
-					nXPos=m_ControlPoint.x+wFinallyIndex*18
+					nYPos=self.m_ControlPoint.y+6
+					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
 					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -390,7 +391,7 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				end
 		end
 		cc.Label:createWithTTF(s,"fonts/round_body.ttf", 24)
-			:move(m_ControlPoint.x,m_ControlPoint.y)
+			:move(self.m_ControlPoint.x,self.m_ControlPoint.y)
 		--	:setTextColor(cc.c4b(255,255,255,255))
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
 		--绘画扑克
@@ -405,8 +406,8 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				local wShowCardPos = self.m_byIndex + self.m_byMinusLastShowCard
 				--尾部扑克
 				if self.m_wMinusLastCount%2~=0 then
-					nXPos=m_ControlPoint.x
-					nYPos=m_ControlPoint.y+wHeapIndex*15+9
+					nXPos=self.m_ControlPoint.x
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
 					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -417,8 +418,8 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				end
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-1,1 do
-					nXPos=m_ControlPoint.x
-					nYPos=m_ControlPoint.y+i*15
+					nXPos=self.m_ControlPoint.x
+					nYPos=self.m_ControlPoint.y+i*15
 					CCardResource.m_ImageHeapDoubleV:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -429,8 +430,8 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				end
 				--头部扑克
 				if self.m_wMinusHeadCount%2~=0 then
-					nXPos=m_ControlPoint.x
-					nYPos=m_ControlPoint.y+wFinallyIndex*15+9
+					nXPos=self.m_ControlPoint.x
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
 					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -441,11 +442,12 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				end
 		end
 		cc.Label:createWithTTF(s,"fonts/round_body.ttf", 24)
-			:move(m_ControlPoint.x,m_ControlPoint.y)
+			:move(self.m_ControlPoint.x,self.m_ControlPoint.y)
 		--	:setTextColor(cc.c4b(255,255,255,255))
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
 		--绘画扑克
-		if (self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount)>0 then
+		--if (self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount)>0 then
+		if (self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount)>=0 then
 				--变量定义
 				local nXPos,nYPos=0,0
 				local wHeapIndex=self.m_wMinusHeadCount/2
@@ -456,8 +458,8 @@ print("m_ImageTableLeft",nXPos,nYPos)
 
 				--头部扑克
 				if self.m_wMinusHeadCount%2~=0 then
-					nYPos=m_ControlPoint.y+6
-					nXPos=m_ControlPoint.x+wHeapIndex*18
+					nYPos=self.m_ControlPoint.y+6
+					nXPos=self.m_ControlPoint.x+wHeapIndex*18
 					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -468,8 +470,8 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-1,1 do
-					nYPos=m_ControlPoint.y
-					nXPos=m_ControlPoint.x+i*18
+					nYPos=self.m_ControlPoint.y
+					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -480,8 +482,8 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 				--尾部扑克
 				if self.m_wMinusLastCount%2~=0 then
-					nYPos=m_ControlPoint.y+6
-					nXPos=m_ControlPoint.x+wFinallyIndex*18
+					nYPos=self.m_ControlPoint.y+6
+					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
 					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
 						:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -492,8 +494,9 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 		end
 		cc.Label:createWithTTF(s,"fonts/round_body.ttf", 24)
-			:move(m_ControlPoint.x,m_ControlPoint.y)
+			:move(self.m_ControlPoint.x,self.m_ControlPoint.y)
 		--	:setTextColor(cc.c4b(255,255,255,255))
+print("createWithTTF",s,self.m_ControlPoint.x,self.m_ControlPoint.y)
 	end
 	return
 end
@@ -545,11 +548,12 @@ function CWeaveCard:DrawCardControl(...)
 	local len=#arg
 	if len==1 then	return CWeaveCard:DrawCardControl_1(arg[1])
 	elseif len==3 then	return CWeaveCard:DrawCardControl_3(arg[1],arg[2],arg[3])
-	else	print("DrawCardControl 参数个数不符")
+	else	print("DrawCardControl 参数个数不符 len",len)
 	end
 end
 --绘画扑克
 function CWeaveCard:DrawCardControl_1(pDC)
+print("CWeaveCard:DrawCardControl_1")
 	--显示判断
 	if self.m_wCardCount==0 then return end
 	--变量定义
@@ -562,14 +566,14 @@ function CWeaveCard:DrawCardControl_1(pDC)
 		for i=1,3,1 do
 				--local nXScreenPos=self.m_ControlPoint.x-g_CardResource.m_ImageTableRight.GetViewWidth();
 				local nXScreenPos=self.m_ControlPoint.x-CardControl.CCardList["m_ImageTableRight"].m_nViewWidth
-				local nYScreenPos=m_ControlPoint.y+(i-1)*CardControl.CCardList["m_ImageTableRight"].m_nViewHeight-8*(i-1)
+				local nYScreenPos=self.m_ControlPoint.y+(i-1)*CardControl.CCardList["m_ImageTableRight"].m_nViewHeight-8*(i-1)
 				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self:GetCardData(2-i+1),nXScreenPos,nYScreenPos)
 		end
 
 		--第四扑克
 		if self.m_wCardCount==4 then
 				local nXScreenPos=self.m_ControlPoint.x-CardControl.CCardList["m_ImageTableRight"].m_nViewWidth
-				local nYScreenPos=m_ControlPoint.y-8+CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
+				local nYScreenPos=self.m_ControlPoint.y-8+CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
 				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self:GetCardData(3),nXScreenPos,nYScreenPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
@@ -644,6 +648,7 @@ end
 
 --绘画扑克
 function CWeaveCard:DrawCardControl_3(pDC,nXPos,nYPos)
+print("CWeaveCard:DrawCardControl_3")
 	--设置位置
 	self:SetControlPoint(nXPos,nYPos)
 	--显示判断
@@ -658,14 +663,14 @@ function CWeaveCard:DrawCardControl_3(pDC,nXPos,nYPos)
 		for i=1,3,1 do
 				--local nXScreenPos=self.m_ControlPoint.x-g_CardResource.m_ImageTableRight.GetViewWidth();
 				local nXScreenPos=self.m_ControlPoint.x-CardControl.CCardList["m_ImageTableRight"].m_nViewWidth
-				local nYScreenPos=m_ControlPoint.y+(i-1)*CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
+				local nYScreenPos=self.m_ControlPoint.y+(i-1)*CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
 				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self:GetCardData(2-i-1),nXScreenPos,nYScreenPos)
 		end
 
 		--第四扑克
 		if self.m_wCardCount==4 then
 				local nXScreenPos=self.m_ControlPoint.x-CardControl.CCardList["m_ImageTableRight"].m_nViewWidth
-				local nYScreenPos=m_ControlPoint.y-5+CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
+				local nYScreenPos=self.m_ControlPoint.y-5+CardControl.CCardList["m_ImageTableRight"].m_nViewHeight
 				CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self:GetCardData(3),nXScreenPos,nYScreenPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
@@ -748,6 +753,7 @@ end
 
 --绘画扑克
 function CUserCard:DrawCardControl(pDC)
+print("CUserCard:DrawCardControl")
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--当前扑克
 			if self.m_bCurrentCard==true then
@@ -857,6 +863,7 @@ end
 
 --绘画扑克
 function CDiscardCard:DrawCardControl(pDC)
+print("CDiscardCard:DrawCardControl")
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--绘画扑克
@@ -981,6 +988,7 @@ end
 
 --绘画扑克
 function CTableCard:DrawCardControl(pDC)
+print("CDiscardCard:DrawCardControl")
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--绘画扑克
@@ -1321,6 +1329,7 @@ end
 
 --绘画扑克
 function CCardControl:DrawCardControl(pDC)
+print("CCardControl:DrawCardControl")
 	--绘画准备
 	local nXExcursion=self.m_ControlPoint.x+(GameLogic:table_leng(self.m_CardItemArray)-self.m_wCardCount)*CardControl.CARD_WIDTH
 

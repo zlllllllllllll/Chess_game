@@ -63,7 +63,6 @@ function GameViewLayer:ctor(scene)
 	self._gameFrame = scene._gameFrame
 	self:addSerchPaths()
 	-- self:onInitData()
-	self:preloadUI()
 	-- self:initButtons()
 
 	self.m_nXFace=48
@@ -108,7 +107,7 @@ function GameViewLayer:ctor(scene)
 	m_ImageReady.LoadFromResource(hInstance,IDB_READY);							//准备
 	--]]
 	self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)
-	self.m_ImageBack=display.newSprite("res/game/VIEW_BACK.png"):setVisible(false):addTo(self)
+	self.m_ImageBack=display.newSprite("res/game/VIEW_BACK.png"):setVisible(false):addTo(self,-1)
 	self.m_ImageUserFlag=display.newSprite("res/game/USER_FLAG.png"):setVisible(false):addTo(self)
 	self.m_ImageUserAction=display.newSprite("res/game/USER_ACTION.png"):setVisible(false):addTo(self)
 	self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png"):setVisible(false):addTo(self)
@@ -145,6 +144,11 @@ function GameViewLayer:ctor(scene)
 
 	self.m_bTipSingle=false
 	self.m_bBankerCount = 1
+	--添加
+	self.g_CardResource=CardControl:create_CCardResource(self)
+	self.g_CardResource:LoadResource(self)
+	
+	self:preloadUI()
 	return
 end
 
@@ -246,6 +250,7 @@ function GameViewLayer:preloadUI()
 		--创建控件
 		--CRect rcCreate(0,0,0,0);  mark 可能不显示
 		--m_ScoreControl.Create(NULL,NULL,WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,rcCreate,this,200);
+					self.g_CardResource=CardControl:create_CCardListImage(self)
 		self.m_ScoreControl=ScoreControl:create(self):addTo(self)
 		self.m_ScoreControl:setTag(200)
 		self.m_ScoreControl:move(0,0)
@@ -286,7 +291,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiDi")
 			:setTag(GameViewLayer.IDC_MAI_DI)
 			:setScale(1)
-			--:setVisible(false) 
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiDi=self:getChildByName("m_btMaiDi")
@@ -295,7 +300,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btDingDi")
 			:setTag(GameViewLayer.IDC_DING_DI)
 			:setScale(1)
-			--:setVisible(false) 
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btDingDi=self:getChildByName("m_btDingDi")
@@ -304,21 +309,26 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiCancel")
 			:setTag(GameViewLayer.IDC_MAI_CANCEL)
 			:setScale(1)
-			--:setVisible(false) 
+			:setVisible(false) 
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiCancel=self:getChildByName("m_btMaiCancel")
 		ccui.Button:create("res/game/di_cancel.png","res/game/di_cancel.png")
-			:move(yl.WIDTH-300,60)
+			:move(yl.WIDTH-300,50)
             :setName("m_btDingCancel")
 			:setTag(GameViewLayer.IDC_DING_CANCEL)
 			:setScale(1)
-			--:setVisible(false)
+			:setVisible(false)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btDingCancel=self:getChildByName("m_btDingCancel")
 
 		self.m_HandCardControl.pWnd=self
+
+		------
+		self:RectifyControl(1300,750)
+		--绘制界面
+		self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
 end
 
 --重置界面     --有用到么？
@@ -398,6 +408,7 @@ end
 
 --调整控件
 function GameViewLayer:RectifyControl(nWidth,nHeight)
+print("GameViewLayer:RectifyControl(nWidth,nHeight)",nWidth,nHeight)
 	--
 	self.m_iSavedWidth=nWidth
 	self.m_iSavedHeight=nHeight
@@ -511,8 +522,8 @@ function GameViewLayer:RectifyControl(nWidth,nHeight)
 	--m_btMaiDi.GetWindowRect(&rcButton);
 	rcButton=self.m_btMaiDi:getContentSize()
 print(" ==RectifyControl  ")
-print("self.m_btMaiDi setP ",nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder)
-print("self.m_btMaiDi setP ",nWidth/2 + 10,nHeight-120-self.m_nYBorder)
+print("self.m_btMaiDi setPosition ",nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder)
+print("self.m_btMaiDi setPosition ",nWidth/2 + 10,nHeight-120-self.m_nYBorder)
 	self.m_btMaiDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btDingDi:setPosition( cc.p( nWidth/2-rcButton.width-10,nHeight-120-self.m_nYBorder ) )
 	self.m_btMaiCancel:setPosition( cc.p( nWidth/2 + 10,nHeight-120-self.m_nYBorder ) )
@@ -573,12 +584,12 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
 		:setVisible(true)
-		:addTo(self)
+		:addTo(self,-1)
 
 	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png")
 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
 		:setVisible(true)
-		:addTo(self)
+		:addTo(self,-1)
 
 	--[[
 	CString strScore1;
@@ -614,7 +625,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					:setPosition(self.m_UserFlagPos[i].x-20,self.m_UserFlagPos[i].y)
 					:setColor(cc.c3b(255, 0, 255))
 					:setVisible(true)
-					:addTo(self)
+					:addTo(self,-1)
 			end
 			if self.m_byDingMai[i]>0 then
 				self.m_ImageDingMai=display.newSprite("res/game/dingmai.png")
@@ -645,7 +656,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 	--用户扑克
 	self.m_UserCard[1]:DrawCardControl(pDC)						--对方手中的麻将，游戏进行中显示
-	self.m_HandCardControl:DrawCardControl(pDC)				--自己手中的麻将，游戏进行中显示
+	self.m_HandCardControl:DrawCardControl(pDC)					--自己手中的麻将，游戏进行中显示
 
 	--等待提示
 	if self.m_bWaitOther==true then
@@ -775,7 +786,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 
 	local nXPos,nYPos=15,10
 	--动作背景
-	self.m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,m_ImageCS.GetWidth(),m_ImageCS.GetHeight(),0,0,RGB(255,0,255),255);
+	--self.m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,self.m_ImageCS:getContentSize().width,self.m_ImageCS:getContentSize().height,0,0,cc.c3b(255, 0, 255),255);
 	self.m_ImageCS:setPosition(nXPos,nYPos)
 		:setColor(cc.c3b(255, 255, 255))
 		:setOpacity(255)
@@ -797,17 +808,17 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	for i=1,cmd.GAME_PLAYER,1 do
 		--变量定义
 		 --IClientUserItem * pUserData=GetClientUserItem(i);  mark 估计同
-		 local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i)
+		 local pUserData=self._gameFrame:getTableUserItem(self._scene:GetMeTableID(),i)
 		 if pUserData~=nil then
  			--用户名字
 
-			cc.Label:createWithTTF(pUserData:GetNickName(),"fonts/round_body.ttf", 24)
+			cc.Label:createWithTTF(pUserData.szNickName,"fonts/round_body.ttf", 24)
 					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
 					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
 					:move(self.m_ptNickName[i].x,self.m_ptNickName[i].y)
 					:setTextColor(cc.c4b(255,255,255,255))
 
-			strScore="财富:"..pUserData:GetUserScore()
+			strScore="财富:"..pUserData.lScore
 
 			cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
 					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
@@ -816,7 +827,8 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					:setTextColor(cc.c4b(255,255,0,255))
 
 			--其他信息
-			local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
+			--local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
+			local wUserTimer=1
 			if (wUserTimer~=0) and (self.m_wCurrentUser~=yl.INVALID_CHAIR) then
 				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
 				if self.m_wCurrentUser==0 then
@@ -843,7 +855,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 						:setVisible(true)
 				end
 			end
-			if pUserData:GetUserStatus()==yl.US_READY then
+			if pUserData.cbUserStatus==yl.US_READY then
 print("self.m_ImageReady:setPositio",self.m_ptReady[i].x,self.m_ptReady[i].y)
 				self.m_ImageReady:setPosition(self.m_ptReady[i].x,self.m_ptReady[i].y)
 					:setColor(cc.c3b(255, 0, 255))
@@ -936,7 +948,7 @@ function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
 		end
 	end
 	-- self.m_iSavedWidth,self.m_iSavedHeight 目前无值 暂时为1300 300
-	self.m_iSavedWidth,self.m_iSavedHeight=1300,300
+	self.m_iSavedWidth,self.m_iSavedHeight=1300,750
 	self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
 
 	--更新界面
