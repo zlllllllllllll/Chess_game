@@ -321,14 +321,36 @@ function GameLayer:onEnterTransitionFinish()
     GameLayer.super:onEnterTransitionFinish(self)
 end
 
+-- room中 刷新所有桌子
+-- function GameLayer:upDataTableStatus(wTableID)
+-- end
+
+--用户状态
+function GameLayer:onEventUserStatus(useritem,newstatus,oldstatus)
+    print("change user " .. useritem.wChairID .. "; nick " .. useritem.szNickName)
+    if newstatus.cbUserStatus == yl.US_FREE or newstatus.cbUserStatus == yl.US_NULL then
+      if (oldstatus.wTableID ~= self:GetMeUserItem().wTableID) then return end
+         self._gameView:deleteUserInfo(useritem)
+         print("删除")
+    else        
+			--刷新用户信息
+			if useritem == self:GetMeUserItem() then return end
+			self._gameView:showUserInfo(useritem)
+			self._otherNick = useritem.szNickName
+			if newstatus.cbUserStatus == yl.US_READY then
+					self._gameView:showReady(useritem.wChairID, 1)
+			end
+    end 
+end       
+    
 -- 计时器响应
 function GameLayer:OnEventGameClockInfo(chair,time,clockId)
 print("OnEventGameClockInfo",chair,time,clockId)
   local switch = {
-  		[cmd.IDI_START_GAME] = function()    --开始游戏 开始定时器
+			[cmd.IDI_START_GAME] = function()    --开始游戏 开始定时器
           if time==0 then
     				--AfxGetMainWnd()->PostMessage(WM_CLOSE);   --mark
-      			self._gameFrame:setEnterAntiCheatRoom(false)--退出防作弊，如果有的话
+      			--self._gameFrame:setEnterAntiCheatRoom(false)--退出防作弊，如果有的话
     				return false
           end
           --if (time<=5) and (IsLookonMode()==false) then    -- 一律返回false 不许旁观
@@ -589,7 +611,8 @@ function GameLayer:onEventGameScene(cbGameStatus,dataBuffer)
 			end
 		end
 	end
-  --]]
+	--]]
+print("onEventGameScene cbGameStatus",cbGameStatus)
   if cbGameStatus == cmd.GS_MJ_FREE then              --空闲状态
 		print("空闲状态")
 		local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_StatusFree, dataBuffer)
@@ -1660,7 +1683,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
       --str=pUserData:GetNickName()
       str=pUserData.szNickName
   		--DWORD  le0 = CStringA(str).GetLength();        --这里不明白在干嘛 mark 可能是cstring和char转换 ？！？！？！？！？！？ 好像用不到我这
-  		local  le0 = GameLogic:table_leng(str)
+  		--local  le0 = GameLogic:table_leng(str)
 
   		local strFormat
 		  --strFormat.Format(TEXT("%%-%ds%%+-12I64d%%+-8I64d"),18-(le0-str.GetLength()));
@@ -1997,7 +2020,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 
 		--减少扑克
 		self.m_cbLeftCardCount=self.m_cbLeftCardCount-1
-		self.m_cbHeapCardInfo[self.m_wHeapHand][1]=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+1
+		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+1
 
 		--堆立扑克
 		--WORD wHeapViewID=SwitchViewChairID(m_wHeapHand);
@@ -2072,6 +2095,12 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self._gameView.m_btStart:setVisible(false)
 	self._gameView.m_ControlWnd:setVisible(false)
 	self._gameView.m_ScoreControl:RestorationData()
+	--
+	self._gameView.m_btMaiDi:setVisible(true)
+	self._gameView.m_btDingDi:setVisible(true)
+	self._gameView.m_btMaiCancel:setVisible(true)
+	self._gameView.m_btDingCancel:setVisible(true)
+	self._gameView.m_ImageReady:setVisible(true)
 
 	--设置界面
 	self._gameView:SetDiscUser(yl.INVALID_CHAIR)

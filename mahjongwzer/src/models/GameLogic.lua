@@ -158,6 +158,7 @@ end
 
 --table 的长度
 function GameLogic:table_leng(t)
+  if not t  and type(t)~="table" then print("table_leng 数据类型错误") return end
   local leng=0
   for k, v in pairs(t) do
     leng=leng+1

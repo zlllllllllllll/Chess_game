@@ -15,8 +15,8 @@ cmd.VERSION_CLIENT	=			appdf.VersionValue(6,0,3)			 --程序版本
 cmd.NAME_LEN				=	32
 --------------------------------------------------------------------------
 --游戏状态
-cmd.GAME_STATUS_PLAY	=100 										 --全局定义 Define.h
-cmd.GS_MJ_FREE			=		GAME_STATUS_FREE					-- 空闲状态
+cmd.GAME_STATUS_PLAY	=100 										--全局定义 Define.h
+cmd.GS_MJ_FREE			=		0  --GAME_STATUS_FREE				-- 空闲状态
 cmd.GS_MJ_MAIDI			=	  	cmd.GAME_STATUS_PLAY+1				-- 买庄状态
 cmd.GS_MJ_PLAY			=	   	cmd.GAME_STATUS_PLAY				-- 游戏状态
 
@@ -26,7 +26,7 @@ cmd.MAX_INDEX				=	34									--最大索引
 cmd.MAX_COUNT				=	17									--最大数目
 cmd.MAX_REPERTORY			=	136									--最大库存
 
-cmd.GAME_SCENE_FREE			=	GAME_STATUS_FREE					--等待开始
+cmd.GAME_SCENE_FREE			=	0  --GAME_STATUS_FREE				--等待开始
 --------------------------------------------------------------------------
 --[[
 class CDebugString

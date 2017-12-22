@@ -1,4 +1,5 @@
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
+local PopupInfoHead = appdf.req(appdf.EXTERNAL_SRC .. "PopupInfoHead")
 
 local GameViewLayer = class("GameViewLayer",function(scene)
 	--local gameViewLayer =  cc.CSLoader:createNode(cmd.RES_PATH.."game/GameScene.csb")
@@ -96,6 +97,11 @@ function GameViewLayer:ctor(scene)
 	self.m_cbUserAction={}
 	self.m_bTrustee={}
 	self.m_szCenterText=""
+	--提示字符串	-- 设置字体  700
+	self.PromptText = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
+	self.PromptText:move(yl.WIDTH/2-200,yl.HEIGHT/2-100)
+	self.PromptText:setTextColor(cc.c4b(255,255,255,255))
+	self.PromptText:addTo(self) 
 
 	--加载位图
 	--[[
@@ -291,7 +297,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiDi")
 			:setTag(GameViewLayer.IDC_MAI_DI)
 			:setScale(1)
-			:setVisible(false) 
+			:setVisible(false)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiDi=self:getChildByName("m_btMaiDi")
@@ -300,7 +306,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btDingDi")
 			:setTag(GameViewLayer.IDC_DING_DI)
 			:setScale(1)
-			:setVisible(false) 
+			:setVisible(false)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btDingDi=self:getChildByName("m_btDingDi")
@@ -309,7 +315,7 @@ function GameViewLayer:preloadUI()
             :setName("m_btMaiCancel")
 			:setTag(GameViewLayer.IDC_MAI_CANCEL)
 			:setScale(1)
-			:setVisible(false) 
+			:setVisible(false)
 			:addTo(self)
 			:addTouchEventListener(btcallback)
 		self.m_btMaiCancel=self:getChildByName("m_btMaiCancel")
@@ -359,6 +365,7 @@ print("重置界面 GameViewLayer:ResetGameView")
 	self.m_wOutCardUser=yl.INVALID_CHAIR
 	self.m_cbUserAction={}
 	self.m_szCenterText=""
+	self.PromptText:setString(self.m_szCenterText)
 
 	--界面设置
 
@@ -597,11 +604,13 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	//AfxMessageBox(strScore1);
 	--]]
 
-	if #self.m_szCenterText > 0 then		--提示字符串
-		-- 设置字体  700
-		local font = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
-		font:move(nWidth/2-200,nHeight/2-100)
-		font:setTextColor(cc.c4b(255,255,255,255))
+print("self.m_szCenterText",self.m_szCenterText)
+	if #self.m_szCenterText > 0 then		
+		--提示字符串	-- 设置字体  700
+		self.PromptText:setString(self.m_szCenterText)
+		-- self.PromptText = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
+		-- self.PromptText:move(nWidth/2-200,nHeight/2-100)
+		-- self.PromptText:setTextColor(cc.c4b(255,255,255,255))
 	end
 
 	--用户标志
@@ -784,11 +793,11 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 		end
 	end
 
-	local nXPos,nYPos=15,10
+	local nXPos,nYPos=100,yl.HEIGHT-80
 	--动作背景
 	--self.m_ImageCS.BlendDrawImage(pDC,nXPos,nYPos,self.m_ImageCS:getContentSize().width,self.m_ImageCS:getContentSize().height,0,0,cc.c3b(255, 0, 255),255);
 	self.m_ImageCS:setPosition(nXPos,nYPos)
-		:setColor(cc.c3b(255, 255, 255))
+		--:setColor(cc.c3b(255, 255, 255))
 		:setOpacity(255)
 		:setVisible(true)
 
@@ -808,7 +817,9 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	for i=1,cmd.GAME_PLAYER,1 do
 		--变量定义
 		 --IClientUserItem * pUserData=GetClientUserItem(i);  mark 估计同
-		 local pUserData=self._gameFrame:getTableUserItem(self._scene:GetMeTableID(),i)
+--    local p1=self._gameFrame:getTableUserItem(self._scene:GetMeTableID(),0)
+--    local p2=self._gameFrame:getTableUserItem(self._scene:GetMeTableID(),1)
+		 local pUserData=self._gameFrame:getTableUserItem(self._scene:GetMeTableID(),i-1)
 		 if pUserData~=nil then
  			--用户名字
 
@@ -817,6 +828,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
 					:move(self.m_ptNickName[i].x,self.m_ptNickName[i].y)
 					:setTextColor(cc.c4b(255,255,255,255))
+					:addTo(self)
 
 			strScore="财富:"..pUserData.lScore
 
@@ -825,6 +837,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
 					:move(self.m_ptDingMai[i].x+30,self.m_ptNickName[i].y)
 					:setTextColor(cc.c4b(255,255,0,255))
+					:addTo(self)
 
 			--其他信息
 			--local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
@@ -837,7 +850,7 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 						:setVisible(true)
 				end
 				if self.m_wCurrentUser==1 then
-					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize()/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
         		:setScaleX(1/4)
 						:setVisible(true)
 				end
@@ -846,11 +859,11 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
 				if (i-1)==0 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*i,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
-        		:setScaleX(1/4)
+        				:setScaleX(1/4)
 						:setVisible(true)
 				end
 				if (i-1)==1 then
-					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize()/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
 						:setScaleX(1/4)
 						:setVisible(true)
 				end
@@ -866,6 +879,44 @@ print("self.m_ImageReady:setPositio",self.m_ptReady[i].x,self.m_ptReady[i].y)
 
 	self:DrawSicboAnim(pDC)
 	return
+end
+
+--准备显示
+function GameViewLayer:showReady(id,isShow)
+	print("显示准备",id,isShow)
+end
+
+function GameViewLayer:deleteUserInfo( useritem )
+	print("deleteUserInfo")
+end
+--
+function GameViewLayer:showUserInfo( useritem )
+	print("showUserInfo")
+dump(useritem)
+    --玩家头像
+    -- local head = PopupInfoHead:createNormal(useritem, 80)
+    -- head:setAnchorPoint(cc.p(0.5,0.5))
+    -- head:setPosition(cc.p(134,222))
+    -- self:addChild(head)
+    -- head:enableInfoPop(true,pos[useritem.wChairID+1] , anr[useritem.wChairID+1])
+	
+	--
+	local id=useritem.wChairID+1
+	cc.Label:createWithTTF(useritem.szNickName,"fonts/round_body.ttf", 24)
+			:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
+			:move(self.m_ptNickName[id].x,self.m_ptNickName[id].y)
+			:setTextColor(cc.c4b(255,255,255,255))
+			:addTo(self)
+
+	local strScore="财富:"..useritem.lScore
+
+	cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
+			:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+			:move(self.m_ptDingMai[id].x+30,self.m_ptNickName[id].y)
+			:setTextColor(cc.c4b(255,255,0,255))
+			:addTo(self)
 end
 
 --基础积分
@@ -1040,11 +1091,16 @@ end
 
 --设置中心文字
 function GameViewLayer:SetCenterText(szText)
+print("SetCenterText szText",szText)
 	if nil==szText then
 		self.m_szCenterText=""
 	else
 		self.m_szCenterText=szText
 	end
+
+	--修改提示文本
+print(self.PromptText,tolua.isnull(self.PromptText))
+	self.PromptText:setString(self.m_szCenterText)
 	self:RefreshGameView()
 end
 
@@ -1083,6 +1139,7 @@ function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
 				:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
 				:move(nXPos+nXExcursion[i],nYPos+nYExcursion[i])
 				:setTextColor(cc.c4b(255,255,0,255))
+				:addTo(self)
 		--TextOut(pDC,nXPos+nXExcursion[i],nYPos+nYExcursion[i],pszString,nStringLength);  nStringLength 不清楚作用 下同
 	end
 
@@ -1092,6 +1149,7 @@ function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
 			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
 			:move(nXPos,nYPos)
 			:setTextColor(crText)
+			:addTo(self)
 
 	return
 end
@@ -1166,6 +1224,7 @@ end
 ------------------------------------------------------------------------------------------------------------------
 
 function GameViewLayer:OnTimer(nIDEvent)
+print("GameViewLayer:OnTimer nIDEvent",nIDEvent)
 	if nIDEvent==GameViewLayer.IDI_TIP_SINGLE then
 		self.m_bTipSingle=false
 		self._scene:F_GVKillTimer(GameViewLayer.IDI_TIP_SINGLE)
@@ -1438,7 +1497,7 @@ function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
 	table.insert(self.m_arBall,sBall)
 	self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,100)
 	self:RefreshGameView()
-	if iStartIndex<20 then
+	if not iStartIndex or iStartIndex<20 then
 		self._scene:PlaySound(cmd.RES_PATH.."mahjong/sezi.wav")
 	end
 end
