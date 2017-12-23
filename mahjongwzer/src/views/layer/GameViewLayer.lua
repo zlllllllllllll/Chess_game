@@ -130,7 +130,6 @@ function GameViewLayer:ctor(scene)
 	self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png"):setVisible(false):addTo(self)
 
 	self.ImageTimeBack=display.newSprite("res/game/TIME_BACK.png"):setVisible(false):addTo(self)
-	self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png"):setVisible(false):addTo(self)
 
 	self.m_ImageDingMai=display.newSprite("res/game/dingmai.png"):setVisible(false):addTo(self)
 	self.m_ImageDingMaiFrame=display.newSprite("res/game/DingMaiFrame.png"):setVisible(false):addTo(self)
@@ -542,6 +541,7 @@ end
 --pDC 包含指针到子窗口中显示上下文。是瞬态的。
 function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 
+	self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png"):setVisible(false):addTo(self)
 	--获取属性 const INT  ImageTimeNumber等之前加载资源
 	local nNumberHeight=self.ImageTimeNumber:getContentSize().height
 	local nNumberWidth=self.ImageTimeNumber:getContentSize().width/11
@@ -556,20 +556,30 @@ function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
 
 	--self.ImageTimeBack.TransDrawImage(pDC,nXDrawPos-30,nYDrawPos-10,RGB(255,0,255));
 	self.m_ImageCenter=display.newSprite("res/game/TIME_BACK.png")
-		:move(nXDrawPos-30,nYDrawPos-10)
+		:move(nXDrawPos,nYDrawPos)
+		:setAnchorPoint(cc.p(0.5,0.5))
 		:setColor(cc.c3b(255, 0, 255))
 		:setVisible(true)
+		:addTo(self)
+--
+print("wCellNumber",wCellNumber)
+--"5:1"
+self.ImageTimeNumber = cc.LabelAtlas:_create(51, "res/game/TIME_NUMBER.png", 22, 29, string.byte("0"))
+		:move(nXPos,nYPos)
+		:setAnchorPoint(cc.p(0.5,0.5))
 		:addTo(self)
 	--绘画号码
 	for i=1,lNumberCount,1 do
 		--绘画号码
 		local wCellNumber=wTime%10
 		--self.ImageTimeNumber.TransDrawImage(pDC,nXDrawPos,nYDrawPos,nNumberWidth-5,nNumberHeight,wCellNumber*nNumberWidth,0,RGB(0,0,0)) 	--mark
+		--[[
 		self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png")
 			:move(nXDrawPos,nYDrawPos)
 			:setColor(cc.c3b(0, 0, 0))
 			:setVisible(true)
 			:addTo(self)
+		--]]
 
 		--设置变量
 		wTime=wTime /10
@@ -841,17 +851,29 @@ print("self.m_szCenterText",self.m_szCenterText)
 
 			--其他信息
 			--local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
+print("================")
+print(self.m_wCurrentUser,yl.INVALID_CHAIR)
+print(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4,self.m_wCurrentUser,i)
+print(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*self.m_wCurrentUser,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
+print(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+print(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*i,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
+print(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
+--箭头 0 1 2 3
+local test=GameLogic:Clipp9S("res/game/ARROW.png",34,34)
+	  :move(500,500)
+	  :addTo(self)
+test:getChildByTag(1):move(-34/2-34*0,0)
 			local wUserTimer=1
 			if (wUserTimer~=0) and (self.m_wCurrentUser~=yl.INVALID_CHAIR) then
 				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
 				if self.m_wCurrentUser==0 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*self.m_wCurrentUser,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
-        		:setScaleX(1/4)
+        				:setScaleX(1)
 						:setVisible(true)
 				end
 				if self.m_wCurrentUser==1 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
-        		:setScaleX(1/4)
+						:setScaleX(1)
 						:setVisible(true)
 				end
 			end
@@ -859,12 +881,12 @@ print("self.m_szCenterText",self.m_szCenterText)
 				self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
 				if (i-1)==0 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*i,nHeight/2-self.m_ImageArrow:getContentSize().height*2)
-        				:setScaleX(1/4)
+        				:setScaleX(1)
 						:setVisible(true)
 				end
 				if (i-1)==1 then
 					self.m_ImageArrow:setPosition(nWidth/2-15 +self.m_ImageArrow:getContentSize().width/4*2,nHeight/2+self.m_ImageArrow:getContentSize().height)
-						:setScaleX(1/4)
+						:setScaleX(1)
 						:setVisible(true)
 				end
 			end

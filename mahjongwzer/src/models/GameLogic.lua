@@ -212,6 +212,28 @@ function GameLogic:FillSolidRect(x, y, cx, cy, color)
 	return dr
 end
 
+--遮罩
+function GameLogic:Clipp9S(fileb,sWidth,sHeight)
+	local filestr = "res/game/mask.png" 
+	if false == cc.FileUtils:getInstance():isFileExist(fileb) then print("fileb is no Exist") return	end
+	if false == cc.FileUtils:getInstance():isFileExist(filestr) then print("filestr is no Exist") return	end
+	local bg=display.newSprite(fileb)
+		:setTag(1)
+		:setAnchorPoint(cc.p(0,0.5))
+		:move(0,0)
+		
+    local clipSp = cc.Scale9Sprite:create(filestr)
+        :setCapInsets(CCRectMake(1,1,49,49))
+        :setContentSize(cc.size(sWidth, sHeight))
+        :move(0,0)
+    
+	local clip = cc.ClippingNode:create()
+		clip:setStencil(clipSp)
+		clip:setAlphaThreshold(0)
+		clip:addChild(bg)
+	return clip
+end  
+
 --混乱扑克
 function GameLogic:RandCardData(cbCardData,cbMaxCount,userid)	--这个里面的随机要加二个用户的userid之合，不然会牌一样的
 	--混乱准备
