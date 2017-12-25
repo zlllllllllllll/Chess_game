@@ -187,18 +187,19 @@ function GameLayer:SetGameClock(Fid,chair,id,time)
     -- self._ClockList[Fid]._ClockTime = time
     -- self._ClockList[Fid]._ClockViewChair = self:SwitchViewChairID(chair)
     -- self:OnUpdataClockView(Fid)
-print("==SetGameClock",chair,id,tim)
+print("==SetGameClock",chair,id,time)
     if not self._ClockFun then
         local this = self
 				self._ClockFun = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
-							if this.OnClockUpdata then this:OnClockUpdata()	else print("SetGameClock  this OnClockUpdata is nil  ") end
+							if this.OnClockUpdata then this:OnClockUpdata()	else print("SetGameClock  this OnClockUpdata is nil  self._ClockFun",self._ClockFun) end
             end, 1, false)
     end
     self._ClockChair = chair
     self._ClockID = id
-    self._ClockTime = time
+    self._ClockTime = time 
     self._ClockViewChair = self:SwitchViewChairID(chair)
     self:OnUpdataClockView()
+print("==SetGameClock self._ClockFun self._ClockTime",self._ClockFun,self._ClockTime)
 end
 --[[
 function GameLayer:GetClockViewID()
@@ -207,6 +208,7 @@ end
 --]]
 -- 关闭计时器   多ID
 function GameLayer:KillGameClock(Fid,notView)
+    print("KillGameClock self._ClockFun self._ClockTime",self._ClockFun,Fid,self._ClockTime,notView)
 		GameLayer.super:KillGameClock(notView)
 -- print("KillGameClock",Fid,notView)
 -- dump(self._ClockList,"self._ClockList",6)
@@ -222,46 +224,118 @@ function GameLayer:KillGameClock(Fid,notView)
 --     if not notView then
 --         self:OnUpdataClockView(Fid)
 --     end
+
+    self._ClockID = yl.INVALID_ITEM
+    self._ClockTime = 0
+    self._ClockChair = yl.INVALID_CHAIR
+    self._ClockViewChair = yl.INVALID_CHAIR
+    if self._ClockFun then
+        --注销时钟
+        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self._ClockFun) 
+        self._ClockFun = nil
+    end
+    if not notView then
+        self:OnUpdataClockView(100001)
+    end
 end
 
--- --计时器更新 多ID
--- function GameLayer:OnClockUpdata(Fid)
--- print("计时器更新 OnClockUpdata Fid",Fid)
---     if  self._ClockList[Fid]._ClockID ~= yl.INVALID_ITEM then
---         self._ClockList[Fid]._ClockTime = self._ClockList[Fid]._ClockTime - 1
---         local result = self:OnEventGameClockInfo(self._ClockList[Fid]._ClockChair,self._ClockList[Fid]._ClockTime,self._ClockList[Fid]._ClockID)
---         if result == true   or self._ClockList[Fid]._ClockTime < 1 then
---             self:KillGameClock(Fid)
---         end
---     end
---     self:OnUpdataClockView(Fid)
--- end
+--计时器更新 多ID
+function GameLayer:OnClockUpdata(Fid)
+print("计时器更新 OnClockUpdata Fid",Fid)
+    if  self._ClockID ~= yl.INVALID_ITEM then
+        self._ClockTime = self._ClockTime - 1
+				local result = self:OnEventGameClockInfo(self._ClockChair,self._ClockTime,self._ClockID)
+        if result == true   or self._ClockTime < 1 then
+            self:KillGameClock(Fid)
+        end
+    end
+    self:OnUpdataClockView(Fid)
+    -- if  self._ClockList[Fid]._ClockID ~= yl.INVALID_ITEM then
+    --     self._ClockList[Fid]._ClockTime = self._ClockList[Fid]._ClockTime - 1
+    --     local result = self:OnEventGameClockInfo(self._ClockList[Fid]._ClockChair,self._ClockList[Fid]._ClockTime,self._ClockList[Fid]._ClockID)
+    --     if result == true   or self._ClockList[Fid]._ClockTime < 1 then
+    --         self:KillGameClock(Fid)
+    --     end
+    -- end
+    -- self:OnUpdataClockView(Fid)
+end
 
--- --更新计时器显示 多ID
--- function GameModel:OnUpdataClockView(Fid)
---     if self._gameView and self._gameView.OnUpdataClockView then
---         self._gameView:OnUpdataClockView(self._ClockList[Fid]._ClockViewChair,self._ClockList[Fid]._ClockTime)
---     end
--- end
+--更新计时器显示 多ID
+function GameModel:OnUpdataClockView(Fid)
+    if self._gameView and self._gameView.OnUpdataClockView then
+        self._gameView:OnUpdataClockView(self._ClockViewChair,self._ClockTime)
+    end
+    -- if self._gameView and self._gameView.OnUpdataClockView then
+    --     self._gameView:OnUpdataClockView(self._ClockList[Fid]._ClockViewChair,self._ClockList[Fid]._ClockTime)
+    -- end
+end
 
 --获取gamekind
 function GameLayer:getGameKind()
     return cmd.KIND_ID
 end
 
-function GameLayer:onExitRoom()
+-- 退出桌子
+function GameLayer:onExitTable()
+ 	print("===GameLayer:onExitTable")
+    self:stopAllActions()
+    self:KillGameClock()
+
+
+    local MeItem = self:GetMeUserItem()
+    if MeItem and MeItem.cbUserStatus > yl.US_FREE then
+        local wait = self._gameFrame:StandUp(1)
+        if wait then
+            self:showPopWait()
+            return
+        end
+    end
+    self:dismissPopWait()
+    self._scene:onKeyBack()
+end
+
+--退出桌子
+-- function GameLayer:onExitTable()
+
+-- 	local MeItem = self:GetMeUserItem()
+-- 	if MeItem and MeItem.cbUserStatus > yl.US_FREE then
+-- 			self:runAction(cc.Sequence:create(
+-- 					cc.DelayTime:create(2),
+-- 					cc.CallFunc:create(
+-- 							function ()   
+-- 									self._gameFrame:StandUp(1)
+-- 							end
+-- 							),
+-- 					cc.DelayTime:create(10),
+-- 					cc.CallFunc:create(
+-- 							function ()
+-- 									--强制离开游戏(针对长时间收不到服务器消息的情况)
+-- 									print("delay leave")
+-- 									--self:onExitRoom()
+-- 							end
+-- 							)
+-- 					)
+-- 			)
+-- 			return
+-- 	end
+
+--   self:onExitRoom()
+--  end
+
+ function GameLayer:onExitRoom()
+ print("===GameLayer:onExitRoom")
     self._gameFrame:onCloseSocket()
     self:stopAllActions()
-    --mark
-    --self:KillGameClock()
+--     --mark
+    self:KillGameClock()
+    self:dismissPopWait()
 		for k, v in pairs(self._ClockList) do
 print("onExitRoom KillGameClock",k,v)
     	self:KillGameClock(k)
     end
-    self:dismissPopWait()
-    --self._scene:onChangeShowMode(yl.SCENE_ROOMLIST)
-    self._scene:onKeyBack()
-end
+    self._scene:onChangeShowMode(yl.SCENE_ROOMLIST)
+    --self._scene:onKeyBack()
+ end
 
 --显示等待
 function GameLayer:showPopWait()
@@ -347,20 +421,22 @@ end
 function GameLayer:OnEventGameClockInfo(chair,time,clockId)
 print("OnEventGameClockInfo",chair,time,clockId)
   local switch = {
-			[cmd.IDI_START_GAME] = function()    --开始游戏 开始定时器
-          if time==0 then
+			[cmd.IDI_START_GAME] = function(chair,time,clockId)    --开始游戏 开始定时器
+					if self._gameView.DrawUserTimerEx then
+						self._gameView:DrawUserTimerEx(pDC,yl.WIDTH/2,yl.HEIGHT/2,time)
+					end
+					if time>0 then
     				--AfxGetMainWnd()->PostMessage(WM_CLOSE);   --mark
       			--self._gameFrame:setEnterAntiCheatRoom(false)--退出防作弊，如果有的话
     				return false
           end
-          --if (time<=5) and (IsLookonMode()==false) then    -- 一律返回false 不许旁观
           if time<=5 then
     					--PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
           		self:PlaySound(cmd.RES_PATH.."mahjong/GAME_WARN.wav")
           end
   				return true
   		end,
-  		[cmd.IDI_DINGDI_CARD] = function()    --
+  		[cmd.IDI_DINGDI_CARD] = function(chair,time,clockId)    --
           --[[   一律返回false 不许旁观
       			if (IsLookonMode())
       			{
@@ -379,7 +455,7 @@ print("OnEventGameClockInfo",chair,time,clockId)
 					end
     			return true
   		end,
-  		[cmd.IDI_OPERATE_CARD] = function()    --操作定时器
+			[cmd.IDI_OPERATE_CARD] = function(chair,time,clockId)    --操作定时器
 
     			--自动出牌
     			local bAutoOutCard=self.m_bHearStatus
@@ -515,12 +591,12 @@ print("OnEventGameClockInfo",chair,time,clockId)
 
   local f = switch[clockId]
   if(f) then
-  		f()
+  		f(chair,time,clockId)
   else   									-- for case default
   		print "Case default."
   end
 
-  return true
+  return
 end
 
 --旁观状态
@@ -2100,7 +2176,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self._gameView.m_btDingDi:setVisible(true)
 	self._gameView.m_btMaiCancel:setVisible(true)
 	self._gameView.m_btDingCancel:setVisible(true)
-	self._gameView.m_ImageReady:setVisible(true)
+	self._gameView:showReady(0)
 
 	--设置界面
 	self._gameView:SetDiscUser(yl.INVALID_CHAIR)
