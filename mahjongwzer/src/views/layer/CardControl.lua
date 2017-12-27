@@ -7,7 +7,7 @@ local CardControl = class("CardControl", function(scene)
 	local CardControl = display.newLayer()
 	return CardControl
 end)
-local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
+--local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 --local GameViewLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.GameViewLayer")
 
@@ -145,6 +145,7 @@ function CCardListImage:DestroyResource(id)
 
 	--释放资源
 	CardControl.CCardList[id].m_CardListImage:removeFromParent()
+	CardControl.CCardList[id].m_CardListImage=nil
 
 	return true
 end
@@ -164,7 +165,8 @@ end
 function CCardListImage:DrawCardItem(id,pDestDC,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight)
 print("CCardListImage:DrawCardItem 绘画扑克==== id ...","id -> ",id,"pDestDC -> ",pDestDC,"cbCardData -> ",cbCardData,"xDest -> ",xDest,"yDest -> ",yDest,"cbGodsData -> ",cbGodsData,"bDrawBack -> ",bDrawBack,"nItemWidth -> ",nItemWidth,"nItemHeight -> ",nItemHeight)
 	if bDrawBack then
-		CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
+		--CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
+		CardControl.CCardList[id].m_CardBack:setPosition(100,yl.HEIGHT-80)
 			--:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 	end
@@ -214,9 +216,9 @@ end
 function CCardResource:LoadResource(Parent)
 	--用户扑克
 print("CCardResource:LoadResource", parent,self)
-	self.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false) :addTo(Parent)
+	CCardResource.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false) :addTo(Parent)
+	CCardResource.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false) :addTo(Parent)
+	CCardResource.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false) :addTo(Parent)
 	CCardListImage:LoadResource(Parent,"m_ImageUserBottom","CARD_USER_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
 	CCardListImage:LoadResource(Parent,"m_ImageWaveBottom","CARD_WAVE_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
 	--桌子扑克
@@ -243,9 +245,9 @@ end
 --消耗资源
 function CCardResource:DestroyResource()
 	--用户扑克
-	self.m_ImageUserTop:removeFromParent()
-	self.m_ImageUserLeft:removeFromParent()
-	self.m_ImageUserRight:removeFromParent()
+	CCardResource.m_ImageUserTop:removeFromParent()
+	CCardResource.m_ImageUserLeft:removeFromParent()
+	CCardResource.m_ImageUserRight:removeFromParent()
  	CCardListImage:DestroyResource("m_ImageUserBottom")
 	--少个 m_ImageWaveBottom
 
@@ -325,7 +327,7 @@ print("m_ImageTableRight",nXPos,nYPos)
 				end
 
 				--中间扑克
-				for i=wFinallyIndex-1,wDoubleHeap,-1 do
+				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
 	print("东向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
@@ -368,22 +370,22 @@ print("m_ImageTableRight",nXPos,nYPos)
 
 				local wShowCardPos = self.m_byIndex + self.m_byMinusLastShowCard
 
-				--尾部扑克
-				if self.m_wMinusLastCount%2~=0 then
+				--头部扑克
+				if self.m_wMinusHeadCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
-					nXPos=self.m_ControlPoint.x+wHeapIndex*18
+					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
 					CCardResource.m_ImageHeapSingleH["southHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableBottom",nXPos,nYPos)
 					end
 				end
 
 				--中间扑克
-				for i=wDoubleHeap,wFinallyIndex-1,1 do
+				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
 	print("南向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
@@ -396,17 +398,16 @@ print("m_ImageTableBottom",nXPos,nYPos)
 print("m_ImageTableBottom",nXPos,nYPos)
 					end
 				end
-
-				--头部扑克
-				if self.m_wMinusHeadCount%2~=0 then
+				
+				--尾部扑克
+				if self.m_wMinusLastCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
-					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
+					nXPos=self.m_ControlPoint.x+wHeapIndex*18
 					CCardResource.m_ImageHeapSingleH["southTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-						:addTo(self)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableBottom",nXPos,nYPos)
 					end
@@ -426,22 +427,21 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				local wFinallyIndex=(self.m_wFullCount-self.m_wMinusHeadCount)/2
 
 				local wShowCardPos = self.m_byIndex + self.m_byMinusLastShowCard
-				--尾部扑克
-				if self.m_wMinusLastCount%2~=0 then
+				--头部扑克
+				if self.m_wMinusHeadCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
 					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-						:addTo(self)
-					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
 				--中间扑克
-				for i=wFinallyIndex-1,wDoubleHeap,-1 do
+				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
 	print("西向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
@@ -454,15 +454,15 @@ print("m_ImageTableLeft",nXPos,nYPos)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
-				--头部扑克
-				if self.m_wMinusHeadCount%2~=0 then
+				--尾部扑克
+				if self.m_wMinusLastCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
 					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
@@ -497,7 +497,7 @@ print("m_ImageTableTop",nXPos,nYPos)
 					end
 				end
 				--中间扑克
-				for i=wDoubleHeap,wFinallyIndex-1,1 do
+				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
 	print("北向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
@@ -1295,7 +1295,7 @@ function CCardControl:UpdateCardDisable(bShowDisable)
 
 	-- 只要有单张的风， 所有的数字牌都要变灰
 	local bHaveSingle = false
-	local byIndexCount={}  -- 牌的张数
+	local byIndexCount=GameLogic:sizeM(cmd.MAX_INDEX)  -- 牌的张数
 	if 0x00 == self.m_byGodsData then	return	end
 	local byGodsIndex = GameLogic:SwitchToCardIndex(self.m_byGodsData)
 	for i=1,self.m_wCardCount,1 do

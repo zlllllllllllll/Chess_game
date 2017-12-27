@@ -138,6 +138,7 @@ function GameViewLayer:ctor(scene)
 		:addTo(self,-1)
 
 	self.m_ImageSaizi=display.newSprite("res/game/SaiZi.png"):setVisible(false):addTo(self)
+	self.m_ImageSaiziL={}
 
 	self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png"):setVisible(false):addTo(self)
 
@@ -1343,6 +1344,7 @@ print("GameViewLayer:OnTimer nIDEvent",nIDEvent)
 		return
 	end
 	if GameViewLayer.IDI_SIBO_PLAY == nIDEvent then
+print(" ========== IDI_SIBO_PLAY ========== ",cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus())
 		--CGameClientEngine					*m_pGameClientDlg;					//父类指针
 		--if (NULL == m_pGameClientDlg)
 		if nil == self._gameFrame then
@@ -1409,7 +1411,7 @@ end
 -- 绘画掷骰子动画
 function GameViewLayer:DrawSicboAnim(pDC)
 print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus())
-	if (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
+	if not self.m_iSicboAnimIndex or (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
 		return
 	end
 	if cmd.GS_MJ_MAIDI ~= self._gameFrame:GetGameStatus() then
@@ -1420,28 +1422,41 @@ print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAI
 		local nImageHeight=self.m_ImageSaizi:getContentSize().height
 		local nImageWidth=self.m_ImageSaizi:getContentSize().width/21
 		--mark  i<m_arBall.GetCount()  m_arBall 尚未完全初始化
+print(GameLogic:table_leng(self.m_arBall))
+dump(self.m_arBall,"self.m_arBall",6)
 		for i=1,GameLogic:table_leng(self.m_arBall),1 do
 			local byIndex = self.m_arBall[i].iIndex%15+6
 			local iX = self.m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2
 			local iY = self.m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2
+	print(iX,iY,self.m_iSicboAnimIndex,self.m_iSicboAnimIndex>13)
 			if self.m_iSicboAnimIndex>13 then
 				byIndex = self.m_bySicbo[i]-1
 			end
+	print("显示偏移 ",i,byIndex,byIndex *nImageWidth)
 			--self.m_ImageSaizi.TransDrawImage(pDC, iX,iY, nImageWidth, nImageHeight,byIndex *nImageWidth, 0,RGB(255,0,255))
-			self.m_ImageSaizi:setPosition(iX,iY)
-				:setColor(cc.c3b(255, 0, 255))
-				:setVisible(true)
+			-- self.m_ImageSaizi:setPosition(iX,iY)
+			-- 	:setColor(cc.c3b(255, 0, 255))
+			-- 	:setVisible(true)
+
+			self.m_ImageSaiziL[i]=GameLogic:Clipp9S("res/game/SaiZi.png",nImageWidth,nImageHeight)
+				:move(iX,iY)
+				:addTo(self)
+			self.m_ImageSaiziL[i]:getChildByTag(1):move(-nImageWidth/2-byIndex *nImageWidth,0)
+print(self.m_ImageSaiziL[i]:getPositionX(),self.m_ImageSaiziL[i]:getPositionY())
 		end
 	end
 end
 
 function GameViewLayer:OnEnterRgn(dbR)
 	-- 边界反弹
+print("=== OnEnterRgn ")
+dump(self.m_arBall,"self.m_arBall",6)
 	for i=1,GameLogic:table_leng(self.m_arBall),1 do
 		-- 是否在圆内
 		--CRect rect(-dbR, -dbR, +dbR, +dbR)
 		local Trect=cc.rect(-dbR, -dbR, dbR*2, dbR*2)
 		local ptTemp=cc.p((self.m_arBall[i].dbX + self.m_arBall[i].dbDx),(self.m_arBall[i].dbY + self.m_arBall[i].dbDy))
+print(cc.rectContainsPoint(Trect, ptTemp))
 		if not cc.rectContainsPoint(Trect, ptTemp) then
 			self:mcFanTang(self.m_arBall[i])
 			self.m_arBall[i].dbX = self.m_arBall[i].dbX +self.m_arBall[i].dbDx
@@ -1554,22 +1569,21 @@ function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
 	local sBall={}				--其实是二维
 	--self.m_arBall.RemoveAll();
 	self.m_arBall={}
-	sBall.dbX = -35.1
-	sBall.dbY = 30.4
-	sBall.dbWidth = nImageWidth-1
-	sBall.dbHeight = nImageHeight -1
-	sBall.dbDx = 7.8 * ((0==math.random()%2) and 1 or -1)
-	sBall.dbDy = 6.2 * ((0==math.random()%2) and 1 or -1)
-	sBall.iIndex = math.random()%25
+	self.m_arBall[1]={}
+	self.m_arBall[1].dbX = -35.1
+	self.m_arBall[1].dbY = 30.4
+	self.m_arBall[1].dbWidth = nImageWidth-1
+	self.m_arBall[1].dbHeight = nImageHeight -1
+	self.m_arBall[1].dbDx = 7.8 * ((0==math.random()%2) and 1 or -1)
+	self.m_arBall[1].dbDy = 6.2 * ((0==math.random()%2) and 1 or -1)
+	self.m_arBall[1].iIndex = math.random()%25
 	--m_arBall.Add(sBall)
-	table.insert(self.m_arBall,sBall)
-
-	sBall.dbX = 20.3
-	sBall.dbY = -23.4
-	sBall.dbDx = 6.3 * ((0==math.random()%2) and 1 or -1)
-	sBall.dbDy = 5.3 * ((0==math.random()%2) and 1 or -1)
-	sBall.iIndex = math.random()%30
-	table.insert(self.m_arBall,sBall)
+	self.m_arBall[2]={}
+	self.m_arBall[2].dbX = 20.3
+	self.m_arBall[2].dbY = -23.4
+	self.m_arBall[2].dbDx = 6.3 * ((0==math.random()%2) and 1 or -1)
+	self.m_arBall[2].dbDy = 5.3 * ((0==math.random()%2) and 1 or -1)
+	self.m_arBall[2].iIndex = math.random()%30
 	self._scene:F_GVSetTimer(GameViewLayer.IDI_SIBO_PLAY,100)
 	self:RefreshGameView()
 	if not iStartIndex or iStartIndex<20 then

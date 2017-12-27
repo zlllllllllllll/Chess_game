@@ -1314,8 +1314,9 @@ print(wViewChairID,i)
 
 	--更新界面
 	self._gameView:SetCenterText("")
-
+print("更新界面 色子 StartSicboAnim")
 	local bySicbo = {bit:_rshift(cmd_data.wSiceCount1,8) , bit:_and(cmd_data.wSiceCount1, 0xff)}
+dump(bySicbo,"bySicbo",6)
 	self._gameView:StartSicboAnim(bySicbo,20)
 	return true
 
@@ -1774,7 +1775,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
   		--strFormat=="%%-%ds%%+-12I64d%%+-8I64d" 未知空格 暂时2个
 
       --szBuffer=pUserData:GetNickName().."  "..cmd_data.lGameScore[i].."  "..cmd_data.lGodsScore[i]
-      szBuffer=pUserData.szNickName.."  "..cmd_data.lGameScore[i].."  "..cmd_data.lGodsScore[i]
+      szBuffer=pUserData.szNickName.."  "..cmd_data.lGameScore[1][i].."  "..cmd_data.lGodsScore[1][i]
   		--m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
 			print(szBuffer)
 
@@ -2435,6 +2436,8 @@ function GameLayer:OnDispatchCard(wParam, lParam)
     if 0 == wParam then
 			-- 打第二次骰子
 			local bySicbo = {bit:_rshift(pGamePlay.wSiceCount3,8) , bit:_and(pGamePlay.wSiceCount3, 0xff)}
+print("打第二次骰子 色子 StartSicboAnim")
+dump(bySicbo,"bySicbo",6)
 			self._gameView:StartSicboAnim(bySicbo)
     end
 		return 0
@@ -2475,6 +2478,8 @@ function GameLayer:OnDispatchCard(wParam, lParam)
 		-- 发牌，并打第三次骰子
     if 0 == wParam then
       local bySicbo = {bit:_rshift(pGamePlay.wSiceCount2,8) , bit:_and(pGamePlay.wSiceCount2, 0xff)}
+print("发牌，并打第三次骰子  StartSicboAnim")
+dump(bySicbo,"bySicbo",6)
 			self._gameView:StartSicboAnim(bySicbo)
     end
 		return 0
