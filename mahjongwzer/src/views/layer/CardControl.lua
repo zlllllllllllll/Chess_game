@@ -162,9 +162,10 @@ end
 
 --绘画扑克
 function CCardListImage:DrawCardItem(id,pDestDC,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight)
+print("CCardListImage:DrawCardItem 绘画扑克==== id ...","id -> ",id,"pDestDC -> ",pDestDC,"cbCardData -> ",cbCardData,"xDest -> ",xDest,"yDest -> ",yDest,"cbGodsData -> ",cbGodsData,"bDrawBack -> ",bDrawBack,"nItemWidth -> ",nItemWidth,"nItemHeight -> ",nItemHeight)
 	if bDrawBack then
 		CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
-			:setColor(cc.c3b(255, 0, 255))
+			--:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 	end
 
@@ -175,21 +176,24 @@ function CCardListImage:DrawCardItem(id,pDestDC,cbCardData,xDest,yDest,cbGodsDat
 	--绘画子项
 	if cbCardData<=GameLogic.BAIBAN_CARD_DATA then
 		local nImageXPos=CCardListImage:GetImageIndex(cbCardData)*CardControl.CCardList[id].m_nItemWidth
-		if nDrawWidth==CardControl.CCardList[id].m_nItemWidth and nDrawHeight==CardControl.CCardList[id].m_nItemHeight then
-			--self.m_CardListImage.TransDrawImage(pDestDC,xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,RGB(255,0,255))
-			CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
-				:setColor(cc.c3b(255, 0, 255))
-				:setVisible(true)
-		else
-			--self.m_CardListImage.StretchBlt(pDestDC->GetSafeHdc(),xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,m_nItemWidth,m_nItemHeight,SRCCOPY)
-			CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
-				--:setColor(cc.c3b(255, 0, 255))
-				:setVisible(true)
-		end
+		CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
+			:setVisible(true)
+		--判断条件不明
+		-- if nDrawWidth==CardControl.CCardList[id].m_nItemWidth and nDrawHeight==CardControl.CCardList[id].m_nItemHeight then
+		-- 	--self.m_CardListImage.TransDrawImage(pDestDC,xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,RGB(255,0,255))
+		-- 	CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
+		-- 		--:setColor(cc.c3b(255, 0, 255))
+		-- 		:setVisible(true)
+		-- else
+		-- 	--self.m_CardListImage.StretchBlt(pDestDC->GetSafeHdc(),xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,m_nItemWidth,m_nItemHeight,SRCCOPY)
+		-- 	CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
+		-- 		--:setColor(cc.c3b(255, 0, 255))
+		-- 		:setVisible(true)
+		-- end
 	end
 	if cbGodsData~=0 and cbGodsData==cbCardData then
 		CardControl.CCardList[id].m_csFlag:setPosition(xDest+3,yDest)
-			:setColor(cc.c3b(255, 0, 255))
+			--:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 	end
 
@@ -198,21 +202,12 @@ end
 --===================================================================
 --扑克资源
 function CCardResource:ctor()
-	--CCardListImage:Cfound("m_ImageUserTop")
-	--CCardListImage:Cfound("m_ImageUserLeft")
-	--CCardListImage:Cfound("m_ImageUserRight")
 	CCardListImage:Cfound("m_ImageUserBottom")
 	CCardListImage:Cfound("m_ImageWaveBottom")
 	CCardListImage:Cfound("m_ImageTableTop")
 	CCardListImage:Cfound("m_ImageTableLeft")
 	CCardListImage:Cfound("m_ImageTableRight")
 	CCardListImage:Cfound("m_ImageTableBottom")
-	--CCardListImage:Cfound("m_ImageBackH")
-	--CCardListImage:Cfound("m_ImageBackV")
-	--CCardListImage:Cfound("m_ImageHeapSingleV")
-	--CCardListImage:Cfound("m_ImageHeapSingleH")
-	--CCardListImage:Cfound("m_ImageHeapDoubleV")
-	--CCardListImage:Cfound("m_ImageHeapDoubleH")
 end
 
 --加载资源
@@ -231,12 +226,16 @@ print("CCardResource:LoadResource", parent,self)
 	CCardListImage:LoadResource(Parent,"m_ImageTableBottom","CARD_TABLE_BOTTOM",24,35)
 
 	--牌堆扑克
-	self.m_ImageBackH=display.newSprite("res/game/CARD_BACK_H.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageBackV=display.newSprite("res/game/CARD_BACK_V.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageHeapSingleV=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageHeapSingleH=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageHeapDoubleV=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png"):setVisible(false) :addTo(Parent)
-	self.m_ImageHeapDoubleH=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png"):setVisible(false) :addTo(Parent)
+	--CCardResource.m_ImageBackH=display.newSprite("res/game/CARD_BACK_H.png"):setVisible(false) :addTo(Parent)
+	--CCardResource.m_ImageBackV=display.newSprite("res/game/CARD_BACK_V.png"):setVisible(false) :addTo(Parent)
+	CCardResource.m_ImageHeapSingleV={} 
+	CCardResource.m_ImageHeapSingleH={}
+	CCardResource.m_ImageHeapDoubleV={}
+	CCardResource.m_ImageHeapDoubleV["east"]={}
+	CCardResource.m_ImageHeapDoubleV["west"]={}
+	CCardResource.m_ImageHeapDoubleH={}
+	CCardResource.m_ImageHeapDoubleH["south"]={}
+	CCardResource.m_ImageHeapDoubleH["north"]={}
 
 	return true
 end
@@ -257,15 +256,28 @@ function CCardResource:DestroyResource()
  	CCardListImage:DestroyResource("m_ImageTableBottom")
 
 	--牌堆扑克
-	self.m_ImageBackH:removeFromParent()
-	self.m_ImageBackV:removeFromParent()
-	self.m_ImageHeapSingleV:removeFromParent()
-	self.m_ImageHeapSingleH:removeFromParent()
-	self.m_ImageHeapDoubleV:removeFromParent()
-	self.m_ImageHeapDoubleH:removeFromParent()
+	--CCardResource.m_ImageBackH:removeFromParent()
+	--CCardResource.m_ImageBackV:removeFromParent()
+	CCardResource:clearnResource(CCardResource.m_ImageHeapSingleH)
+	CCardResource:clearnResource(CCardResource.m_ImageHeapSingleV)
+	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleV["east"])
+	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleV["west"])
+	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["south"])
+	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["north"])
+	--CCardResource.m_ImageBackH=nil
+	--CCardResource.m_ImageBackV=nil
 
 	return true
 end
+
+--
+function CCardResource:clearnResource(param)
+    if type(param) ~= "table" then priunt("== ! clearnResource param no table") return end
+	for k, v in pairs(param) do
+		v:removeFromParent()
+		v=nil
+	end
+end 
 --===================================================================
 --堆立扑克
 function CHeapCard:ctor()
@@ -284,7 +296,8 @@ function CHeapCard:ctor()
 end
 
 function CHeapCard:DrawCardControl(pDC,s)
-print("CHeapCard:DrawCardControl")
+print("CHeapCard:DrawCardControl  self.m_CardDirection", self.m_CardDirection)
+print(self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount,self.m_wFullCount,self.m_wMinusHeadCount,self.m_wMinusLastCount)
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
 		if (self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount)>0 then
@@ -301,9 +314,10 @@ print("CHeapCard:DrawCardControl")
 				if self.m_wMinusHeadCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
-					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleV["eastHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableRight",nXPos,nYPos)
@@ -311,12 +325,14 @@ print("m_ImageTableRight",nXPos,nYPos)
 				end
 
 				--中间扑克
-				for i=wDoubleHeap,wFinallyIndex-1,1 do
+				for i=wFinallyIndex-1,wDoubleHeap,-1 do
+	print("东向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
-					CCardResource.m_ImageHeapDoubleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapDoubleV["east"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((i + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) then
 						CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableRight",nXPos,nYPos)
@@ -327,9 +343,10 @@ print("m_ImageTableRight",nXPos,nYPos)
 				if self.m_wMinusLastCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
-					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleV["eastTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableRight",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableRight",nXPos,nYPos)
@@ -355,9 +372,10 @@ print("m_ImageTableRight",nXPos,nYPos)
 				if self.m_wMinusLastCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
 					nXPos=self.m_ControlPoint.x+wHeapIndex*18
-					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleH["southHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableBottom",nXPos,nYPos)
@@ -366,11 +384,13 @@ print("m_ImageTableBottom",nXPos,nYPos)
 
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-1,1 do
+	print("南向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
-					CCardResource.m_ImageHeapDoubleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapDoubleH["south"]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((i + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) then
 						CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableBottom",nXPos,nYPos)
@@ -381,9 +401,11 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				if self.m_wMinusHeadCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
 					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
-					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleH["southTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
+						:addTo(self)
 					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableBottom",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableBottom",nXPos,nYPos)
@@ -408,21 +430,25 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				if self.m_wMinusLastCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
-					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
+						:addTo(self)
 					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
 				--中间扑克
-				for i=wDoubleHeap,wFinallyIndex-1,1 do
+				for i=wFinallyIndex-1,wDoubleHeap,-1 do
+	print("西向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
-					CCardResource.m_ImageHeapDoubleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapDoubleV["west"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((i + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) then
 						CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
@@ -432,9 +458,10 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				if self.m_wMinusHeadCount%2~=0 then
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
-					CCardResource.m_ImageHeapSingleV:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableLeft",pDC,self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
@@ -460,9 +487,10 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				if self.m_wMinusHeadCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
 					nXPos=self.m_ControlPoint.x+wHeapIndex*18
-					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleH["northHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableTop",nXPos,nYPos)
@@ -470,11 +498,13 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-1,1 do
+	print("北向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
-					CCardResource.m_ImageHeapDoubleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapDoubleH["north"]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((i + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) then
 						CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableTop",nXPos,nYPos)
@@ -484,9 +514,10 @@ print("m_ImageTableTop",nXPos,nYPos)
 				if self.m_wMinusLastCount%2~=0 then
 					nYPos=self.m_ControlPoint.y+6
 					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
-					CCardResource.m_ImageHeapSingleH:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
+					CCardResource.m_ImageHeapSingleH["northTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
+						:setPosition(nXPos,nYPos)
 						:setVisible(true)
+						:addTo(self)
 					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (m_byShowCard>0) and (0 == wShowCardPos%2) then
 						CCardListImage:DrawCardItem("m_ImageTableTop",pDC,self.m_byShowCard,nXPos,nYPos,0,false,18,28)
 print("m_ImageTableTop",nXPos,nYPos)
@@ -503,6 +534,7 @@ end
 
 --设置扑克
 function CHeapCard:SetCardData(wMinusHeadCount,wMinusLastCount,wFullCount)
+print("设置扑克",wMinusHeadCount,wMinusLastCount,wFullCount)
 	--设置变量
 	self.m_wFullCount=wFullCount
 	self.m_wMinusHeadCount=wMinusHeadCount

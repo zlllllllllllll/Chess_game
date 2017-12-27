@@ -150,6 +150,8 @@ print("GameLayer:OnResetGameEngin")
 		self.m_cbHeapCardInfo[i][1]=0
 		self.m_cbHeapCardInfo[i][2]=0
 		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
+print("== 堆立扑克11 SetCardData")
+print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
 		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
   end
 
@@ -412,7 +414,7 @@ function GameLayer:onEventUserStatus(useritem,newstatus,oldstatus)
 			self._gameView:showUserInfo(useritem)
 			self._otherNick = useritem.szNickName
 			if newstatus.cbUserStatus == yl.US_READY then
-					self._gameView:showReady(useritem.wChairID, 1)
+					self._gameView:showReady(1)
 			end
     end 
 end       
@@ -704,6 +706,8 @@ print("onEventGameScene cbGameStatus",cbGameStatus)
     for i=1,4,1 do
       self.m_cbHeapCardInfo[i][1]=0
       self.m_cbHeapCardInfo[i][2]=0
+print("== 堆立扑克22 SetCardData")
+print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 
@@ -746,6 +750,8 @@ print("onEventGameScene cbGameStatus",cbGameStatus)
     for i=1,4,1 do
       self.m_cbHeapCardInfo[i][1]=0
       self.m_cbHeapCardInfo[i][2]=0
+print("== 堆立扑克 设置界面 33 SetCardData")
+print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 
@@ -1002,7 +1008,9 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
     end
 
   	--堆立界面
-    for i=1,4.1 do
+		for i=1,4.1 do
+	print("===堆立界面 44SetCardData ")
+	print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 		--换算出财神牌的位置
@@ -2106,6 +2114,8 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 		--else if(wHeapViewID==1)wHeapViewID=2;;
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][2]
+	print("===堆立扑克 55SetCardData ")
+	print("index ->",wHeapViewID+1,wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
 		self._gameView.m_HeapCard[wHeapViewID+1]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   else
 		--切换索引
@@ -2123,6 +2133,8 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 	  --WORD wHeapViewID=SwitchViewChairID(m_wHeapTail);
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
+	print("===堆立扑克 66 SetCardData ")
+	print("index ->",wHeapViewID+1,wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
 		self._gameView.m_HeapCard[wHeapViewID+1]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   end
 
@@ -2172,6 +2184,14 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self._gameView.m_ControlWnd:setVisible(false)
 	self._gameView.m_ScoreControl:RestorationData()
 	--
+	if self._gameView.DrawUserTimerEx then
+		self._gameView:DrawUserTimerEx(nil,yl.WIDTH/2,yl.HEIGHT/2,"00")
+	end
+	print(self._gameView.mARROW,self._gameView.m_ImageCenter,self._gameView.ImageTimeNumber)
+	self._gameView.mARROW:setVisible(false)
+	self._gameView.m_ImageCenterTime:setVisible(false)
+	self._gameView.ImageTimeNumber:setVisible(false)
+
 	self._gameView.m_btMaiDi:setVisible(true)
 	self._gameView.m_btDingDi:setVisible(true)
 	self._gameView.m_btMaiCancel:setVisible(true)
@@ -2211,6 +2231,8 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 		self.m_cbHeapCardInfo[i][1]=0
 		self.m_cbHeapCardInfo[i][2]=0
 		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
+	print("===堆立扑克 66 SetCardData ")
+	print("i -> ",i,self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
 		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
   end
 

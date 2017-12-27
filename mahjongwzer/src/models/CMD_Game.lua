@@ -260,7 +260,8 @@ cmd.IDI_OPERATE_CARD		=	201									--操作定时器
 cmd.IDI_DINGDI_CARD			=  202									--操作定时器
 
 --游戏定时器
-cmd.TIME_START_GAME			=	60									--开始定时器
+--cmd.TIME_START_GAME			=	60									--开始定时器
+cmd.TIME_START_GAME			=	30									--开始定时器
 cmd.TIME_HEAR_STATUS		=	15									--出牌定时器
 cmd.TIME_OPERATE_CARD		=	15									--操作定时器
 

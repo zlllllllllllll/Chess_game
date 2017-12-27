@@ -115,8 +115,13 @@ function GameViewLayer:ctor(scene)
 	m_ImageNumber.LoadFromResource(hInstance,IDB_NUMBER);;				        // 数字
 
 	--]]
-	self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)
-	self.m_ImageBack=display.newSprite("res/game/VIEW_BACK.png"):setVisible(false):addTo(self,-1)
+	self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)	
+	self.m_ImageBack=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
+			:setCapInsets(CCRectMake(40,40,20,20))
+			:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
+			:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+			:setVisible(true)
+			:addTo(self,-1)
 	self.m_ImageUserFlag=display.newSprite("res/game/USER_FLAG.png"):setVisible(false):addTo(self)
 	self.m_ImageUserAction=display.newSprite("res/game/USER_ACTION.png"):setVisible(false):addTo(self)
 	self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png"):setVisible(false):addTo(self)
@@ -126,7 +131,12 @@ function GameViewLayer:ctor(scene)
 	self.m_ImageListenStatusV=display.newSprite("res/game/LISTEN_FLAG_V.png"):setVisible(false):addTo(self)
 	self.m_ImageTrustee=display.newSprite("res/game/TRUSTEE.png"):setVisible(false):addTo(self)
 	self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png"):setVisible(false):addTo(self)
-	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png"):setVisible(false):addTo(self)
+	--self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png"):setVisible(false):addTo(self)
+	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png")
+		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+		:setVisible(true)
+		:addTo(self,-1)
+
 	self.m_ImageSaizi=display.newSprite("res/game/SaiZi.png"):setVisible(false):addTo(self)
 
 	self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png"):setVisible(false):addTo(self)
@@ -143,8 +153,8 @@ function GameViewLayer:ctor(scene)
 	--self.m_arBall.RemoveAll(); typedef struct tagBall
 	self.m_arBall={}				--其实是二维
 	self.m_iSicboAnimIndex = -1                                                 -- 骰子动画当前
-	self.m_bySicbo={}
-	self.m_byDingMai={}
+	self.m_bySicbo={0,0}
+	self.m_byDingMai={0,0}
 	--self.m_SicboAnimPoint = CPoint(0,0);
 	self.m_SicboAnimPoint = cc.p(0, 0)
 
@@ -330,7 +340,7 @@ function GameViewLayer:preloadUI()
 	self.m_btDingCancel=self:getChildByName("m_btDingCancel")
 	--退出按钮
 	ccui.Button:create("res/game/closebtn.png","res/game/closebtn.png")
-		:move(yl.WIDTH-100,yl.HEIGHT-100)
+		:move(yl.WIDTH-100,yl.HEIGHT-50)
 		:setName("m_closebtn")
 		:setTag(GameViewLayer.BTN_CLOSE)
 		:setScale(1)
@@ -340,9 +350,9 @@ function GameViewLayer:preloadUI()
 	self.m_HandCardControl.pWnd=self
 
 	------
-	self:RectifyControl(1300,750)
-	--绘制界面
-	self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
+	-- self:RectifyControl(1300,750)
+	-- --绘制界面
+	-- self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
 end
 
 --重置界面     --有用到么？
@@ -416,8 +426,8 @@ print("重置界面 GameViewLayer:ResetGameView")
 	self._scene:F_GVKillTimer(GameViewLayer.IDI_BOMB_EFFECT)
 	self.m_arBall={}
 	self.m_iSicboAnimIndex = -1                                                 -- 骰子动画当前
-	self.m_bySicbo={}
-	self.m_byDingMai={}
+	self.m_bySicbo={0,0}
+	self.m_byDingMai={0,0}
 	return
 end
 
@@ -503,7 +513,11 @@ print("GameViewLayer:RectifyControl(nWidth,nHeight)",nWidth,nHeight)
 	--堆积扑克
 	local nXCenter=nWidth/2
 	local nYCenter=nHeight/2-40
-
+print("==== self.m_HeapCard SetControlPoint 1-4")
+print(nXCenter-152,nYCenter-207)
+print(nXCenter+256,nYCenter-95)
+print(nXCenter-152,nYCenter+207)
+print(nXCenter-251,nYCenter-95)
 	self.m_HeapCard[1]:SetControlPoint(nXCenter-152,nYCenter-207)
 	self.m_HeapCard[2]:SetControlPoint(nXCenter+256,nYCenter-95)
 	self.m_HeapCard[3]:SetControlPoint(nXCenter-152,nYCenter+207)
@@ -525,7 +539,7 @@ print("GameViewLayer:RectifyControl(nWidth,nHeight)",nWidth,nHeight)
 
 	--移动调整
 	--local rcButton=self.m_btStart:getContentSize()
-	self.m_btStart:setPosition(cc.p((nWidth-0)/2,nHeight-120-self.m_nYBorder))
+	self.m_btStart:setPosition(cc.p((nWidth-0)/2,60))
 	--移动调整
 	self.m_btStusteeControl:setPosition( cc.p( nWidth-150,50 ))  
 	--移动成绩
@@ -537,63 +551,56 @@ print("GameViewLayer:RectifyControl(nWidth,nHeight)",nWidth,nHeight)
 	--m_btMaiDi.GetWindowRect(&rcButton);
 	--rcButton=self.m_btMaiDi:getContentSize()
 print(" ==RectifyControl  ")
-print("self.m_btMaiDi setPosition ",nWidth/2-10,nHeight-120-self.m_nYBorder)
-print("self.m_btMaiDi setPosition ",nWidth/2 + 10,nHeight-120-self.m_nYBorder)
-	self.m_btMaiDi:setPosition( cc.p( nWidth/2-10,nHeight-120-self.m_nYBorder ) )
-	self.m_btDingDi:setPosition( cc.p( nWidth/2-10,nHeight-120-self.m_nYBorder ) )
-	self.m_btMaiCancel:setPosition( cc.p( nWidth/2 + 10,nHeight-120-self.m_nYBorder ) )
-	self.m_btDingCancel:setPosition( cc.p( nWidth/2 + 10,nHeight-120-self.m_nYBorder ) )
+	self.m_btMaiDi:setPosition( cc.p( nWidth/2-80,150 ) )
+	self.m_btDingDi:setPosition( cc.p( nWidth/2-80,120 ) )
+	self.m_btMaiCancel:setPosition( cc.p( nWidth/2 + 80,150 ) )
+	self.m_btDingCancel:setPosition( cc.p( nWidth/2 + 80,120 ) )
 	--视频窗口
 	return
 end
 
 --pDC 包含指针到子窗口中显示上下文。是瞬态的。
 function GameViewLayer:DrawUserTimerEx(pDC,nXPos,nYPos,wTime)
+	if tonumber(wTime)<10 then
+		wTime="0"..wTime
+	end
 print("===============DrawUserTimerEx",pDC,nXPos,nYPos,wTime)
-	self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png"):setVisible(false):addTo(self)
-	--获取属性 const INT  ImageTimeNumber等之前加载资源
-	local nNumberHeight=self.ImageTimeNumber:getContentSize().height
-	local nNumberWidth=self.ImageTimeNumber:getContentSize().width/11
-
-	--计算数目
-	local lNumberCount=2
-	local wNumberTemp=wTime
-
-	--位置定义
-	local nYDrawPos=nYPos-nNumberHeight/2+1
-	local nXDrawPos=nXPos+(lNumberCount*nNumberWidth)/2-nNumberWidth
-
-	--self.ImageTimeBack.TransDrawImage(pDC,nXDrawPos-30,nYDrawPos-10,RGB(255,0,255));
-	self.m_ImageCenter=display.newSprite("res/game/TIME_BACK.png")
-		:move(nXDrawPos,nYDrawPos)
-		:setAnchorPoint(cc.p(0.5,0.5))
-		:setColor(cc.c3b(255, 0, 255))
-		:setVisible(true)
-		:addTo(self)
---
-print("wCellNumber",wCellNumber)
---"5:1"
-self.ImageTimeNumber = cc.LabelAtlas:_create(wTime, "res/game/TIME_NUMBER.png", 22, 29, string.byte("0"))
-		:move(nXPos,nYPos)
-		:setAnchorPoint(cc.p(0.5,0.5))
-		:addTo(self)
-	--绘画号码
-	for i=1,lNumberCount,1 do
-		--绘画号码
-		local wCellNumber=wTime%10
-		--self.ImageTimeNumber.TransDrawImage(pDC,nXDrawPos,nYDrawPos,nNumberWidth-5,nNumberHeight,wCellNumber*nNumberWidth,0,RGB(0,0,0)) 	--mark
-		--[[
-		self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png")
-			:move(nXDrawPos,nYDrawPos)
-			:setColor(cc.c3b(0, 0, 0))
+	if not self.m_ImageCenterTime then
+		self.m_ImageCenterTime=display.newSprite("res/game/TIME_BACK.png")
+			:move(nXPos,nYPos)
+			:setAnchorPoint(cc.p(0.5,0.5))
+			--:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 			:addTo(self)
-		--]]
-
-		--设置变量
-		wTime=wTime /10
-		nXDrawPos=nXDrawPos- nNumberWidth+1
 	end
+	--
+	if self.ImageTimeNumber then
+		self.ImageTimeNumber:setString(wTime)
+	else
+		self.ImageTimeNumber = cc.LabelAtlas:_create(wTime, "res/game/TIME_NUMBER.png", 22, 29, string.byte("0"))
+				:move(nXPos,nYPos)
+				:setAnchorPoint(cc.p(0.5,0.5))
+				:addTo(self)
+	end
+--
+-- print("wCellNumber",wCellNumber)
+-- 	--绘画号码
+-- 	for i=1,lNumberCount,1 do
+-- 		--绘画号码
+-- 		local wCellNumber=wTime%10
+-- 		--self.ImageTimeNumber.TransDrawImage(pDC,nXDrawPos,nYDrawPos,nNumberWidth-5,nNumberHeight,wCellNumber*nNumberWidth,0,RGB(0,0,0)) 	--mark
+-- 		--[[
+-- 		self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png")
+-- 			:move(nXDrawPos,nYDrawPos)
+-- 			:setColor(cc.c3b(0, 0, 0))
+-- 			:setVisible(true)
+-- 			:addTo(self)
+-- 		--]]
+
+-- 		--设置变量
+-- 		wTime=wTime /10
+-- 		nXDrawPos=nXDrawPos- nNumberWidth+1
+-- 	end
 
 end
 
@@ -605,17 +612,21 @@ function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
 	-- DRAW_MODE_ELONGGATE:	//拉伸模式
 	--DrawViewImage(pDC,m_ImageBack,DRAW_MODE_SPREAD);
 	--DrawViewImage(pDC,m_ImageCenter,DRAW_MODE_CENTENT);
-	self.m_ImageBack=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
-		:setCapInsets(CCRectMake(40,40,20,20))
-		:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
-		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
-		:setVisible(true)
-		:addTo(self,-1)
+	-- if not self.m_ImageBack then
+	-- 	self.m_ImageBac=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
+	-- 		:setCapInsets(CCRectMake(40,40,20,20))
+	-- 		:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
+	-- 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+	-- 		:setVisible(true)
+	-- 		:addTo(self,-1)
+	-- end
 
-	self.m_ImageCenter=display.newSprite("res/game/VIEW_CENTER.png")
-		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
-		:setVisible(true)
-		:addTo(self,-1)
+	-- if self.m_ImageCenter then
+	-- 	self.m_ImageCente=display.newSprite("res/game/VIEW_CENTER.png")
+	-- 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
+	-- 		:setVisible(true)
+	-- 		:addTo(self,-1)
+	-- end
 
 	--[[
 	CString strScore1;
@@ -842,31 +853,41 @@ print("self.m_szCenterText",self.m_szCenterText)
 		 if pUserData~=nil then
 			--用户名字
 			local direction=self._scene:GetMeChairID()==i-1 and 1 or 2
-			local name=cc.Label:createWithTTF(pUserData.szNickName,"fonts/round_body.ttf", 24)
-					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
-					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
-					:move(self.m_ptNickName[direction].x,self.m_ptNickName[direction].y)
-					:setTextColor(cc.c4b(255,255,255,255))
-					:addTo(self)
+			local function name_Wealth()
+				local name=cc.Label:createWithTTF(pUserData.szNickName,"fonts/round_body.ttf", 24)
+						:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+						:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
+						:move(self.m_ptNickName[direction].x,self.m_ptNickName[direction].y)
+						:setTextColor(cc.c4b(255,255,255,255))
+						:addTo(self)
 
-			strScore="财富:"..pUserData.lScore
+				strScore="财富:"..pUserData.lScore
 
-			local Wealth=cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
-					:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
-					:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
-					:move(self.m_ptDingMai[direction].x+30,self.m_ptNickName[direction].y)
-					:setTextColor(cc.c4b(255,255,0,255))
-					:addTo(self)
-
-			if self._scene:GetMeChairID()~=i then 
-				self.OpponentName=name
-				self.OpponentWealth=Wealth 
+				local Wealth=cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
+						:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
+						:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+						:move(self.m_ptDingMai[direction].x+30,self.m_ptNickName[direction].y)
+						:setTextColor(cc.c4b(255,255,0,255))
+						:addTo(self)
+				return name,Wealth
+			end
+			if self._scene:GetMeChairID()~=i-1 then
+				--对面
+				if self.OpponentName then
+				else
+					self.OpponentName,self.OpponentWealth=name_Wealth()
+				end
+			else
+				if self.playerName then
+				end
+					self.playerName,self.playerWealth=name_Wealth()
 			end
 
 			--其他信息
 			--local wUserTimer=GetUserClock(i) 								--mark  GetUserClock 未定义
 print(self.m_wCurrentUser,yl.INVALID_CHAIR)
 			local wUserTimer="00"
+			self:DrawUserTimerEx("",nWidth/2,nHeight/2,cmd.TIME_START_GAME)
 			-- if (wUserTimer~=0) and (self.m_wCurrentUser~=yl.INVALID_CHAIR) then
 			-- 	self:DrawUserTimerEx(pDC,nWidth/2,nHeight/2,wUserTimer)
 			-- 	if self.m_wCurrentUser==0 then
@@ -884,28 +905,33 @@ print(self.m_wCurrentUser,yl.INVALID_CHAIR)
 
 
 			if pUserData.cbUserStatus==yl.US_READY then
-				self.OpponentReady=display.newSprite("res/game/READY.png")
-					:setPosition(yl.WIDTH/2,self.m_ptReady[2].y)
-					:setAnchorPoint(cc.p(0.5,0.5))
-					:setColor(cc.c3b(255, 0, 255))
-					:setVisible(true)
-					:addTo(self)
+				if not self.OpponentReady then
+					self.OpponentReady=display.newSprite("res/game/READY.png")
+						:setPosition(yl.WIDTH/2,self.m_ptReady[2].y)
+						:setAnchorPoint(cc.p(0.5,0.5))
+						--:setColor(cc.c3b(255, 0, 255))
+						:setVisible(true)
+						:addTo(self)
+				end
 			end
 		 end
 	end
 	--箭头 0 1 2 3
 	--上
-	local test=GameLogic:Clipp9S("res/game/ARROW.png",34,34)
-		:move(nWidth/2,nHeight/2+60)
-		:setVisible(false)
-		:addTo(self)
-	test:getChildByTag(1):move(-34/2-34*0,0)
-	--下
-	local test=GameLogic:Clipp9S("res/game/ARROW.png",34,34)
-		:move(nWidth/2,nHeight/2-60)
-		:setVisible(true)
-		:addTo(self)
-	test:getChildByTag(1):move(-34/2-34*2,0)
+	if not self.mARROW then
+		local ARROW=GameLogic:Clipp9S("res/game/ARROW.png",34,34)
+			:move(nWidth/2,nHeight/2+60)
+			:setVisible(false)
+			:addTo(self)
+		ARROW:getChildByTag(1):move(-34/2-34*0,0)
+		--下
+		local ARROW=GameLogic:Clipp9S("res/game/ARROW.png",34,34)
+			:move(nWidth/2,nHeight/2-60)
+			:setVisible(true)
+			:addTo(self)
+		ARROW:getChildByTag(1):move(-34/2-34*2,0)
+		self.mARROW=ARROW
+	end
 
 	self:DrawSicboAnim(pDC)
 	return
@@ -917,18 +943,18 @@ function GameViewLayer:showReady(id,isShow)
 	local Ready =display.newSprite("res/game/READY.png")
 		:setPosition(yl.WIDTH/2,self.m_ptReady[id+1].y)
 		:setAnchorPoint(cc.p(0.5,0.5))
-		:setColor(cc.c3b(255, 0, 255))
+		--:setColor(cc.c3b(255, 0, 255))
 		:setVisible(true)
 		:addTo(self)
-	if i==1 then self.OpponentReady=Ready end
+	if id==1 then self.OpponentReady=Ready end
 end
 
 function GameViewLayer:deleteUserInfo( useritem )
 	print("deleteUserInfo")
-	self.OpponentName:removeFromParent()
-	self.OpponentWealth:removeFromParent()
-print(self.OpponentReady)
+	if  self.OpponentName then self.OpponentName:removeFromParent() end
+    if self.OpponentWealth then self.OpponentWealth:removeFromParent() end
 	if self.OpponentReady then self.OpponentReady:removeFromParent() end
+	self.OpponentName,self.OpponentWealth,self.OpponentReady=nil,nil,nil
 end
 --
 function GameViewLayer:showUserInfo( useritem )
@@ -940,24 +966,31 @@ dump(useritem)
     -- head:setPosition(cc.p(134,222))
     -- self:addChild(head)
     -- head:enableInfoPop(true,pos[useritem.wChairID+1] , anr[useritem.wChairID+1])
-
 	--
 	--local id=useritem.wChairID+1
-	self.OpponentName=cc.Label:createWithTTF(useritem.szNickName,"fonts/round_body.ttf", 24)
+
+	if self.OpponentName then
+		self.OpponentName:setString(useritem.szNickName)
+	else
+		self.OpponentName=cc.Label:createWithTTF(useritem.szNickName,"fonts/round_body.ttf", 24)
 			:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
 			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
 			:move(self.m_ptNickName[2].x,self.m_ptNickName[2].y)
 			:setTextColor(cc.c4b(255,255,255,255))
 			:addTo(self)
+	end
 
 	local strScore="财富:"..useritem.lScore
-
-	self.OpponentWealth=cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
+	if self.OpponentWealth then
+		self.OpponentWealth:setString(strScore)
+	else
+		self.OpponentWealth=cc.Label:createWithTTF(strScore,"fonts/round_body.ttf", 24)
 			:setVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP)
 			:setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
 			:move(self.m_ptDingMai[2].x+30,self.m_ptNickName[2].y)
 			:setTextColor(cc.c4b(255,255,0,255))
 			:addTo(self)
+	end
 end
 
 --基础积分
@@ -1156,7 +1189,7 @@ end
 
 function GameViewLayer:SetDingMaiValue(byDingMai)
 	if nil == byDingMai then
-		self.m_byDingMai={}
+		self.m_byDingMai={0,0}
 	else
 		for i=1,cmd.GAME_PLAYER,1 do
 			self.m_byDingMai[i] = byDingMai[i]
@@ -1375,6 +1408,7 @@ end
 
 -- 绘画掷骰子动画
 function GameViewLayer:DrawSicboAnim(pDC)
+print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus())
 	if (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
 		return
 	end
@@ -1388,8 +1422,8 @@ function GameViewLayer:DrawSicboAnim(pDC)
 		--mark  i<m_arBall.GetCount()  m_arBall 尚未完全初始化
 		for i=1,GameLogic:table_leng(self.m_arBall),1 do
 			local byIndex = self.m_arBall[i].iIndex%15+6
-			local iX = int(m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2)
-			local iY = int(m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2)
+			local iX = self.m_SicboAnimPoint.x+self.m_arBall[i].dbX-nImageWidth/2
+			local iY = self.m_SicboAnimPoint.y+self.m_arBall[i].dbY-nImageHeight/2
 			if self.m_iSicboAnimIndex>13 then
 				byIndex = self.m_bySicbo[i]-1
 			end
@@ -1550,6 +1584,9 @@ function GameViewLayer:RefreshGameView()
 	-- GetClientRect(&rect);
 	-- InvalidGameView(rect.left,rect.top,rect.Width(),rect.Height());
 
+	self:RectifyControl(1300,750)
+	--绘制界面
+	self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
 	return
 end
 

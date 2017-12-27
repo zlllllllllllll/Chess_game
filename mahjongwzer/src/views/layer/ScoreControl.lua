@@ -51,7 +51,7 @@ function ScoreControl:ctor()
 	local bmp=display.newSprite("res/game/GAME_SCORE.png")
 			:move(300,300)
 			:setVisible(true)
-			:setColor(cc.c3b(255, 0, 255))
+			--:setColor(cc.c3b(255, 0, 255))
 			:addTo(self)
 	--self:BitmapToRegion(bmp,RGB(255, 0, 255))
 
