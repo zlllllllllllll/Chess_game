@@ -1199,6 +1199,7 @@ end
 
 --游戏正式开始
 function GameLayer:OnSubGamePlay(dataBuffer)
+	print("OnSubGamePlay 游戏正式开始")
   local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_GamePlay, dataBuffer)
 
 	--变量定义
@@ -1406,8 +1407,9 @@ function GameLayer:onSubSendCard(dataBuffer)
     if self.m_wCurrentUser~=wMeChairID then
 			local wUserIndex=wViewChairID
 			self._gameView.m_UserCard[wUserIndex]:SetCurrentCard(true)
-    else
-			self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)]=self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)]+1
+		else
+print("====",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCardIndex(cmd_data.cbCardData))
+			self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)+1]=self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)+1]+1
 			self._gameView.m_HandCardControl:SetCurrentCard(cmd_data.cbCardData)
     end
 
@@ -1711,7 +1713,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
 	--设置控件
-	self._gameView:SetStatusFlag(false,false)   --呵呵 一样的
+	self._gameView:SetStatusFlag(false,false)   -- 一样的
 	self._gameView.m_ControlWnd:setVisible(false)
 	self._gameView.m_btMaiCancel:setVisible(false)
 	self._gameView.m_btDingCancel:setVisible(false)
@@ -1751,7 +1753,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	--m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
 	print(szBuffer)
   for i=1,cmd.GAME_PLAYER,1 do
-      local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i)
+      local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i-1)
   		ScoreInfo.byDingDi[i] = cmd_data.byDingDi[i]
   		--胡牌类型
   		ScoreInfo.dwChiHuKind[i]=cmd_data.dwChiHuKind[i]

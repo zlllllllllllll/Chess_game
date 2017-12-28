@@ -102,8 +102,8 @@ function GameViewLayer:ctor(scene)
 	self.m_bTrustee={}
 	self.m_szCenterText=""
 	--提示字符串	-- 设置字体  700
-	self.PromptText = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
-	self.PromptText:move(yl.WIDTH/2-200,yl.HEIGHT/2-100)
+	self.PromptText = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 24)
+	self.PromptText:move(yl.WIDTH/2-0,yl.HEIGHT/2-100)
 	self.PromptText:setTextColor(cc.c4b(255,255,255,255))
 	self.PromptText:addTo(self) 
 
@@ -351,7 +351,7 @@ function GameViewLayer:preloadUI()
 	self.m_HandCardControl.pWnd=self
 
 	------
-	-- self:RectifyControl(1300,750)
+	self:RectifyControl(1300,750)
 	-- --绘制界面
 	-- self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
 end
@@ -639,9 +639,6 @@ print("self.m_szCenterText",self.m_szCenterText)
 	if #self.m_szCenterText > 0 then		
 		--提示字符串	-- 设置字体  700
 		self.PromptText:setString(self.m_szCenterText)
-		-- self.PromptText = cc.Label:createWithTTF(self.m_szCenterText,"fonts/round_body.ttf", 28)
-		-- self.PromptText:move(nWidth/2-200,nHeight/2-100)
-		-- self.PromptText:setTextColor(cc.c4b(255,255,255,255))
 	end
 
 	--用户标志
@@ -658,19 +655,28 @@ print("self.m_szCenterText",self.m_szCenterText)
 		--绘画标志
 		for i=1,cmd.GAME_PLAYER,1 do
 			if i == self.m_wBankerUser then
+				print("=========  self.m_wBankerUser",self.m_wBankerUser)
+				print((self.m_bBankerCount-1)*nImageWidth)
+				local direction=self._scene:GetMeChairID()==self.m_wBankerUser and 1 or 2
+				self.m_ImageUserFlag=GameLogic:Clipp9S("res/game/USER_FLAG.png",nImageWidth,nImageHeight)
+					:move(self.m_UserFlagPos[direction].x - 20, self.m_UserFlagPos[direction].y )
+					:addTo(self)
+				self.m_ImageUserFlag:getChildByTag(1):move(-nImageWidth/2-(self.m_bBankerCount-1)*nImageWidth,0)
 				--self.m_ImageUserFlag.TransDrawImage(pDC,m_UserFlagPos[i].x-20,m_UserFlagPos[i].y,nImageWidth,nImageHeight,(m_bBankerCount-1)*nImageWidth,0,RGB(255,0,255));
-				self.m_ImageUserFlag=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
-					:setCapInsets(CCRectMake(40,40,20,20))
-					:setContentSize(cc.size(nImageWidth, nImageHeight))
-					:setPosition(self.m_UserFlagPos[i].x-20,self.m_UserFlagPos[i].y)
-					:setColor(cc.c3b(255, 0, 255))
-					:setVisible(true)
-					:addTo(self,-1)
+				-- self.m_ImageUserFlag=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
+				-- 	:setCapInsets(CCRectMake(40,40,20,20))
+				-- 	:setContentSize(cc.size(nImageWidth, nImageHeight))
+				-- 	:setPosition(self.m_UserFlagPos[i].x-20,self.m_UserFlagPos[i].y)
+				-- 	--:setColor(cc.c3b(255, 0, 255))
+				-- 	:setVisible(true)
+				-- 	:addTo(self,-1)
 			end
 			if self.m_byDingMai[i]>0 then
+				dump(self.m_byDingMai,"self.m_byDingMai",6)
+				print("=======res/game/dingmai ",i,self.m_ptDingMai[i].x-15-iDingW/2,self.m_ptDingMai[i].y-iDingH/2)
 				self.m_ImageDingMai=display.newSprite("res/game/dingmai.png")
 					:setPosition(self.m_ptDingMai[i].x-15-iDingW/2,self.m_ptDingMai[i].y-iDingH/2)
-					:setColor(cc.c3b(255, 0, 255))
+					--:setColor(cc.c3b(255, 0, 255))
 					:setVisible(true)
 					:addTo(self)
 			end
@@ -679,24 +685,30 @@ print("self.m_szCenterText",self.m_szCenterText)
 
 	--桌面扑克
 	for i=1,cmd.GAME_PLAYER,1 do
-		self.m_TableCard[i]:DrawCardControl(pDC)					--桌面麻将，在结束以后才显示
-		self.m_DiscardCard[i]:DrawCardControl(pDC)				--丢弃麻将
-		self.m_WeaveCard[i][1]:DrawCardControl(pDC)				--吃碰杠麻将
-		self.m_WeaveCard[i][2]:DrawCardControl(pDC)				--吃碰杠麻将
-		self.m_WeaveCard[i][3]:DrawCardControl(pDC)				--吃碰杠麻将
-		self.m_WeaveCard[i][4]:DrawCardControl(pDC)				--吃碰杠麻将
-		self.m_WeaveCard[i][5]:DrawCardControl(pDC)				--吃碰杠麻将
+		self.m_TableCard[i]:DrawCardControl()					--桌面麻将，在结束以后才显示
+		self.m_DiscardCard[i]:DrawCardControl()				--丢弃麻将
+		self.m_WeaveCard[i][1]:DrawCardControl()				--吃碰杠麻将
+		self.m_WeaveCard[i][2]:DrawCardControl()				--吃碰杠麻将
+		self.m_WeaveCard[i][3]:DrawCardControl()				--吃碰杠麻将
+		self.m_WeaveCard[i][4]:DrawCardControl()				--吃碰杠麻将
+		self.m_WeaveCard[i][5]:DrawCardControl()				--吃碰杠麻将
 	end
 
 	--堆积扑克
-	self.m_HeapCard[1]:DrawCardControl(pDC,"")
-	self.m_HeapCard[2]:DrawCardControl(pDC,"")
-	self.m_HeapCard[3]:DrawCardControl(pDC,"")
-	self.m_HeapCard[4]:DrawCardControl(pDC,"")
+	--清理先前堆立
+	self.m_HeapCard[1]:DrawClearn()
+	self.m_HeapCard[2]:DrawClearn()
+	self.m_HeapCard[3]:DrawClearn()
+	self.m_HeapCard[4]:DrawClearn()
+	self.m_HeapCard[1]:DrawCardControl("")
+	self.m_HeapCard[2]:DrawCardControl("")
+	self.m_HeapCard[3]:DrawCardControl("")
+	self.m_HeapCard[4]:DrawCardControl("")
 
 	--用户扑克
-	self.m_UserCard[1]:DrawCardControl(pDC)						--对方手中的麻将，游戏进行中显示
-	self.m_HandCardControl:DrawCardControl(pDC)					--自己手中的麻将，游戏进行中显示
+	self.m_UserCard[1]:DrawCardControl()						--对方手中的麻将，游戏进行中显示
+	
+	self.m_HandCardControl:DrawCardControl()					--自己手中的麻将，游戏进行中显示
 
 	--等待提示
 	if self.m_bWaitOther==true then
@@ -880,8 +892,9 @@ print("self.m_szCenterText",self.m_szCenterText)
 				end
 			else
 				if self.playerName then
-				end
+				else
 					self.playerName,self.playerWealth=name_Wealth()
+				end
 			end
 
 			--其他信息

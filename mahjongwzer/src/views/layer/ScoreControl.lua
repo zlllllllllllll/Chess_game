@@ -112,7 +112,9 @@ function ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,dwMeUserID)
 	self.m_dwMeUserID=dwMeUserID
 
 	--组合变量
-	for i=1,self.m_cbWeaveCount,1 do
+    --测试添加
+    if nil==self.m_cbWeaveCount then self.m_cbWeaveCount=0 end
+	for i=1,self.m_cbWeaveCount+1,1 do
 		local bPublicWeave=(WeaveInfo.cbPublicWeave[i]==true)
 		self.m_WeaveCard[i]:SetCardData(WeaveInfo.cbCardData[i],WeaveInfo.cbCardCount[i])
 		self.m_WeaveCard[i]:SetDisplayItem(true)

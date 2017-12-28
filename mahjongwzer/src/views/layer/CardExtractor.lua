@@ -1,5 +1,5 @@
 --
--- Author: zml
+-- Author: 
 -- Date: 2017-12-8 15:48:39
 --
 local cmd = appdf.req(appdf.GAME_SRC.."yule.sparrowhz.src.models.CMD_Game")

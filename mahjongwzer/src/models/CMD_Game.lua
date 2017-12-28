@@ -82,11 +82,11 @@ cmd.SUB_S_GAME_START		=	100									--游戏开始
 cmd.SUB_S_OUT_CARD			=	101									--出牌命令
 cmd.SUB_S_SEND_CARD			=	102									--发送扑克
 cmd.SUB_S_LISTEN_CARD		=	103									--听牌命令
-cmd.SUB_S_OPERATE_NOTIFY=	104									--操作提示
-cmd.SUB_S_OPERATE_RESULT=	105									--操作命令
+cmd.SUB_S_OPERATE_NOTIFY	=	104									--操作提示
+cmd.SUB_S_OPERATE_RESULT	=	105									--操作命令
 cmd.SUB_S_GAME_END			=	106									--游戏结束
-cmd.SUB_S_TRUSTEE				=	107									--用户托管
-cmd.SUB_S_DINGDI				=	108									-- 玩家顶底
+cmd.SUB_S_TRUSTEE			=	107									--用户托管
+cmd.SUB_S_DINGDI			=	108									-- 玩家顶底
 cmd.SUB_S_GAME_PLAY			=	109									-- 游戏正式开始
 
 --游戏状态
