@@ -2,7 +2,7 @@
 -- Author: zml
 -- Date: 2017-12-8 15:48:39
 --
-local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
+--local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
@@ -48,11 +48,14 @@ function ScoreControl:ctor()
 	--设置窗口
 	--SetWindowPos(NULL,0,0,m_ImageGameScore.GetWidth(),m_ImageGameScore.GetHeight(),SWP_NOZORDER|SWP_NOMOVE);
 	self:move(0,0)
-	local bmp=display.newSprite("res/game/GAME_SCORE.png")
-			:move(300,300)
-			:setVisible(true)
-			--:setColor(cc.c3b(255, 0, 255))
-			:addTo(self)
+	
+	--mark 先注释
+	-- local bmp=display.newSprite("res/game/GAME_SCORE.png")
+	-- 		:move(300,300)
+	-- 		:setVisible(true)
+	-- 		--:setColor(cc.c3b(255, 0, 255))
+	-- 		:addTo(self)
+
 	--self:BitmapToRegion(bmp,RGB(255, 0, 255))
 
 	-- CBitmap bmp;
@@ -187,6 +190,7 @@ function ScoreControl:OnPaint()
 	-- CRect rcClient;
 	-- GetClientRect(&rcClient);
 	--mark
+print("重画函数 ScoreControl:OnPaint")
 	local rcClient={}
 	rcClient.left=0
 	rcClient.top=100

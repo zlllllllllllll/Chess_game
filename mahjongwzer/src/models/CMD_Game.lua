@@ -212,11 +212,11 @@ cmd.CMD_S_OperateResult=
 --游戏结束
 cmd.CMD_S_GameEnd=
 {
-	{k = "lGameTax", t = "int"},							--游戏税收
+	{k = "lGameTax", t = "int"},								--游戏税收
 	--结束信息
-	{k="wProvideUser",t="word"},							--供应用户
-	{k="cbProvideCard",t="byte"},							--供应扑克
-	{k ="dwChiHuKind", t = "dword", l = {cmd.GAME_PLAYER}}, 		--胡牌类型
+	{k="wProvideUser",t="word"},								--供应用户
+	{k="cbProvideCard",t="byte"},								--供应扑克
+	{k ="dwChiHuKind", t = "dword", l = {cmd.GAME_PLAYER}}, 	--胡牌类型
 	{k ="dwChiHuRight", t = "dword", l = {cmd.GAME_PLAYER}}, 	--胡牌类型
 	{k ="byDingDi", t = "byte", l = {cmd.GAME_PLAYER}},
 
@@ -226,7 +226,7 @@ cmd.CMD_S_GameEnd=
 
 	--扑克信息
 	{k ="cbCardCount", t = "byte", l = {cmd.GAME_PLAYER}},		--扑克数目
-	{k ="cbCardData", t = "byte", l = {17,17}}								--扑克数据
+	{k ="cbCardData", t = "byte", l = {17,17}}					--扑克数据
 }
 --用户托管
 cmd.CMD_S_Trustee=
@@ -248,10 +248,10 @@ cmd.CMD_S_DingDi=
 
 cmd.SUB_C_OUT_CARD			=	1									--出牌命令
 cmd.SUB_C_LISTEN_CARD		=	2									--听牌命令
-cmd.SUB_C_OPERATE_CARD	=	3									--操作扑克
-cmd.SUB_C_TRUSTEE				= 4									--用户托管
-cmd.SUB_C_SET_CARD      = 5                 -- 取牌命令
-cmd.SUB_C_DINGDI        = 6                 -- 顶底
+cmd.SUB_C_OPERATE_CARD		=	3									--操作扑克
+cmd.SUB_C_TRUSTEE			= 4										--用户托管
+cmd.SUB_C_SET_CARD     		= 5         					        -- 取牌命令
+cmd.SUB_C_DINGDI       		= 6           			   		        -- 顶底
 cmd.SUB_C_CHECK_SUPER		= 7
 
 --游戏定时器

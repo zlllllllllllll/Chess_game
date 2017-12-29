@@ -200,6 +200,7 @@ function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 	end
 
 	--按钮控制
+    print(bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU))
 	local cBoolean = (bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU)~=0 and true or false)
 	self.m_btChiHu.setEnabled(cBoolean)
 

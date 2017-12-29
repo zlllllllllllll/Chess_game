@@ -16,12 +16,12 @@ GameLogic.MASK_VALUE		=			0x0F								--数值掩码
 --动作标志
 GameLogic.WIK_NULL			=		0x00								--没有类型
 GameLogic.WIK_LEFT			=		0x01								--左吃类型
-GameLogic.WIK_CENTER		=			0x02								--中吃类型
+GameLogic.WIK_CENTER		=		0x02								--中吃类型
 GameLogic.WIK_RIGHT			=		0x04								--右吃类型
 GameLogic.WIK_PENG			=		0x08								--碰牌类型
 GameLogic.WIK_GANG			=		0x10								--杠牌类型
-GameLogic.WIK_LISTEN		=			0x20								--听牌类型
-GameLogic.WIK_CHI_HU		=			0x40								--吃胡类型
+GameLogic.WIK_LISTEN		=		0x20								--听牌类型
+GameLogic.WIK_CHI_HU		=		0x40								--吃胡类型
 
 --------------------------------------------------------------------------
 --胡牌定义

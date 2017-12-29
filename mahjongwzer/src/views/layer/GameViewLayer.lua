@@ -8,7 +8,7 @@ local GameViewLayer = class("GameViewLayer",function(scene)
 end)
 
 --require("client/src/plaza/models/yl")
-local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
+--local bit =  appdf.req(appdf.BASE_SRC .. "app.models.bit")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local ScoreControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.ScoreControl")
@@ -115,7 +115,7 @@ function GameViewLayer:ctor(scene)
 	m_ImageNumber.LoadFromResource(hInstance,IDB_NUMBER);;				        // 数字
 
 	--]]
-	self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)	
+	--self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png"):setVisible(false):addTo(self)	
 	self.m_ImageBack=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
 			:setCapInsets(CCRectMake(40,40,20,20))
 			:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
@@ -126,7 +126,7 @@ function GameViewLayer:ctor(scene)
 	self.m_ImageUserAction=display.newSprite("res/game/USER_ACTION.png"):setVisible(false):addTo(self)
 	self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png"):setVisible(false):addTo(self)
 	self.m_ImageCS=display.newSprite("res/game/CS_BACK.png"):setVisible(false):addTo(self)
-	self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png"):setVisible(false):addTo(self)
+	--self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png"):setVisible(false):addTo(self)
 	self.m_ImageListenStatusH=display.newSprite("res/game/LISTEN_FLAG_H.png"):setVisible(false):addTo(self)
 	self.m_ImageListenStatusV=display.newSprite("res/game/LISTEN_FLAG_V.png"):setVisible(false):addTo(self)
 	self.m_ImageTrustee=display.newSprite("res/game/TRUSTEE.png"):setVisible(false):addTo(self)
@@ -711,18 +711,20 @@ print("self.m_szCenterText",self.m_szCenterText)
 	self.m_HandCardControl:DrawCardControl()					--自己手中的麻将，游戏进行中显示
 
 	--等待提示
+print("=== 等待提示 ",self.m_bWaitOther)
 	if self.m_bWaitOther==true then
 		self.m_ImageWait=display.newSprite("res/game/WAIT_TIP.png")
-			:setPosition((nWidth-self.m_ImageWait:getContentSize().width)/2,nHeight-145)
+			:setPosition(nWidth/2,nHeight-145)
 			:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 			:addTo(self)
 	end
 
+print("=== 荒庄标志 ",self.m_bHuangZhuang)
 	--荒庄标志
 	if self.m_bHuangZhuang==true then
 		self.m_ImageHuangZhuang=display.newSprite("res/game/HUANG_ZHUANG.png")
-			:setPosition((nWidth-self.m_ImageHuangZhuang:getContentSize().width)/2,nHeight/2-103)
+			:setPosition(nWidth/2,nHeight/2-103)
 			:setColor(cc.c3b(255, 0, 255))
 			:setVisible(true)
 			:addTo(self)
@@ -1202,6 +1204,7 @@ function GameViewLayer:GetGodsCard()
 end
 
 function GameViewLayer:SetDingMaiValue(byDingMai)
+dump(byDingMai,"SetDingMaiValue byDingMai",6)
 	if nil == byDingMai then
 		self.m_byDingMai={0,0}
 	else
@@ -1573,6 +1576,7 @@ end
 
 function GameViewLayer:StartSicboAnim(bySicbo,iStartIndex)
 	--memcpy(m_bySicbo, bySicbo, 2);
+print("== GameViewLayer:StartSicboAnim",bySicbo,iStartIndex)
 	self.m_bySicbo=GameLogic:deepcopy(bySicbo)
 	self.m_iSicboAnimIndex = iStartIndex
 

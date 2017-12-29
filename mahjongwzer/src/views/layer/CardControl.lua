@@ -373,7 +373,7 @@ print("m_ImageTableRight",nXPos,nYPos)
 
 				--中间扑克
 				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
-	print("东向 中间扑克 ",i)
+	--print("东向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
 					CCardResource.m_ImageHeapDoubleV["east"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
@@ -431,7 +431,7 @@ print("m_ImageTableBottom",nXPos,nYPos)
 
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
-	print("南向 中间扑克 ",i)
+	--print("南向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH["south"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
@@ -487,7 +487,7 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				end
 				--中间扑克
 				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
-	print("西向 中间扑克 ",i)
+	--print("西向 中间扑克 ",i)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
 					CCardResource.m_ImageHeapDoubleV["west"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
@@ -543,7 +543,7 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 				--中间扑克
 				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
-	print("北向 中间扑克 ",i)
+	--print("北向 中间扑克 ",i)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH["north"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
@@ -615,7 +615,7 @@ function CWeaveCard:ctor()
 
 	--扑克数据
 	CWeaveCard.m_wCardCount=0
-	CWeaveCard.m_cbCardData={}
+	CWeaveCard.m_cbCardData={0,0,0,0}
 	CWeaveCard.m_cbWikCard=0
 	return
 end
@@ -933,7 +933,7 @@ end
 function CDiscardCard:ctor()
 	--扑克数据
 	CDiscardCard.m_wCardCount=0
-	CDiscardCard.m_cbCardData={}
+	CDiscardCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
 	--控制变量
 	CDiscardCard.m_ControlPoint = cc.p(0, 0)
@@ -1058,7 +1058,7 @@ end
 function CTableCard:ctor()
 	--扑克数据
 	CTableCard.m_wCardCount=0
-	CTableCard.m_cbCardData={}
+	CTableCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
 	--控制变量
 	CTableCard.m_ControlPoint = cc.p(0, 0)
@@ -1275,6 +1275,7 @@ end
 
 --设置扑克
 function CCardControl:SetCardData(cbCardData,wCardCount,cbCurrentCard)
+print("设置扑克 CCardControl:SetCardData ",cbCardData,wCardCount,cbCurrentCard)
 	if wCardCount>GameLogic:table_leng(self.m_CardItemArray) then
 		return false
 	end
@@ -1294,6 +1295,7 @@ end
 
 --设置扑克
 function CCardControl:SetCardItem(CardItemArray,wCardCount)
+print("设置扑克 CCardControl:SetCardItem ",CardItemArray,wCardCount)
 	if wCardCount>GameLogic:table_leng(self.m_CardItemArray) then
 		return false
 	end
@@ -1410,7 +1412,7 @@ end
 
 --绘画扑克
 function CCardControl:DrawCardControl()
-print("CCardControl:DrawCardControl")
+print("CCardControl:DrawCardControl",self.m_wCardCount)
 	--绘画准备
 	local nXExcursion=self.m_ControlPoint.x+(GameLogic:table_leng(self.m_CardItemArray)-self.m_wCardCount)*CardControl.CARD_WIDTH
 
@@ -1423,6 +1425,7 @@ print("CCardControl:DrawCardControl")
 
 		--绘画扑克
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
+print(i,cbCardData,self.m_bShowDisable,nXScreenPos,nYScreenPos)
 		if (0 ~= cbCardData) and self.m_bShowDisable then
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
 			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_"..i,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData)
@@ -1439,7 +1442,7 @@ print("CCardControl:DrawCardControl")
 
 		--绘画扑克
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
-	print("!!! 当前",self.m_CurrentCard.cbCardData)
+	print("!!! 当前",self.m_CurrentCard.cbCardData,cbCardData,self.m_bShowDisable)
 	--mark self.m_CurrentCard.cbCardData 暂时替换i 先显示
 		if (0 ~= cbCardData) and self.m_bShowDisable then
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)

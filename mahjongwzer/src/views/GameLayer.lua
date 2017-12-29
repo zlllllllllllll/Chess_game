@@ -459,7 +459,8 @@ print("OnEventGameClockInfo",chair,time,clockId)
   		end,
 			[cmd.IDI_OPERATE_CARD] = function(chair,time,clockId)    --操作定时器
 
-    			--自动出牌
+					--自动出牌
+	print("====self.m_bHearStatus",self.m_bHearStatus,self._gameView.m_ControlWnd:isVisible(),self.m_bStustee,self.m_wTimeOutCount)
     			local bAutoOutCard=self.m_bHearStatus
           if (bAutoOutCard==true) and self._gameView.m_ControlWnd:isVisible() then
             bAutoOutCard=false
@@ -948,7 +949,7 @@ print(i,j)
       local cbCardCount=cmd_data.cbCardCount
 			self._gameView.m_HandCardControl:SetCardData(cmd_data.cbCardData,cbCardCount-1,cmd_data.cbCardData[cbCardCount-1])
     else
-			self._gameView.m_HandCardControl.SetCardData(cmd_data.cbCardData,cmd_data.cbCardCount,0)
+			self._gameView.m_HandCardControl:SetCardData(cmd_data.cbCardData,cmd_data.cbCardCount,0)
     end
 
 		--扑克设置
@@ -1275,7 +1276,8 @@ function GameLayer:OnSubGamePlay(dataBuffer)
         szMsg="["..pUserData.szNickName.."]顶底\r\n"
       end
     	--/*_tcscat_s*/ _tcscat(szMessage, /*sizeof),*/ szMsg);
-      szMessage=szMessage..szMsg
+			szMessage=szMessage..szMsg
+			print("OnSubGamePlay 正式开始",szMessage)
     break	end
   end
 
@@ -1365,6 +1367,7 @@ print("===mark 2")
 
 			--设置扑克
 			local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+	print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
 			local wUserIndex=wOutViewChairID
@@ -1408,7 +1411,7 @@ function GameLayer:onSubSendCard(dataBuffer)
 			local wUserIndex=wViewChairID
 			self._gameView.m_UserCard[wUserIndex]:SetCurrentCard(true)
 		else
-print("====",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCardIndex(cmd_data.cbCardData))
+print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCardIndex(cmd_data.cbCardData))
 			self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)+1]=self.m_cbCardIndex[GameLogic:SwitchToCardIndex(cmd_data.cbCardData)+1]+1
 			self._gameView.m_HandCardControl:SetCurrentCard(cmd_data.cbCardData)
     end
@@ -1474,7 +1477,7 @@ print("====",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCardIndex(cmd_data
 	--设置时间
 	self._gameView:SetCurrentUser(self:SwitchViewChairID(self.m_wCurrentUser))
   self:SetGameClock(cmd.IDI_OPERATE_CARD, self.m_wCurrentUser, cmd.IDI_OPERATE_CARD, wTimeCount)
-
+print("发牌消息 end")
 	return true
 
 end
@@ -1703,7 +1706,7 @@ end
 function GameLayer:OnSubGameEnd(dataBuffer)
 	print("游戏结束")
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_GameEnd, dataBuffer)
-	--dump(cmd_data, "CMD_S_GameEnd")
+	dump(cmd_data, "CMD_S_GameEnd")
 
 	--设置状态
   self._gameFrame:SetGameStatus(cmd.GS_MJ_FREE)
@@ -1754,14 +1757,14 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	print(szBuffer)
   for i=1,cmd.GAME_PLAYER,1 do
       local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i-1)
-  		ScoreInfo.byDingDi[i] = cmd_data.byDingDi[i]
+  		ScoreInfo.byDingDi[i] = cmd_data.byDingDi[1][i]
   		--胡牌类型
-  		ScoreInfo.dwChiHuKind[i]=cmd_data.dwChiHuKind[i]
-  		ScoreInfo.dwChiHuRight[i]=cmd_data.dwChiHuRight[i]
+  		ScoreInfo.dwChiHuKind[i]=cmd_data.dwChiHuKind[1][i]
+  		ScoreInfo.dwChiHuRight[i]=cmd_data.dwChiHuRight[1][i]
 
   		--设置成绩
-  		ScoreInfo.lGameScore[i]=cmd_data.lGameScore[i]
-  		ScoreInfo.lGodsScore[i]=cmd_data.lGodsScore[i]
+  		ScoreInfo.lGameScore[i]=cmd_data.lGameScore[1][i]
+  		ScoreInfo.lGodsScore[i]=cmd_data.lGodsScore[1][i]
 			--lstrcpyn(ScoreInfo.szUserName[i],pUserData->GetNickName(),CountArray(ScoreInfo.szUserName[i]))
       --ScoreInfo.szUserName[i]=ScoreInfo.szUserName[i]..pUserData:GetNickName()
       ScoreInfo.szUserName[i]=pUserData.szNickName
@@ -1809,6 +1812,10 @@ function GameLayer:OnSubGameEnd(dataBuffer)
       end
   end
 
+print("成绩界面 ")
+dump(ScoreInfo,"ScoreInfo",6)
+	--添加 重画
+	self._gameView.m_ScoreControl:OnPaint()
 	--成绩界面
 	self._gameView.m_ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,self:GetMeChairID())
 
@@ -1817,9 +1824,9 @@ function GameLayer:OnSubGameEnd(dataBuffer)
   for i=1,cmd.GAME_PLAYER,1 do
 		local wViewChairID=self:SwitchViewChairID(i-1)
     if cmd_data.dwChiHuKind[i]~=GameLogic.CHK_NULL then
-      seslf._gameView:SetUserAction(wViewChairID,GameLogic.WIK_CHI_HU)
+      self._gameView:SetUserAction(wViewChairID,GameLogic.WIK_CHI_HU)
     end
-		self._gameView.m_TableCard[wViewChairID]:SetCardData(cmd_data.cbCardData[i],cmd_data.cbCardCount[i])
+		self._gameView.m_TableCard[wViewChairID]:SetCardData(cmd_data.cbCardData[i],cmd_data.cbCardCount[1][i])
   end
 
 	--设置扑克
@@ -2289,6 +2296,7 @@ function GameLayer:OnOutInvalidCard()
 end
 
 function GameLayer:OnOutCard(wParam, lParam)
+print(" OnOutCard ",wParam, lParam)
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
   if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
@@ -2319,6 +2327,7 @@ function GameLayer:OnOutCard(wParam, lParam)
 	--设置扑克
 	local cbCardData={}
 	local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
 	self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
 
 	--设置界面
@@ -2350,6 +2359,7 @@ function GameLayer:OnCardOperate(wParam, lParam)
 	--变量定义
 	local cbOperateCode=wParam
 	local cbOperateCard=lParam
+print("==扑克操作 OnCardOperate",cbOperateCode, cbOperateCard)
 
 	--状态判断
   if (self.m_wCurrentUser==self:GetMeChairID()) and (cbOperateCode==GameLogic.WIK_NULL) then
@@ -2601,11 +2611,12 @@ dump(bySicbo,"bySicbo",6)
 			--用户扑克
 print("===mark 3",wMeChairID)
 dump(pGamePlay,"pGamePlay",6)
-      if i~=wMeChairID then
+      if i~=wMeChairID+1 then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
 				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1]))-1,(i==self.m_wBankerUser))
       else
 				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
+print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBankerCard)
 				self._gameView.m_HandCardControl:SetCardData(byCards,cmd.MAX_COUNT-1,cbBankerCard)
       end
 
