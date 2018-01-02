@@ -156,7 +156,7 @@ cmd.CMD_S_GameStart=
 	{k="bBankerCount",t="byte"},
 	{k = "lBaseScore", t = "int"},								-- 底分
 	{k = "bMaiDi", t = "bool"},    								-- 庄家是否可以买底
-	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}}		--是否托管
+	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}}			--是否托管
 }
 
 cmd.CMD_S_GamePlay=

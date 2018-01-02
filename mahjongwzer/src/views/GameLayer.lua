@@ -63,7 +63,6 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   --BYTE	m_cbCardIndex[MAX_INDEX];			--手中扑克
   self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
   self.m_bySicboAnimCount = 0
-  -- CMD_S_GamePlay   m_sGamePlay;  -- 游戏发牌消息
   self.m_sGamePlay={}
   self.m_sGamePlay.byUserDingDi={}
   self.m_sGamePlay.cbCardData=GameLogic:ergodicList(17)
@@ -736,6 +735,8 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
     return true
 	elseif cbGameStatus == cmd.GS_MJ_MAIDI then         --买庄状态
     local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_StatusMaiDi, dataBuffer)
+print("买庄状态 ",self.m_wBankerUser,self:GetMeChairID())
+dump(cmd_data,"CMD_S_StatusMaiDi",6)
 
 		--设置数据
     self.m_wBankerUser = cmd_data.wBankerUser
@@ -1111,7 +1112,7 @@ function GameLayer:onSubGameStart(dataBuffer)
 	print("游戏开始")
   --变量定义
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_GameStart, dataBuffer)
-	--dump(cmd_data, "CMD_S_GameStart")
+	dump(cmd_data, "CMD_S_GameStart")
   --设置状态
   self._gameFrame:SetGameStatus(cmd.GS_MJ_MAIDI)
 	self._gameView.m_ScoreControl:RestorationData()
@@ -1144,28 +1145,30 @@ function GameLayer:onSubGameStart(dataBuffer)
   	m_GameClientView.SetOutCardInfo(INVALID_CHAIR,0);
     --]]
   else
-  	local szMsg={}
-    if cmd_data.bMaiDi then
-      --庄家显示买庄，取消
+		local szMsg={}
+		--目前一直false
+    --if cmd_data.bMaiDi then
+			--庄家显示买庄，取消
+print(self.m_wBankerUser,self:GetMeChairID())
       if self.m_wBankerUser==self:GetMeChairID() then
         szMsg=""
   			self._gameView:SetCenterText(szMsg)
         self._gameView.m_btMaiDi:setVisible(true)
         self._gameView.m_btMaiCancel:setVisible(true)
-        --self._gameView.m_btMaiDi.EnableWindow(TRUE)       --=========================！！！！！ 等写完gameview后回来.SetFocus()  mark
-        --self._gameView.m_btMaiCancel.EnableWindow(TRUE)   --=========================！！！！！ 等写完gameview后回来.SetFocus()
+        --self._gameView.m_btMaiDi.EnableWindow(TRUE)       --  mark
+        --self._gameView.m_btMaiCancel.EnableWindow(TRUE)   --
       else  --显示等待庄家买底
         local szNickName="庄家"
         if yl.INVALID_CHAIR ~= self.m_wBankerUser then
           if nil ~= self._gameFrame:getTableUserItem(self:GetMeTableID(),self.m_wBankerUser) then
-            szNickName=self._gameFrame:getTableUserItem(self:GetMeTableID(),self.m_wBankerUser):GetNickName()       -- mark 确定有GetNickName么 下同GetNickName
+            szNickName=self._gameFrame:getTableUserItem(self:GetMeTableID(),self.m_wBankerUser).szNickName       -- mark 确定有GetNickName么 下同GetNickName
           end
         end
 
         szMsg="等待 "..szNickName.." 买底"
         self._gameView:SetCenterText(szMsg)
       end
-    end
+    --end
   end
 
 	--新界面
@@ -1192,7 +1195,7 @@ function GameLayer:onSubGameStart(dataBuffer)
 
 	--托管设置
   for i=1,cmd.GAME_PLAYER,1 do
-		self._gameView:SetTrustee(self:SwitchViewChairID(i-1),cmd_data.bTrustee[i])
+		self._gameView:SetTrustee(self:SwitchViewChairID(i-1),cmd_data.bTrustee[1][i])
   end
 
 	return true
@@ -1279,7 +1282,7 @@ function GameLayer:OnSubGamePlay(dataBuffer)
 			szMessage=szMessage..szMsg
 			print("OnSubGamePlay 正式开始",szMessage)
     break	end
-  end
+	end
 
 	self._gameView:SetDingMaiValue(byDingMaiRet)
 
@@ -1334,6 +1337,7 @@ function GameLayer:onSubOutCard(dataBuffer)
 	--变量定义
 	local wMeChairID=self:GetMeChairID()
 	local wOutViewChairID=self:SwitchViewChairID(cmd_data.wOutCardUser)
+	print(cmd_data.wOutCardUser , wMeChairID,cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   if (cmd_data.wOutCardUser ~= wMeChairID) and (cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus()) then
     while true do
       self:OnDispatchCard(1,0)
@@ -1814,10 +1818,10 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 
 print("成绩界面 ")
 dump(ScoreInfo,"ScoreInfo",6)
-	--添加 重画
-	self._gameView.m_ScoreControl:OnPaint()
 	--成绩界面
 	self._gameView.m_ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,self:GetMeChairID())
+	--添加 重画
+	self._gameView.m_ScoreControl:OnPaint()
 
 	local iHuType=self._gameView.m_ScoreControl:GetHardSoftHu()
 	--用户扑克
@@ -1923,7 +1927,9 @@ function GameLayer:OnSubDingDi(dataBuffer)
 	self.m_wCurrentUser = yl.INVALID_CHAIR
   self:KillGameClock(cmd.IDI_DINGDI_CARD)
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_DingDi, dataBuffer)
-  if self.m_wBankerUser==cmd_data.wChairID then
+dump(cmd_data,"cmd_data",6)
+print(" mark !!!!!!!!!! 临时去除 判断 cmd_data.wChairID",cmd_data.wChairID)
+  --if self.m_wBankerUser==cmd_data.wChairID then
     local wMeChair=self:GetMeChairID()
 		-- 设置显示
     if self.m_wBankerUser ==wMeChair then
@@ -1932,18 +1938,19 @@ function GameLayer:OnSubDingDi(dataBuffer)
 			local szMsg
       szMsg=""
 			self._gameView:SetCenterText(szMsg)
-      if cmd_data.bDingDi then
+			--一直为 false 同游戏开始的判断条件
+      --if cmd_data.bDingDi then
 				--ActiveGameFrame();
 				self._gameView.m_btDingDi:setVisible(true)
 				self._gameView.m_btDingCancel:setVisible(true);
 				--m_GameClientView.m_btDingDi.EnableWindow(TRUE);
 				--m_GameClientView.m_btDingCancel.EnableWindow(TRUE);
 				self.m_wCurrentUser = wMeChair
-      end
+      --end
     end
 		self._gameView:SetCurrentUser(self:SwitchViewChairID(wMeChair))
     self:SetGameClock(cmd.IDI_DINGDI_CARD, wMeChair, cmd.IDI_DINGDI_CARD, cmd.TIME_OPERATE_CARD)
-  end
+  --end
 
 	return true
 end
@@ -2193,7 +2200,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self._gameView.m_btStart:setVisible(false)
 	self._gameView.m_ControlWnd:setVisible(false)
 	self._gameView.m_ScoreControl:RestorationData()
-	--
+	--时间显示
 	if self._gameView.DrawUserTimerEx then
 		self._gameView:DrawUserTimerEx(nil,yl.WIDTH/2,yl.HEIGHT/2,"00")
 	end
@@ -2202,10 +2209,10 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self._gameView.m_ImageCenterTime:setVisible(false)
 	self._gameView.ImageTimeNumber:setVisible(false)
 
-	self._gameView.m_btMaiDi:setVisible(true)
-	self._gameView.m_btDingDi:setVisible(true)
-	self._gameView.m_btMaiCancel:setVisible(true)
-	self._gameView.m_btDingCancel:setVisible(true)
+	-- self._gameView.m_btMaiDi:setVisible(true)
+	-- self._gameView.m_btDingDi:setVisible(true)
+	-- self._gameView.m_btMaiCancel:setVisible(true)
+	-- self._gameView.m_btDingCancel:setVisible(true)
 	self._gameView:showReady(0)
 
 	--设置界面
@@ -2271,6 +2278,9 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	--扑克变量
   self.m_cbLeftCardCount=0
   self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
+
+	--更新界面
+	self._gameView:RefreshGameView()
 
 	--发送消息
 	--SendUserReady(NULL,0);
@@ -2431,19 +2441,11 @@ end
 
 --
 function GameLayer:OnDispatchCard(wParam, lParam)
+print("OnDispatchCard ",wParam, lPara,self.m_bySicboAnimCount)
   self:KillGameClock(cmd.IDI_DINGDI_CARD)
 	self._gameView:StopSicboAnim()
 	self.m_bySicboAnimCount=self.m_bySicboAnimCount+1
   if 1 == self.m_bySicboAnimCount then
-    --[[                                      mark  下同 有值吗
-		CMD_S_GamePlay *pGamePlay = &m_sGamePlay;
-		if (0 == wParam)
-		{
-			-- 打第二次骰子
-			BYTE bySicbo[2] = {HIBYTE(pGamePlay->wSiceCount3), LOBYTE(pGamePlay->wSiceCount3)};
-			m_GameClientView.StartSicboAnim(bySicbo);
-		}
-    --]]
     local pGamePlay=self.m_sGamePlay
     if 0 == wParam then
 			-- 打第二次骰子
@@ -2497,7 +2499,6 @@ dump(bySicbo,"bySicbo",6)
 		return 0
   else
 		--设置变量
-		--CMD_S_GamePlay *pGamePlay = &m_sGamePlay;
     local pGamePlay=self.m_sGamePlay
 		self.m_bHearStatus=false
 		self.m_bWillHearStatus=false
@@ -2583,6 +2584,7 @@ dump(bySicbo,"bySicbo",6)
     for i=1,4,1 do
 			--变量定义
 			local wViewChairID=self:SwitchHeapViewChairID(i)
+print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
 			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
     end
     -------------------------------------------------------------------
@@ -2621,15 +2623,15 @@ print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBan
       end
 
 			--旁观界面
-      if bPlayerMode==false then
-				self._gameView.m_TableCard[wViewChairID]:SetCardData(nil,0)
-				self._gameView.m_DiscardCard[wViewChairID]:SetCardData(nil,0)
-				self._gameView.m_WeaveCard[wViewChairID][1]:SetCardData(nil,0)
-				self._gameView.m_WeaveCard[wViewChairID][2]:SetCardData(nil,0)
-				self._gameView.m_WeaveCard[wViewChairID][3]:SetCardData(nil,0)
-				self._gameView.m_WeaveCard[wViewChairID][4]:SetCardData(nil,0)
-				self._gameView.m_WeaveCard[wViewChairID][5]:SetCardData(nil,0)
-      end
+      -- if bPlayerMode==false then
+			-- 	self._gameView.m_TableCard[wViewChairID]:SetCardData(nil,0)
+			-- 	self._gameView.m_DiscardCard[wViewChairID]:SetCardData(nil,0)
+			-- 	self._gameView.m_WeaveCard[wViewChairID][1]:SetCardData(nil,0)
+			-- 	self._gameView.m_WeaveCard[wViewChairID][2]:SetCardData(nil,0)
+			-- 	self._gameView.m_WeaveCard[wViewChairID][3]:SetCardData(nil,0)
+			-- 	self._gameView.m_WeaveCard[wViewChairID][4]:SetCardData(nil,0)
+			-- 	self._gameView.m_WeaveCard[wViewChairID][5]:SetCardData(nil,0)
+      -- end
     end
 		self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
 

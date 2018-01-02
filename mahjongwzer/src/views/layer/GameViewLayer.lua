@@ -762,6 +762,7 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 	end
 
 	if self.m_bTipSingle then
+		--请出单字牌
 		self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png")
 			:setPosition(nWidth/2-self.m_ImageTipSingle:getContentSize().width/2,nHeight/2+220)
 			:setColor(cc.c3b(255, 0, 255))
@@ -769,14 +770,17 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 			:addTo(self)
 	end
 	--用户状态
+dump(self.m_cbUserAction,"用户动作",6)
 	for i=1,cmd.GAME_PLAYER,1 do
+print("出牌用户 ",self.m_wOutCardUser,i)
 		if (self.m_wOutCardUser==i) or (self.m_cbUserAction[i]~=0) then
 			--计算位置
 			local nXPos,nYPos=0,0
-			if (i-1)==0 then						--北向
+			local direction=self._scene:GetMeChairID()==self.m_wBankerUser and 1 or 2
+			if (i-1)==self._scene:GetMeChairID() then				--南向 下 me
 				nXPos=nWidth/2-32
 				nYPos=self.m_nYBorder+95
-			elseif i==1 then				--南向
+			else													--北向 改为上
 				nXPos=nWidth/2-32
 				nYPos=nHeight-self.m_nYBorder-240
 			end
@@ -792,7 +796,7 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_CHI_HU) then	nXImagePos=-1
 					else	nXImagePos=0
 					end
-
+	print(nXImagePos)
 					if nXImagePos~=-1 then
 						--动作背景
 						--mark
@@ -801,9 +805,10 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 						self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
 							:setPosition(nXPos,nYPos)
 							:setColor(cc.c3b(255, 255, 255))
-        			:setOpacity(180)
+        					:setOpacity(180)
 							:setVisible(true)
 							:addTo(self)
+						--吃 碰 杠
 						self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png")
 							:setPosition(nXPos+29,nYPos+29)
 							:setVisible(true)
@@ -811,29 +816,20 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 					end
 				end
 			else
-				if i==0 then
-					--动作背景
-					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
-						:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 255, 255))
-						:setOpacity(180)
-						:setVisible(true)
-						:addTo(self)
-					--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
-					self.g_CardResource=CardControl:create_CCardListImage(self)
-					self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
-				else
-					--动作背景
-					self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
-						:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 255, 255))
-						:setOpacity(180)
-						:setVisible(true)
-						:addTo(self)
-					--绘画扑克
-					self.g_CardResource=CardControl:create_CCardListImage(self)
-					self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
-				end
+				--控制流程中执行内容一样
+				-- if i==0 then
+				-- else
+				-- end
+				--动作背景
+				self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
+					:setPosition(nXPos,nYPos)
+					:setColor(cc.c3b(255, 255, 255))
+					:setOpacity(180)
+					:setVisible(true)
+					:addTo(self)
+				--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
+				self.g_CardResource=CardControl:create_CCardListImage(self)
+				self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
 			end
 		end
 	end
@@ -847,9 +843,10 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 		:setVisible(true)
 
 	if self.m_byGodsData>0 then
-		--绘画扑克
+		--绘画扑克 
+		print("财神")
 		self.g_CardResource=CardControl:create_CCardListImage(self)
-		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+55,nYPos+13)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+40,nYPos+13)
 	end
 
 ---------------=======================================================================================
@@ -1011,13 +1008,14 @@ end
 
 --基础积分
 function GameViewLayer:SetBaseScore(lBaseScore)
+print("基础积分 lBaseScore ",lBaseScore)
 	--设置扑克
 	if lBaseScore~=self.m_lBaseScore then
 		--设置变量
 		self.m_lBaseScore=lBaseScore
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1026,13 +1024,14 @@ end
 
 --海底扑克
 function GameViewLayer:SetHuangZhuang(bHuangZhuang)
+print("海底扑克 SetHuangZhuang ",bHuangZhuang)
 	--设置扑克
 	if bHuangZhuang~=self.m_bHuangZhuang then
 		--设置变量
 		self.m_bHuangZhuang=bHuangZhuang
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1040,13 +1039,14 @@ end
 
 --庄家用户
 function GameViewLayer:SetBankerUser(wBankerUser)
+print("庄家用户 SetBankerUser ",wBankerUser)
 	--设置扑克
 	if wBankerUser~=self.m_wBankerUser then
 		--设置变量
 		self.m_wBankerUser=wBankerUser
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1054,30 +1054,33 @@ end
 
 --状态标志
 function GameViewLayer:SetStatusFlag(bOutCard,bWaitOther)
+print("庄家用户 SetStatusFlag ",bOutCard,bWaitOther)
 		--设置变量
 		self.m_bOutCard=bOutCard
 		self.m_bWaitOther=bWaitOther
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 
 	return
 end
 
 --出牌信息
 function GameViewLayer:SetOutCardInfo(wViewChairID,cbCardData)
+print("庄家用户 SetOutCardInfo ",wViewChairID,cbCardData)
 		--设置变量
 		self.m_cbCardData=cbCardData
 		self.m_wOutCardUser=wViewChairID
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 
 	return
 end
 
 --动作信息
 function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
+print("动作信息 SetUserAction ",wViewChairID,bUserAction)
 	--设置变量
 	if wViewChairID<cmd.GAME_PLAYER then
 		self.m_cbUserAction[wViewChairID]=bUserAction
@@ -1093,13 +1096,14 @@ function GameViewLayer:SetUserAction(wViewChairID,bUserAction)
 	self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
 
 	--更新界面
-	self:RefreshGameView()
+	--self:RefreshGameView()
 
 	return
 end
 
 --听牌标志
 function GameViewLayer:SetUserListenStatus(wViewChairID,bListenStatus)
+print("听牌标志 SetUserListenStatus ",wViewChairID,bListenStatus)
 	--设置变量
 	if wViewChairID<cmd.GAME_PLAYER then
 		SetBombEffect(true)
@@ -1109,13 +1113,14 @@ function GameViewLayer:SetUserListenStatus(wViewChairID,bListenStatus)
 		self.m_bListenStatus={}
 	end
 	--更新界面
-	self:RefreshGameView()
+	--self:RefreshGameView()
 
 	return
 end
 
 --设置动作
 function GameViewLayer:SetBombEffect(bBombEffect)
+print("设置动作 SetBombEffect ",bBombEffect)
 	if bBombEffect==true then
 		--设置变量
 		self.m_bBombEffect=true
@@ -1134,7 +1139,7 @@ function GameViewLayer:SetBombEffect(bBombEffect)
 			self.m_cbBombFrameIndex=0
 
 			--更新界面
-			self:RefreshGameView()
+			--self:RefreshGameView()
 		end
 	end
 	return true
@@ -1142,12 +1147,13 @@ end
 
 --丢弃用户
 function GameViewLayer:SetDiscUser(wDiscUser)
+print("丢弃用户 SetDiscUser ",wDiscUser)
 	if self.m_wDiscUser ~= wDiscUser then
 		--更新变量
 		self.m_wDiscUser=wDiscUser
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1155,12 +1161,13 @@ end
 
 --定时玩家
 function GameViewLayer:SetCurrentUser(wCurrentUser)
+print("定时玩家 SetCurrentUser ",wCurrentUser)
 	if self.m_wCurrentUser ~= wCurrentUser then
 		--更新变量
 		self.m_wCurrentUser=wCurrentUser
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1168,12 +1175,13 @@ end
 
 --设置托管
 function GameViewLayer:SetTrustee(wTrusteeUser,bTrustee)
+print("设置托管 SetTrustee ",wTrusteeUser,bTrustee)
 	if self.m_bTrustee[wTrusteeUser] ~=bTrustee then
 		--更新变量
 		self.m_bTrustee[wTrusteeUser]=bTrustee
 
 		--更新界面
-		self:RefreshGameView()
+		--self:RefreshGameView()
 	end
 
 	return
@@ -1181,7 +1189,7 @@ end
 
 --设置中心文字
 function GameViewLayer:SetCenterText(szText)
-print("SetCenterText szText",szText)
+print("设置中心文字 SetCenterText szText",szText)
 	if nil==szText then
 		self.m_szCenterText=""
 	else
@@ -1191,12 +1199,13 @@ print("SetCenterText szText",szText)
 	--修改提示文本
 print(self.PromptText,tolua.isnull(self.PromptText))
 	self.PromptText:setString(self.m_szCenterText)
-	self:RefreshGameView()
+	--self:RefreshGameView()
 end
 
 function GameViewLayer:SetGodsCard(byGodsCard)
+print("GameViewLayer SetGodsCard ",byGodsCard)
 	self.m_byGodsData = byGodsCard
-	self:RefreshGameView()
+	--self:RefreshGameView()
 end
 
 function GameViewLayer:GetGodsCard()
@@ -1204,6 +1213,7 @@ function GameViewLayer:GetGodsCard()
 end
 
 function GameViewLayer:SetDingMaiValue(byDingMai)
+print("GameViewLayer SetDingMaiValue ",byDingMai)
 dump(byDingMai,"SetDingMaiValue byDingMai",6)
 	if nil == byDingMai then
 		self.m_byDingMai={0,0}
@@ -1212,11 +1222,12 @@ dump(byDingMai,"SetDingMaiValue byDingMai",6)
 			self.m_byDingMai[i] = byDingMai[i]
 		end
 	end
-	self:RefreshGameView()
+	--self:RefreshGameView()
 end
 
 --艺术字体
 function GameViewLayer:DrawTextString(pDC,pszString,crText,crFrame,nXPos,nYPos)
+print("艺术字体 DrawTextString ",pDC,pszString,crText,crFrame,nXPos,nYPos)
 	--变量定义
 	local nStringLength=#pszString
 	local nXExcursion={1,1,1,0,-1,-1,-1,0}

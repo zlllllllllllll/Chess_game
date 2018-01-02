@@ -226,7 +226,7 @@ print("重画函数 ScoreControl:OnPaint")
 	self.m_ImageGameScore:move(0,0)
 				:setVisible(true)
 	--绘画扑克
-	if self.m_ScoreInfo.lGameScore[self.m_dwMeUserID]<0 then
+	if self.m_ScoreInfo.lGameScore[self.m_dwMeUserID+1]<0 then
 		--位置变量
 		local nCardSpace=2
 		local nItemWidth=CardControl.CCardList["m_ImageTableBottom"].m_nViewWidth

@@ -579,7 +579,7 @@ end
 
 --设置扑克
 function CHeapCard:SetCardData(wMinusHeadCount,wMinusLastCount,wFullCount)
-print("设置扑克",wMinusHeadCount,wMinusLastCount,wFullCount)
+print("设置扑克 CHeapCard",wMinusHeadCount,wMinusLastCount,wFullCount)
 	--设置变量
 	self.m_wFullCount=wFullCount
 	self.m_wMinusHeadCount=wMinusHeadCount
