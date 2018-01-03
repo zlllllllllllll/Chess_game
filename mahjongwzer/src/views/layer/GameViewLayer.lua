@@ -843,10 +843,10 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 		:setVisible(true)
 
 	if self.m_byGodsData>0 then
-		--绘画扑克 
+		--绘画扑克
 		print("财神")
 		self.g_CardResource=CardControl:create_CCardListImage(self)
-		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+40,nYPos+13)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+0,nYPos+15)
 	end
 
 ---------------=======================================================================================

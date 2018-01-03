@@ -28,16 +28,16 @@ local CTableCard = class("CTableCard", cc.Layer)
 --扑克控件
 local CCardControl = class("CCardControl", cc.Layer)
 
-CardControl.HEAP_FULL_COUNT		= 34								--开始按钮
+CardControl.HEAP_FULL_COUNT			= 	34							--堆立全牌
 --公共定义
-CardControl.POS_SHOOT					= 5									--弹起象素
-CardControl.POS_SPACE					= 16								--分隔间隔
-CardControl.ITEM_COUNT				=	43								--子项数目
+CardControl.POS_SHOOT				=	 5							--弹起象素
+CardControl.POS_SPACE				= 	16							--分隔间隔
+CardControl.ITEM_COUNT				=	43							--子项数目
 CardControl.INVALID_ITEM			=	0xFFFF						--无效索引
 
 --扑克大小
-CardControl.CARD_WIDTH				=	45								--扑克宽度 39
-CardControl.CARD_HEIGHT				=	69								--扑克高度  64
+CardControl.CARD_WIDTH				=	45							--扑克宽度 39
+CardControl.CARD_HEIGHT				=	69							--扑克高度  64
 
 --枚举
 --X 排列方式
@@ -45,14 +45,14 @@ CardControl.enXLeft						="enXLeft"					--左对齐
 CardControl.enXCenter					="enXCenter"				--中对齐
 CardControl.enXRight					="enXRight"					--右对齐
 --Y 排列方式
-CardControl.enYTop						="enYTop"									--左对齐
-CardControl.enYCenter					="enYCenter"							--中对齐
-CardControl.enYBottom					="enYBottom"							--右对齐
+CardControl.enYTop						="enYTop"					--左对齐
+CardControl.enYCenter					="enYCenter"				--中对齐
+CardControl.enYBottom					="enYBottom"				--右对齐
 
 CardControl.Direction_East		="Direction_East"					--东向
-CardControl.Direction_South		="Direction_South"				--南向
+CardControl.Direction_South		="Direction_South"					--南向
 CardControl.Direction_West		="Direction_West"					--西向
-CardControl.Direction_North		="Direction_North"				--北向
+CardControl.Direction_North		="Direction_North"					--北向
 
 function CardControl:ctor(scene)
 	self._scene = scene

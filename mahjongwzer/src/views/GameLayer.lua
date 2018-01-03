@@ -150,8 +150,8 @@ print("GameLayer:OnResetGameEngin")
 		self.m_cbHeapCardInfo[i][2]=0
 		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
 print("== 堆立扑克11 SetCardData")
-print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
-		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
+		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
   end
 
   --self:ResetVariable()
@@ -997,10 +997,10 @@ print(i,j)
       cbSiceSecond = cbSiceSecond-(CardControl.HEAP_FULL_COUNT/2)
     end
     self.m_wHeapTail = wTakeChairID%4
-
+		--cbTakeCount = 最大库存 -剩余数目 -手牌*玩家数量
 		local cbTakeCount=cmd.MAX_REPERTORY-self.m_cbLeftCardCount-(cmd.MAX_COUNT-1)*cmd.GAME_PLAYER
 		self.m_wHeapHand = (self.m_wHeapTail+1)%4
-print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCardInfo[self.m_wHeapHand+1])
+print("剩余数量 m_cbLeftCardCount",self.m_cbLeftCardCount,cbTakeCount,self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCardInfo[self.m_wHeapHand+1])
 		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = cbTakeCount
     if cbTakeCount >= CardControl.HEAP_FULL_COUNT then
 			self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = CardControl.HEAP_FULL_COUNT
@@ -1008,6 +1008,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 			self.m_wHeapHand = (self.m_wHeapHand+1)%4
 			self.m_cbHeapCardInfo[self.m_wHeapHand+1][1] = self.m_wHeapHand
     end
+dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 
   	--堆立界面
 		for i=1,4.1 do
@@ -1016,7 +1017,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 		--换算出财神牌的位置
-		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
 		local bySicbo = bit:_rshift(cmd_data.wSiceCount3,8) + bit:_and(cmd_data.wSiceCount3, 0xff)
 		local byChairID = wMeChairID
     if byCount >= bySicbo then
@@ -1025,7 +1026,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 			byChairID = (self.m_wHeapTail + 4 - 1)%4
 			bySicbo =  bySicbo - byCount
     end
-		self._gameView.m_HeapCard[self:SwitchHeapViewChairID(byChairID)]:SetGodsCard(cmd_data.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][1])
+		self._gameView.m_HeapCard[self:SwitchHeapViewChairID(byChairID)]:SetGodsCard(cmd_data.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][2])
 
 		--历史扑克
     if self.m_wOutCardUser~=yl.INVALID_CHAIR then
@@ -2112,8 +2113,10 @@ end
 function GameLayer:DeductionTableCard(bHeadCard)
   if bHeadCard==true then
 		--切换索引
+print("== 扣除扑克")
+dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCardInfo[self.m_wHeapHand+1])
-		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
+		local cbHeapCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+self.m_cbHeapCardInfo[self.m_wHeapHand+1][2]
 
     if cbHeapCount==CardControl.HEAP_FULL_COUNT then
 			self.m_wHeapHand=(self.m_wHeapHand+1)%(GameLogic:table_leng(self.m_cbHeapCardInfo))
@@ -2143,7 +2146,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 
 		--减少扑克
 		self.m_cbLeftCardCount=self.m_cbLeftCardCount-1
-		self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]+1
+		self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]=self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]+1
 
 		--堆立扑克
 		local wHeapViewID=self:SwitchHeapViewChairID(self.m_wHeapTail)
@@ -2155,6 +2158,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 		self._gameView.m_HeapCard[wHeapViewID+1]:SetCardData(wMinusHeadCount,wMinusLastCount,CardControl.HEAP_FULL_COUNT)
   end
 
+dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 	return
 end
 
@@ -2473,7 +2477,7 @@ dump(bySicbo,"bySicbo",6)
 		--GetMeChairID 0 ~ 1 此处1起始 为 1 ~ 2
 		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
 		-- 换算出财神牌的位置
-		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
 		local bySicbo = bit:_rshift(pGamePlay.wSiceCount3,8) + bit:_and(pGamePlay.wSiceCount3, 0xff)
 		local byChairID = wMeChairID
     if byCount >= bySicbo then
@@ -2485,7 +2489,7 @@ dump(bySicbo,"bySicbo",6)
 		--转换椅子
 		local wViewChairID=self:SwitchHeapViewChairID(byChairID)
     --mark 不确定wViewChairID 下标是否正确
-		self._gameView.m_HeapCard[wViewChairID+1]:SetGodsCard(pGamePlay.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID+1][1])
+		self._gameView.m_HeapCard[wViewChairID+1]:SetGodsCard(pGamePlay.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID+1][2])
 
 		--更新界面
 		self._gameView:SetCenterText("")
@@ -2560,7 +2564,7 @@ dump(bySicbo,"bySicbo",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][1]-((i==0) and (cbSiceSecond-1)*2 or 0)
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0) and (cbSiceSecond-1)*2 or 0)
   			local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
         if i==1 then cbRemoveCount=cbTakeCount end
         self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]+cbRemoveCount*2
@@ -2585,7 +2589,7 @@ dump(bySicbo,"bySicbo",6)
 			--变量定义
 			local wViewChairID=self:SwitchHeapViewChairID(i)
 print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
-			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
     -------------------------------------------------------------------
 		byCardsIndex=GameLogic:sizeM(cmd.MAX_INDEX)
