@@ -172,7 +172,8 @@ end
 
 --绘画扑克
 function CCardListImage:DrawCardItem(id,index,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight)
-print("CCardListImage:DrawCardItem 绘画扑克==== id ...","id -> ",id,"index -> ", index,"cbCardData -> ", cbCardData ,"xDest -> ",xDest,"yDest -> ",yDest,"cbGodsData -> ",cbGodsData,"bDrawBack -> ",bDrawBack,"nItemWidth -> ",nItemWidth,"nItemHeight -> ",nItemHeight)
+print("CCardListImage:DrawCardItem 绘画扑克====","id-",id,"index-",index,"cbCardData-",cbCardData,"xDest-",xDest,"yDest-",yDest)
+print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth,"nItemHeight-",nItemHeight)
 	if bDrawBack then
 		--CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
 		CardControl.CCardList[id].m_CardBack:setPosition(100,yl.HEIGHT-60)
@@ -846,7 +847,7 @@ print("CUserCard:DrawCardControl",self.m_CardDirection)
 			--正常扑克
 			if self.m_wCardCount>0 then
 				local nXPos,nYPos=0,0
-				for i=1,self.m_wCardCount,1 do
+				for i=1,self.m_wCardCount+0,1 do
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+(i-1)*22+40
 					CCardResource.m_ImageUserRight:setPosition(nXPos,nYPos)
@@ -859,7 +860,7 @@ print("CUserCard:DrawCardControl",self.m_CardDirection)
 			--正常扑克
 			if self.m_wCardCount>0 then
 				local nXPos,nYPos=0,0
-				for i=1,self.m_wCardCount,1 do
+				for i=1,self.m_wCardCount+0,1 do
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y-(self.m_wCardCount-i-1-1)*22-92
 					CCardResource.m_ImageUserLeft:setPosition(nXPos,nYPos)
@@ -891,9 +892,10 @@ print("CUserCard:DrawCardControl",self.m_CardDirection)
 			if self.m_wCardCount>0 then
 		print("正常扑克 CCardResource.m_ImageUserTop")
 				local nXPos,nYPos=0,0
-				for i=1,self.m_wCardCount,1 do
+				for i=1,self.m_wCardCount+0,1 do
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+(i-1)*24+40
+			print("m_ImageUserTop x",nXPos)
 					CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
 						--:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -947,30 +949,30 @@ function CDiscardCard:DrawCardControl()
 print("CDiscardCard:DrawCardControl")
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nXPos=self.m_ControlPoint.x+((i-1)/8)*32
-				local nYPos=self.m_ControlPoint.y+((i-1)%8)*20
-				CCardListImage:DrawCardItem("m_ImageTableRight","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nXPos=self.m_ControlPoint.x+((i-1)/8)*32
+			local nYPos=self.m_ControlPoint.y+((i-1)%8)*20
+			CCardListImage:DrawCardItem("m_ImageTableRight","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
+		end
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1-i-1)/8)*32
-				local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)%8)*20
-				CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1-i-1)/8)*32
+			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)%8)*20
+			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
-		for i=1,self.m_wCardCount,1 do
+		for i=1,self.m_wCardCount+0,1 do
 			local nXPos=self.m_ControlPoint.x-((i-1)%14)*24
 			local nYPos=self.m_ControlPoint.y+((i-1)/14)*38
 			CCardListImage:DrawCardItem("m_ImageTableBottom","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
-		for i=1,self.m_wCardCount,1 do
+		for i=1,self.m_wCardCount+0,1 do
 			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*24
 			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)/14)*38-11
-			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
 		end
 	end
 end
@@ -1070,48 +1072,52 @@ end
 --绘画扑克
 function CTableCard:DrawCardControl()
 print("CDiscardCard:DrawCardControl")
+dump(self.m_cbCardData,"self.m_cbCardData",6)
+print("self.m_wCardCount",self.m_wCardCount)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nXPos=self.m_ControlPoint.x-33
-				local nYPos=self.m_ControlPoint.y+(i-1)*21
-				CCardListImage:DrawCardItem("m_ImageTableRight","CTableCard_"..i,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nXPos=self.m_ControlPoint.x-33
+			local nYPos=self.m_ControlPoint.y+(i-1)*21
+			CCardListImage:DrawCardItem("m_ImageTableRight","CTableCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+		end
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nXPos=self.m_ControlPoint.x
-				local nYPos=self.m_ControlPoint.y-(m_wCardCount-i-1)*21
-				CCardListImage:DrawCardItem("m_ImageTableLeft","CTableCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nXPos=self.m_ControlPoint.x
+			local nYPos=self.m_ControlPoint.y-(self.m_wCardCount-i-1)*21
+			CCardListImage:DrawCardItem("m_ImageTableLeft","CTableCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
+		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nYPos=self.m_ControlPoint.y-CardControl.CCardList["m_ImageWaveBottom"].m_nViewHeight
-				local nXPos=self.m_ControlPoint.x-(m_wCardCount-i-1)*39
-				CCardListImage:DrawCardItem("m_ImageWaveBottom","CTableCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nYPos=self.m_ControlPoint.y-CardControl.CCardList["m_ImageWaveBottom"].m_nViewHeight
+			local nXPos=self.m_ControlPoint.x-(self.m_wCardCount-i-1)*39
+			CCardListImage:DrawCardItem("m_ImageWaveBottom","CTableCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
+		end
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
-			--绘画扑克
-			for i=1,self.m_wCardCount,1 do
-				local nYPos=self.m_ControlPoint.y
-				local nXPos=self.m_ControlPoint.x+(i-1)*24
-				CCardListImage:DrawCardItem("m_ImageTableTop","CTableCard_"..i,self.m_cbCardData[self.m_wCardCount-i-1],nXPos,nYPos)
-			end
+		--绘画扑克
+		for i=1,self.m_wCardCount+0,1 do
+			local nYPos=self.m_ControlPoint.y
+			local nXPos=self.m_ControlPoint.x+(i-1)*24
+			CCardListImage:DrawCardItem("m_ImageTableTop","CTableCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+		end
 	end
 	return
 end
 
 --设置扑克
 function CTableCard:SetCardData(cbCardData,wCardCount)
+print("CTableCard:SetCardData")
 	if wCardCount>GameLogic:table_leng(self.m_cbCardData) then return false	end
 
 	--设置扑克
 	self.m_wCardCount=wCardCount
 	self.m_cbCardData=GameLogic:deepcopy(cbCardData)
 	--CopyMemory(m_cbCardData,cbCardData,sizeof(m_cbCardData[0])*wCardCount);
-
+dump(self.m_cbCardData,"self.m_cbCardData",6)
+print(self.m_wCardCount)
 	return true
 end
 
@@ -1242,7 +1248,7 @@ function CCardControl:GetHoverCard()
 			end
 			if bAllGods then
 				while true do
-					for i=1,self.m_wCardCount,1 do
+					for i=1,self.m_wCardCount+0,1 do
 						if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
 							bAllGods = false
 						break	end
@@ -1286,10 +1292,13 @@ print("设置扑克 CCardControl:SetCardData ",cbCardData,wCardCount,cbCurrentCa
 
 	--设置扑克
 	self.m_wCardCount=wCardCount
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		self.m_CardItemArray[i].bShoot=false
-		self.m_CardItemArray[i].cbCardData=cbCardData[i]
+		if cbCardData then	local tempD= cbCardData[i]	else	local tempD=0	end
+		self.m_CardItemArray[i].cbCardData=tempD 
 	end
+dump(cbCardData,"cbCardData",6)
+dump(self.m_CardItemArray,"self.m_CardItemArray",6)
 	return true
 end
 
@@ -1302,7 +1311,7 @@ print("设置扑克 CCardControl:SetCardItem ",CardItemArray,wCardCount)
 
 	--设置扑克
 	self.m_wCardCount=wCardCount
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		self.m_CardItemArray[i].bShoot=CardItemArray[i].bShoot
 		self.m_CardItemArray[i].cbCardData=CardItemArray[i].cbCardData
 	end
@@ -1349,7 +1358,7 @@ function CCardControl:UpdateCardDisable(bShowDisable)
 	local byIndexCount=GameLogic:sizeM(cmd.MAX_INDEX)  -- 牌的张数
 	if 0x00 == self.m_byGodsData then	return	end
 	local byGodsIndex = GameLogic:SwitchToCardIndex(self.m_byGodsData)
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
@@ -1418,7 +1427,7 @@ print("CCardControl:DrawCardControl",self.m_wCardCount)
 
 	GameLogic:SetGodsCard(self.m_byGodsData)
 	--绘画扑克
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		--计算位置
 		local nXScreenPos=nXExcursion+CardControl.CARD_WIDTH*(i-1)
 		local nYScreenPos=self.m_ControlPoint.y+(((self.m_CardItemArray[i].bShoot==false) and (self.m_wHoverItem~=(i-1))) and CardControl.POS_SHOOT or 0)
@@ -1511,7 +1520,7 @@ function CCardControl:GetMeOutCard()
 		return self.m_CurrentCard.cbCardData
 	end
 
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=self.m_CardItemArray[i].cbCardData
 		iIndex = GameLogic:SwitchToCardIndex(cbCardData)
 		if not self.m_bCardDisable[iIndex] and (cbCardData ~= self.m_byGodsData) then
@@ -1528,12 +1537,12 @@ end
 function CCardControl:SetShootCard(cbCard1,cbCard2,cbCard3)
 	--先全部放下
 	if cbCard1==0 and cbCard2==0 and cbCard3==0 then
-		for i=1,self.m_wCardCount,1 do
+		for i=1,self.m_wCardCount+0,1 do
 			self.m_CardItemArray[i].bShoot=false
 		end
 	end
 	local b1,b2,b3=false,false,false
-	for i=1,self.m_wCardCount,1 do
+	for i=1,self.m_wCardCount+0,1 do
 		if self.m_CardItemArray[i].cbCardData==cbCard1 and not b1 then
 			self.m_CardItemArray[i].bShoot=true
 			b1=true

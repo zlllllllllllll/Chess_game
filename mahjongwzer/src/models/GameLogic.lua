@@ -283,9 +283,12 @@ function GameLogic:RemoveCard_2(cbCardIndex,cbRemoveCard)
 	local cbRemoveIndex=GameLogic:SwitchToCardIndex(cbRemoveCard)
 	if cbCardIndex[cbRemoveIndex]>0 then
 		cbCardIndex[cbRemoveIndex]=cbCardIndex[cbRemoveIndex]-1
-		return true
+		--return true
+		return cbCardIndex
 	end
-	return false
+	print("error RemoveCard_2")
+	--return false
+	return cbCardIndex
 end
 
 --====   RemoveCard3
@@ -316,7 +319,8 @@ function GameLogic:RemoveCard_3(cbCardIndex,cbRemoveCard,cbRemoveCount)
 			break
     end
 	end
-	return true
+	--return true
+	return cbCardIndex
 end
 
 --====   RemoveCard4
@@ -361,7 +365,8 @@ function GameLogic:RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCoun
 		end
 	end
 
-	return true
+	--return true
+	return cbCardData
 end
 
 --有效判断
@@ -1012,30 +1017,6 @@ function GameLogic:IsBaDui(cbCardIndex,WeaveItem,cbWeaveCount)
 end
 
 --扑克转换
-function GameLogic:SwitchToCardData(...)
-	local arg={...}
-	local len=#arg
-	if len==1 then	return GameLogic:SwitchToCardData_1(arg[1])
-	elseif len==2 then	return GameLogic:SwitchToCardData_2(arg[1],arg[2])
-	else	print("SwitchToCardData 参数个数不符合")
-	end
-end
---BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex)
-function GameLogic:SwitchToCardData_1(cbCardIndex)
-	if GameLogic.m_byGodsCardData>0 then
-			if GameLogic:SwitchToCardIndex(GameLogic.BAIBAN_CARD_DATA) == cbCardIndex then
-				return GameLogic.BAIBAN_CARD_DATA
-			elseif GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData) == cbCardIndex then
-				return GameLogic.m_byGodsCardData
-			else
-				return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
-			end
-	end
-
-	return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
-end
-
---扑克转换
 function GameLogic:SwitchToCardIndex(...)
 	local arg={...}
 	local len=#arg
@@ -1058,6 +1039,52 @@ function GameLogic:SwitchToCardIndex_1(cbCardData)
 	local tem_val3=bit:_and(cbCardData, GameLogic.MASK_VALUE)-1
 --print(tem_val1,tem_val2,tem_val3,tem_val2+tem_val3)
 	return tem_val2+tem_val3 
+end
+
+--扑克转换
+--BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX])
+function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
+	--设置变量
+	--cbCardIndex={}
+  	cbCardIndex=GameLogic:sizeM(GameLogic:table_leng(cbCardIndex))
+
+	--转换扑克
+	for i=1,cbCardCount,1 do
+		local tem_i =GameLogic:SwitchToCardIndex(cbCardData[i])
+        --print(tem_i)
+		cbCardIndex[tem_i+1]=cbCardIndex[tem_i+1]+1
+	end
+
+	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1
+	return cbCardCount
+end
+
+function GameLogic:SetGodsCard(byCardData)
+	GameLogic.m_byGodsCardData=byCardData
+end
+
+--扑克转换
+function GameLogic:SwitchToCardData(...)
+	local arg={...}
+	local len=#arg
+	if len==1 then	return GameLogic:SwitchToCardData_1(arg[1])
+	elseif len==2 then	return GameLogic:SwitchToCardData_2(arg[1],arg[2])
+	else	print("SwitchToCardData 参数个数不符合")
+	end
+end
+--BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex)
+function GameLogic:SwitchToCardData_1(cbCardIndex)
+	if GameLogic.m_byGodsCardData>0 then
+			if GameLogic:SwitchToCardIndex(GameLogic.BAIBAN_CARD_DATA) == cbCardIndex then
+				return GameLogic.BAIBAN_CARD_DATA
+			elseif GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData) == cbCardIndex then
+				return GameLogic.m_byGodsCardData
+			else
+				return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
+			end
+	end
+
+	return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
 end
 
 --扑克转换
@@ -1091,29 +1118,7 @@ function GameLogic:SwitchToCardData_2(cbCardIndex,cbCardData)
 		break	end
 	end
 
-	return cbPosition
-end
-
-function GameLogic:SetGodsCard(byCardData)
-	GameLogic.m_byGodsCardData=byCardData
-end
-
---扑克转换
---BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData[], BYTE cbCardCount, BYTE cbCardIndex[MAX_INDEX])
-function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
-	--设置变量
-	--cbCardIndex={}
-  	cbCardIndex=GameLogic:sizeM(GameLogic:table_leng(cbCardIndex))
-
-	--转换扑克
-	for i=1,cbCardCount,1 do
-		local tem_i =GameLogic:SwitchToCardIndex(cbCardData[i])
-        --print(tem_i)
-		cbCardIndex[tem_i+1]=cbCardIndex[tem_i+1]+1
-	end
-
-	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1
-	return cbCardCount
+	return cbPosition,cbCardData
 end
 
 --分析扑克
