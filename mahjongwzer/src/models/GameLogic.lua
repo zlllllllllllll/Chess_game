@@ -1054,9 +1054,8 @@ function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
         --print(tem_i)
 		cbCardIndex[tem_i+1]=cbCardIndex[tem_i+1]+1
 	end
-
 	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1
-	return cbCardCount
+	return cbCardCount,cbCardIndex
 end
 
 function GameLogic:SetGodsCard(byCardData)

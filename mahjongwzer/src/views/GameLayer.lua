@@ -891,7 +891,8 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
 print("===mark 1") --之前GameLogic 中的形参 中参数变成类似self 所有方法改为:
 dump(cmd_data,"cmd_data",6)
 		--GameLogic:SwitchToCardIndex(cmd_data.cbCardData[1],cmd_data.cbCardCount,self.m_cbCardIndex)
-		GameLogic:SwitchToCardIndex(cmd_data.cbCardData,cmd_data.cbCardCount,self.m_cbCardIndex)
+		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData,cmd_data.cbCardCount,self.m_cbCardIndex)
+		self.m_cbCardIndex=arg2
     self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex, cmd.MAX_INDEX)
 
     --辅助变量
@@ -1373,17 +1374,17 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],Ca
 			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
     -------------------------------------------------------------------
+		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)  --添加
 		local byCardsIndex=GameLogic:sizeM(cmd.MAX_INDEX)
-		GameLogic:SwitchToCardIndex(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
+		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData[wMeChairID+1],cbCardCount,byCardsIndex)
+	dump(byCards,"byCards",6)
+		byCardsIndex=arg2
 	print(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
-	print("===========here !!",GameLogic:SwitchToCardIndex(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex))
 
 		local byCards=GameLogic:sizeM(cmd.MAX_COUNT)
 		local arg1,arg2=GameLogic:SwitchToCardData(byCardsIndex, byCards)
-	dump(arg2,"arg2",6)
 		byCards = arg2
-	print(byCardsIndex, byCards)
-	print("===========here !!",GameLogic:SwitchToCardData(byCardsIndex, byCards))
+	dump(byCards,"byCards",6)
 
   	--扑克设置
     for i=1,cmd.GAME_PLAYER,1 do
@@ -1465,7 +1466,8 @@ print("===mark 2")
 			self.m_cbCardIndex=GameLogic:RemoveCard(self.m_cbCardIndex,cmd_data.cbOutCardData)
 
 			--设置扑克
-			local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			local cbCardCount,arg2=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			cbCardData=arg2
 	print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
@@ -1709,7 +1711,8 @@ function GameLayer:onSubOperateResult(dataBuffer)
 		--设置扑克
     if self:GetMeChairID() == wOperateUser then
 			local cbCardData={}
-			local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			local cbCardCount,arg2=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			cbCardData=arg2
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
 			local wUserIndex=(wOperateViewID>=3)and 2 or wOperateViewID
@@ -1744,7 +1747,8 @@ function GameLayer:onSubOperateResult(dataBuffer)
 		--设置扑克
     if self:GetMeChairID() == wOperateUser then
 			local cbCardData={}
-			local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			local cbCardCount,arg2=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+			cbCardData=arg2
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount-1,cbCardData[cbCardCount-1])
     else
 			local wUserIndex=(wOperateViewID>=3)and 2 or wOperateViewID
@@ -2434,7 +2438,8 @@ print(" OnOutCard ",wParam, lParam)
 
 	--设置扑克
 	local cbCardData={}
-	local cbCardCount=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+	local cbCardCount,arg2=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
+	cbCardData=arg2
 print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
 	self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
 
@@ -2570,7 +2575,8 @@ dump(bySicbo,"bySicbo",6)
 		--设置扑克
 		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
 		--GetMeChairID 0 ~ 1 此处1起始 为 1 ~ 2
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
+		local arg1,arg2=GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
+		self.m_cbCardIndex=arg2
 		-- 换算出财神牌的位置
 		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
 		local bySicbo = bit:_rshift(pGamePlay.wSiceCount3,8) + bit:_and(pGamePlay.wSiceCount3, 0xff)
@@ -2620,7 +2626,8 @@ dump(bySicbo,"bySicbo",6)
 
 		--设置扑克
 		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
+		local aarg1,arg2=GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],cbCardCount,self.m_cbCardIndex)
+		self.m_cbCardIndex=arg2
 
 		--设置界面
 		local bPlayerMode=true
@@ -2693,12 +2700,14 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],Ca
 		local byCardsIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 		-- BYTE byCardsIndex[MAX_INDEX]={0};
 		-- ZeroMemory(byCardsIndex,sizeof(byCardsIndex));
-		GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
+		local arg1,arg2=GameLogic:SwitchToCardIndex(pGamePlay.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
+		byCardsIndex=arg2
 
 		local byCards=GameLogic:sizeM(cmd.MAX_COUNT)
 		-- BYTE byCards[MAX_COUNT]={0};
 		-- ZeroMemory(byCards,sizeof(byCards));
-		GameLogic:SwitchToCardData(byCardsIndex, byCards)
+		local arg1,arg2=GameLogic:SwitchToCardData(byCardsIndex, byCards)
+		byCards=arg2
 
   	--扑克设置
     for i=1,cmd.GAME_PLAYER,1 do

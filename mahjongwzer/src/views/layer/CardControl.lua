@@ -895,7 +895,7 @@ print("CUserCard:DrawCardControl",self.m_CardDirection)
 				for i=1,self.m_wCardCount+0,1 do
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+(i-1)*24+40
-			print("m_ImageUserTop x",nXPos)
+			print("m_ImageUserTop x",nXPos,nYPos)
 					CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
 						--:setColor(cc.c3b(255, 0, 255))
 						:setVisible(true)
@@ -1073,7 +1073,7 @@ end
 function CTableCard:DrawCardControl()
 print("CDiscardCard:DrawCardControl")
 dump(self.m_cbCardData,"self.m_cbCardData",6)
-print("self.m_wCardCount",self.m_wCardCount)
+print("self.m_wCardCount",self.m_wCardCount,self.m_CardDirection)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
@@ -1294,7 +1294,8 @@ print("设置扑克 CCardControl:SetCardData ",cbCardData,wCardCount,cbCurrentCa
 	self.m_wCardCount=wCardCount
 	for i=1,self.m_wCardCount+0,1 do
 		self.m_CardItemArray[i].bShoot=false
-		if cbCardData then	local tempD= cbCardData[i]	else	local tempD=0	end
+		local tempD=0
+		if cbCardData then	tempD= cbCardData[i] end
 		self.m_CardItemArray[i].cbCardData=tempD 
 	end
 dump(cbCardData,"cbCardData",6)
