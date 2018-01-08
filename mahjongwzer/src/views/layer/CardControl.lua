@@ -833,7 +833,7 @@ end
 
 --绘画扑克
 function CUserCard:DrawCardControl()
-print("CUserCard:DrawCardControl",self.m_CardDirection)
+print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--当前扑克
 			if self.m_bCurrentCard==true then
@@ -896,9 +896,11 @@ print("CUserCard:DrawCardControl",self.m_CardDirection)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+(i-1)*24+40
 			print("m_ImageUserTop x",nXPos,nYPos)
-					CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
-						--:setColor(cc.c3b(255, 0, 255))
-						:setVisible(true)
+					-- CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
+					-- 	--:setColor(cc.c3b(255, 0, 255))
+					-- 	:setVisible(true)
+
+					display.newSprite("res/game/CARD_USER_TOP.png"):setPosition(nXPos,600) :addTo(self)
 				end
 			end
 	end
@@ -915,6 +917,7 @@ end
 
 --设置扑克
 function CUserCard:SetCardData(wCardCount,bCurrentCard)
+print("CUserCard:SetCardData",wCardCount,bCurrentCard)
 	--设置变量
 	self.m_wCardCount=wCardCount
 	self.m_bCurrentCard=bCurrentCard
@@ -1154,7 +1157,7 @@ function CCardControl:ctor()
 	CCardControl.m_ControlSize.cy=CardControl.CARD_HEIGHT+CardControl.POS_SHOOT
 	CCardControl.m_ControlSize.cx=(GameLogic:table_leng(CCardControl.m_CardItemArray)+1)*CardControl.CARD_WIDTH+CardControl.POS_SPACE
 	CCardControl.m_cbOutCardIndex=GameLogic:sizeM(cmd.MAX_INDEX) 
-	CCardControl.m_bCardDisable=GameLogic:sizeM(cmd.MAX_INDEX)
+	CCardControl.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX)
 	CCardControl.m_bShowDisable = false
 	CCardControl.pWnd=nil
 	--HINSTANCE hInstance=AfxGetInstanceHandle()
@@ -1236,7 +1239,7 @@ function CCardControl:GetHoverCard()
 		end
 
 		GameLogic:SetGodsCard(self.m_byGodsData)
-		local byIndex = GameLogic:SwitchToCardIndex(byCardData)
+		local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
 		if self.m_bCardDisable[byIndex] then
 			byCardData = 0x00
 		end
@@ -1349,7 +1352,8 @@ function CCardControl:SetGodsCard(cbCardData)
 end
 
 function CCardControl:UpdateCardDisable(bShowDisable)
-	self.m_bCardDisable={}
+print("CCardControl:UpdateCardDisable",bShowDisable)
+	self.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX) 
 	self.m_bShowDisable = bShowDisable
 	if not bShowDisable then	return end
 	GameLogic:SetGodsCard(self.m_byGodsData)
@@ -1358,11 +1362,15 @@ function CCardControl:UpdateCardDisable(bShowDisable)
 	local bHaveSingle = false
 	local byIndexCount=GameLogic:sizeM(cmd.MAX_INDEX)  -- 牌的张数
 	if 0x00 == self.m_byGodsData then	return	end
-	local byGodsIndex = GameLogic:SwitchToCardIndex(self.m_byGodsData)
+	local byGodsIndex = GameLogic:SwitchToCardIndex(self.m_byGodsData)+1
+dump(self.m_CardItemArray,"m_CardItemArray",6)
 	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
+print(self.m_CardItemArray[i].cbCardData,cbCardData)
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
+			--local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
+print("byIndex-",byIndex)
 			byIndexCount[byIndex]=byIndexCount[byIndex]+1
 		end
 	end
@@ -1370,7 +1378,7 @@ function CCardControl:UpdateCardDisable(bShowDisable)
 	if self.m_CurrentCard.cbCardData~=0 then
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
-			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
+			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			byIndexCount[byIndex]=byIndexCount[byIndex]+1
 		end
 	end
@@ -1384,7 +1392,7 @@ function CCardControl:UpdateCardDisable(bShowDisable)
 		end
 	break end
 	if not bHaveSingle then  --没有单张的风,所有牌可以出
-		self.m_bCardDisable={}
+		self.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX)
 		return
 	end
 
@@ -1437,7 +1445,7 @@ print("CCardControl:DrawCardControl",self.m_wCardCount)
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
 print(i,cbCardData,self.m_bShowDisable,nXScreenPos,nYScreenPos)
 		if (0 ~= cbCardData) and self.m_bShowDisable then
-			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
+			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_"..i,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData)
 		else
 			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_"..i,cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData)
@@ -1455,7 +1463,7 @@ print(i,cbCardData,self.m_bShowDisable,nXScreenPos,nYScreenPos)
 	print("!!! 当前",self.m_CurrentCard.cbCardData,cbCardData,self.m_bShowDisable)
 	--mark self.m_CurrentCard.cbCardData 暂时替换i 先显示
 		if (0 ~= cbCardData) and self.m_bShowDisable then
-			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
+			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
 		else
 			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
@@ -1516,14 +1524,14 @@ end
 function CCardControl:GetMeOutCard()
 	GameLogic:SetGodsCard(self.m_byGodsData)
 
-	local iIndex = GameLogic:SwitchToCardIndex(self.m_CurrentCard.cbCardData)
+	local iIndex = GameLogic:SwitchToCardIndex(self.m_CurrentCard.cbCardData)+1
 	if not self.m_bCardDisable[iIndex] and (self.m_CurrentCard.cbCardData ~= self.m_byGodsData) then
 		return self.m_CurrentCard.cbCardData
 	end
 
 	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=self.m_CardItemArray[i].cbCardData
-		iIndex = GameLogic:SwitchToCardIndex(cbCardData)
+		iIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 		if not self.m_bCardDisable[iIndex] and (cbCardData ~= self.m_byGodsData) then
 			return cbCardData
 		end

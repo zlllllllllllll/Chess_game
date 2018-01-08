@@ -491,7 +491,8 @@ print("GameViewLayer:RectifyControl(nWidth,nHeight)",nWidth,nHeight)
 	--对方在游戏过程中，手中的牌
 	self.m_UserCard[1]:SetControlPoint(nWidth/2-210,self.m_nYBorder+self.m_nYFace+20)
 	--自己在游戏过程中，手中的牌
-	self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20,CardControl.enXCenter,CardControl.enYBottom)
+	--self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,nHeight-self.m_nYFace-self.m_nYBorder-20,CardControl.enXCenter,CardControl.enYBottom)
+	self.m_HandCardControl:SetBenchmarkPos(nWidth/2-20,self.m_nYFace+self.m_nYBorder+100,CardControl.enXCenter,CardControl.enYBottom)
 
 	--桌面扑克，即游戏结束后显示的牌
 	self.m_TableCard[1]:SetControlPoint(nWidth/2-179,self.m_nYBorder+self.m_nYFace+20)							--对方的
@@ -916,7 +917,6 @@ print(self.m_wCurrentUser,yl.INVALID_CHAIR)
 			-- 	end
 			-- end	
 
-
 			if pUserData.cbUserStatus==yl.US_READY then
 				if not self.OpponentReady then
 					self.OpponentReady=display.newSprite("res/game/READY.png")
@@ -949,6 +949,12 @@ print(self.m_wCurrentUser,yl.INVALID_CHAIR)
 	self:DrawSicboAnim(pDC)
 	return
 end
+--取消准备显示 游戏开始
+function GameViewLayer:canceShowlReady()
+	if self.OpponentReady then self.OpponentReady:removeFromParent() end
+	if self.meReady then self.meReady:removeFromParent() end
+	self.meReady,self.OpponentReady=nil,nil
+end
 
 --准备显示
 function GameViewLayer:showReady(id,isShow)
@@ -959,7 +965,10 @@ function GameViewLayer:showReady(id,isShow)
 		--:setColor(cc.c3b(255, 0, 255))
 		:setVisible(true)
 		:addTo(self)
-	if id==1 then self.OpponentReady=Ready end
+	if id==1 then self.OpponentReady=Ready 
+	else
+		self.meReady=Ready 
+	end
 end
 
 function GameViewLayer:deleteUserInfo( useritem )

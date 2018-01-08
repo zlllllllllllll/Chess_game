@@ -49,7 +49,7 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   --ZeroMemory(m_cbDiscardCard,sizeof(m_cbDiscardCard))
   --ZeroMemory(m_cbDiscardCount,sizeof(m_cbDiscardCount))   下同
   self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
-  self.m_cbDiscardCount={}
+  self.m_cbDiscardCount=GameLogic:sizeM(cmd.GAME_PLAYER)
 
 
   --组合扑克
@@ -833,6 +833,7 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
 	elseif cbGameStatus == cmd.GS_MJ_PLAY then          --游戏状态
 		print("游戏状态")
 		local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_StatusPlay, dataBuffer)
+		dump(cmd_data,"CMD_S_StatusPlay",6)
 
     --设置变量
     self.m_wBankerUser=cmd_data.wBankerUser
@@ -848,7 +849,7 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
     --托管设置
     for i=1,cmd.GAME_PLAYER,1 do
       local wChairID = self:SwitchViewChairID(i-1)
-      byUserDingDi[wChairID] = cmd_data.byDingDi[i]
+      byUserDingDi[wChairID] = cmd_data.byDingDi[1][i]
       self._gameView:SetTrustee(wChairID,cmd_data.bTrustee[i])
     end
 
@@ -877,7 +878,7 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
     self.m_wOutCardUser=cmd_data.wOutCardUser
     self.m_cbOutCardData=cmd_data.cbOutCardData
     self.m_cbDiscardCard=GameLogic:deepcopy(cmd_data.cbDiscardCard)
-    self.m_cbDiscardCount=GameLogic:deepcopy(cmd_data.cbDiscardCount)
+    self.m_cbDiscardCount=GameLogic:deepcopy(cmd_data.cbDiscardCount[1])
 
     --丢弃效果
     if self.m_wOutCardUser~= yl.INVALID_CHAIR then
@@ -886,7 +887,7 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
     self:F_GVSetTimer(self._gameView.IDI_DISC_EFFECT,250)
 
     --扑克变量
-    self.m_cbWeaveCount=GameLogic:deepcopy(cmd_data.cbWeaveCount)
+    self.m_cbWeaveCount=GameLogic:deepcopy(cmd_data.cbWeaveCount[1])
 		self.m_WeaveItemArray=GameLogic:deepcopy(cmd_data.WeaveItemArray)
 print("===mark 1") --之前GameLogic 中的形参 中参数变成类似self 所有方法改为:
 dump(cmd_data,"cmd_data",6)
@@ -914,7 +915,7 @@ dump(self.m_WeaveItemArray,"self.m_WeaveItemArray",6)
     for i=1,cmd.GAME_PLAYER,1 do
 			local wOperateViewID = self:SwitchViewChairID(i-1)
 			for j=1,self.m_cbWeaveCount[i],1 do
-			--for j=1,self.m_cbWeaveCount[1][i],1 do
+			--for j=1,self.m_cbWeaveCount[i],1 do
 				if j<=5 then
 print(i,j)
 				local cbWeaveKind=self.m_WeaveItemArray[i][j].cbWeaveKind
@@ -944,8 +945,12 @@ print(i,j)
 				local cbRemoveCard={cmd_data.cbSendCardData}
 
 				--调整扑克
-				cmd_data.cbCardData=GameLogic:RemoveCard(cmd_data.cbCardData,cbCardCount,cbRemoveCard,1)
-				cmd_data.cbCardData[cmd_data.cbCardCount-1]=cmd_data.cbSendCardData
+		dump(cmd_data.cbCardData,"cmd_data.cbCardData",6)
+				cmd_data.cbCardData[1]=GameLogic:RemoveCard(cmd_data.cbCardData[1],cbCardCount,cbRemoveCard,1)
+		dump(cmd_data.cbCardData,"cmd_data.cbCardData",6)
+				--cmd_data.cbCardData[cmd_data.cbCardCount-1]=cmd_data.cbSendCardData
+				cmd_data.cbCardData[cmd_data.cbCardCount+1]=cmd_data.cbSendCardData
+		dump(cmd_data.cbCardData,"cmd_data.cbCardData",6)
       end
       --设置扑克
       local cbCardCount=cmd_data.cbCardCount
@@ -957,7 +962,7 @@ print(i,j)
 		--扑克设置
     for i=1,cmd.GAME_PLAYER,1 do
       -- 用户扑克
-      if i ~= self:GetMeChairID() then
+      if i ~= self:GetMeChairID()+1 then
 				local cbCardCount=13-self.m_cbWeaveCount[i]*3
 				local wUserCardIndex=(wViewChairID[i]<2) and wViewChairID[i] or 2
 				self._gameView.m_UserCard[wUserCardIndex]:SetCardData(cbCardCount,(self.m_wCurrentUser==i))
@@ -1228,7 +1233,7 @@ function GameLayer:OnSubGamePlay(dataBuffer)
 	self.m_cbOutCardData=0
 	self.m_wOutCardUser=yl.INVALID_CHAIR
   self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
-  self.m_cbDiscardCount={}
+  self.m_cbDiscardCount=GameLogic:sizeM(cmd.GAME_PLAYER)
 
 	--组合扑克
   self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
@@ -1239,6 +1244,8 @@ function GameLayer:OnSubGamePlay(dataBuffer)
 	--bool bPlayerMode=(IsLookonMode()==false);
 	local bPlayerMode=true
 	self._gameView:SetDiscUser(yl.INVALID_CHAIR)
+	--移除双方准备显示
+	self._gameView:canceShowlReady()
 
 	--旁观界面
   --[[
@@ -1401,7 +1408,8 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],Ca
 			--用户扑克
       if i~=wMeChairID+1 then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
-				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((cmd_data.cbCardData[wMeChairID+1]))-1,(i==self.m_wBankerUser))
+print("对手扑克== ",wIndex,wViewChairID)
+				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((cmd_data.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
       else
 				local cbBankerCard=(i==self.m_wBankerUser) and cmd_data.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
 print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBankerCard)
@@ -1601,7 +1609,7 @@ end
 function GameLayer:onSubOperateNotify(dataBuffer)
 	print("操作提示")
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_OperateNotify, dataBuffer)
-	--dump(cmd_data, "CMD_S_OperateNotify")
+	dump(cmd_data, "CMD_S_OperateNotify")
 
 	--用户界面
 	--if ((IsLookonMode()==false)&&(pOperateNotify->cbActionMask!=WIK_NULL))
@@ -2366,7 +2374,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 	self.m_cbOutCardData=0
 	self.m_wOutCardUser=yl.INVALID_CHAIR
   self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
-  self.m_cbDiscardCount={}
+  self.m_cbDiscardCount=GameLogic:sizeM(cmd.GAME_PLAYER)
 
 	--组合扑克
   self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
@@ -2615,7 +2623,7 @@ dump(bySicbo,"bySicbo",6)
 		self.m_cbOutCardData=0
 		self.m_wOutCardUser=yl.INVALID_CHAIR
     self.m_cbDiscardCard=GameLogic:ergodicList(cmd.GAME_PLAYER)
-    self.m_cbDiscardCount={}
+    self.m_cbDiscardCount=GameLogic:sizeM(cmd.GAME_PLAYER)
 
 		--组合扑克
   	self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
@@ -2726,7 +2734,7 @@ print("===mark 3",wMeChairID)
 dump(pGamePlay,"pGamePlay",6)
       if i~=wMeChairID+1 then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
-				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1]))-1,(i==self.m_wBankerUser))
+				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
       else
 				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
 print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBankerCard)

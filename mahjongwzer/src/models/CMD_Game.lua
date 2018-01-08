@@ -92,7 +92,7 @@ cmd.SUB_S_GAME_PLAY			=	109									-- 游戏正式开始
 --游戏状态
 cmd.CMD_S_StatusFree=
 {
-	{k = "lCellScore", t = "int"},							--基础金币
+	{k = "lCellScore", t = "score"},							--基础金币
 	{k = "wBankerUser", t = "word"},						--庄家用户
 	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}},		--是否托管
 	{k = "szRoomName", t = "string", s = 32}
@@ -100,8 +100,8 @@ cmd.CMD_S_StatusFree=
 
 cmd.CMD_S_StatusMaiDi=
 {
-	{k = "lCellScore", t = "int"},							--基础金币
-	{k = "lBaseScore", t = "int"},							--底分
+	{k = "lCellScore", t = "score"},							--基础金币
+	{k = "lBaseScore", t = "score"},							--底分
 	{k = "wBankerUser", t = "word"},						--庄家用户
 	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}},		--是否托管
 	{k = "bBankerMaiDi", t = "bool"},	    			-- 庄家是否需要买底
@@ -113,7 +113,7 @@ cmd.CMD_S_StatusMaiDi=
 cmd.CMD_S_StatusPlay=
 {
 	--游戏变量
-	{k = "lCellScore", t = "int"},								-- 单元积分
+	{k = "lCellScore", t = "score"},							-- 单元积分
 	{k = "wSiceCount1", t = "word"},							-- 骰子点数
 	{k = "wSiceCount2", t = "word"},							-- 骰子点数
 	{k = "wSiceCount3", t = "word"},							-- 骰子点数
@@ -154,7 +154,7 @@ cmd.CMD_S_GameStart=
 {
 	{k = "wBankerUser", t = "word"},							--庄家用户
 	{k="bBankerCount",t="byte"},
-	{k = "lBaseScore", t = "int"},								-- 底分
+	{k = "lBaseScore", t = "score"},								-- 底分
 	{k = "bMaiDi", t = "bool"},    								-- 庄家是否可以买底
 	{k = "bTrustee", t = "bool", l = {cmd.GAME_PLAYER}}			--是否托管
 }
@@ -212,7 +212,7 @@ cmd.CMD_S_OperateResult=
 --游戏结束
 cmd.CMD_S_GameEnd=
 {
-	{k = "lGameTax", t = "int"},								--游戏税收
+	{k = "lGameTax", t = "score"},								--游戏税收
 	--结束信息
 	{k="wProvideUser",t="word"},								--供应用户
 	{k="cbProvideCard",t="byte"},								--供应扑克
@@ -221,8 +221,8 @@ cmd.CMD_S_GameEnd=
 	{k ="byDingDi", t = "byte", l = {cmd.GAME_PLAYER}},
 
 	--积分信息
-	{k ="lGameScore", t = "int", l = {cmd.GAME_PLAYER}},		--游戏积分
-	{k ="lGodsScore", t = "int", l = {cmd.GAME_PLAYER}},		--游戏积分
+	{k ="lGameScore", t = "score", l = {cmd.GAME_PLAYER}},		--游戏积分
+	{k ="lGodsScore", t = "score", l = {cmd.GAME_PLAYER}},		--游戏积分
 
 	--扑克信息
 	{k ="cbCardCount", t = "byte", l = {cmd.GAME_PLAYER}},		--扑克数目

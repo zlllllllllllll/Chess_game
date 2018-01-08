@@ -195,6 +195,13 @@ function GameLogic:sizeM(b)
 	end
 	return a
 end
+function GameLogic:sizeF(b)
+	a={}
+	for i=1,b,1 do
+		a[i]=false
+	end
+	return a
+end
 
 function GameLogic:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight)
 	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft)
