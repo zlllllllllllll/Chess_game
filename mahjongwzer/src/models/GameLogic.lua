@@ -332,6 +332,7 @@ end
 
 --====   RemoveCard4
 function GameLogic:RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCount)
+print("RemoveCard_4",cbCardData,cbCardCount,cbRemoveCard,cbRemoveCount)
 	--检验数据
 	-- ASSERT(cbCardCount<=MAX_COUNT);
 	-- ASSERT(cbRemoveCount<=cbCardCount);
@@ -348,18 +349,20 @@ function GameLogic:RemoveCard_4(cbCardData,cbCardCount,cbRemoveCard,cbRemoveCoun
 	--置零扑克
 	for i=1,cbRemoveCount,1 do
 		while true do
-			for j=1,cbCardCount,1 do
-				if cbRemoveCard[i]==cbTempCardData[j] then
-					cbDeleteCount=cbDeleteCount+1
-					cbTempCardData[j]=0
-				break	end
-			end
+		for j=1,cbCardCount,1 do
+			if cbRemoveCard[i]==cbTempCardData[j] then
+				cbDeleteCount=cbDeleteCount+1
+				cbTempCardData[j]=0
+			break	end
+		end
 		break	end
 	end
 
 	--成功判断
+print("RemoveCard_4 成功判断",cbDeleteCount,cbRemoveCount)
 	if cbDeleteCount~=cbRemoveCount then
 		--ASSERT(FALSE);
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RemoveCard_4 false",cbDeleteCount,cbRemoveCount)
 		return false
 	end
 
@@ -608,15 +611,18 @@ function GameLogic:AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 	--ZeroMemory(&GangCardResult,sizeof(GangCardResult))
 	--GangCardResult=nil
 	GangCardResult={}
+	GangCardResult.cbCardCount=0
+	GangCardResult.cbCardData=GameLogic:sizeM(4)
+	GangCardResult.cbGangType=0
 
 	--手上杠牌
 	for i=1,cmd.MAX_INDEX,1 do
 		if cbCardIndex[i]==4 then
 			cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
-			if GangCardResult.cbCardCount then print("!!!AnalyseGangCard GangCardResult.cbCardCount 不能为nil") return end
-			GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic.WIK_GANG
+		print("AnalyseGangCard GangCardResult.cbCardCount ",GangCardResult.cbCardCount)
+			GangCardResult.cbCardData[GangCardResult.cbCardCount+1]=GameLogic.WIK_GANG
 			GangCardResult.cbCardCount=GangCardResult.cbCardCount+1
-			GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic:SwitchToCardData(i)
+			GangCardResult.cbCardData[GangCardResult.cbCardCount+1]=GameLogic:SwitchToCardData(i)
 		end
 	end
 
@@ -626,9 +632,9 @@ function GameLogic:AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 			if cbCardIndex[GameLogic:SwitchToCardIndex(WeaveItem[i].cbCenterCard)]==1 then
 				cbActionMask=bit:_or(cbActionMask,GameLogic.WIK_GANG)
 
-				GangCardResult.cbCardData[GangCardResult.cbCardCount]=GameLogic.WIK_GANG
+				GangCardResult.cbCardData[GangCardResult.cbCardCount+1]=GameLogic.WIK_GANG
 				GangCardResult.cbCardCount=GangCardResult.cbCardCount+1
-				GangCardResult.cbCardData[GangCardResult.cbCardCount]=WeaveItem[i].cbCenterCard
+				GangCardResult.cbCardData[GangCardResult.cbCardCount+1]=WeaveItem[i].cbCenterCard
 			end
 		end
 	end

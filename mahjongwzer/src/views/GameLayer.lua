@@ -946,6 +946,7 @@ print(i,j)
 
 				--调整扑克
 		dump(cmd_data.cbCardData,"cmd_data.cbCardData",6)
+	--断线重连时 cbCardCount cmd_data.cbCardCount 为0 RemoveCard 返回为false 不正确 error 
 				cmd_data.cbCardData[1]=GameLogic:RemoveCard(cmd_data.cbCardData[1],cbCardCount,cbRemoveCard,1)
 		dump(cmd_data.cbCardData,"cmd_data.cbCardData",6)
 				--cmd_data.cbCardData[cmd_data.cbCardCount-1]=cmd_data.cbSendCardData
@@ -1024,7 +1025,7 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
       self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
 		--换算出财神牌的位置
-		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
+		local byCount = CardControl.HEAP_FULL_COUNT - self.m_cbHeapCardInfo[self.m_wHeapTail+0][2]
 		local bySicbo = bit:_rshift(cmd_data.wSiceCount3,8) + bit:_and(cmd_data.wSiceCount3, 0xff)
 		local byChairID = wMeChairID
     if byCount >= bySicbo then
@@ -1032,8 +1033,9 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
     else
 			byChairID = (self.m_wHeapTail + 4 - 1)%4
 			bySicbo =  bySicbo - byCount
-    end
-		self._gameView.m_HeapCard[self:SwitchHeapViewChairID(byChairID)]:SetGodsCard(cmd_data.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][2])
+		end
+	print(self:SwitchHeapViewChairID(byChairID))
+		self._gameView.m_HeapCard[self:SwitchHeapViewChairID(byChairID)+1]:SetGodsCard(cmd_data.byGodsCardData,bySicbo, self.m_cbHeapCardInfo[byChairID][2])
 
 		--历史扑克
     if self.m_wOutCardUser~=yl.INVALID_CHAIR then
@@ -1493,7 +1495,7 @@ end
 --发牌消息
 function GameLayer:onSubSendCard(dataBuffer)
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_SendCard, dataBuffer)
-	--dump(cmd_data, "CMD_S_SendCard")
+	dump(cmd_data, "CMD_S_SendCard")
 	print("发送扑克", cmd_data.cbCardData)
 
 	--设置变量
@@ -1531,6 +1533,7 @@ print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCar
 
 	--当前用户
 	--if ((IsLookonMode()==false)&&(m_wCurrentUser==wMeChairID))
+	print("当前用户",self.m_wCurrentUser,wMeChairID)
   if self.m_wCurrentUser==wMeChairID then
 		--激活框架
 		--ActiveGameFrame();
@@ -1570,11 +1573,13 @@ print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCar
 	self._gameView:SetStatusFlag((self.m_wCurrentUser==wMeChairID),false)
 
   --if (!IsLookonMode() && m_wCurrentUser == wMeChairID)
+	print("当前用户",self.m_wCurrentUser,wMeChairID)
   if self.m_wCurrentUser == wMeChairID then
 		self._gameView.m_HandCardControl:UpdateCardDisable(true)
   end
 
 	--更新界面
+print("发牌-更新界面")
 	self._gameView:RefreshGameView()
 
 	--计算时间
@@ -1896,7 +1901,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 			print(szBuffer)
 
       --胡牌扑克
-      if (ScoreInfo.cbCardCount==0) and (cmd_data.dwChiHuKind[i]~=GameLogic.CHK_NULL) then
+      if (ScoreInfo.cbCardCount==0) and (cmd_data.dwChiHuKind[1][i]~=GameLogic.CHK_NULL) then
         -- 组合扑克
   			WeaveInfo.cbWeaveCount=self.m_cbWeaveCount[i]
         for j=1,WeaveInfo.cbWeaveCount,1 do
@@ -1907,7 +1912,7 @@ function GameLayer:OnSubGameEnd(dataBuffer)
         end
 
   			--设置扑克
-  			ScoreInfo.cbCardCount=cmd_data.cbCardCount[i]
+  			ScoreInfo.cbCardCount=cmd_data.cbCardCount[1][i]
       	ScoreInfo.cbCardData=GameLogic:deepcopy(cmd_data.cbCardData[i])
 
         --提取胡牌
@@ -1934,7 +1939,7 @@ dump(ScoreInfo,"ScoreInfo",6)
 	--用户扑克
   for i=1,cmd.GAME_PLAYER,1 do
 		local wViewChairID=self:SwitchViewChairID(i-1)
-    if cmd_data.dwChiHuKind[i]~=GameLogic.CHK_NULL then
+    if cmd_data.dwChiHuKind[1][i]~=GameLogic.CHK_NULL then
       self._gameView:SetUserAction(wViewChairID,GameLogic.WIK_CHI_HU)
     end
 		self._gameView.m_TableCard[wViewChairID]:SetCardData(cmd_data.cbCardData[i],cmd_data.cbCardCount[1][i])
@@ -1946,7 +1951,7 @@ dump(ScoreInfo,"ScoreInfo",6)
 	self._gameView.m_HandCardControl:SetCardData(nil,0,0)
 
 	--播放声音
-	local lScore=cmd_data.lGameScore[self:GetMeChairID()]
+	local lScore=cmd_data.lGameScore[1][self:GetMeChairID()+1]
   local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),1)
 	--local bGirl = ((pUserData->GetGender()==GENDER_MANKIND) ?  false:true);    --mark  getTableUserItem 中 确定存在GetGender？
 	local bGirl = not (pUserData.cbGender==yl.GENDER_MANKIND)

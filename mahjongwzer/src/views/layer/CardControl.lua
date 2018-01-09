@@ -1366,7 +1366,7 @@ print("CCardControl:UpdateCardDisable",bShowDisable)
 dump(self.m_CardItemArray,"m_CardItemArray",6)
 	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
-print(self.m_CardItemArray[i].cbCardData,cbCardData)
+print(self.m_CardItemArray[i].cbCardData,cbCardData,self.m_byGodsData)
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
 			--local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
@@ -1375,6 +1375,7 @@ print("byIndex-",byIndex)
 		end
 	end
 
+print("self.m_CurrentCard.cbCardData",self.m_CurrentCard.cbCardData)
 	if self.m_CurrentCard.cbCardData~=0 then
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
@@ -1384,13 +1385,16 @@ print("byIndex-",byIndex)
 	end
 
 	-- 单张风
+dump(byIndexCount,"byIndexCount 单张风",6)
 	while true do
-		for i=27,cmd.MAX_INDEX-1,1 do
-			if (1 == byIndexCount[i]) and (byGodsIndex ~= i) then
-				bHaveSingle = true
-			break	end
-		end
+	for i=27,cmd.MAX_INDEX-1,1 do
+print(i)
+		if (1 == byIndexCount[i]) and (byGodsIndex ~= i) then
+			bHaveSingle = true
+		break	end
+	end
 	break end
+print(bHaveSingle)
 	if not bHaveSingle then  --没有单张的风,所有牌可以出
 		self.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX)
 		return
@@ -1426,6 +1430,7 @@ print("byIndex-",byIndex)
 			end
 		end
 	end
+print("CCardControl:UpdateCardDisable END !")
 end
 
 --绘画扑克
