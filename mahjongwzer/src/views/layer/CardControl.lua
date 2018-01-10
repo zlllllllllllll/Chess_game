@@ -1366,7 +1366,7 @@ print("CCardControl:UpdateCardDisable",bShowDisable)
 dump(self.m_CardItemArray,"m_CardItemArray",6)
 	for i=1,self.m_wCardCount+0,1 do
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
-print(self.m_CardItemArray[i].cbCardData,cbCardData,self.m_byGodsData)
+print(self.m_CardItemArray[i].cbCardData,cbCardData,self.m_byGodsData,byGodsIndex)
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
 			--local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
@@ -1384,10 +1384,10 @@ print("self.m_CurrentCard.cbCardData",self.m_CurrentCard.cbCardData)
 		end
 	end
 
-	-- 单张风
+	-- 单张风 风不是只有东南西北 么？
 dump(byIndexCount,"byIndexCount 单张风",6)
 	while true do
-	for i=27,cmd.MAX_INDEX-1,1 do
+	for i=27+1,cmd.MAX_INDEX-0,1 do
 print(i)
 		if (1 == byIndexCount[i]) and (byGodsIndex ~= i) then
 			bHaveSingle = true
@@ -1404,32 +1404,35 @@ print(bHaveSingle)
 	bHaveSingle = false  -- 是否存在单牌已经出过
 	local bHaveDouble = false
 	for i=1,cmd.MAX_INDEX,1 do
-		while true do
-			self.m_bCardDisable[i] = true
-			if (i<27+1) or (byGodsIndex == (i+1)) then break end
+	while true do
+		self.m_bCardDisable[i] = true
+		if (i<27+1) or (byGodsIndex == (i+1)) then break end
 
-			-- 在已经出牌中找到此牌
-			if self.m_cbOutCardIndex[i]>0 then		--已经出过
-				bHaveDouble = true
-				self.m_bCardDisable[i]=false
-				if 1 == byIndexCount[i] then
-					bHaveSingle = true
-				end
+		-- 在已经出牌中找到此牌
+		if self.m_cbOutCardIndex[i]>0 then		--已经出过
+			bHaveDouble = true
+			self.m_bCardDisable[i]=false
+			if 1 == byIndexCount[i] then
+				bHaveSingle = true
 			end
-		break end
+		end
+	break end
 	end
+dump(self.m_bCardDisable,"111 m_bCardDisable",6)
+print(bHaveSingle,bHaveDouble)	
 	-- 所有的单牌都可以出
 	if not bHaveSingle then
 		for i=27,cmd.MAX_INDEX-1,1 do
-			while true do
-				if byGodsIndex == i then break end
-
-				if (1 == byIndexCount[i]) or (not bHaveDouble and byIndexCount[i]>0) then
-					self.m_bCardDisable[i]=false
-				end
+		while true do
+			if byGodsIndex == i then break end
+print(i , byIndexCount[i])
+			if (1 == byIndexCount[i]) or ((not bHaveDouble) and byIndexCount[i]>0) then
+				self.m_bCardDisable[i]=false
 			end
+		break end
 		end
 	end
+dump(self.m_bCardDisable,"222 m_bCardDisable",6)
 print("CCardControl:UpdateCardDisable END !")
 end
 

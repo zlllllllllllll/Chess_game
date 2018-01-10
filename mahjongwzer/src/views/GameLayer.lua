@@ -2036,11 +2036,12 @@ end
 --庄家买底
 function GameLayer:OnSubDingDi(dataBuffer)
 	print("庄家买底")
+	--可能cmd_data.wChairID 不一定为0 1
 	self.m_wCurrentUser = yl.INVALID_CHAIR
   self:KillGameClock(cmd.IDI_DINGDI_CARD)
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_DingDi, dataBuffer)
 dump(cmd_data,"cmd_data",6)
-print(" mark !!!!!!!!!! 临时去除 判断 cmd_data.wChairID",cmd_data.wChairID)
+print(" mark !!!!!!!!!! 临时去除 判断 cmd_data.wChairID",cmd_data.wChairID,self.m_wBankerUser)
   --if self.m_wBankerUser==cmd_data.wChairID then
     local wMeChair=self:GetMeChairID()
 		-- 设置显示
