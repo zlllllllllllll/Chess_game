@@ -1072,6 +1072,7 @@ function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
 end
 
 function GameLogic:SetGodsCard(byCardData)
+print("GameLogic:SetGodsCard ",byCardData)
 	GameLogic.m_byGodsCardData=byCardData
 end
 

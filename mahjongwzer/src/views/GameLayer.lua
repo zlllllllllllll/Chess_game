@@ -1332,11 +1332,15 @@ print(wViewChairID,i)
 	self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
 	
 --临时添加测试 start ==========================================================================================
-    for i=1,4,1 do
-			self.m_cbHeapCardInfo[i][1]=0
-			self.m_cbHeapCardInfo[i][2]=0
-    end
-		--第一把骰子的玩家 门前开始数牌
+	--添加设置财神
+	GameLogic:SetGodsCard(cmd_data.byGodsCardData)
+	self._gameView:SetGodsCard(cmd_data.byGodsCardData)
+
+	for i=1,4,1 do
+		self.m_cbHeapCardInfo[i][1]=0
+		self.m_cbHeapCardInfo[i][2]=0
+	end
+	--第一把骰子的玩家 门前开始数牌
 	print("OnDispatchCard 第一把骰子的玩家 门前开始数牌")
 		local cbSiceFirst=(bit:_rshift(cmd_data.wSiceCount1,8) + bit:_and(cmd_data.wSiceCount1, 0xff)-1)%4
 		local wTakeChairID = (self.m_wBankerUser*2 + 4 - cbSiceFirst)%4

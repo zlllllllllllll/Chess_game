@@ -239,9 +239,9 @@ end
 function CCardResource:LoadResource(Parent)
 	--用户扑克
 print("CCardResource:LoadResource", parent,self)
-	CCardResource.m_ImageUserTop=display.newSprite("res/game/CARD_USER_TOP.png"):setVisible(false) :addTo(Parent)
-	CCardResource.m_ImageUserLeft=display.newSprite("res/game/CARD_USER_LEFT.png"):setVisible(false) :addTo(Parent)
-	CCardResource.m_ImageUserRight=display.newSprite("res/game/CARD_USER_RIGHT.png"):setVisible(false) :addTo(Parent)
+	CCardResource.m_ImageUserTop={}
+	CCardResource.m_ImageUserLeft={}
+	CCardResource.m_ImageUserRight={}
 	CCardListImage:LoadResource(Parent,"m_ImageUserBottom","CARD_USER_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
 	CCardListImage:LoadResource(Parent,"m_ImageWaveBottom","CARD_WAVE_BOTTOM",CardControl.CARD_WIDTH,CardControl.CARD_HEIGHT)
 	--桌子扑克
@@ -268,9 +268,9 @@ end
 --消耗资源
 function CCardResource:DestroyResource()
 	--用户扑克
-	CCardResource.m_ImageUserTop:removeFromParent()
-	CCardResource.m_ImageUserLeft:removeFromParent()
-	CCardResource.m_ImageUserRight:removeFromParent()
+	CCardResource:clearnResource(CCardResource.m_ImageUserTop)
+	CCardResource:clearnResource(CCardResource.m_ImageUserLeft)
+	CCardResource:clearnResource(CCardResource.m_ImageUserRight)
  	CCardListImage:DestroyResource("m_ImageUserBottom")
 	--少个 m_ImageWaveBottom
 
@@ -373,8 +373,9 @@ print("m_ImageTableRight",nXPos,nYPos)
 				end
 
 				--中间扑克
+	print(wDoubleHeap,wFinallyIndex)
 				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
-	--print("东向 中间扑克 ",i)
+	--print("东向 中间扑克 ",i,wDoubleHeap,wFinallyIndex)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
 					CCardResource.m_ImageHeapDoubleV["east"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
@@ -431,8 +432,9 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				end
 
 				--中间扑克
+	print(wDoubleHeap,wFinallyIndex)
 				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
-	--print("南向 中间扑克 ",i)
+	--print("南向 中间扑克 ",i,wDoubleHeap,wFinallyIndex)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH["south"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
@@ -487,8 +489,9 @@ print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
 				--中间扑克
+	print(wDoubleHeap,wFinallyIndex)
 				for i=wFinallyIndex-0.1,wDoubleHeap,-1 do
-	--print("西向 中间扑克 ",i)
+	--print("西向 中间扑克 ",i,wDoubleHeap,wFinallyIndex)
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+i*15
 					CCardResource.m_ImageHeapDoubleV["west"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_V.png")
@@ -543,8 +546,9 @@ print("m_ImageTableTop",nXPos,nYPos)
 					end
 				end
 				--中间扑克
+	print(wDoubleHeap,wFinallyIndex)
 				for i=wDoubleHeap,wFinallyIndex-0.1,1 do
-	--print("北向 中间扑克 ",i)
+	--print("北向 中间扑克 ",i,wDoubleHeap,wFinallyIndex)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+i*18
 					CCardResource.m_ImageHeapDoubleH["north"][i]=display.newSprite("res/game/CARD_HEAP_DOUBLE_H.png")
@@ -839,9 +843,9 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 			if self.m_bCurrentCard==true then
 				local nXPos=self.m_ControlPoint.x
 				local nYPos=self.m_ControlPoint.y
-				CCardResource.m_ImageUserRight:setPosition(nXPos,nYPos)
-					:setColor(cc.c3b(255, 0, 255))
-					:setVisible(true)
+				CCardResource.m_ImageUserRight["m_bCurrentCard"]=display.newSprite("res/game/CARD_USER_RIGHT.png")
+					:setPosition(nXPos,nYPos)
+					:addTo(self)
 			end
 
 			--正常扑克
@@ -850,9 +854,9 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 				for i=1,self.m_wCardCount+0,1 do
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y+(i-1)*22+40
-					CCardResource.m_ImageUserRight:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
-						:setVisible(true)
+					CCardResource.m_ImageUserRight[i]=display.newSprite("res/game/CARD_USER_RIGHT.png")
+						:setPosition(nXPos,nYPos)
+						:addTo(self)
 				end
 			end
 
@@ -863,9 +867,9 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 				for i=1,self.m_wCardCount+0,1 do
 					nXPos=self.m_ControlPoint.x
 					nYPos=self.m_ControlPoint.y-(self.m_wCardCount-i-1-1)*22-92
-					CCardResource.m_ImageUserLeft:setPosition(nXPos,nYPos)
-						:setColor(cc.c3b(255, 0, 255))
-						:setVisible(true)
+					CCardResource.m_ImageUserLeft[i]=display.newSprite("res/game/CARD_USER_LEFT.png")
+						:setPosition(nXPos,nYPos)
+						:addTo(self)
 				end
 			end
 
@@ -873,9 +877,9 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 			if self.m_bCurrentCard==true then
 				local nXPos=self.m_ControlPoint.x
 				local nYPos=self.m_ControlPoint.y-49
-				CCardResource.m_ImageUserLeft:setPosition(nXPos,nYPos)
-					:setColor(cc.c3b(255, 0, 255))
-					:setVisible(true)
+				CCardResource.m_ImageUserLeft["m_bCurrentCard"]=display.newSprite("res/game/CARD_USER_LEFT.png")
+					:setPosition(nXPos,nYPos)
+					:addTo(self)
 			end
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
 			--当前扑克
@@ -883,9 +887,9 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 		print("当前扑克 CCardResource.m_ImageUserTop")
 				local nXPos=self.m_ControlPoint.x
 				local nYPos=self.m_ControlPoint.y
-				CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
-					--:setColor(cc.c3b(255, 0, 255))
-					:setVisible(true)
+				CCardResource.m_ImageUserTop["m_bCurrentCard"]=display.newSprite("res/game/CARD_USER_TOP.png")
+					:setPosition(nXPos,nYPos)
+					:addTo(self)
 			end
 
 			--正常扑克
@@ -896,11 +900,11 @@ print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 					nYPos=self.m_ControlPoint.y
 					nXPos=self.m_ControlPoint.x+(i-1)*24+40
 			print("m_ImageUserTop x",nXPos,nYPos)
-					-- CCardResource.m_ImageUserTop:setPosition(nXPos,nYPos)
-					-- 	--:setColor(cc.c3b(255, 0, 255))
-					-- 	:setVisible(true)
+					CCardResource.m_ImageUserTop[i]=display.newSprite("res/game/CARD_USER_TOP.png")
+						:setPosition(nXPos,600)
+						--:setPosition(nXPos,nYPos)
+						:addTo(self)
 
-					display.newSprite("res/game/CARD_USER_TOP.png"):setPosition(nXPos,600) :addTo(self)
 				end
 			end
 	end
