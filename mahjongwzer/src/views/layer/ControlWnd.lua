@@ -177,6 +177,7 @@ end
 
 --设置扑克
 function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
+print("设置扑克 CControlWnd:SetControlInfo",cbCenterCard, cbActionMask, GangCardResult)
 	--设置变量
 	self.m_cbItemCount=0
 	self.m_cbCurrentItem= 0xFF
@@ -201,7 +202,7 @@ function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 
 	--按钮控制
     print(bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU))
-	local cBoolean = (bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU)~=0 and true or false)
+	local cBoolean = ((bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU)~=0) and true or false)
 	self.m_btChiHu.setEnabled(cBoolean)
 
 	--调整控件

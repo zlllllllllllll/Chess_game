@@ -1358,10 +1358,12 @@ dump(self.m_cbHeapCardInfo,"正式开始 添加 m_cbHeapCardInfo",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0) and (cbSiceSecond-1)*2 or 0)
-  			local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
-        if i==1 then cbRemoveCount=cbTakeCount end
-        self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]+cbRemoveCount*2
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2+1 or 0+1)
+				local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
+	print("i: ",i,cbValidCount , cbTakeCount ,cbRemoveCount)
+	print(wTakeChairID)
+        if i==2 then cbRemoveCount=cbTakeCount end
+        self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]+cbRemoveCount*2
 
         --提取扑克
         cbTakeCount=cbTakeCount-cbRemoveCount
@@ -1378,11 +1380,14 @@ dump(self.m_cbHeapCardInfo,"正式开始 添加 m_cbHeapCardInfo",6)
     -------------------------------------------------------------------
 		self.m_wHeapHand = (self.m_wHeapTail+1)%4
 		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]=1
+print(self.m_wBankerUser,cbSiceFirst,cbSiceSecond,wTakeChairID)
+print(self.m_wHeapHand,self.m_wHeapTail)
 dump(self.m_cbHeapCardInfo," 正式开始 添加 m_cbHeapCardInfo",6)
-			
+
 		for i=1,4,1 do
 			--变量定义
-			local wViewChairID=self:SwitchHeapViewChairID(i)
+			local wViewChairID=self:SwitchHeapViewChairID(i-1)
+print(wViewChairID,i)
 print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
 			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end

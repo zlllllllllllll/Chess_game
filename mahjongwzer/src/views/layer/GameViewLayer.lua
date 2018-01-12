@@ -267,7 +267,7 @@ function GameViewLayer:preloadUI()
 	--创建控件
 	--CRect rcCreate(0,0,0,0);  mark 可能不显示
 	--m_ScoreControl.Create(NULL,NULL,WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,rcCreate,this,200);
-				self.g_CardResource=CardControl:create_CCardListImage(self)
+	self.g_CardResource=CardControl:create_CCardListImage(self)
 	self.m_ScoreControl=ScoreControl:create(self):addTo(self)
 	self.m_ScoreControl:setTag(200)
 	self.m_ScoreControl:move(0,0)
