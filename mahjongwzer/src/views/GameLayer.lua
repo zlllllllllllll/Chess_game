@@ -1052,8 +1052,10 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 
 			--变量定义
 			--tagGangCardResult GangCardResult; GameLogic
-      local GangCardResult={}
-      GangCardResult.cbCardData={}
+			local GangCardResult={}
+			GangCardResult.cbCardCount=0
+			GangCardResult.cbGangType=0
+      GangCardResult.cbCardData=GameLogic:sizeF(4)
 
       --杠牌判断
       if (bit:_and(cbActionMask, GameLogic.WIK_GANG)) ~= 0 then
@@ -1066,7 +1068,8 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 				--自己杆牌
         if (self.m_wCurrentUser==self:GetMeChairID()) or (cbActionCard == 0) then
 					local wMeChairID=self:GetMeChairID()
-					GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
+					local arg1
+					arg1,GangCardResult=GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
         end
       end
 			--设置界面
@@ -1388,7 +1391,7 @@ dump(self.m_cbHeapCardInfo," 正式开始 添加 m_cbHeapCardInfo",6)
 			--变量定义
 			local wViewChairID=self:SwitchHeapViewChairID(i-1)
 print(wViewChairID,i)
-print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][1],CardControl.HEAP_FULL_COUNT)
+print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
 			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
     -------------------------------------------------------------------
@@ -1561,14 +1564,18 @@ print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCar
 			local cbActionMask=cmd_data.cbActionMask
 
 			--变量定义
-			--tagGangCardResult GangCardResult; GameLogic
-      local GangCardResult={}
-      GangCardResult.cbCardData={}
+			local GangCardResult={}
+			GangCardResult.cbCardCount=0
+			GangCardResult.cbGangType=0
+      GangCardResult.cbCardData=GameLogic:sizeF(4)
 
 			--杠牌判断
       if bit:_and(cbActionMask,GameLogic.WIK_GANG)~=0 then
 				local wMeChairID=self:GetMeChairID()
-				GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
+				local arg1
+				arg1,GangCardResult=GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
+		print(arg1,GangCardResult)
+		dump(GangCardResult,"GangCardResult====",6)
       end
 
 			--设置界面
@@ -1634,8 +1641,10 @@ function GameLayer:onSubOperateNotify(dataBuffer)
 		local cbActionCard=cmd_data.cbActionCard
 
 		--变量定义
-    local GangCardResult={}
-    GangCardResult.cbCardData={}
+		local GangCardResult={}
+		GangCardResult.cbCardCount=0
+		GangCardResult.cbGangType=0
+		GangCardResult.cbCardData=GameLogic:sizeF(4)
 
     --杠牌判断
     if bit:_and(cbActionMask,GameLogic.WIK_GANG) then
@@ -1647,7 +1656,8 @@ function GameLayer:onSubOperateNotify(dataBuffer)
       --自己杆牌
       if (self.m_wCurrentUser==wMeChairID) or (cbActionCard==0) then
 		    local wMeChairID=self:GetMeChairID()
-				GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
+				local arg1
+				arg1,GangCardResult=GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
       end
     end
 
@@ -1804,8 +1814,10 @@ function GameLayer:onSubOperateResult(dataBuffer)
 
       --操作提示
       if cbActionMask~=nil then
-        local GangCardResult={}
-        GangCardResult.cbCardData={}
+				local GangCardResult={}
+				GangCardResult.cbCardCount=0
+				GangCardResult.cbGangType=0
+				GangCardResult.cbCardData=GameLogic:sizeF(4)
         self._gameView.m_ControlWnd:SetControlInfo(0,cbActionMask,GangCardResult)
         self.m_cbUserAction = cbActionMask
       end
@@ -2248,11 +2260,7 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 		self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]+1
 
 		--堆立扑克
-		--WORD wHeapViewID=SwitchViewChairID(m_wHeapHand);
 		local wHeapViewID=self:SwitchHeapViewChairID(self.m_wHeapHand)  --m_wHeapHand+6-GetMeChairID()*2)%4;
-		--WORD wHeapViewID=(m_wHeapHand+6-GetMeChairID()*2)%4;
-		--if(wHeapViewID==2)wHeapViewID=1;
-		--else if(wHeapViewID==1)wHeapViewID=2;;
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapHand+1][2]
 	print("===堆立扑克 55SetCardData ")
@@ -2271,7 +2279,6 @@ print(self.m_wHeapHand,self.m_cbHeapCardInfo[self.m_wHeapHand],self.m_cbHeapCard
 
 		--堆立扑克
 		local wHeapViewID=self:SwitchHeapViewChairID(self.m_wHeapTail)
-	  --WORD wHeapViewID=SwitchViewChairID(m_wHeapTail);
 		local wMinusHeadCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][1]
 		local wMinusLastCount=self.m_cbHeapCardInfo[self.m_wHeapTail+1][2]
 	print("===堆立扑克 66 SetCardData ")
@@ -2286,8 +2293,10 @@ end
 --显示控制
 function GameLayer:ShowOperateControl(cbUserAction, cbActionCard)
 	--变量定义
-  local GangCardResult={}
-  GangCardResult.cbCardData={}
+	local GangCardResult={}
+	GangCardResult.cbCardCount=0
+	GangCardResult.cbGangType=0
+	GangCardResult.cbCardData=GameLogic:sizeF(4)
 
   --杠牌判断
   if bit:_and(cbUserAction,GameLogic.WIK_GANG)~=0 then
@@ -2300,7 +2309,8 @@ function GameLayer:ShowOperateControl(cbUserAction, cbActionCard)
     --自己杆牌
     if cbActionCard==0 then
       local wMeChairID=self:GetMeChairID()
-      GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
+			local arg1
+			arg1,GangCardResult=GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
     end
   end
 
@@ -2373,7 +2383,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 		self.m_cbHeapCardInfo[i][1]=0
 		self.m_cbHeapCardInfo[i][2]=0
 		self._gameView.m_HeapCard[i]:SetGodsCard( 0x00, 0x00, 0x00)
-	print("===堆立扑克 66 SetCardData ")
+	print("===堆立扑克 OnStart SetCardData ")
 	print("i -> ",i,self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
 		self._gameView.m_HeapCard[i]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
   end
@@ -2691,10 +2701,10 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0) and (cbSiceSecond-1)*2 or 0)
-  			local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
-        if i==1 then cbRemoveCount=cbTakeCount end
-        self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0) and 1+1 or 0+1]+cbRemoveCount*2
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2+1 or 0+1)
+				local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
+        if i==2 then cbRemoveCount=cbTakeCount end
+        self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]+cbRemoveCount*2
 
         --提取扑克
         cbTakeCount=cbTakeCount-cbRemoveCount
@@ -2705,7 +2715,8 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
         break	end
 
   			--切换索引
-  			wTakeChairID=(wTakeChairID+1)%4
+				wTakeChairID=(wTakeChairID+1)%4
+
       end
     break end
     -------------------------------------------------------------------

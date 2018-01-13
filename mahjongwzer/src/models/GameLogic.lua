@@ -639,7 +639,7 @@ function GameLogic:AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardRe
 		end
 	end
 
-	return cbActionMask
+	return cbActionMask,GangCardResult
 end
 
 --吃胡分析
