@@ -190,6 +190,7 @@ print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth
 		local nImageXPos=CCardListImage:GetImageIndex(cbCardData)*CardControl.CCardList[id].m_nItemWidth
 		-- CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
 		-- 	:setVisible(true)
+print(CCardListImage:GetImageIndex(cbCardData),CardControl.CCardList[id].m_nItemWidth)
 print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 		local mResource=CardControl.CCardList[id].n_ImageResource
 

@@ -1390,7 +1390,7 @@ dump(self.m_cbHeapCardInfo," 正式开始 添加 m_cbHeapCardInfo",6)
 		for i=1,4,1 do
 			--变量定义
 			local wViewChairID=self:SwitchHeapViewChairID(i-1)
-print(wViewChairID,i)
+print(wViewChairID,i,wMeChairID)
 print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
 			self._gameView.m_HeapCard[wViewChairID+1]:SetCardData(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_FULL_COUNT)
     end
@@ -1402,6 +1402,7 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],Ca
 		byCardsIndex=arg2
 	print(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
 
+	dump(byCardsIndex,"byCardsIndex",6)
 		local byCards=GameLogic:sizeM(cmd.MAX_COUNT)
 		local arg1,arg2=GameLogic:SwitchToCardData(byCardsIndex, byCards)
 		byCards = arg2

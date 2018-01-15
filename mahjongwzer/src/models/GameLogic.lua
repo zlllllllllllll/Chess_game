@@ -1064,7 +1064,7 @@ function GameLogic:SwitchToCardIndex_3(cbCardData,cbCardCount,cbCardIndex)
 	--转换扑克
 	for i=1,cbCardCount,1 do
 		local tem_i =GameLogic:SwitchToCardIndex(cbCardData[i])
-        --print(tem_i)
+		--print(tem_i)
 		cbCardIndex[tem_i+1]=cbCardIndex[tem_i+1]+1
 	end
 	--mark  cbCardIndex 未传回 估计用的是SwitchToCardIndex_1
@@ -1108,25 +1108,30 @@ function GameLogic:SwitchToCardData_2(cbCardIndex,cbCardData)
 	--转换扑克
 	if GameLogic.m_byGodsCardData>0 then
 		-- 财神放在第一位
-		byIndex = GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData)
+		--byIndex = GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData)
+		--对应牌判断不对修改
+		byIndex = GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData)+1
 		if 0 ~= cbCardIndex[byIndex] then -- 首先把财神 加入
-			for j=1,cbCardIndex[byIndex]+1,1 do
+			for j=1,cbCardIndex[byIndex],1 do
 				cbPosition=cbPosition+1
-				cbCardData[cbPosition]=GameLogic:SwitchToCardData(byIndex)
+				--对应牌 显示不对修改
+				cbCardData[cbPosition]=GameLogic:SwitchToCardData(byIndex-1)
 			end
 		end
 	end
+print(cbPosition,byIndex,GameLogic.m_byGodsCardData)
+dump(cbCardData,"cbCardData",6)
 	for i=1,cmd.MAX_INDEX,1 do
 		while true do
 
-				if byIndex == i then break	end
+		if byIndex == i then break	end
 
-				if cbCardIndex[i]~=0 then
-					for j=1,cbCardIndex[i],1 do
-						cbPosition=cbPosition+1
-						cbCardData[cbPosition]=GameLogic:SwitchToCardData(i)
-					end
-				end
+		if cbCardIndex[i]~=0 then
+			for j=1,cbCardIndex[i],1 do
+				cbPosition=cbPosition+1
+				cbCardData[cbPosition]=GameLogic:SwitchToCardData(i-1)
+			end
+		end
 
 		break	end
 	end

@@ -18,13 +18,25 @@ function ScoreControl:ctor()
 	--设置变量
 	self.m_cbWeaveCount=0
 	self.m_ScoreInfo={}
-	self.m_ScoreInfo.cbCardData={}
-	self.m_ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)
+	self.m_ScoreInfo.cbCardCount=0
+	--self.m_ScoreInfo.wBankerUser=0
+	self.m_ScoreInfo.wBankerUser=yl.INVALID_CHAIR
+	self.m_ScoreInfo.cbCardData=GameLogic:sizeM(cmd.MAX_COUNT)
+	--self.m_ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)
+	self.m_ScoreInfo.szUserName={}
+	self.m_ScoreInfo.szUserName[1],self.m_ScoreInfo.szUserName[2]=0,0
+	self.m_ScoreInfo.wProvideUser=yl.INVALID_CHAIR
+	self.m_ScoreInfo.cbProvideCard=0
 	self.m_ScoreInfo.lGameScore={}
+	self.m_ScoreInfo.lGameScore[1],self.m_ScoreInfo.lGameScore[2]=0,0
 	self.m_ScoreInfo.lGodsScore={}
+	self.m_ScoreInfo.lGodsScore[1],self.m_ScoreInfo.lGodsScore[2]=0,0
 	self.m_ScoreInfo.byDingDi={}
+	self.m_ScoreInfo.byDingDi[1],self.m_ScoreInfo.byDingDi[2]=0,0
 	self.m_ScoreInfo.dwChiHuKind={}
+	self.m_ScoreInfo.dwChiHuKind[1],self.m_ScoreInfo.dwChiHuKind[2]=0,0
 	self.m_ScoreInfo.dwChiHuRight={}
+	self.m_ScoreInfo.dwChiHuRight[1],self.m_ScoreInfo.dwChiHuRight[2]=0,0
 
 	--加载资源
 	--HINSTANCE hResInstance=AfxGetInstanceHandle();
@@ -92,13 +104,25 @@ function ScoreControl:RestorationData()
 	--设置变量
 	self.m_cbWeaveCount=0
 	self.m_ScoreInfo={}
-	self.m_ScoreInfo.cbCardData={}
-	self.m_ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)
+	self.m_ScoreInfo.cbCardCount=0
+	--self.m_ScoreInfo.wBankerUser=0
+	self.m_ScoreInfo.wBankerUser=yl.INVALID_CHAIR
+	self.m_ScoreInfo.cbCardData=GameLogic:sizeM(cmd.MAX_COUNT)
+	--self.m_ScoreInfo.szUserName=GameLogic:ergodicList(cmd.GAME_PLAYER)
+	self.m_ScoreInfo.szUserName={}
+	self.m_ScoreInfo.szUserName[1],self.m_ScoreInfo.szUserName[2]=0,0
+	self.m_ScoreInfo.wProvideUser=yl.INVALID_CHAIR
+	self.m_ScoreInfo.cbProvideCard=0
 	self.m_ScoreInfo.lGameScore={}
+	self.m_ScoreInfo.lGameScore[1],self.m_ScoreInfo.lGameScore[2]=0,0
 	self.m_ScoreInfo.lGodsScore={}
+	self.m_ScoreInfo.lGodsScore[1],self.m_ScoreInfo.lGodsScore[2]=0,0
 	self.m_ScoreInfo.byDingDi={}
+	self.m_ScoreInfo.byDingDi[1],self.m_ScoreInfo.byDingDi[2]=0,0
 	self.m_ScoreInfo.dwChiHuKind={}
+	self.m_ScoreInfo.dwChiHuKind[1],self.m_ScoreInfo.dwChiHuKind[2]=0,0
 	self.m_ScoreInfo.dwChiHuRight={}
+	self.m_ScoreInfo.dwChiHuRight[1],self.m_ScoreInfo.dwChiHuRight[2]=0,0
 
 	--隐藏窗口
 	--if (m_hWnd!=NULL) ShowWindow(SW_HIDE);
@@ -109,6 +133,8 @@ end
 
 --设置积分
 function ScoreControl:SetScoreInfo(ScoreInfo,WeaveInfo,dwMeUserID)
+print("设置积分  ScoreControl:SetScoreInf",ScoreInfo,WeaveInfo,dwMeUserID)
+dump(ScoreInfo,"ScoreInfo",6)
 	--设置变量
 	self.m_ScoreInfo=ScoreInfo
 	self.m_cbWeaveCount=WeaveInfo.cbWeaveCount
@@ -374,7 +400,7 @@ print("重画函数 ScoreControl:OnPaint")
 					:setVisible(true)
 			end
 			if self.m_ScoreInfo.lGameScore[i]<0 then--负
-				local strInfo="玩家："..self.m_ScoreInfo.szUserName[1-i].." 胡了！"
+				local strInfo="玩家："..self.m_ScoreInfo.szUserName[2-i].." 胡了！"
 				--CRect rcInfo(7,9,443,29);
 				cc.Label:createWithTTF(strInfo,"fonts/round_body.ttf", 24)
 					:move((7+443)/2,(9+29)/2)
