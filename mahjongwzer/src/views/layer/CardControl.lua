@@ -126,7 +126,7 @@ function CCardListImage:LoadResource(Parent,id,uResourceID,nViewWidth,nViewHeigh
 		uResourceID = "CARD_USER_BOTTOM"
 	end
 	CardControl.CCardList[id].m_CardListImage=display.newSprite("res/game/"..uResourceID..".png"):setVisible(false):addTo(Parent)
-	CardControl.CCardList[id].m_csFlag=display.newSprite("res/game/CS_FLAG.png"):setVisible(false):addTo(Parent)
+	CardControl.CCardList[id].m_csFlag="res/game/CS_FLAG.png"
 	CardControl.CCardList[id].m_CardBack=display.newSprite("res/game/CARD_BACK.png"):setVisible(false):addTo(Parent)
 	CardControl.CCardList[id].n_ImageResource="res/game/"..uResourceID..".png"
 	CardControl.CCardList[id].n_List={}
@@ -174,6 +174,7 @@ end
 function CCardListImage:DrawCardItem(id,index,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight)
 print("CCardListImage:DrawCardItem 绘画扑克====","id-",id,"index-",index,"cbCardData-",cbCardData,"xDest-",xDest,"yDest-",yDest)
 print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth,"nItemHeight-",nItemHeight)
+	if cbCardData <=0 then	print("无数据 ",cbCardData ) return end
 	if bDrawBack then
 		--CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
 		CardControl.CCardList[id].m_CardBack:setPosition(100,yl.HEIGHT-60)
@@ -216,11 +217,12 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 		-- 		:setVisible(true)
 		-- end
 	end
-	if cbGodsData~=0 and cbGodsData==cbCardData then
-		CardControl.CCardList[id].m_csFlag--:setPosition(xDest+3,yDest)
-			--:setColor(cc.c3b(255, 0, 255))
-			:setPosition(100,yl.HEIGHT-80)
-			:setVisible(true)
+	--if nil==index then index=0	end
+	--财神标记
+	if cbGodsData~=0 and cbGodsData==cbCardData then		
+		CardControl.CCardList[id].n_List[index.."csFalg"]=display.newSprite(CardControl.CCardList[id].m_csFlag)
+			:setPosition(xDest,yDest+10)
+			:addTo(CardControl.CCardList[id].Parent)		
 	end
 
 	return true
@@ -1373,8 +1375,7 @@ dump(self.m_CardItemArray,"m_CardItemArray",6)
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CardItemArray[i].cbCardData or 0
 print(self.m_CardItemArray[i].cbCardData,cbCardData,self.m_byGodsData,byGodsIndex)
 		if ( 0x00 ~= cbCardData) and (self.m_byGodsData ~= cbCardData) then
-			--local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
-			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)
+			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
 print("byIndex-",byIndex)
 			byIndexCount[byIndex]=byIndexCount[byIndex]+1
 		end

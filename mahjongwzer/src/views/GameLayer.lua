@@ -1338,6 +1338,7 @@ print(wViewChairID,i)
 	--添加设置财神
 	GameLogic:SetGodsCard(cmd_data.byGodsCardData)
 	self._gameView:SetGodsCard(cmd_data.byGodsCardData)
+	self._gameView.m_HandCardControl:SetGodsCard(cmd_data.byGodsCardData)
 
 	for i=1,4,1 do
 		self.m_cbHeapCardInfo[i][1]=0
@@ -1424,12 +1425,16 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],Ca
       if i~=wMeChairID+1 then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
 print("对手扑克== ",wIndex,wViewChairID)
-				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((cmd_data.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
+				local count=GameLogic:table_leng(cmd_data.cbCardData[wMeChairID+1])
+				if i~=self.m_wBankerUser then	count=count-1	end
+				--self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((cmd_data.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
+				self._gameView.m_UserCard[wIndex]:SetCardData(count,(i==self.m_wBankerUser))
       else
 				local cbBankerCard=(i==self.m_wBankerUser) and cmd_data.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
-print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBankerCard)
+				local count=((i-1)==self.m_wBankerUser) and cmd.MAX_COUNT or cmd.MAX_COUNT-1
+print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,count,cbBankerCard)
 				self._gameView.m_HandCardControl:SetDisplayItem(true)						--添加 设置显示
-				self._gameView.m_HandCardControl:SetCardData(byCards,cmd.MAX_COUNT,cbBankerCard)
+				self._gameView.m_HandCardControl:SetCardData(byCards,count,cbBankerCard)
       end
     end
 ----临时添加测试 end	==========================================================================================
@@ -2761,7 +2766,7 @@ print("===mark 3",wMeChairID)
 dump(pGamePlay,"pGamePlay",6)
       if i~=wMeChairID+1 then
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
-				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
+				self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((pGamePlay.cbCardData[wMeChairID+1]))-1,(i==self.m_wBankerUser))
       else
 				local cbBankerCard=(i==self.m_wBankerUser) and pGamePlay.cbCardData[wMeChairID+1][cmd.MAX_COUNT-1] or 0
 print("-=-= gameView.m_HandCardControl:SetCardDat",byCards,cmd.MAX_COUNT-1,cbBankerCard)
