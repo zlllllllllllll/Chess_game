@@ -201,7 +201,7 @@ print("设置扑克 CControlWnd:SetControlInfo",cbCenterCard, cbActionMask, Gang
 	end
 
 	--按钮控制
-    print(bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU))
+    print(bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU),(bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU)~=0))
 	local cBoolean = ((bit:_and(self.m_cbActionMask, GameLogic.WIK_CHI_HU)~=0) and true or false)
 	self.m_btChiHu.setEnabled(cBoolean)
 

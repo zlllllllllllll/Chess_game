@@ -127,7 +127,7 @@ function CCardListImage:LoadResource(Parent,id,uResourceID,nViewWidth,nViewHeigh
 	end
 	CardControl.CCardList[id].m_CardListImage=display.newSprite("res/game/"..uResourceID..".png"):setVisible(false):addTo(Parent)
 	CardControl.CCardList[id].m_csFlag="res/game/CS_FLAG.png"
-	CardControl.CCardList[id].m_CardBack=display.newSprite("res/game/CARD_BACK.png"):setVisible(false):addTo(Parent)
+	CardControl.CCardList[id].m_CardBack="res/game/CARD_BACK.png"
 	CardControl.CCardList[id].n_ImageResource="res/game/"..uResourceID..".png"
 	CardControl.CCardList[id].n_List={}
 	CardControl.CCardList[id].Parent=Parent
@@ -176,10 +176,9 @@ print("CCardListImage:DrawCardItem 绘画扑克====","id-",id,"index-",index,"cb
 print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth,"nItemHeight-",nItemHeight)
 	if cbCardData <=0 then	print("无数据 ",cbCardData ) return end
 	if bDrawBack then
-		--CardControl.CCardList[id].m_CardBack:setPosition(xDest-8,yDest-8)
-		CardControl.CCardList[id].m_CardBack:setPosition(100,yl.HEIGHT-60)
-			--:setColor(cc.c3b(255, 0, 255))
-			:setVisible(true)
+		CardControl.CCardList[id].n_List[index.."m_CardBack"]=display.newSprite(CardControl.CCardList[id].m_CardBack)
+			:setPosition(xDest-0,yDest-0)
+			:addTo(CardControl.CCardList[id].Parent)
 	end
 
 	local nDrawWidth=CardControl.CCardList[id].m_nItemWidth
@@ -217,9 +216,8 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 		-- 		:setVisible(true)
 		-- end
 	end
-	--if nil==index then index=0	end
 	--财神标记
-	if cbGodsData~=0 and cbGodsData==cbCardData then		
+	if cbGodsData~=0 and cbGodsData==cbCardData then
 		CardControl.CCardList[id].n_List[index.."csFalg"]=display.newSprite(CardControl.CCardList[id].m_csFlag)
 			:setPosition(xDest,yDest+10)
 			:addTo(CardControl.CCardList[id].Parent)		
@@ -1313,7 +1311,7 @@ dump(self.m_CardItemArray,"self.m_CardItemArray",6)
 	return true
 end
 
---设置扑克
+--设置扑克 没用到
 function CCardControl:SetCardItem(CardItemArray,wCardCount)
 print("设置扑克 CCardControl:SetCardItem ",CardItemArray,wCardCount)
 	if wCardCount>GameLogic:table_leng(self.m_CardItemArray) then

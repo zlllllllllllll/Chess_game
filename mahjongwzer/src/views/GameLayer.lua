@@ -1399,11 +1399,11 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],Ca
 		local cbCardCount=(wMeChairID==self.m_wBankerUser) and cmd.MAX_COUNT or (cmd.MAX_COUNT-1)  --添加
 		local byCardsIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData[wMeChairID+1],cbCardCount,byCardsIndex)
-	dump(byCards,"byCards",6)
+	--dump(byCards,"byCards",6)
 		byCardsIndex=arg2
 	print(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
 
-	dump(byCardsIndex,"byCardsIndex",6)
+	--dump(byCardsIndex,"byCardsIndex",6)
 		local byCards=GameLogic:sizeM(cmd.MAX_COUNT)
 		local arg1,arg2=GameLogic:SwitchToCardData(byCardsIndex, byCards)
 		byCards = arg2
@@ -1426,7 +1426,7 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],Ca
 				local wIndex=(wViewChairID>=3) and 2 or wViewChairID
 print("对手扑克== ",wIndex,wViewChairID)
 				local count=GameLogic:table_leng(cmd_data.cbCardData[wMeChairID+1])
-				if i~=self.m_wBankerUser then	count=count-1	end
+				if (i-1)~=self.m_wBankerUser then	count=count-1	end
 				--self._gameView.m_UserCard[wIndex]:SetCardData(GameLogic:table_leng((cmd_data.cbCardData[wMeChairID+1])),(i==self.m_wBankerUser))
 				self._gameView.m_UserCard[wIndex]:SetCardData(count,(i==self.m_wBankerUser))
       else
@@ -1899,7 +1899,9 @@ function GameLayer:OnSubGameEnd(dataBuffer)
 	--m_pIStringMessage->InsertNormalString(szBuffer); ------------同上
 	print(szBuffer)
   for i=1,cmd.GAME_PLAYER,1 do
-      local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i-1)
+			local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),i-1)
+	print(pUserData,self:GetMeTableID())
+	dump(pUserData,"pUserData",6)
   		ScoreInfo.byDingDi[i] = cmd_data.byDingDi[1][i]
   		--胡牌类型
   		ScoreInfo.dwChiHuKind[i]=cmd_data.dwChiHuKind[1][i]
