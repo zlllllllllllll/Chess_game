@@ -946,7 +946,7 @@ print(self.m_wCurrentUser,yl.INVALID_CHAIR)
 		self.mARROW=ARROW
 	end
 
-	self:DrawSicboAnim(pDC)
+	self:DrawSicboAnim()
 	return
 end
 --取消准备显示 游戏开始
@@ -1445,7 +1445,7 @@ function GameViewLayer:OnLButtonDblClk(nFlags,point)
 end
 
 -- 绘画掷骰子动画
-function GameViewLayer:DrawSicboAnim(pDC)
+function GameViewLayer:DrawSicboAnim()
 print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus())
 	if not self.m_iSicboAnimIndex or (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
 		return

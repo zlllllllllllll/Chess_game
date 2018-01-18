@@ -262,14 +262,14 @@ print("计时器更新 OnClockUpdata Fid",Fid)
 end
 
 --更新计时器显示 多ID
-function GameModel:OnUpdataClockView(Fid)
-    if self._gameView and self._gameView.OnUpdataClockView then
-        self._gameView:OnUpdataClockView(self._ClockViewChair,self._ClockTime)
-    end
-    -- if self._gameView and self._gameView.OnUpdataClockView then
-    --     self._gameView:OnUpdataClockView(self._ClockList[Fid]._ClockViewChair,self._ClockList[Fid]._ClockTime)
-    -- end
-end
+-- function GameLayer:OnUpdataClockView(Fid)
+--     if self._gameView and self._gameView.OnUpdataClockView then
+--         self._gameView:OnUpdataClockView(self._ClockViewChair,self._ClockTime)
+--     end
+--     -- if self._gameView and self._gameView.OnUpdataClockView then
+--     --     self._gameView:OnUpdataClockView(self._ClockList[Fid]._ClockViewChair,self._ClockList[Fid]._ClockTime)
+--     -- end
+-- end
 
 --获取gamekind
 function GameLayer:getGameKind()
@@ -1362,7 +1362,7 @@ dump(self.m_cbHeapCardInfo,"正式开始 添加 m_cbHeapCardInfo",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2+1 or 0+1)
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2 or 0)
 				local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
 	print("i: ",i,cbValidCount , cbTakeCount ,cbRemoveCount)
 	print(wTakeChairID)
@@ -1456,7 +1456,7 @@ end
 function GameLayer:onSubOutCard(dataBuffer)
   --消息处理
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_OutCard, dataBuffer)
-	--dump(cmd_data, "CMD_S_OutCard")
+	dump(cmd_data, "CMD_S_OutCard")
 	print("用户出牌", cmd_data.cbOutCardData)
 	--变量定义
 	local wMeChairID=self:GetMeChairID()
@@ -2709,7 +2709,7 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
     while true do
       for i=1,2,1 do
   			--计算数目
-  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2+1 or 0+1)
+  			local cbValidCount=CardControl.HEAP_FULL_COUNT-self.m_cbHeapCardInfo[wTakeChairID+1][2]-((i==0+1) and (cbSiceSecond-1)*2 or 0)
 				local cbRemoveCount=(cbValidCount < cbTakeCount) and cbValidCount or cbTakeCount
         if i==2 then cbRemoveCount=cbTakeCount end
         self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]=self.m_cbHeapCardInfo[wTakeChairID+1][(i==0+1) and 1+1 or 0+1]+cbRemoveCount*2

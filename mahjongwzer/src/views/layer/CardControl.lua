@@ -341,6 +341,7 @@ function CHeapCard:DrawClearn()
 -- 	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["south"])
 -- print("m_ImageHeapDoubleH north ")
 -- 	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["north"])
+print("DrawClearn",self.m_CardDirection)
 	self:removeAllChildren()
 end
 
@@ -359,16 +360,17 @@ print(self.m_wFullCount-self.m_wMinusHeadCount-self.m_wMinusLastCount,self.m_wFu
 
 				local wShowCardPos = self.m_wFullCount - self.m_byIndex - self.m_byMinusLastShowCard + 1
 
-				--头部扑克
-				if self.m_wMinusHeadCount%2~=0 then
+				--尾部扑克
+				if self.m_wMinusLastCount%2~=0 then
+print("东向尾部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
-					CCardResource.m_ImageHeapSingleV["eastHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
+					CCardResource.m_ImageHeapSingleV["eastTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableRight","CHeapCard_eastHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableRight","CHeapCard_eastTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableRight",nXPos,nYPos)
 					end
 				end
@@ -389,16 +391,17 @@ print("m_ImageTableRight",nXPos,nYPos)
 					end
 				end
 
-				--尾部扑克
-				if self.m_wMinusLastCount%2~=0 then
+				--头部扑克
+				if self.m_wMinusHeadCount%2~=0 then
+print("东向头部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
-					CCardResource.m_ImageHeapSingleV["eastTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
+					CCardResource.m_ImageHeapSingleV["eastHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableRight","CHeapCard_eastTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableRight","CHeapCard_eastHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableRight",nXPos,nYPos)
 					end
 				end
@@ -420,7 +423,8 @@ print("m_ImageTableRight",nXPos,nYPos)
 
 				--头部扑克
 				if self.m_wMinusHeadCount%2~=0 then
-					nYPos=self.m_ControlPoint.y+6
+print("南向头部")
+					nYPos=self.m_ControlPoint.y-3
 					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
 					CCardResource.m_ImageHeapSingleH["southHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
@@ -450,7 +454,8 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				
 				--尾部扑克
 				if self.m_wMinusLastCount%2~=0 then
-					nYPos=self.m_ControlPoint.y+6
+print("南向尾部")
+					nYPos=self.m_ControlPoint.y-3
 					nXPos=self.m_ControlPoint.x+wHeapIndex*18
 					CCardResource.m_ImageHeapSingleH["southTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
@@ -476,16 +481,17 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				local wFinallyIndex=(self.m_wFullCount-self.m_wMinusHeadCount)/2
 
 				local wShowCardPos = self.m_byIndex + self.m_byMinusLastShowCard
-				--头部扑克
-				if self.m_wMinusHeadCount%2~=0 then
+				--尾部扑克
+				if self.m_wMinusLastCount%2~=0 then
+print("西向尾部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
-					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
+					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_westHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_weatTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
@@ -504,16 +510,17 @@ print("m_ImageTableLeft",nXPos,nYPos)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
-				--尾部扑克
-				if self.m_wMinusLastCount%2~=0 then
+				--头部扑克
+				if self.m_wMinusHeadCount%2~=0 then
+print("西向头部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
-					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
+					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_weatTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_westHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
@@ -535,7 +542,8 @@ print("m_ImageTableLeft",nXPos,nYPos)
 
 				--头部扑克
 				if self.m_wMinusHeadCount%2~=0 then
-					nYPos=self.m_ControlPoint.y+6
+print("北向头部")
+					nYPos=self.m_ControlPoint.y-3
 					nXPos=self.m_ControlPoint.x+wHeapIndex*18
 					CCardResource.m_ImageHeapSingleH["northHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
@@ -563,7 +571,8 @@ print("m_ImageTableTop",nXPos,nYPos)
 				end
 				--尾部扑克
 				if self.m_wMinusLastCount%2~=0 then
-					nYPos=self.m_ControlPoint.y+6
+print("北向尾部")
+					nYPos=self.m_ControlPoint.y-3
 					nXPos=self.m_ControlPoint.x+wFinallyIndex*18
 					CCardResource.m_ImageHeapSingleH["northTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_H.png")
 						:setPosition(nXPos,nYPos)
