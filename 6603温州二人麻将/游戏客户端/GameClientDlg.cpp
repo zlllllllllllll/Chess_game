@@ -129,7 +129,7 @@ bool CGameClientEngine::OnInitGameEngine()
 		DWORD dwDataType,dwReadData,dwDataSize;
 		dwDataSize=sizeof(dwReadData);
 		LONG lErrorCode=RegParamter.QueryValue(TEXT("IsChineseVoice"),&dwDataType,&dwReadData,&dwDataSize);
-		if (lErrorCode==ERROR_SUCCESS) 
+		if (lErrorCode==ERROR_SUCCESS)
 		{
 			WORD w=(WORD)dwReadData;
 			if(w!=0)
@@ -249,7 +249,7 @@ bool CGameClientEngine::OnResetGameEngine()
 
 	//扑克变量
 	m_cbLeftCardCount=0;
-	ZeroMemory(m_cbCardIndex,sizeof(m_cbCardIndex));	
+	ZeroMemory(m_cbCardIndex,sizeof(m_cbCardIndex));
 
 	m_cbUserAction = 0;
 	return true;
@@ -321,10 +321,10 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 				return true ;
 			}
 
-			if ((nElapse<=3)&&(wChairID==wMeChairID)) 
+			if ((nElapse<=3)&&(wChairID==wMeChairID))
 			{
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
-			}			
+			}
 			return true;
 		}
 	case IDI_OPERATE_CARD:		//操作定时器
@@ -369,8 +369,8 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 						m_pIStringMessage->InsertSystemString(TEXT("由于您多次超时，切换为“系统托管”模式."));
 				     	}
 
-					
-				
+
+
 
 					if (m_wCurrentUser==wMeChairID)
 					{
@@ -379,10 +379,10 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 
 						if (m_cbUserAction&WIK_CHI_HU)
 						{
-							
-							
+
+
 							OnCardOperate( WIK_CHI_HU,0 );
-							KillGameClock(IDI_OPERATE_CARD); 
+							KillGameClock(IDI_OPERATE_CARD);
 							return true;
 						}
 
@@ -394,12 +394,12 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 						{
 								OnOutCard(cbCardData,cbCardData);
 
-								KillGameClock(IDI_OPERATE_CARD); 
+								KillGameClock(IDI_OPERATE_CARD);
 								return true;
 
 						}else
-						{							
-							KillGameClock(IDI_OPERATE_CARD); 
+						{
+							KillGameClock(IDI_OPERATE_CARD);
 								if(m_bStustee)
 		OnStusteeControl(0,0);
 
@@ -419,10 +419,10 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 							   if (m_cbCardIndex[i]==0) continue;
 		                      	if (i == iGodsIndex)  // 财神不能出
 		                        	{
-			                       	continue; 
+			                       	continue;
 		                           	}
-									
-		                     	
+
+
 
 								if (m_cbCardIndex[i]==1)
 								{
@@ -431,7 +431,7 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 								cbCardData=m_GameLogic.SwitchToCardData(i);
 								OnOutCard(cbCardData,cbCardData);
 
-								KillGameClock(IDI_OPERATE_CARD); 
+								KillGameClock(IDI_OPERATE_CARD);
 								return true;
 								}
 
@@ -442,14 +442,14 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 							   if (m_cbCardIndex[i]==0) continue;
 		                      	if (i == iGodsIndex)  // 财神不能出
 		                        	{
-			                       	continue; 
+			                       	continue;
 		                           	}
-									
-		                     	if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false) 
+
+		                     	if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false)
 									continue;
 								cbCardData=m_GameLogic.SwitchToCardData(i);
 								OnOutCard(cbCardData,cbCardData);
-								KillGameClock(IDI_OPERATE_CARD); 
+								KillGameClock(IDI_OPERATE_CARD);
 								return true;
 
 	                    	}
@@ -461,7 +461,7 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 						if (VerdictOutCard(cbCardData)==true)
 						{
 	                       	OnOutCard(cbCardData,cbCardData);
-							KillGameClock(IDI_OPERATE_CARD); 
+							KillGameClock(IDI_OPERATE_CARD);
 							return true;
 						}
 
@@ -471,13 +471,13 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 								if (m_cbCardIndex[i]==0) continue;
 	                  		if (i == iGodsIndex)   // 财神不能出
 	                    		{
-	                 			continue; 
+	                 			continue;
 	                       		}
-		                    if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false) 
+		                    if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false)
 									continue;
 								cbCardData=m_GameLogic.SwitchToCardData(i);
 								OnOutCard(cbCardData,cbCardData);
-								KillGameClock(IDI_OPERATE_CARD); 
+								KillGameClock(IDI_OPERATE_CARD);
 								return true;
 	                     	}
 						for (BYTE i=0;i<MAX_INDEX;i++)
@@ -486,15 +486,15 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 								if (m_cbCardIndex[i]==0) continue;
 									if (i == iGodsIndex)  // 财神不能出
 		                        	{
-			                       	continue; 
+			                       	continue;
 		                           	}
-								if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false) 
+								if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false)
 									continue;
 
 								//设置变量
 								cbCardData=m_GameLogic.SwitchToCardData(i);
 								OnOutCard(cbCardData,cbCardData);
-								KillGameClock(IDI_OPERATE_CARD); 
+								KillGameClock(IDI_OPERATE_CARD);
 								return true;
 							}
 
@@ -510,7 +510,7 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 							{
 								//出牌效验
 								if (m_cbCardIndex[i]==0) continue;
-								if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false) 
+								if (VerdictOutCard(m_GameLogic.SwitchToCardData(i))==false)
 									continue;
 
 								//设置变量
@@ -521,7 +521,7 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 						//出牌动作
 						OnOutCard(cbCardData,cbCardData);*/
 					}
-					else 
+					else
 						OnCardOperate(WIK_NULL,0);
 				}
 
@@ -529,7 +529,7 @@ bool CGameClientEngine::OnEventGameClockInfo(WORD wChairID, UINT nElapse, WORD w
 			}
 
 			//播放声音
-			if ((nElapse<=3)&&(wChairID==GetMeChairID())&&(IsLookonMode()==false)) 
+			if ((nElapse<=3)&&(wChairID==GetMeChairID())&&(IsLookonMode()==false))
 			{
 					PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WARN"));
 			}
@@ -567,7 +567,7 @@ bool CGameClientEngine::OnEventGameMessage(WORD wSubCmdID, VOID * pData, WORD wD
 		{
 			return OnSubSendCard(pData,wDataSize);
 		}
-	case SUB_S_LISTEN_CARD:		//听牌处理	
+	case SUB_S_LISTEN_CARD:		//听牌处理
 		{
 			return OnSubListenCard(pData,wDataSize);
 		}
@@ -747,7 +747,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 					// 设置显示
 					if (m_wBankerUser == wMeChair)
 					{
-						m_GameClientView.SetCenterText(TEXT("等待闲家顶底……"));			
+						m_GameClientView.SetCenterText(TEXT("等待闲家顶底……"));
 					}
 					else
 					{
@@ -772,7 +772,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 			//更新界面
 			m_GameClientView.RefreshGameView();
 			return true;
-			
+
 		}
 	case GS_MJ_PLAY:	//游戏状态
 		{
@@ -799,21 +799,21 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 				m_GameClientView.SetTrustee(wChairID,pStatusPlay->bTrustee[i]);
 			}
 
-			m_GameLogic.SetGodsCard(pStatusPlay->byGodsCardData);			
+			m_GameLogic.SetGodsCard(pStatusPlay->byGodsCardData);
 			m_GameClientView.m_HandCardControl.SetGodsCard(pStatusPlay->byGodsCardData);
 			m_GameClientView.SetDingMaiValue(byUserDingDi);
 			m_GameClientView.SetGodsCard(pStatusPlay->byGodsCardData);
 
 			//旁观
 			if( IsLookonMode()==true )
-				m_GameClientView.m_HandCardControl.SetDisplayItem(IsAllowLookon());			
+				m_GameClientView.m_HandCardControl.SetDisplayItem(IsAllowLookon());
 
 			m_wTimeOutCount=0;
 			if(pStatusPlay->bTrustee[GetMeChairID()])
 				m_GameClientView.m_btStusteeControl.SetButtonImage(IDB_BT_STOP_TRUSTEE,AfxGetInstanceHandle(),false,false);
 			else
 				m_GameClientView.m_btStusteeControl.SetButtonImage(IDB_BT_START_TRUSTEE,AfxGetInstanceHandle(),false,false);
-			
+
 			//听牌状态
 			WORD wMeChairID=GetMeChairID();
 			m_bHearStatus=(pStatusPlay->cbHearStatus[wMeChairID]==TRUE)?true:false;
@@ -854,7 +854,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 					BYTE cbCenterCard=m_WeaveItemArray[i][j].cbCenterCard;
 					BYTE cbWeaveCardCount=m_GameLogic.GetWeaveCard(cbWeaveKind,cbCenterCard,cbWeaveCard);
 					m_GameClientView.m_WeaveCard[wViewChairID[i]][j].SetCardData(cbWeaveCard,cbWeaveCardCount,m_WeaveItemArray[i][j].cbCenterCard);
-					if ((cbWeaveKind&WIK_GANG)&&(m_WeaveItemArray[i][j].wProvideUser==i)) 
+					if ((cbWeaveKind&WIK_GANG)&&(m_WeaveItemArray[i][j].wProvideUser==i))
 						m_GameClientView.m_WeaveCard[wViewChairID[i]][j].SetDisplayItem(false);
 					WORD wProviderViewID = SwitchViewChairID(m_WeaveItemArray[i][j].wProvideUser);
 					m_GameClientView.m_WeaveCard[wOperateViewID][j].SetDirectionCardPos(3-(wOperateViewID-wProviderViewID+4)%4);
@@ -862,7 +862,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 				}
 
 				//听牌状态
-				if (pStatusPlay->cbHearStatus[i]==TRUE) 
+				if (pStatusPlay->cbHearStatus[i]==TRUE)
 				{
 					WORD wViewChairID=SwitchViewChairID(i);
 					m_GameClientView.SetUserListenStatus(wViewChairID,true);
@@ -888,8 +888,8 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 				m_GameClientView.m_HandCardControl.SetCardData(pStatusPlay->cbCardData,cbCardCount-1,pStatusPlay->cbCardData[cbCardCount-1]);
 
 			}
-			else 
-				m_GameClientView.m_HandCardControl.SetCardData(pStatusPlay->cbCardData,pStatusPlay->cbCardCount,0); 
+			else
+				m_GameClientView.m_HandCardControl.SetCardData(pStatusPlay->cbCardData,pStatusPlay->cbCardCount,0);
 
 			//扑克设置
 			for (WORD i=0;i<GAME_PLAYER;i++)
@@ -908,7 +908,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 			}
 
 			//控制设置
-			if (IsLookonMode()==false) 
+			if (IsLookonMode()==false)
 			{
 				m_GameClientView.m_HandCardControl.SetPositively(true);
 				m_GameClientView.m_HandCardControl.SetDisplayItem(true);
@@ -971,7 +971,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 				cbTakeCount = cbTakeCount - HEAP_FULL_COUNT;
 				m_wHeapHand = (m_wHeapHand+1)%4;
 				m_cbHeapCardInfo[m_wHeapHand][0] = (BYTE) m_wHeapHand;
-			}			
+			}
 
 			//堆立界面
 			for (WORD i=0;i<4;i++)
@@ -1034,7 +1034,7 @@ bool CGameClientEngine::OnEventSceneMessage(BYTE cbGameStatus, bool bLookonUser,
 				//设置界面
 				if (m_wCurrentUser==INVALID_CHAIR)
 					SetGameClock(GetMeChairID(),IDI_OPERATE_CARD,TIME_OPERATE_CARD);
-				if (IsLookonMode()==false) 
+				if (IsLookonMode()==false)
 				{
 					m_GameClientView.m_ControlWnd.SetControlInfo(cbActionCard,cbActionMask,GangCardResult);
 					m_cbUserAction = cbActionMask;
@@ -1085,10 +1085,10 @@ bool CGameClientEngine::OnSubGameStart(const void * pBuffer, WORD wDataSize)
 {
 	//效验数据
 	ASSERT(wDataSize==sizeof(CMD_S_GameStart));
-	if (wDataSize!=sizeof(CMD_S_GameStart)) 
+	if (wDataSize!=sizeof(CMD_S_GameStart))
 		return false;
-	
-	
+
+
 	//变量定义
 	CMD_S_GameStart * pGameStart=(CMD_S_GameStart *)pBuffer;
 	//设置状态
@@ -1151,7 +1151,7 @@ bool CGameClientEngine::OnSubGameStart(const void * pBuffer, WORD wDataSize)
 					/*pGameStart->lBaseScore*2,*/ szNickName);
 				m_GameClientView.SetCenterText(szMsg);
 			}
-		}	
+		}
 	}
 
 	//更新界面
@@ -1180,7 +1180,7 @@ bool CGameClientEngine::OnSubGameStart(const void * pBuffer, WORD wDataSize)
 	for (WORD i=0;i<GAME_PLAYER;i++)
 	{
 		m_GameClientView.SetTrustee(SwitchViewChairID(i),pGameStart->bTrustee[i]);
-	}	
+	}
 	return true;
 }
 
@@ -1189,7 +1189,7 @@ bool CGameClientEngine::OnSubGamePlay(const void * pBuffer,WORD wDataSize)
 {
 	//效验数据
 	ASSERT(wDataSize==sizeof(CMD_S_GamePlay));
-	if (wDataSize!=sizeof(CMD_S_GamePlay)) 
+	if (wDataSize!=sizeof(CMD_S_GamePlay))
 		return false;
 
 	//变量定义
@@ -1197,10 +1197,10 @@ bool CGameClientEngine::OnSubGamePlay(const void * pBuffer,WORD wDataSize)
 	memcpy(&m_sGamePlay,pBuffer, sizeof(m_sGamePlay));
 	KillGameClock(IDI_DINGDI_CARD);
 
-	//设置状态	
+	//设置状态
 	m_GameClientView.m_ScoreControl.RestorationData();
 	m_GameClientView.SetCurrentUser(INVALID_CHAIR);
-	
+
 	//设置变量
 	m_bHearStatus=false;
 	m_bWillHearStatus=false;
@@ -1281,12 +1281,12 @@ bool CGameClientEngine::OnSubGamePlay(const void * pBuffer,WORD wDataSize)
 			m_GameClientView.m_WeaveCard[wViewChairID][4].SetCardData(NULL,0);
 		}
 	}
-	
+
 	WORD wMeChairID=GetMeChairID();
 
 	//出牌提示
 	if ((bPlayerMode==true)&&(m_wCurrentUser!=INVALID_CHAIR))
-	{		
+	{
 		if (m_wCurrentUser==wMeChairID)
 		{
 			ActiveGameFrame();
@@ -1310,7 +1310,7 @@ bool CGameClientEngine::OnSubOutCard(const void * pBuffer, WORD wDataSize)
 	//效验消息
 	ASSERT(wDataSize==sizeof(CMD_S_OutCard));
 	if (wDataSize!=sizeof(CMD_S_OutCard)) return false;
-	
+
 	//消息处理
 	CMD_S_OutCard * pOutCard=(CMD_S_OutCard *)pBuffer;
 	//变量定义
@@ -1318,7 +1318,7 @@ bool CGameClientEngine::OnSubOutCard(const void * pBuffer, WORD wDataSize)
 	WORD wOutViewChairID=SwitchViewChairID(pOutCard->wOutCardUser);
 	if ((pOutCard->wOutCardUser != wMeChairID) && (GS_MJ_PLAY != GetGameStatus()))
 	{
-		do 
+		do
 		{
 			OnDispatchCard(1,0);
 		} while (GS_MJ_PLAY != GetGameStatus());
@@ -1336,7 +1336,7 @@ bool CGameClientEngine::OnSubOutCard(const void * pBuffer, WORD wDataSize)
 	if ((IsLookonMode()==true)||(pOutCard->wOutCardUser!=wMeChairID))
 	{
 		//环境设置
-		KillGameClock(IDI_OPERATE_CARD); 
+		KillGameClock(IDI_OPERATE_CARD);
 		PlayCardSound(pOutCard->wOutCardUser,pOutCard->cbOutCardData);
 
 		//出牌界面
@@ -1362,7 +1362,7 @@ bool CGameClientEngine::OnSubOutCard(const void * pBuffer, WORD wDataSize)
 	else
 	{
 		m_GameClientView.RefreshGameView();
-	}	
+	}
 	return true;
 }
 
@@ -1479,7 +1479,7 @@ bool CGameClientEngine::OnSubListenCard(const void * pBuffer, WORD wDataSize)
 {
 	//效验数据
 	ASSERT(wDataSize==sizeof(CMD_S_ListenCard));
-	if (wDataSize!=sizeof(CMD_S_ListenCard)) 
+	if (wDataSize!=sizeof(CMD_S_ListenCard))
 		return false;
 
 	//变量定义
@@ -1498,7 +1498,7 @@ bool CGameClientEngine::OnSubOperateNotify(const void * pBuffer, WORD wDataSize)
 {
 	//效验数据
 	ASSERT(wDataSize==sizeof(CMD_S_OperateNotify));
-	if (wDataSize!=sizeof(CMD_S_OperateNotify)) 
+	if (wDataSize!=sizeof(CMD_S_OperateNotify))
 		return false;
 
 	//变量定义
@@ -1552,7 +1552,7 @@ bool CGameClientEngine::OnSubOperateResult(const void * pBuffer, WORD wDataSize)
 {
 	//效验消息
 	ASSERT(wDataSize==sizeof(CMD_S_OperateResult));
-	if (wDataSize!=sizeof(CMD_S_OperateResult)) 
+	if (wDataSize!=sizeof(CMD_S_OperateResult))
 		return false;
 
 	//消息处理
@@ -1902,7 +1902,7 @@ bool CGameClientEngine::OnSubGameEnd(const void * pBuffer, WORD wDataSize)
 			PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_WIN"));
 		else if (lScore<0L)
 			PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_LOST"));
-		else 
+		else
 			PlayGameSound(AfxGetInstanceHandle(),TEXT("GAME_END"));
 		break;
 	}
@@ -1964,7 +1964,7 @@ bool CGameClientEngine::OnSubDingDi(const void * pBuffer,WORD wDataSize)
 		// 设置显示
 		if (m_wBankerUser == wMeChair)
 		{
-			m_GameClientView.SetCenterText(TEXT("等待闲家顶底……"));			
+			m_GameClientView.SetCenterText(TEXT("等待闲家顶底……"));
 		}
 		else
 		{
@@ -2020,7 +2020,7 @@ void CGameClientEngine::PlayCardSound(WORD wChairID, BYTE cbCardData)
 	{
 	case 0X30:	//风
 		{
-			switch(cbValue) 
+			switch(cbValue)
 			{
 			case 1:
 				{
@@ -2064,7 +2064,7 @@ void CGameClientEngine::PlayCardSound(WORD wChairID, BYTE cbCardData)
 
 			}
 			break;
-		}		
+		}
 	case 0X20:	//筒
 		{
 			strSoundName.Format(_T("T_%d"), cbValue);
@@ -2081,7 +2081,7 @@ void CGameClientEngine::PlayCardSound(WORD wChairID, BYTE cbCardData)
 			strSoundName.Format(_T("W_%d"), cbValue);
 			break;
 		}
-	}	
+	}
 
 	if(!bGirl)
 	{
@@ -2126,7 +2126,7 @@ void CGameClientEngine::PlayActionSound(WORD wChairID,BYTE cbAction)
 			if(!bGirl)
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("BOY_CHI"));
 			else
-				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_CHI"));		
+				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_CHI"));
 			break;
 		}
 	case WIK_PENG:		//碰牌
@@ -2134,7 +2134,7 @@ void CGameClientEngine::PlayActionSound(WORD wChairID,BYTE cbAction)
 			if(!bGirl)
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("BOY_PENG"));
 			else
-				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_PENG"));	
+				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_PENG"));
 			break;
 		}
 	case WIK_GANG:		//杠牌
@@ -2142,7 +2142,7 @@ void CGameClientEngine::PlayActionSound(WORD wChairID,BYTE cbAction)
 			if(!bGirl)
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("BOY_GANG"));
 			else
-				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_GANG"));		
+				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_GANG"));
 			break;
 		}
 	case WIK_CHI_HU:	//吃胡
@@ -2151,7 +2151,7 @@ void CGameClientEngine::PlayActionSound(WORD wChairID,BYTE cbAction)
 			if(!bGirl)
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("BOY_CHI_HU"));
 			else
-				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_CHI_HU"));		
+				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_CHI_HU"));
 			break;
 		}
 	case WIK_LISTEN:	//听牌
@@ -2159,7 +2159,7 @@ void CGameClientEngine::PlayActionSound(WORD wChairID,BYTE cbAction)
 			if(!bGirl)
 				PlayGameSound(AfxGetInstanceHandle(),TEXT("BOY_TING"));
 			else
-				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_TING"));		
+				PlayGameSound(AfxGetInstanceHandle(),TEXT("GIRL_TING"));
 		}
 	}
 
@@ -2192,7 +2192,7 @@ bool CGameClientEngine::VerdictOutCard(BYTE cbCardData)
 			BYTE cbHuCardKind=m_GameLogic.AnalyseChiHuCard(cbCardIndexTemp,m_WeaveItemArray[wMeChairID],cbWeaveCount,cbCurrentCard,wChiHuRight,ChiHuResult);
 
 			//结果判断
-			if (cbHuCardKind!=CHK_NULL) 
+			if (cbHuCardKind!=CHK_NULL)
 				break;
 		}
 
@@ -2363,7 +2363,7 @@ LRESULT CGameClientEngine::OnStart(WPARAM wParam, LPARAM lParam)
 
 	//扑克变量
 	m_cbLeftCardCount=0;
-	ZeroMemory(m_cbCardIndex,sizeof(m_cbCardIndex));	
+	ZeroMemory(m_cbCardIndex,sizeof(m_cbCardIndex));
 
 	//发送消息
 	SendUserReady(NULL,0);
@@ -2385,13 +2385,13 @@ LRESULT CGameClientEngine::OnOutInvalidCard(WPARAM wParam,LPARAM lParam)
 	m_GameClientView.m_bTipSingle=true;
 	m_GameClientView.SetTimer(102/*IDI_TIP_SINGLE*/,2500,NULL);
 	m_GameClientView.RefreshGameView();
-	
+
 	return 0;
 }
 //出牌操作
 LRESULT CGameClientEngine::OnOutCard(WPARAM wParam, LPARAM lParam)
 {
-	KillGameClock(IDI_OPERATE_CARD); 
+	KillGameClock(IDI_OPERATE_CARD);
 
 	if (GS_MJ_PLAY != GetGameStatus())
 	{
@@ -2530,7 +2530,7 @@ LRESULT CGameClientEngine::OnDingDi(WPARAM wParam, LPARAM lParam)
 	m_GameClientView.m_btMaiCancel.ShowWindow(SW_HIDE);
 	m_GameClientView.m_btDingCancel.ShowWindow(SW_HIDE);
 	if (GS_MJ_MAIDI != GetGameStatus())
-	{		
+	{
 		return 0;
 	}
 	m_wCurrentUser = INVALID_CHAIR;
@@ -2620,11 +2620,11 @@ LRESULT CGameClientEngine::OnDispatchCard(WPARAM wParam, LPARAM lParam)
 	else //if((3 == m_bySicboAnimCount)
 	{
 		//设置变量
-		CMD_S_GamePlay *pGamePlay = &m_sGamePlay;		
+		CMD_S_GamePlay *pGamePlay = &m_sGamePlay;
 		m_bHearStatus=false;
-		m_bWillHearStatus=false;		
+		m_bWillHearStatus=false;
 		m_cbLeftCardCount=MAX_REPERTORY-GAME_PLAYER*(MAX_COUNT-1)-1;
-		
+
 		m_GameClientView.m_HandCardControl.SetGodsCard(pGamePlay->byGodsCardData);
 
 		//出牌信息
@@ -2685,10 +2685,12 @@ LRESULT CGameClientEngine::OnDispatchCard(WPARAM wParam, LPARAM lParam)
 		{
 			//计算数目
 			BYTE cbValidCount=HEAP_FULL_COUNT-m_cbHeapCardInfo[wTakeChairID][1]-((i==0)?(cbSiceSecond-1)*2:0);
+	    cbValidCount+=2;
 			BYTE cbRemoveCount=__min(cbValidCount,cbTakeCount);
 			if(i==1)
 				cbRemoveCount=cbTakeCount;
-			m_cbHeapCardInfo[wTakeChairID][(i==0)?1:0]+=cbRemoveCount*2;
+	 		m_cbHeapCardInfo[wTakeChairID][(i==0)?1:0]+=cbRemoveCount;
+      _sntprintf(szMsg, sizeof(szMsg), TEXT("%d 等待 %d 点数为 ..%d,%d"),wTakeChairID,cbSiceSecond,cbRemoveCount,cbTakeCount);
 
 			//提取扑克
 			cbTakeCount-=cbRemoveCount;
@@ -2702,6 +2704,8 @@ LRESULT CGameClientEngine::OnDispatchCard(WPARAM wParam, LPARAM lParam)
 
 			//切换索引
 			wTakeChairID=(wTakeChairID+1)%4;
+      m_cbHeapCardInfo[wTakeChairID][(i==0)?1:0]+=cbTakeCount-1;
+      break;
 		}
 		//////////////////////////////////////////////////////////////////////////
 		m_wHeapHand = (m_wHeapTail+1)%4;
@@ -2769,7 +2773,7 @@ LRESULT CGameClientEngine::OnDispatchCard(WPARAM wParam, LPARAM lParam)
 		SetGameStatus(GS_MJ_PLAY);
 		//出牌提示
 		if ((bPlayerMode==true)&&(m_wCurrentUser!=INVALID_CHAIR))
-		{		
+		{
 			if (m_wCurrentUser==wMeChairID)
 			{
 				ActiveGameFrame();

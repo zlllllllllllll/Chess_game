@@ -395,7 +395,7 @@ print("m_ImageTableRight",nXPos,nYPos)
 				if self.m_wMinusHeadCount%2~=0 then
 print("东向头部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+6
 					CCardResource.m_ImageHeapSingleV["eastHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
@@ -514,7 +514,7 @@ print("m_ImageTableLeft",nXPos,nYPos)
 				if self.m_wMinusHeadCount%2~=0 then
 print("西向头部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+9
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+6
 					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
@@ -594,7 +594,7 @@ end
 
 --设置扑克
 function CHeapCard:SetCardData(wMinusHeadCount,wMinusLastCount,wFullCount)
-print("设置扑克 CHeapCard",wMinusHeadCount,wMinusLastCount,wFullCount)
+print("设置扑克 CHeapCard",self.m_CardDirection,wMinusHeadCount,wMinusLastCount,wFullCount)
 	--设置变量
 	self.m_wFullCount=wFullCount
 	self.m_wMinusHeadCount=wMinusHeadCount
