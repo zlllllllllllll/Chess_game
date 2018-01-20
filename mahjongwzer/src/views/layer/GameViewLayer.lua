@@ -707,8 +707,10 @@ print("self.m_szCenterText",self.m_szCenterText)
 	self.m_HeapCard[4]:DrawCardControl("")
 
 	--用户扑克
+	self.m_UserCard[1]:DrawClearn()
 	self.m_UserCard[1]:DrawCardControl()						--对方手中的麻将，游戏进行中显示
 	
+	self.m_HandCardControl:DrawClearn()
 	self.m_HandCardControl:DrawCardControl()					--自己手中的麻将，游戏进行中显示
 
 	--等待提示

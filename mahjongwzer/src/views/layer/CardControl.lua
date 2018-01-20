@@ -199,9 +199,18 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 			:addTo(CardControl.CCardList[id].Parent)
 		CardControl.CCardList[id].n_List[index]:getChildByTag(1):move(-nDrawWidth/2-nImageXPos,0)
 
-		-- CardControl.CCardList[id].n_List[index]=display.newSprite(mResource)
-		-- 	:move(xDest,yDest)
-		-- 	:addTo(CardControl.CCardList[id].Parent)
+		local btcallback = function(ref, type)
+		if type == ccui.TouchEventType.ended then
+			CCardControl:GetOutCard(ref:getTag(),ref)
+		end
+		end
+		ccui.Button:create("res/game/ACTION_BACK.png","res/game/ACTION_BACK.png")
+			:move(xDest,yDest)
+			:setName(index)
+			:setTag(cbCardData)
+			:setScale(1)
+			:addTo(CardControl.CCardList[id].Parent)
+			:addTouchEventListener(btcallback)
 		
 		--判断条件不明
 		-- if nDrawWidth==CardControl.CCardList[id].m_nItemWidth and nDrawHeight==CardControl.CCardList[id].m_nItemHeight then
@@ -341,7 +350,7 @@ function CHeapCard:DrawClearn()
 -- 	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["south"])
 -- print("m_ImageHeapDoubleH north ")
 -- 	CCardResource:clearnResource(CCardResource.m_ImageHeapDoubleH["north"])
-print("DrawClearn",self.m_CardDirection)
+print("DrawClearn 清除",self.m_CardDirection)
 	self:removeAllChildren()
 end
 
@@ -845,6 +854,12 @@ function CUserCard:ctor()
 	return
 end
 
+--清除
+function CUserCard:DrawClearn()
+print("CUserCard 清除")
+	self:removeAllChildren()
+end
+
 --绘画扑克
 function CUserCard:DrawCardControl()
 print("CUserCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
@@ -1088,7 +1103,7 @@ end
 
 --绘画扑克
 function CTableCard:DrawCardControl()
-print("CDiscardCard:DrawCardControl")
+print("CTableCard:DrawCardControl")
 dump(self.m_cbCardData,"self.m_cbCardData",6)
 print("self.m_wCardCount",self.m_wCardCount,self.m_CardDirection)
 	--绘画控制
@@ -1178,6 +1193,11 @@ function CCardControl:ctor()
 	return
 end
 
+--清除
+function CCardControl:DrawClearn()
+print("CCardControl 清除  未处理")
+end
+
 function CCardControl:SetBenchmarkPos(...)
 	local arg={...}
 	local len=#arg
@@ -1244,6 +1264,7 @@ end
 --获取扑克
 function CCardControl:GetHoverCard()
 	--获取扑克
+print("获取悬停 扑克")
 	local byCardData = 0x00
 	if self.m_wHoverItem~=CardControl.INVALID_ITEM then
 		if self.m_wHoverItem==#self.m_CardItemArray then
@@ -1280,9 +1301,41 @@ function CCardControl:GetHoverCard()
 
 	return byCardData
 end
+--获取出牌扑克
+function CCardControl:GetOutCard(byCardData)
+print("获取出牌扑克 ",byCardData,self.m_byGodsData)
+	if nil==byCardData or ""==byCardData then return end
+	GameLogic:SetGodsCard(self.m_byGodsData)
+	local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
+	if self.m_bCardDisable[byIndex] then
+		byCardData = 0x00
+	end
+
+	if byCardData == self.m_byGodsData then
+		local bAllGods = true
+		if self.m_CurrentCard.cbCardData ~= self.m_byGodsData then
+			bAllGods = false
+		end
+		if bAllGods then
+			while true do
+				for i=1,self.m_wCardCount+0,1 do
+					if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
+						bAllGods = false
+					break	end
+				end
+			break end
+		end
+		if not bAllGods then
+			byCardData = 0x00
+		end
+	end
+print(byCardData)
+	return byCardData
+end
 
 --设置扑克
 function CCardControl:SetCurrentCard(cbCardData)
+priunt("设置当前扑克 CCardControl:SetCurrentCard",cbCardData)
 	if nil~=cbCardData and type(cbCardData)=="table" then
 		--设置变量
 		self.m_CurrentCard.bShoot=cbCardData.bShoot
@@ -1345,6 +1398,7 @@ function CCardControl:SetOutCardData(...)
 	end
 end
 function CCardControl:SetOutCardData_2(cbCardDataIndex,wCardCount)
+print("CCardControl:SetOutCardData_2",cbCardDataIndex,wCardCount)
 	self.m_cbOutCardIndex=GameLogic:sizeM(cmd.MAX_INDEX) 
 	if nil ~= cbCardDataIndex then
 		--CopyMemory(m_cbOutCardIndex, cbCardDataIndex, wCardCount);
@@ -1353,6 +1407,7 @@ function CCardControl:SetOutCardData_2(cbCardDataIndex,wCardCount)
 end
 
 function CCardControl:SetOutCardData_1(cbCardDataIndex)
+print("CCardControl:SetOutCardData_1",cbCardDataIndex)
 	--if cbCardDataIndex>(#self.m_cbOutCardIndex/#self.m_cbOutCardIndex[1]) then
 	if cbCardDataIndex>(#self.m_cbOutCardIndex) then
 		return
@@ -1360,8 +1415,9 @@ function CCardControl:SetOutCardData_1(cbCardDataIndex)
 	self.m_cbOutCardIndex[cbCardDataIndex]=self.m_cbOutCardIndex[cbCardDataIndex]+1
 end
 
---设置响应
+--设置
 function CCardControl:SetGodsCard(cbCardData)
+print("设置财神 CCardControl:SetGodsCard",cbCardData)
 	self.m_byGodsData = cbCardData
 end
 

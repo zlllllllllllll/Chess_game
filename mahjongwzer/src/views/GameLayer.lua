@@ -904,7 +904,8 @@ dump(cmd_data,"cmd_data",6)
 
     --界面设置
     self._gameView:SetBaseScore(cmd_data.lCellScore)
-    self._gameView:SetBankerUser(wViewChairID[self.m_wBankerUser])
+    --self._gameView:SetBankerUser(wViewChairID[self.m_wBankerUser])
+    self._gameView:SetBankerUser(self.m_wBankerUser)
 
     --组合扑克
 		local cbWeaveCard={0,0,0,0}
@@ -1141,7 +1142,8 @@ function GameLayer:onSubGameStart(dataBuffer)
 	local bPlayerMode=true
 	self._gameView:SetUserListenStatus(yl.INVALID_CHAIR,false)
 	self._gameView.m_HandCardControl:SetPositively(false)
-	self._gameView:SetBankerUser(self:SwitchViewChairID(self.m_wBankerUser))
+	--self._gameView:SetBankerUser(self:SwitchViewChairID(self.m_wBankerUser))
+	self._gameView:SetBankerUser(self.m_wBankerUser)
 	self._gameView.m_bBankerCount=cmd_data.bBankerCount
 	self._gameView:SetDiscUser(yl.INVALID_CHAIR)
 	self._gameView:SetGodsCard( 0x00 )
@@ -2455,7 +2457,7 @@ function GameLayer:OnOutInvalidCard()
 end
 
 function GameLayer:OnOutCard(wParam, lParam)
-print(" OnOutCard ",wParam, lParam)
+print("出牌 OnOutCard ",wParam, lParam)
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
   if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
@@ -2680,7 +2682,8 @@ dump(bySicbo,"bySicbo",6)
 		local bPlayerMode=true
 		self._gameView:SetUserListenStatus(yl.INVALID_CHAIR,false)
 		self._gameView.m_HandCardControl:SetPositively(false)
-		self._gameView:SetBankerUser(self:SwitchViewChairID(self.m_wBankerUser))
+		--self._gameView:SetBankerUser(self:SwitchViewChairID(self.m_wBankerUser))
+		self._gameView:SetBankerUser(self.m_wBankerUser)
 		self._gameView:SetDiscUser(yl.INVALID_CHAIR)
 
 		--旁观界面
@@ -2834,6 +2837,7 @@ function GameLayer:SwitchHeapViewChairID(wChairID)
 	-- 转换椅子0位置为0， 1的位置为2
 	local wViewChairID=(wChairID+4-self:GetMeChairID()*2)
 	wViewChairID =wViewChairID + 2
+print("SwitchHeapViewChairID",wChairID,self:GetMeChairID(),wViewChairID%4)
 	return wViewChairID%4
 end
 
