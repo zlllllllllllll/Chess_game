@@ -711,7 +711,8 @@ print("self.m_szCenterText",self.m_szCenterText)
 	self.m_UserCard[1]:DrawCardControl()						--对方手中的麻将，游戏进行中显示
 	
 	self.m_HandCardControl:DrawClearn()
-	self.m_HandCardControl:DrawCardControl()					--自己手中的麻将，游戏进行中显示
+	local direction=self._scene:GetMeChairID()==self.m_wOutCardUser and true or false
+	self.m_HandCardControl:DrawCardControl(direction)					--自己手中的麻将，游戏进行中显示
 
 	--等待提示
 print("=== 等待提示 ",self.m_bWaitOther)
@@ -1306,6 +1307,10 @@ function GameViewLayer:OnLButtonDown(nFlags,Point)
 
 	return
 	--]]
+end
+--点击出牌
+function GameViewLayer:VOnOutCard(wParam)
+	self._scene:OnOutCard(wParam,nil)
 end
 
 --开始按钮

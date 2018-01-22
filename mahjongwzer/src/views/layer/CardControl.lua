@@ -198,38 +198,31 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 			:move(xDest,yDest)
 			:addTo(CardControl.CCardList[id].Parent)
 		CardControl.CCardList[id].n_List[index]:getChildByTag(1):move(-nDrawWidth/2-nImageXPos,0)
-
-		local btcallback = function(ref, type)
-		if type == ccui.TouchEventType.ended then
-			CCardControl:GetOutCard(ref:getTag(),ref)
-		end
-		end
-		ccui.Button:create("res/game/ACTION_BACK.png","res/game/ACTION_BACK.png")
-			:move(xDest,yDest)
-			:setName(index)
-			:setTag(cbCardData)
-			:setScale(1)
-			:addTo(CardControl.CCardList[id].Parent)
-			:addTouchEventListener(btcallback)
 		
-		--判断条件不明
-		-- if nDrawWidth==CardControl.CCardList[id].m_nItemWidth and nDrawHeight==CardControl.CCardList[id].m_nItemHeight then
-		-- 	--self.m_CardListImage.TransDrawImage(pDestDC,xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,RGB(255,0,255))
-		-- 	CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
-		-- 		--:setColor(cc.c3b(255, 0, 255))
-		-- 		:setVisible(true)
-		-- else
-		-- 	--self.m_CardListImage.StretchBlt(pDestDC->GetSafeHdc(),xDest,yDest,nDrawWidth,nDrawHeight,nImageXPos,0,m_nItemWidth,m_nItemHeight,SRCCOPY)
-		-- 	CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
-		-- 		--:setColor(cc.c3b(255, 0, 255))
-		-- 		:setVisible(true)
-		-- end
+		if index and index ~= "" then
+			--出牌按钮
+			local btcallback = function(ref, type)
+			if type == ccui.TouchEventType.ended then
+				CCardControl:GetOutCard(ref:getTag(),ref)
+			end
+			end
+			ccui.Button:create("res/game/mjBtn.png","res/game/mjBtn.png")
+				:move(xDest,yDest)
+				-- :setTitleText(cbCardData)
+				-- :setTitleFontSize(20)
+				-- :setTitleColor(cc.c4b(255, 0, 255,180))
+				:setName(index)
+				:setTag(cbCardData)
+				:setScale(1)
+				:addTo(CardControl.CCardList[id].Parent)
+				:addTouchEventListener(btcallback)
+		end	
 	end
 	--财神标记
 	if cbGodsData~=0 and cbGodsData==cbCardData then
 		CardControl.CCardList[id].n_List[index.."csFalg"]=display.newSprite(CardControl.CCardList[id].m_csFlag)
 			:setPosition(xDest,yDest+10)
-			:addTo(CardControl.CCardList[id].Parent)		
+			:addTo(CardControl.CCardList[id].Parent)
 	end
 
 	return true
@@ -1163,8 +1156,9 @@ function CTableCard:SetControlPoint(nXPos,nYPos)
 end
 --===================================================================
 --扑克控件
-CCardControl.m_byGodsData= 0x00
-function CCardControl:ctor()
+function CCardControl:ctor(base)
+	CCardControl._base = base
+	CCardControl.m_byGodsData= 0x00
 	--状态变量
 	CCardControl.m_bPositively=false
 	CCardControl.m_bDisplayItem=false
@@ -1330,12 +1324,13 @@ print("获取出牌扑克 ",byCardData,self.m_byGodsData)
 		end
 	end
 print(byCardData)
+	self._base:VOnOutCard(byCardData)
 	return byCardData
 end
 
 --设置扑克
 function CCardControl:SetCurrentCard(cbCardData)
-priunt("设置当前扑克 CCardControl:SetCurrentCard",cbCardData)
+print("设置当前扑克 CCardControl:SetCurrentCard",cbCardData)
 	if nil~=cbCardData and type(cbCardData)=="table" then
 		--设置变量
 		self.m_CurrentCard.bShoot=cbCardData.bShoot
@@ -1506,7 +1501,7 @@ print("CCardControl:UpdateCardDisable END !")
 end
 
 --绘画扑克
-function CCardControl:DrawCardControl()
+function CCardControl:DrawCardControl(is_wOutCardUser)
 print("CCardControl:DrawCardControl",self.m_wCardCount)
 	--绘画准备
 	local nXExcursion=self.m_ControlPoint.x+(GameLogic:table_leng(self.m_CardItemArray)-self.m_wCardCount)*CardControl.CARD_WIDTH
@@ -1539,11 +1534,14 @@ print(i,cbCardData,self.m_bShowDisable,nXScreenPos,nYScreenPos)
 		local cbCardData=(self.m_bDisplayItem==true) and self.m_CurrentCard.cbCardData or 0
 	print("!!! 当前",self.m_CurrentCard.cbCardData,cbCardData,self.m_bShowDisable)
 	--mark self.m_CurrentCard.cbCardData 暂时替换i 先显示
-		if (0 ~= cbCardData) and self.m_bShowDisable then
-			local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
-			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
-		else
-			CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
+		if is_wOutCardUser then
+		--添加 不是出牌用户不显示当前牌
+			if (0 ~= cbCardData) and self.m_bShowDisable then
+				local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
+				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true,false)
+			else
+				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true,false)
+			end
 		end
 	end
 

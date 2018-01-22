@@ -1337,6 +1337,8 @@ print(wViewChairID,i)
 	self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
 	
 --临时添加测试 start ==========================================================================================
+	--设置游戏状态
+	self._gameFrame:SetGameStatus(cmd.GS_MJ_PLAY)
 	--添加设置财神
 	GameLogic:SetGodsCard(cmd_data.byGodsCardData)
 	self._gameView:SetGodsCard(cmd_data.byGodsCardData)
@@ -2458,6 +2460,7 @@ end
 
 function GameLayer:OnOutCard(wParam, lParam)
 print("出牌 OnOutCard ",wParam, lParam)
+print(self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
   if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
