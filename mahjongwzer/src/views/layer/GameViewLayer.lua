@@ -712,7 +712,10 @@ print("self.m_szCenterText",self.m_szCenterText)
 	
 	self.m_HandCardControl:DrawClearn()
 	local direction=self._scene:GetMeChairID()==self.m_wOutCardUser and true or false
-	self.m_HandCardControl:DrawCardControl(direction)					--自己手中的麻将，游戏进行中显示
+print(direction,self._scene:GetMeChairID(),self.m_wOutCardUser)
+--m_wOutCardUser 未同步 暂时不能使用
+	--self.m_HandCardControl:DrawCardControl(direction)					--自己手中的麻将，游戏进行中显示
+	self.m_HandCardControl:DrawCardControl(true)
 
 	--等待提示
 print("=== 等待提示 ",self.m_bWaitOther)
@@ -850,7 +853,7 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 		--绘画扑克
 		print("财神")
 		self.g_CardResource=CardControl:create_CCardListImage(self)
-		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+0,nYPos+15)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+0,nYPos+30)
 	end
 
 ---------------=======================================================================================
@@ -1079,7 +1082,7 @@ end
 
 --出牌信息
 function GameViewLayer:SetOutCardInfo(wViewChairID,cbCardData)
-print("庄家用户 SetOutCardInfo ",wViewChairID,cbCardData)
+print("出牌信息 SetOutCardInfo ",wViewChairID,cbCardData)
 		--设置变量
 		self.m_cbCardData=cbCardData
 		self.m_wOutCardUser=wViewChairID

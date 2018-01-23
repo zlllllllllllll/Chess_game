@@ -1297,23 +1297,24 @@ print("获取悬停 扑克")
 end
 --获取出牌扑克
 function CCardControl:GetOutCard(byCardData)
-print("获取出牌扑克 ",byCardData,self.m_byGodsData)
+	m_GodsData=CCardControl.m_byGodsData
+print("获取出牌扑克 ",byCardData,m_GodsData,CCardControl.m_byGodsData)
 	if nil==byCardData or ""==byCardData then return end
-	GameLogic:SetGodsCard(self.m_byGodsData)
+	GameLogic:SetGodsCard(m_GodsData)
 	local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
 	if self.m_bCardDisable[byIndex] then
 		byCardData = 0x00
 	end
 
-	if byCardData == self.m_byGodsData then
+	if byCardData == m_GodsData then
 		local bAllGods = true
-		if self.m_CurrentCard.cbCardData ~= self.m_byGodsData then
+		if self.m_CurrentCard.cbCardData ~= m_GodsData then
 			bAllGods = false
 		end
 		if bAllGods then
 			while true do
 				for i=1,self.m_wCardCount+0,1 do
-					if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
+					if self.m_CardItemArray[i].cbCardData ~= m_GodsData then
 						bAllGods = false
 					break	end
 				end
@@ -1414,6 +1415,8 @@ end
 function CCardControl:SetGodsCard(cbCardData)
 print("设置财神 CCardControl:SetGodsCard",cbCardData)
 	self.m_byGodsData = cbCardData
+	CCardControl.m_byGodsData = cbCardData
+print(self.m_byGodsData,CCardControl.m_byGodsData)
 end
 
 function CCardControl:UpdateCardDisable(bShowDisable)
@@ -1483,7 +1486,7 @@ print(bHaveSingle)
 	break end
 	end
 dump(self.m_bCardDisable,"111 m_bCardDisable",6)
-print(bHaveSingle,bHaveDouble)	
+print(bHaveSingle,bHaveDouble)
 	-- 所有的单牌都可以出
 	if not bHaveSingle then
 		for i=27,cmd.MAX_INDEX-1,1 do
@@ -1502,7 +1505,7 @@ end
 
 --绘画扑克
 function CCardControl:DrawCardControl(is_wOutCardUser)
-print("CCardControl:DrawCardControl",self.m_wCardCount)
+print("CCardControl:DrawCardControl",self.m_wCardCount,is_wOutCardUser)
 	--绘画准备
 	local nXExcursion=self.m_ControlPoint.x+(GameLogic:table_leng(self.m_CardItemArray)-self.m_wCardCount)*CardControl.CARD_WIDTH
 

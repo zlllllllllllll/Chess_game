@@ -1471,7 +1471,7 @@ function GameLayer:onSubOutCard(dataBuffer)
 	--变量定义
 	local wMeChairID=self:GetMeChairID()
 	local wOutViewChairID=self:SwitchViewChairID(cmd_data.wOutCardUser)
-	print(cmd_data.wOutCardUser , wMeChairID,cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
+	print(cmd_data.wOutCardUser , wMeChairID,wOutViewChairID,cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   if (cmd_data.wOutCardUser ~= wMeChairID) and (cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus()) then
     while true do
       self:OnDispatchCard(1,0)
@@ -2227,6 +2227,7 @@ end
 
 --出牌判断
 function GameLayer:VerdictOutCard(cbCardData)
+print("出牌判断 ",self.m_bHearStatus,self.m_bWillHearStatus)
 	--听牌判断
   if (self.m_bHearStatus==true) or (self.m_bWillHearStatus==true) then
 		--变量定义
@@ -2471,6 +2472,7 @@ print(self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:G
   if self.m_wCurrentUser~=self:GetMeChairID() then	return 0  end
 
 	--听牌判断
+	print(self.m_bHearStatus,self.m_bWillHearStatus)
   if ((self.m_bHearStatus==true) or (self.m_bWillHearStatus==true)) and ((self:VerdictOutCard(wParam)==false) or (self:VerdictOutCard(wParam)==0)) then
 		--m_pIStringMessage->InsertSystemString(TEXT("出此牌不符合游戏规则!"));  --此处
 		print("出此牌不符合游戏规则")
@@ -2507,6 +2509,7 @@ print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
   self:PlayCardSound(self:GetMeChairID(),cbOutCardData)
 
 	--发送数据
+print("OnOutCard  发送数据",cbOutCardData)
 	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_OutCard)
 	cmd_data:pushbyte(cbOutCardData)
 	self:SendData(cmd.SUB_C_OUT_CARD, cmd_data)
