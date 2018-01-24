@@ -187,10 +187,11 @@ print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth
 	if nItemWidth and nItemWidth>0 then nDrawWidth=nItemWidth	end
 	--绘画子项
 	if cbCardData<=GameLogic.BAIBAN_CARD_DATA then
-		local nImageXPos=CCardListImage:GetImageIndex(cbCardData)*CardControl.CCardList[id].m_nItemWidth
+		local imgIndex=CCardListImage:GetImageIndex(cbCardData)
+		local nImageXPos=imgIndex*CardControl.CCardList[id].m_nItemWidth
 		-- CardControl.CCardList[id].m_CardListImage:setPosition(xDest,yDest)
 		-- 	:setVisible(true)
-print(CCardListImage:GetImageIndex(cbCardData),CardControl.CCardList[id].m_nItemWidth)
+print(imgIndex,CardControl.CCardList[id].m_nItemWidth)
 print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 		local mResource=CardControl.CCardList[id].n_ImageResource
 
@@ -212,7 +213,8 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 				-- :setTitleFontSize(20)
 				-- :setTitleColor(cc.c4b(255, 0, 255,180))
 				:setName(index)
-				:setTag(cbCardData)
+				--:setTag(cbCardData)
+				:setTag(imgIndex)
 				:setScale(1)
 				:addTo(CardControl.CCardList[id].Parent)
 				:addTouchEventListener(btcallback)
@@ -1259,41 +1261,41 @@ end
 function CCardControl:GetHoverCard()
 	--获取扑克
 print("获取悬停 扑克")
-	local byCardData = 0x00
-	if self.m_wHoverItem~=CardControl.INVALID_ITEM then
-		if self.m_wHoverItem==#self.m_CardItemArray then
-			byCardData =  self.m_CurrentCard.cbCardData
-		else
-			byCardData = self.m_CardItemArray[self.m_wHoverItem].cbCardData
-		end
+	-- local byCardData = 0x00
+	-- if self.m_wHoverItem~=CardControl.INVALID_ITEM then
+	-- 	if self.m_wHoverItem==#self.m_CardItemArray then
+	-- 		byCardData =  self.m_CurrentCard.cbCardData
+	-- 	else
+	-- 		byCardData = self.m_CardItemArray[self.m_wHoverItem].cbCardData
+	-- 	end
 
-		GameLogic:SetGodsCard(self.m_byGodsData)
-		local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
-		if self.m_bCardDisable[byIndex] then
-			byCardData = 0x00
-		end
+	-- 	GameLogic:SetGodsCard(self.m_byGodsData)
+	-- 	local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
+	-- 	if self.m_bCardDisable[byIndex] then
+	-- 		byCardData = 0x00
+	-- 	end
 
-		if byCardData == self.m_byGodsData then
-			local bAllGods = true
-			if self.m_CurrentCard.cbCardData ~= self.m_byGodsData then
-				bAllGods = false
-			end
-			if bAllGods then
-				while true do
-					for i=1,self.m_wCardCount+0,1 do
-						if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
-							bAllGods = false
-						break	end
-					end
-				break end
-			end
-			if not bAllGods then
-				byCardData = 0x00
-			end
-		end
-	end
+	-- 	if byCardData == self.m_byGodsData then
+	-- 		local bAllGods = true
+	-- 		if self.m_CurrentCard.cbCardData ~= self.m_byGodsData then
+	-- 			bAllGods = false
+	-- 		end
+	-- 		if bAllGods then
+	-- 			while true do
+	-- 				for i=1,self.m_wCardCount+0,1 do
+	-- 					if self.m_CardItemArray[i].cbCardData ~= self.m_byGodsData then
+	-- 						bAllGods = false
+	-- 					break	end
+	-- 				end
+	-- 			break end
+	-- 		end
+	-- 		if not bAllGods then
+	-- 			byCardData = 0x00
+	-- 		end
+	-- 	end
+	-- end
 
-	return byCardData
+	-- return byCardData
 end
 --获取出牌扑克
 function CCardControl:GetOutCard(byCardData)
@@ -1325,8 +1327,12 @@ print("获取出牌扑克 ",byCardData,m_GodsData,CCardControl.m_byGodsData)
 		end
 	end
 print(byCardData)
-	self._base:VOnOutCard(byCardData)
-	return byCardData
+	--请出单字牌  ~=0 ？
+	if condition ~=0 then
+		self._base:VOnOutCard(byCardData)
+	else
+		self._base:VOnOutInvalidCard()
+	end
 end
 
 --设置扑克

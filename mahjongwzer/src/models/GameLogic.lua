@@ -283,11 +283,14 @@ end
 
 --====   RemoveCard2
 function GameLogic:RemoveCard_2(cbCardIndex,cbRemoveCard)
+print("RemoveCard_2",cbRemoveCard)
+--dump(cbCardIndex,"cbCardIndex",6)
 	--效验扑克
 	-- ASSERT(IsValidCard(cbRemoveCard));
 	-- ASSERT(cbCardIndex[SwitchToCardIndex(cbRemoveCard)]>0);
 	--删除扑克
 	local cbRemoveIndex=GameLogic:SwitchToCardIndex(cbRemoveCard)
+print(cbCardIndex[cbRemoveIndex],cbRemoveIndex)
 	if cbCardIndex[cbRemoveIndex]>0 then
 		cbCardIndex[cbRemoveIndex]=cbCardIndex[cbRemoveIndex]-1
 		--return true

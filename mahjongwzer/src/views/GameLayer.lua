@@ -1411,6 +1411,8 @@ print("== m_HeapCard",self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],Ca
 		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData[wMeChairID+1],cbCardCount,byCardsIndex)
 	--dump(byCards,"byCards",6)
 		byCardsIndex=arg2
+		--添加
+		self.m_cbCardIndex=byCardsIndex
 	print(cmd_data.cbCardData[wMeChairID+1],(cmd.MAX_COUNT-1),byCardsIndex)
 
 	--dump(byCardsIndex,"byCardsIndex",6)
@@ -1506,7 +1508,7 @@ print("===mark 2")
 			--设置扑克
 			local cbCardCount,arg2=GameLogic:SwitchToCardData(self.m_cbCardIndex,cbCardData)
 			cbCardData=arg2
-	print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount)
+	print("-=-= onSubOutCard gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
 			local wUserIndex=wOutViewChairID
@@ -2444,6 +2446,7 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 end
 
 function GameLayer:OnOutInvalidCard()
+print("请出单字牌")
   if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
 		return 0
   end
@@ -2461,7 +2464,9 @@ end
 
 function GameLayer:OnOutCard(wParam, lParam)
 print("出牌 OnOutCard ",wParam, lParam)
-print(self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
+	--传出时已经是index
+	wParam=GameLogic:SwitchToCardData(wParam)
+print(wParam,self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
   if cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus() then
@@ -2488,7 +2493,9 @@ print(self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:G
 	--设置变量
 	self.m_wCurrentUser=yl.INVALID_CHAIR
 	local cbOutCardData=wParam
+dump(self.m_cbCardIndex,"m_cbCardIndex",6)
 	self.m_cbCardIndex=GameLogic:RemoveCard(self.m_cbCardIndex,cbOutCardData)
+dump(self.m_cbCardIndex,"m_cbCardIndex",6)
 
 	--设置扑克
 	local cbCardData={}
@@ -2509,9 +2516,9 @@ print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
   self:PlayCardSound(self:GetMeChairID(),cbOutCardData)
 
 	--发送数据
-print("OnOutCard  发送数据",cbOutCardData)
+print("OnOutCard  发送数据",cbOutCardData-1)
 	local cmd_data = ExternalFun.create_netdata(cmd.CMD_C_OutCard)
-	cmd_data:pushbyte(cbOutCardData)
+	cmd_data:pushbyte(cbOutCardData-1)
 	self:SendData(cmd.SUB_C_OUT_CARD, cmd_data)
 
 	return 0

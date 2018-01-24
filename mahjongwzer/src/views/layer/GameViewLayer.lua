@@ -1311,6 +1311,10 @@ function GameViewLayer:OnLButtonDown(nFlags,Point)
 	return
 	--]]
 end
+--请出单字牌
+function GameViewLayer:VOnOutInvalidCard(wParam)
+	self._scene:OnOutInvalidCard()
+end
 --点击出牌
 function GameViewLayer:VOnOutCard(wParam)
 	self._scene:OnOutCard(wParam,nil)
