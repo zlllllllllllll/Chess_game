@@ -56,7 +56,17 @@ function GameLayer:ResetVariable()    --原文件中 bool CGameClientEngine::OnI
   -- BYTE	m_cbWeaveCount[GAME_PLAYER];		--组合数目
   -- tagWeaveItem	m_WeaveItemArray[GAME_PLAYER][MAX_WEAVE];	--组合扑克
   self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
-  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray={}
+	for i=1,cmd.GAME_PLAYER,1 do
+		self.m_WeaveItemArray[i]={}
+		for j=1,cmd.MAX_WEAVE,1 do
+			self.m_WeaveItemArray[i][j]={}
+			self.m_WeaveItemArray[i][j].cbWeaveKind=0
+			self.m_WeaveItemArray[i][j].cbCenterCard=0
+			self.m_WeaveItemArray[i][j].cbPublicCard=0
+			self.m_WeaveItemArray[i][j].wProvideUser=0
+		end
+	end
 
   --扑克变量
   self.m_cbLeftCardCount=0
@@ -1041,6 +1051,7 @@ dump(self.m_cbHeapCardInfo,"self.m_cbHeapCardInfo",6)
 		--历史扑克
     if self.m_wOutCardUser~=yl.INVALID_CHAIR then
 			local wOutChairID=self:SwitchViewChairID(self.m_wOutCardUser)
+	print("11SOutCardInfo ",wOutChairID,self.m_cbOutCardData)
 			self._gameView:SetOutCardInfo(wOutChairID,self.m_cbOutCardData)
     end
 
@@ -1244,7 +1255,18 @@ function GameLayer:OnSubGamePlay(dataBuffer)
 
 	--组合扑克
   self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
-  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
+  --self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray={}
+	for i=1,cmd.GAME_PLAYER,1 do
+		self.m_WeaveItemArray[i]={}
+		for j=1,cmd.MAX_WEAVE,1 do
+			self.m_WeaveItemArray[i][j]={}
+			self.m_WeaveItemArray[i][j].cbWeaveKind=0
+			self.m_WeaveItemArray[i][j].cbCenterCard=0
+			self.m_WeaveItemArray[i][j].cbPublicCard=0
+			self.m_WeaveItemArray[i][j].wProvideUser=0
+		end
+	end
   self.m_bySicboAnimCount = 0
 
 	--设置界面
@@ -1472,7 +1494,9 @@ function GameLayer:onSubOutCard(dataBuffer)
 	print("用户出牌", cmd_data.cbOutCardData)
 	--变量定义
 	local wMeChairID=self:GetMeChairID()
-	local wOutViewChairID=self:SwitchViewChairID(cmd_data.wOutCardUser)
+	local wOutViewChairID=cmd_data.wOutCardUser
+	--local wOutViewChairID=self:SwitchViewChairID(cmd_data.wOutCardUser)
+print(cmd_data.wOutCardUser,wOutViewChairID,wMeChairID)
 	print(cmd_data.wOutCardUser , wMeChairID,wOutViewChairID,cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   if (cmd_data.wOutCardUser ~= wMeChairID) and (cmd.GS_MJ_PLAY ~= self._gameFrame:GetGameStatus()) then
     while true do
@@ -1498,6 +1522,7 @@ print("===mark 2")
 		self:PlayCardSound(cmd_data.wOutCardUser,cmd_data.cbOutCardData)
 		--出牌界面
 		self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
+	print("22SOutCardInfo ",wOutViewChairID,cmd_data.cbOutCardData)
 		self._gameView:SetOutCardInfo(wOutViewChairID,cmd_data.cbOutCardData)
 		--设置扑克
     if wMeChairID == cmd_data.wOutCardUser then
@@ -1511,7 +1536,7 @@ print("===mark 2")
 	print("-=-= onSubOutCard gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
-			local wUserIndex=wOutViewChairID
+			local wUserIndex=wOutViewChairID+1
 			self._gameView.m_UserCard[wUserIndex]:SetCurrentCard(false)
     end
   else
@@ -1697,7 +1722,7 @@ end
 function GameLayer:onSubOperateResult(dataBuffer)
 	print("操作结果")
 	local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_OperateResult, dataBuffer)
-	--dump(cmd_data, "CMD_S_OperateResult")
+	dump(cmd_data, "CMD_S_OperateResult")
 
 	--变量定义
 	local cbPublicCard=true
@@ -1720,14 +1745,14 @@ function GameLayer:onSubOperateResult(dataBuffer)
 		--组合扑克
 		local cbWeaveIndex= 0xFF
     while true do
-      for i=1,self.m_cbWeaveCount[wOperateUser],1 do
-  			local cbWeaveKind=self.m_WeaveItemArray[wOperateUser][i].cbWeaveKind
-  			local cbCenterCard=self.m_WeaveItemArray[wOperateUser][i].cbCenterCard
+      for i=1,self.m_cbWeaveCount[wOperateUser+1],1 do
+  			local cbWeaveKind=self.m_WeaveItemArray[wOperateUser+1][i].cbWeaveKind
+  			local cbCenterCard=self.m_WeaveItemArray[wOperateUser+1][i].cbCenterCard
         if (cbCenterCard==cbOperateCard) and (cbWeaveKind==GameLogic.WIK_PENG) then
   				cbWeaveIndex=i
-  				self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbPublicCard=true
-  				self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
-  				self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
+  				self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbPublicCard=true
+  				self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
+  				self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
         break	end
       end
     break end
@@ -1739,12 +1764,12 @@ function GameLayer:onSubOperateResult(dataBuffer)
   		cbPublicCard=not (cmd_data.wProvideUser==wOperateUser)
 
   		--设置扑克
-      self.m_cbWeaveCount[wOperateUser]=self.m_cbWeaveCount[wOperateUser]+1
-  		cbWeaveIndex=self.m_cbWeaveCount[wOperateUser]
-  		self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbPublicCard=cbPublicCard
-  		self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbCenterCard=cbOperateCard
-  		self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
-  		self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
+      self.m_cbWeaveCount[wOperateUser+1]=self.m_cbWeaveCount[wOperateUser+1]+1
+  		cbWeaveIndex=self.m_cbWeaveCount[wOperateUser+1]
+  		self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbPublicCard=cbPublicCard
+  		self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbCenterCard=cbOperateCard
+  		self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
+  		self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
     end
 
 		--组合界面
@@ -1766,7 +1791,7 @@ function GameLayer:onSubOperateResult(dataBuffer)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount,0)
     else
 			local wUserIndex=(wOperateViewID>=3)and 2 or wOperateViewID
-			local cbCardCount=cmd.MAX_COUNT-self.m_cbWeaveCount[wOperateUser]*3
+			local cbCardCount=cmd.MAX_COUNT-self.m_cbWeaveCount[wOperateUser+1]*3
 			self._gameView.m_UserCard[wUserIndex]:SetCardData(cbCardCount-1,false)
     end
 
@@ -1775,12 +1800,12 @@ function GameLayer:onSubOperateResult(dataBuffer)
 		self.m_wCurrentUser=cmd_data.wOperateUser
 
 		--设置组合
-    self.m_cbWeaveCount[wOperateUser]=self.m_cbWeaveCount[wOperateUser]+1
-    cbWeaveIndex=self.m_cbWeaveCount[wOperateUser]
-    self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbPublicCard=true
-    self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbCenterCard=cbOperateCard
-    self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
-    self.m_WeaveItemArray[wOperateUser][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
+    self.m_cbWeaveCount[wOperateUser+1]=self.m_cbWeaveCount[wOperateUser+1]+1
+    cbWeaveIndex=self.m_cbWeaveCount[wOperateUser+1]
+    self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbPublicCard=true
+    self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbCenterCard=cbOperateCard
+    self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].cbWeaveKind=cmd_data.cbOperateCode
+    self.m_WeaveItemArray[wOperateUser+1][cbWeaveIndex].wProvideUser=cmd_data.wProvideUser
 
 		--组合界面
 		local cbWeaveCard,cbWeaveKind={0,0,0,0},cmd_data.cbOperateCode
@@ -1802,7 +1827,7 @@ function GameLayer:onSubOperateResult(dataBuffer)
 			self._gameView.m_HandCardControl:SetCardData(cbCardData,cbCardCount-1,cbCardData[cbCardCount-1])
     else
 			local wUserIndex=(wOperateViewID>=3)and 2 or wOperateViewID
-			local cbCardCount=cmd.MAX_COUNT-self.m_cbWeaveCount[wOperateUser]*3
+			local cbCardCount=cmd.MAX_COUNT-self.m_cbWeaveCount[wOperateUser+1]*3
 			self._gameView.m_UserCard[wUserIndex]:SetCardData(cbCardCount-1,true)
     end
   end
@@ -2424,7 +2449,17 @@ print("self._gameView.m_btStart",self._gameView.m_btStart)
 
 	--组合扑克
   self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
-  self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
+  self.m_WeaveItemArray={}
+	for i=1,cmd.GAME_PLAYER,1 do
+		self.m_WeaveItemArray[i]={}
+		for j=1,cmd.MAX_WEAVE,1 do
+			self.m_WeaveItemArray[i][j]={}
+			self.m_WeaveItemArray[i][j].cbWeaveKind=0
+			self.m_WeaveItemArray[i][j].cbCenterCard=0
+			self.m_WeaveItemArray[i][j].cbPublicCard=0
+			self.m_WeaveItemArray[i][j].wProvideUser=0
+		end
+	end
 
 	--堆立扑克
   self.m_wHeapHand=0
@@ -2509,7 +2544,8 @@ print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
 	self._gameView:RefreshGameView()
 	self._gameView:SetStatusFlag(false,false)
 	self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
-	self._gameView:SetOutCardInfo(1,cbOutCardData)
+print("出牌 SOutCardInfo ",cbOutCardData-1)
+	self._gameView:SetOutCardInfo(self:GetMeChairID(),cbOutCardData-1)
 	self._gameView.m_ControlWnd:setVisible(false)
 
 	--播放声音
@@ -2681,7 +2717,17 @@ dump(bySicbo,"bySicbo",6)
 
 		--组合扑克
   	self.m_cbWeaveCount=GameLogic:sizeM(cmd.GAME_PLAYER)
-    self.m_WeaveItemArray=GameLogic:ergodicList(cmd.GAME_PLAYER)
+		self.m_WeaveItemArray={}
+		for i=1,cmd.GAME_PLAYER,1 do
+			self.m_WeaveItemArray[i]={}
+			for j=1,cmd.MAX_WEAVE,1 do
+				self.m_WeaveItemArray[i][j]={}
+				self.m_WeaveItemArray[i][j].cbWeaveKind=0
+				self.m_WeaveItemArray[i][j].cbCenterCard=0
+				self.m_WeaveItemArray[i][j].cbPublicCard=0
+				self.m_WeaveItemArray[i][j].wProvideUser=0
+			end
+		end
   	self.m_cbCardIndex=GameLogic:sizeM(cmd.MAX_INDEX)
 
     local wMeChairID=self:GetMeChairID()

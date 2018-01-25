@@ -98,7 +98,7 @@ function GameViewLayer:ctor(scene)
 	--用户状态
 	self.m_cbCardData=0
 	self.m_wOutCardUser=yl.INVALID_CHAIR
-	self.m_cbUserAction={}
+	self.m_cbUserAction=GameLogic:sizeM(cmd.GAME_PLAYER)
 	self.m_bTrustee={}
 	self.m_szCenterText=""
 	--提示字符串	-- 设置字体  700
@@ -382,7 +382,7 @@ print("重置界面 GameViewLayer:ResetGameView")
 	self.m_cbCardData=0
 	self.m_byGodsData = 0x00
 	self.m_wOutCardUser=yl.INVALID_CHAIR
-	self.m_cbUserAction={}
+	self.m_cbUserAction=GameLogic:sizeM(cmd.GAME_PLAYER)
 	self.m_szCenterText=""
 	self.PromptText:setString(self.m_szCenterText)
 
@@ -780,7 +780,7 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 dump(self.m_cbUserAction,"用户动作",6)
 	for i=1,cmd.GAME_PLAYER,1 do
 print("出牌用户 ",self.m_wOutCardUser,i)
-		if (self.m_wOutCardUser==i) or (self.m_cbUserAction[i]~=0) then
+		if (self.m_wOutCardUser==i-1) or (self.m_cbUserAction[i]~=0) then
 			--计算位置
 			local nXPos,nYPos=0,0
 			local direction=self._scene:GetMeChairID()==self.m_wBankerUser and 1 or 2
@@ -803,7 +803,8 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 					elseif bit:_and(self.m_cbUserAction[i], GameLogic.WIK_CHI_HU) then	nXImagePos=-1
 					else	nXImagePos=0
 					end
-	print(nXImagePos)
+	dump(self.m_cbUserAction,"出牌-- m_cbUserAction",6)
+	print("nXImagePos--",nXImagePos)
 					if nXImagePos~=-1 then
 						--动作背景
 						--mark
@@ -828,6 +829,10 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 				-- else
 				-- end
 				--动作背景
+				print("ACTION_BACK- 出牌",nXPos+39,nYPos+2)
+				print(self.CCardControl_OutData)
+				if nil ~= self.CCardControl_OutData then	self.CCardControl_OutData:removeFromParent()	end
+				if nil ~= self.m_ImageActionBack then		self.m_ImageActionBack:removeFromParent()	end
 				self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
 					:setPosition(nXPos,nYPos)
 					:setColor(cc.c3b(255, 255, 255))
@@ -836,7 +841,7 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 					:addTo(self)
 				--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
 				self.g_CardResource=CardControl:create_CCardListImage(self)
-				self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.cbCardData,nXPos+39,nYPos+29)
+				self.CCardControl_OutData=self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_OutData",self.m_cbCardData,nXPos+39,nYPos+29)
 			end
 		end
 	end
@@ -851,9 +856,9 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 
 	if self.m_byGodsData>0 then
 		--绘画扑克
-		print("财神")
+		print("财神",nXPos+0,nYPos+30)
 		self.g_CardResource=CardControl:create_CCardListImage(self)
-		self.g_CardResource:DrawCardItem("m_ImageUserBottom",pDC,self.m_byGodsData,nXPos+0,nYPos+30)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_V_byGodsData",self.m_byGodsData,nXPos+50,nYPos+30)
 	end
 
 ---------------=======================================================================================
@@ -1101,7 +1106,7 @@ print("动作信息 SetUserAction ",wViewChairID,bUserAction)
 		self.m_cbUserAction[wViewChairID]=bUserAction
 		self:SetBombEffect(true)
 	else
-		self.m_cbUserAction={}
+		self.m_cbUserAction=GameLogic:sizeM(cmd.GAME_PLAYER)
 		if self.m_bBombEffect then
 			self:SetBombEffect(false)
 		end

@@ -200,7 +200,7 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 			:addTo(CardControl.CCardList[id].Parent)
 		CardControl.CCardList[id].n_List[index]:getChildByTag(1):move(-nDrawWidth/2-nImageXPos,0)
 		
-		if index and index ~= "" then
+		if index and index ~= "" and index ~= "CCardControl_OutData" and index ~= "CCardControl_V_byGodsData" then
 			--出牌按钮
 			local btcallback = function(ref, type)
 			if type == ccui.TouchEventType.ended then
@@ -227,7 +227,7 @@ print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 			:addTo(CardControl.CCardList[id].Parent)
 	end
 
-	return true
+	return CardControl.CCardList[id].n_List[index]
 end
 --===================================================================
 --扑克资源
@@ -1547,9 +1547,9 @@ print(i,cbCardData,self.m_bShowDisable,nXScreenPos,nYScreenPos)
 		--添加 不是出牌用户不显示当前牌
 			if (0 ~= cbCardData) and self.m_bShowDisable then
 				local byIndex = GameLogic:SwitchToCardIndex(cbCardData)+1
-				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true,false)
+				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
 			else
-				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true,false)
+				CCardListImage:DrawCardItem("m_ImageUserBottom","CCardControl_Current",cbCardData,nXScreenPos,nYScreenPos,self.m_byGodsData,true)
 			end
 		end
 	end

@@ -410,7 +410,7 @@ function GameLogic:GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					cbCardBuffer[1]=cbCenterCard
 					cbCardBuffer[2]=cbCenterCard+1
 					cbCardBuffer[3]=cbCenterCard+2
-					for i=1, i<3, 1 do
+					for i=1, 3, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
@@ -425,7 +425,7 @@ function GameLogic:GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					cbCardBuffer[1]=cbCenterCard-2
 					cbCardBuffer[2]=cbCenterCard-1
 					cbCardBuffer[3]=cbCenterCard
-					for i=1, i<3, 1 do
+					for i=1, 3, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
@@ -440,7 +440,7 @@ function GameLogic:GetWeaveCard(cbWeaveKind,cbCenterCard,cbCardBuffer)
 					cbCardBuffer[1]=cbCenterCard-1
 					cbCardBuffer[2]=cbCenterCard
 					cbCardBuffer[3]=cbCenterCard+1
-					for i=1, i<3, 1 do
+					for i=1, 3, 1 do
 						if GameLogic.m_byGodsCardData == cbCardBuffer[i] then
 							cbCardBuffer[i]=GameLogic.BAIBAN_CARD_DATA
 						end
