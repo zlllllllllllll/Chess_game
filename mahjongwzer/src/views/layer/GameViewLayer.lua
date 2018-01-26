@@ -786,10 +786,10 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 			local direction=self._scene:GetMeChairID()==self.m_wBankerUser and 1 or 2
 			if (i-1)==self._scene:GetMeChairID() then				--南向 下 me
 				nXPos=nWidth/2-32
-				nYPos=self.m_nYBorder+95
+				nYPos=self.m_nYBorder+155
 			else													--北向 改为上
 				nXPos=nWidth/2-32
-				nYPos=nHeight-self.m_nYBorder-240
+				nYPos=nHeight-self.m_nYBorder-235
 			end
 
 			--绘画动作
@@ -811,16 +811,17 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 						-- self.m_ImageActionBack.BlendDrawImage(pDC,nXPos,nYPos,m_ImageActionBack.GetWidth(),m_ImageActionBack.GetHeight(),
 						-- 	0,0,RGB(255,255,255),180);
 						self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
-							:setPosition(nXPos,nYPos)
+							:setPosition(nXPos+0,nYPos+0)
 							:setColor(cc.c3b(255, 255, 255))
         					:setOpacity(180)
 							:setVisible(true)
 							:addTo(self)
 						--吃 碰 杠
-						self.m_ImageActionAni=display.newSprite("res/game/ActionAni.png")
-							:setPosition(nXPos+29,nYPos+29)
-							:setVisible(true)
+
+						self.m_ImageActionAni=GameLogic:Clipp9S("res/game/ActionAni.png",59,65)
+							:move(nXPos+0,nYPos+0)
 							:addTo(self)
+						self.m_ImageActionAni:getChildByTag(1):move(-0/2-nXImagePos,0)
 					end
 				end
 			else
@@ -834,14 +835,14 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 				if nil ~= self.CCardControl_OutData then	self.CCardControl_OutData:removeFromParent()	end
 				if nil ~= self.m_ImageActionBack then		self.m_ImageActionBack:removeFromParent()	end
 				self.m_ImageActionBack=display.newSprite("res/game/ACTION_BACK.png")
-					:setPosition(nXPos,nYPos)
+					:setPosition(nXPos+0,nYPos+0)
 					:setColor(cc.c3b(255, 255, 255))
 					:setOpacity(180)
 					:setVisible(true)
 					:addTo(self)
 				--绘画扑克 CCardResource g_CardResource  DrawCardItem mark  下同
 				self.g_CardResource=CardControl:create_CCardListImage(self)
-				self.CCardControl_OutData=self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_OutData",self.m_cbCardData,nXPos+39,nYPos+29)
+				self.CCardControl_OutData=self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_OutData",self.m_cbCardData,nXPos+0,nYPos+0)
 			end
 		end
 	end
@@ -858,7 +859,7 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 		--绘画扑克
 		print("财神",nXPos+0,nYPos+30)
 		self.g_CardResource=CardControl:create_CCardListImage(self)
-		self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_V_byGodsData",self.m_byGodsData,nXPos+50,nYPos+30)
+		self.g_CardResource:DrawCardItem("m_ImageUserBottom","CCardControl_V_byGodsData",self.m_byGodsData,nXPos+0,nYPos+24)
 	end
 
 ---------------=======================================================================================
@@ -1465,11 +1466,15 @@ end
 
 -- 绘画掷骰子动画
 function GameViewLayer:DrawSicboAnim()
-print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus())
+print("绘画掷骰子动画 DrawSicboAnim",self.m_iSicboAnimIndex,cmd.GS_MJ_MAIDI,self._gameFrame:GetGameStatus(),self._gameFrame)
 	if not self.m_iSicboAnimIndex or (self.m_iSicboAnimIndex < 0) or (nil == self._gameFrame) then
 		return
 	end
 	if cmd.GS_MJ_MAIDI ~= self._gameFrame:GetGameStatus() then
+		--添加 移除动作
+		for i=1,GameLogic:table_leng(self.m_arBall),1 do
+			if self.m_ImageSaiziL[i] then	self.m_ImageSaiziL[i]:removeFromParent()	end
+		end
 		return
 	end
 	if self.m_iSicboAnimIndex > 0 then

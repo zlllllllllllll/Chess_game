@@ -904,7 +904,7 @@ dump(cmd_data,"cmd_data",6)
 		--GameLogic:SwitchToCardIndex(cmd_data.cbCardData[1],cmd_data.cbCardCount,self.m_cbCardIndex)
 		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData,cmd_data.cbCardCount,self.m_cbCardIndex)
 		self.m_cbCardIndex=arg2
-    self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex, cmd.MAX_INDEX)
+    self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex+1, cmd.MAX_INDEX)
 
     --辅助变量
     local wViewChairID={0,0}
@@ -1359,7 +1359,7 @@ print(wViewChairID,i)
 	self._gameView.m_HandCardControl:SetOutCardData(nil, 0)
 	
 --临时添加测试 start ==========================================================================================
-	--设置游戏状态
+	--设置游戏状态 应该在扔完色子后
 	self._gameFrame:SetGameStatus(cmd.GS_MJ_PLAY)
 	--添加设置财神
 	GameLogic:SetGodsCard(cmd_data.byGodsCardData)
@@ -1511,7 +1511,7 @@ print(cmd_data.wOutCardUser,wOutViewChairID,wMeChairID)
 	self.m_cbOutCardData=cmd_data.cbOutCardData
 print("===mark 2")
 	local byCardIndex = GameLogic:SwitchToCardIndex(self.m_cbOutCardData)
-	self._gameView.m_HandCardControl:SetOutCardData(byCardIndex)
+	self._gameView.m_HandCardControl:SetOutCardData(byCardIndex+1)
 	self._gameView.m_HandCardControl:UpdateCardDisable()
 
 	--其他用户
@@ -1519,6 +1519,7 @@ print("===mark 2")
   if cmd_data.wOutCardUser~=wMeChairID then
     --环境设置
     self:KillGameClock(cmd.IDI_OPERATE_CARD)
+print("PlayCardSound 用户出牌")
 		self:PlayCardSound(cmd_data.wOutCardUser,cmd_data.cbOutCardData)
 		--出牌界面
 		self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
@@ -2133,9 +2134,10 @@ print(" mark !!!!!!!!!! 临时去除 判断 cmd_data.wChairID",cmd_data.wChairID
 
 	return true
 end
-
+ 
 --播放出牌声音
 function GameLayer:PlayCardSound(wChairID, cbCardData)
+print("出牌声音 PlayCardSound",wChairID, cbCardData,GameLogic:IsValidCard(cbCardData))
   if GameLogic:IsValidCard(cbCardData) == false then
     return
   end
@@ -2144,9 +2146,11 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
   end
 
 	--判断性别
-  local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),wChairID)
+	local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),wChairID)
+print(self:GetMeTableID(),pUserData)
+dump(pUserData,"pUserData",6)
   if pUserData==0 then
-		--assert(0 && "得不到玩家信息");
+		print("得不到玩家信息")
 		return
   end
 	local bGirl = (pUserData.cbGender~=yl.GENDER_MANKIND) and true or false
@@ -2186,11 +2190,11 @@ function GameLayer:PlayCardSound(wChairID, cbCardData)
   end
 
   if not bGirl then
-		strSoundName = "male"..strSoundName
+		strSoundName = "male/"..strSoundName
   else
-		strSoundName = "female"..strSoundName
+		strSoundName = "female/"..strSoundName
   end
-
+print(strSoundName)
   self:PlaySound(cmd.RES_PATH.."mahjong/"..strSoundName..".wav")
 end
 
@@ -2549,6 +2553,7 @@ print("出牌 SOutCardInfo ",cbOutCardData-1)
 	self._gameView.m_ControlWnd:setVisible(false)
 
 	--播放声音
+print("PlayCardSound 自己出牌")
   self:PlayCardSound(self:GetMeChairID(),cbOutCardData)
 
 	--发送数据
