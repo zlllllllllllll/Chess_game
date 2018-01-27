@@ -242,8 +242,9 @@ function GameViewLayer:preloadUI()
 	end
 	for i=1,cmd.GAME_PLAYER,1 do
 		--用户扑克
-		self.m_TableCard[i]:SetDirection(self.Direction[i*2])
-		self.m_DiscardCard[i]:SetDirection(self.Direction[i*2])
+		--self.m_TableCard[i]:SetDirection(self.Direction[i*2])
+		self.m_TableCard[i]:SetDirection(self.Direction[(i-1)*2+1])
+		self.m_DiscardCard[i]:SetDirection(self.Direction[(i-1)*2+1])
 
 		--组合扑克
 		self.m_WeaveCard[i][1]:SetDisplayItem(true)
@@ -251,11 +252,11 @@ function GameViewLayer:preloadUI()
 		self.m_WeaveCard[i][3]:SetDisplayItem(true)
 		self.m_WeaveCard[i][4]:SetDisplayItem(true)
 		self.m_WeaveCard[i][5]:SetDisplayItem(true)
-		self.m_WeaveCard[i][1]:SetDirection(self.Direction[i*2])
-		self.m_WeaveCard[i][2]:SetDirection(self.Direction[i*2])
-		self.m_WeaveCard[i][3]:SetDirection(self.Direction[i*2])
-		self.m_WeaveCard[i][4]:SetDirection(self.Direction[i*2])
-		self.m_WeaveCard[i][5]:SetDirection(self.Direction[i*2])
+		self.m_WeaveCard[i][1]:SetDirection(self.Direction[(i-1)*2+1])
+		self.m_WeaveCard[i][2]:SetDirection(self.Direction[(i-1)*2+1])
+		self.m_WeaveCard[i][3]:SetDirection(self.Direction[(i-1)*2+1])
+		self.m_WeaveCard[i][4]:SetDirection(self.Direction[(i-1)*2+1])
+		self.m_WeaveCard[i][5]:SetDirection(self.Direction[(i-1)*2+1])
 	end
 
 	--设置控件

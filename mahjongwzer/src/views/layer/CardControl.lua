@@ -973,7 +973,7 @@ end
 
 --绘画扑克
 function CDiscardCard:DrawCardControl()
-print("CDiscardCard:DrawCardControl")
+print("CDiscardCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
@@ -1076,6 +1076,7 @@ end
 
 --设置方向
 function CDiscardCard:SetDirection(Direction)
+print("设置方向 CDiscardCard:SetDirection",Direction)
 	self.m_CardDirection=Direction
 end
 --基准位置

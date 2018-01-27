@@ -2148,7 +2148,7 @@ print("出牌声音 PlayCardSound",wChairID, cbCardData,GameLogic:IsValidCard(cb
 	--判断性别
 	local pUserData=self._gameFrame:getTableUserItem(self:GetMeTableID(),wChairID)
 print(self:GetMeTableID(),pUserData)
-dump(pUserData,"pUserData",6)
+--dump(pUserData,"pUserData",6)
   if pUserData==0 then
 		print("得不到玩家信息")
 		return
