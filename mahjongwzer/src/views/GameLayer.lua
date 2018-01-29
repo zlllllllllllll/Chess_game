@@ -904,7 +904,8 @@ dump(cmd_data,"cmd_data",6)
 		--GameLogic:SwitchToCardIndex(cmd_data.cbCardData[1],cmd_data.cbCardCount,self.m_cbCardIndex)
 		local arg1,arg2=GameLogic:SwitchToCardIndex(cmd_data.cbCardData,cmd_data.cbCardCount,self.m_cbCardIndex)
 		self.m_cbCardIndex=arg2
-    self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex+1, cmd.MAX_INDEX)
+    --self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex+1, cmd.MAX_INDEX)
+    self._gameView.m_HandCardControl:SetOutCardData(cmd_data.byOutCardIndex, cmd.MAX_INDEX)
 
     --辅助变量
     local wViewChairID={0,0}
@@ -1564,11 +1565,15 @@ function GameLayer:onSubSendCard(dataBuffer)
 		local wOutViewChairID=self:SwitchViewChairID(self.m_wOutCardUser)
 		self._gameView.m_DiscardCard[wOutViewChairID]:AddCardItem(self.m_cbOutCardData)
 		self._gameView:SetDiscUser(wOutViewChairID)
+--dump(self._gameView.m_DiscardCard[wOutViewChairID].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID,6)
+dump(self._gameView.m_DiscardCard,"查看m_DiscardCard全部",6)
+dump(self._gameView.m_DiscardCard[1].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID.."=="..self.m_wOutCardUser,6)
+dump(self._gameView.m_DiscardCard[2].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID.."=="..self.m_wOutCardUser,6)
 
 		--设置变量
 		self.m_cbOutCardData=0
 		self.m_wOutCardUser=yl.INVALID_CHAIR
-  end
+	end
 
   --发牌处理
   if cmd_data.cbCardData~=0 then

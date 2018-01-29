@@ -822,7 +822,7 @@ print("出牌用户 ",self.m_wOutCardUser,i)
 						self.m_ImageActionAni=GameLogic:Clipp9S("res/game/ActionAni.png",59,65)
 							:move(nXPos+0,nYPos+0)
 							:addTo(self)
-						self.m_ImageActionAni:getChildByTag(1):move(-0/2-nXImagePos,0)
+						self.m_ImageActionAni:getChildByTag(1):move(59/2-nXImagePos,0)
 					end
 				end
 			else

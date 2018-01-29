@@ -974,6 +974,7 @@ end
 --绘画扑克
 function CDiscardCard:DrawCardControl()
 print("CDiscardCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
+dump(self.m_cbCardData,"cbCardData",6)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
@@ -1006,7 +1007,10 @@ end
 
 --增加扑克
 function CDiscardCard:AddCardItem(cbCardData)
-	--清理扑克
+print("CDiscardCard:AddCardItem",cbCardData,self.m_wCardCount,GameLogic:table_leng(self.m_cbCardData))
+dump(cbCardData,"cbCardData",6)
+dump(self.m_ControlPoint,"m_ControlPoint",6)
+	--清理扑克	向上移动一位挤掉第一位值
 	if self.m_wCardCount>=GameLogic:table_leng(self.m_cbCardData) then
 		self.m_wCardCount=self.m_wCardCount-1
 		--MoveMemory(m_cbCardData,m_cbCardData+1,CountArray(m_cbCardData)-1);  --遍历有限制
@@ -1020,25 +1024,37 @@ function CDiscardCard:AddCardItem(cbCardData)
 	--设置扑克
 	self.m_wCardCount=self.m_wCardCount+1
 	self.m_cbCardData[self.m_wCardCount]=cbCardData
+print(self.m_wCardCount)
 
 	return true
 end
 
 --设置扑克
 function CDiscardCard:SetCardData(cbCardData,wCardCount)
+print("CDiscardCard:SetCardData",cbCardData,wCardCount)
+dump(cbCardData,"cbCardData",6)
 	if wCardCount>GameLogic:table_leng(self.m_cbCardData)  then
 		wCardCount=GameLogic:table_leng(self.m_cbCardData)-1 --拷贝后面的数据
 	end
 	--设置扑克
 	self.m_wCardCount=wCardCount
 	--CopyMemory(m_cbCardData,cbCardData,sizeof(m_cbCardData[0])*wCardCount);
-	self.m_cbCardData=GameLogic:deepcopy(cbCardData)
+	--self.m_cbCardData=GameLogic:deepcopy(cbCardData) self.m_cbCardData 28个
+	if nil ~= cbCardData then
+	for i=1,28,1 do
+		if nil ~= cbCardData[i] then
+			self.m_cbCardData[i]=cbCardData[i]
+		end
+	end
+	end
+dump(self.m_cbCardData,"cbCardData",6)
 
 	return true
 end
 
 --获取位置
 function CDiscardCard:GetLastCardPosition()
+print("CDiscardCard:GetLastCardPosition", self.m_CardDirection)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--变量定义
