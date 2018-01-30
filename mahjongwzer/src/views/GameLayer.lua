@@ -1566,9 +1566,6 @@ function GameLayer:onSubSendCard(dataBuffer)
 		self._gameView.m_DiscardCard[wOutViewChairID]:AddCardItem(self.m_cbOutCardData)
 		self._gameView:SetDiscUser(wOutViewChairID)
 --dump(self._gameView.m_DiscardCard[wOutViewChairID].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID,6)
-dump(self._gameView.m_DiscardCard,"查看m_DiscardCard全部",6)
-dump(self._gameView.m_DiscardCard[1].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID.."=="..self.m_wOutCardUser,6)
-dump(self._gameView.m_DiscardCard[2].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID.."=="..self.m_wOutCardUser,6)
 
 		--设置变量
 		self.m_cbOutCardData=0

@@ -608,6 +608,9 @@ end
 
 --杠牌分析    GameLogic.tagWeaveItem WeaveItem   --   GameLogic.tagGangCardResult GangCardResult
 function GameLogic:AnalyseGangCard(cbCardIndex,WeaveItem,cbWeaveCount,GangCardResult)
+print("杠牌分析",cbCardIndex,WeaveItem,cbWeaveCount,GangCardResult)
+dump(cbCardIndex,"cbCardIndex",6)
+dump(WeaveItem,"WeaveItem",6)
 	--设置变量
 	local cbActionMask= GameLogic.WIK_NULL
 	--问题mark 不确定 GangCardResult结构体 暂为写到调用改方法 临时跳过   下同 LSTG   确保 GangCardResult有效

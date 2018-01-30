@@ -634,7 +634,8 @@ function CWeaveCard:ctor()
 
 	--扑克数据
 	CWeaveCard.m_wCardCount=0
-	CWeaveCard.m_cbCardData={0,0,0,0}
+	--CWeaveCard.m_cbCardData={0,0,0,0}
+	CWeaveCard.m_cbCardData="sign invalid"
 	CWeaveCard.m_cbWikCard=0
 	return
 end
@@ -962,12 +963,13 @@ end
 function CDiscardCard:ctor()
 	--扑克数据
 	CDiscardCard.m_wCardCount=0
-	CDiscardCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	--辅助需要在外部使用表中重新赋值 此处的无法符合逻辑指向的都是同一个
+	--CDiscardCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	CDiscardCard.m_cbCardData="sign invalid"
 
 	--控制变量
 	CDiscardCard.m_ControlPoint = cc.p(0, 0)
 	CDiscardCard.m_CardDirection=CardControl.Direction_East
-
 	return
 end
 
@@ -979,28 +981,34 @@ dump(self.m_cbCardData,"cbCardData",6)
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
 		for i=1,self.m_wCardCount+0,1 do
-			local nXPos=self.m_ControlPoint.x+((i-1)/8)*32
+			local nXPos=self.m_ControlPoint.x+math.floor((i-1)/8)*32
 			local nYPos=self.m_ControlPoint.y+((i-1)%8)*20
+		print("东向",i,nXPos,nYPos)
 			CCardListImage:DrawCardItem("m_ImageTableRight","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
 		--绘画扑克
 		for i=1,self.m_wCardCount+0,1 do
-			local nXPos=self.m_ControlPoint.x-((self.m_wCardCount-1-i-1)/8)*32
+			local nXPos=self.m_ControlPoint.x-math.floor((self.m_wCardCount-1-i-1)/8)*32
 			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)%8)*20
-			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+		print("西向",i,nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
 		for i=1,self.m_wCardCount+0,1 do
 			local nXPos=self.m_ControlPoint.x-((i-1)%14)*24
-			local nYPos=self.m_ControlPoint.y+((i-1)/14)*38
+			local nYPos=self.m_ControlPoint.y+math.floor((i-1)/14)*38
+		print("南向",i,nXPos,nYPos)
 			CCardListImage:DrawCardItem("m_ImageTableBottom","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
 		for i=1,self.m_wCardCount+0,1 do
-			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*24
-			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)/14)*38-11
-			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+			--local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*24
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*45
+			local nYPos=self.m_ControlPoint.y-math.floor((self.m_wCardCount-1-i-1)/14)*38-11
+		print("北向",i,nXPos,nYPos)
+			--CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
 		end
 	end
 end
@@ -1008,10 +1016,9 @@ end
 --增加扑克
 function CDiscardCard:AddCardItem(cbCardData)
 print("CDiscardCard:AddCardItem",cbCardData,self.m_wCardCount,GameLogic:table_leng(self.m_cbCardData))
-dump(cbCardData,"cbCardData",6)
-dump(self.m_ControlPoint,"m_ControlPoint",6)
 	--清理扑克	向上移动一位挤掉第一位值
 	if self.m_wCardCount>=GameLogic:table_leng(self.m_cbCardData) then
+print("向上移动清理扑克")
 		self.m_wCardCount=self.m_wCardCount-1
 		--MoveMemory(m_cbCardData,m_cbCardData+1,CountArray(m_cbCardData)-1);  --遍历有限制
 		local tempData={}
@@ -1023,7 +1030,9 @@ dump(self.m_ControlPoint,"m_ControlPoint",6)
 
 	--设置扑克
 	self.m_wCardCount=self.m_wCardCount+1
+dump(self.m_cbCardData,"self.m_cbCardData AddCardItem",6)
 	self.m_cbCardData[self.m_wCardCount]=cbCardData
+dump(self.m_cbCardData,"self.m_cbCardData AddCardItem",6)
 print(self.m_wCardCount)
 
 	return true
@@ -1097,6 +1106,7 @@ print("设置方向 CDiscardCard:SetDirection",Direction)
 end
 --基准位置
 function CDiscardCard:SetControlPoint(nXPos,nYPos)
+print("基准位置 CDiscardCard:SetControlPoint",nXPos,nYPos)
 	self.m_ControlPoint=cc.p(nXPos,nYPos)
 end
 --===================================================================
@@ -1104,7 +1114,8 @@ end
 function CTableCard:ctor()
 	--扑克数据
 	CTableCard.m_wCardCount=0
-	CTableCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	--CTableCard.m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	CTableCard.m_cbCardData="sign invalid"
 
 	--控制变量
 	CTableCard.m_ControlPoint = cc.p(0, 0)
@@ -1153,12 +1164,18 @@ end
 
 --设置扑克
 function CTableCard:SetCardData(cbCardData,wCardCount)
-print("CTableCard:SetCardData")
+print("CTableCard:SetCardData",cbCardData,wCardCount)
+dump(self.m_cbCardData,"1",6)
+dump(cbCardData,"2",6)
 	if wCardCount>GameLogic:table_leng(self.m_cbCardData) then return false	end
 
 	--设置扑克
 	self.m_wCardCount=wCardCount
-	self.m_cbCardData=GameLogic:deepcopy(cbCardData)
+	if nil==cbCardData then
+		self.m_cbCardData=GameLogic:sizeM(17)
+	else
+		self.m_cbCardData=GameLogic:deepcopy(cbCardData)
+	end
 	--CopyMemory(m_cbCardData,cbCardData,sizeof(m_cbCardData[0])*wCardCount);
 dump(self.m_cbCardData,"self.m_cbCardData",6)
 print(self.m_wCardCount)
@@ -1167,6 +1184,8 @@ end
 
 --设置方向
 function CTableCard:SetDirection(Direction)
+print("设置方向 CTableCard:SetDirection",Direction)
+dump(self.m_cbCardData)
 	self.m_CardDirection=Direction
 end
 --基准位置

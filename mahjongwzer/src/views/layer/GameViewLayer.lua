@@ -242,11 +242,24 @@ function GameViewLayer:preloadUI()
 	end
 	for i=1,cmd.GAME_PLAYER,1 do
 		--用户扑克
+		--需要重新赋值
+		--self.m_TableCard[i].m_cbCardData={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		self.m_TableCard[i].m_cbCardData=GameLogic:sizeM(17)
 		--self.m_TableCard[i]:SetDirection(self.Direction[i*2])
 		self.m_TableCard[i]:SetDirection(self.Direction[(i-1)*2+1])
+		
+		--需要重新赋值 在CDiscardCard中初始化的变量 1,2为同一个
+		self.m_DiscardCard[i].m_cbCardData=GameLogic:sizeM(28)
 		self.m_DiscardCard[i]:SetDirection(self.Direction[(i-1)*2+1])
 
 		--组合扑克
+		--需要重新赋值
+		self.m_WeaveCard[i][1].m_cbCardData=GameLogic:sizeM(4)
+		self.m_WeaveCard[i][2].m_cbCardData=GameLogic:sizeM(4)
+		self.m_WeaveCard[i][3].m_cbCardData=GameLogic:sizeM(4)
+		self.m_WeaveCard[i][4].m_cbCardData=GameLogic:sizeM(4)
+		self.m_WeaveCard[i][5].m_cbCardData=GameLogic:sizeM(4)
+
 		self.m_WeaveCard[i][1]:SetDisplayItem(true)
 		self.m_WeaveCard[i][2]:SetDisplayItem(true)
 		self.m_WeaveCard[i][3]:SetDisplayItem(true)
@@ -688,7 +701,8 @@ print("self.m_szCenterText",self.m_szCenterText)
 	--桌面扑克
 	for i=1,cmd.GAME_PLAYER,1 do
 		self.m_TableCard[i]:DrawCardControl()					--桌面麻将，在结束以后才显示
-		self.m_DiscardCard[i]:DrawCardControl()				--丢弃麻将
+		--暂未清理资源
+		self.m_DiscardCard[i]:DrawCardControl()					--丢弃麻将
 		self.m_WeaveCard[i][1]:DrawCardControl()				--吃碰杠麻将
 		self.m_WeaveCard[i][2]:DrawCardControl()				--吃碰杠麻将
 		self.m_WeaveCard[i][3]:DrawCardControl()				--吃碰杠麻将
