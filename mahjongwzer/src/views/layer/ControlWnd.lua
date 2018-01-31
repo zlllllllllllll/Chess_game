@@ -157,6 +157,7 @@ end
 
 --基准位置
 function CControlWnd:SetBenchmarkPos(nXPos, nYPos)
+print("基准位置 CControlWnd:SetBenchmarkPos",nXPos, nYPos)
 	--位置变量
 	self.m_PointBenchmark=cc.p(nXPos, nYPos)
 	self.m_cbGangCard={}
@@ -169,6 +170,7 @@ end
 
 --设置窗口
 function CControlWnd:SetSinkWindow(pSinkWindow)
+print("设置窗口")
 	--设置变量
 	self.m_pSinkWindow=pSinkWindow
 

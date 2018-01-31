@@ -541,7 +541,7 @@ print(nXCenter-251,nYCenter-95)
 
 	--丢弃扑克
 	self.m_DiscardCard[1]:SetControlPoint(nXCenter-158,nYCenter-100)
-	self.m_DiscardCard[2]:SetControlPoint(nXCenter+158,nYCenter+102)
+	self.m_DiscardCard[2]:SetControlPoint(nXCenter+158,nYCenter+100)
 
 
 	--控制窗口
@@ -594,9 +594,9 @@ print("===============DrawUserTimerEx",pDC,nXPos,nYPos,wTime)
 		self.ImageTimeNumber:setString(wTime)
 	else
 		self.ImageTimeNumber = cc.LabelAtlas:_create(wTime, "res/game/TIME_NUMBER.png", 22, 29, string.byte("0"))
-				:move(nXPos,nYPos)
-				:setAnchorPoint(cc.p(0.5,0.5))
-				:addTo(self)
+			:move(nXPos,nYPos)
+			:setAnchorPoint(cc.p(0.5,0.5))
+			:addTo(self)
 	end
 --
 -- print("wCellNumber",wCellNumber)

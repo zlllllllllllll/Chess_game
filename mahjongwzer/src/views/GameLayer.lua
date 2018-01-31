@@ -1563,7 +1563,10 @@ function GameLayer:onSubSendCard(dataBuffer)
   if (self.m_wOutCardUser~=yl.INVALID_CHAIR) and (self.m_cbOutCardData~=0) then
     --丢弃扑克
 		local wOutViewChairID=self:SwitchViewChairID(self.m_wOutCardUser)
-		self._gameView.m_DiscardCard[wOutViewChairID]:AddCardItem(self.m_cbOutCardData)
+		--抓牌的id
+		local displayId=self:GetMeChairID()==self.m_wOutCardUser and 1 or 2		--1 北 自己 2 南
+	print(wOutViewChairID,displayId,self:GetMeChairID())
+		self._gameView.m_DiscardCard[displayId]:AddCardItem(self.m_cbOutCardData)
 		self._gameView:SetDiscUser(wOutViewChairID)
 --dump(self._gameView.m_DiscardCard[wOutViewChairID].m_cbCardData,"查看当前出牌扑克 wOutViewChairID"..wOutViewChairID,6)
 

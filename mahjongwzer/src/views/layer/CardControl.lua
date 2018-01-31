@@ -976,7 +976,7 @@ end
 --绘画扑克
 function CDiscardCard:DrawCardControl()
 print("CDiscardCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
-dump(self.m_cbCardData,"cbCardData",6)
+--dump(self.m_cbCardData,"cbCardData",6)
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 		--绘画扑克
@@ -989,23 +989,24 @@ dump(self.m_cbCardData,"cbCardData",6)
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
 		--绘画扑克
 		for i=1,self.m_wCardCount+0,1 do
-			local nXPos=self.m_ControlPoint.x-math.floor((self.m_wCardCount-1-i-1)/8)*32
-			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-1-i-1)%8)*20
+			local nXPos=self.m_ControlPoint.x-math.floor((self.m_wCardCount-i)/8)*32
+			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-i)%8)*20
 		print("西向",i,nXPos,nYPos)
 			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
 		end
-	elseif self.m_CardDirection==CardControl.Direction_South then		--南向
+	elseif self.m_CardDirection==CardControl.Direction_South then		--南向--指向对家
 		for i=1,self.m_wCardCount+0,1 do
-			local nXPos=self.m_ControlPoint.x-((i-1)%14)*24
+			--local nXPos=self.m_ControlPoint.x-((i-1)%14)*24
+			local nXPos=self.m_ControlPoint.x-((i-1)%14)*45
 			local nYPos=self.m_ControlPoint.y+math.floor((i-1)/14)*38
 		print("南向",i,nXPos,nYPos)
 			CCardListImage:DrawCardItem("m_ImageTableBottom","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
 		end
-	elseif self.m_CardDirection==CardControl.Direction_North then		--北向
+	elseif self.m_CardDirection==CardControl.Direction_North then		--北向--自己
 		for i=1,self.m_wCardCount+0,1 do
 			--local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*24
-			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*45
-			local nYPos=self.m_ControlPoint.y-math.floor((self.m_wCardCount-1-i-1)/14)*38-11
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-i)%14)*45
+			local nYPos=self.m_ControlPoint.y-math.floor((self.m_wCardCount-i)/14)*38-11
 		print("北向",i,nXPos,nYPos)
 			--CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
 			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
@@ -1064,6 +1065,7 @@ end
 --获取位置
 function CDiscardCard:GetLastCardPosition()
 print("CDiscardCard:GetLastCardPosition", self.m_CardDirection)
+--/ 之类翻译不正确 如果被使用再调整
 	--绘画控制
 	if self.m_CardDirection==CardControl.Direction_East then				--东向
 			--变量定义
@@ -1106,7 +1108,7 @@ print("设置方向 CDiscardCard:SetDirection",Direction)
 end
 --基准位置
 function CDiscardCard:SetControlPoint(nXPos,nYPos)
-print("基准位置 CDiscardCard:SetControlPoint",nXPos,nYPos)
+print("基准位置 CDiscardCard:SetControlPoint",nXPos,nYPos,self.m_CardDirection)
 	self.m_ControlPoint=cc.p(nXPos,nYPos)
 end
 --===================================================================
