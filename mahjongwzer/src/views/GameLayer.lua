@@ -1695,7 +1695,8 @@ function GameLayer:onSubOperateNotify(dataBuffer)
 		GangCardResult.cbGangType=0
 		GangCardResult.cbCardData=GameLogic:sizeF(4)
 
-    --杠牌判断
+		--杠牌判断
+	print(bit:_and(cbActionMask,GameLogic.WIK_GANG))
     if bit:_and(cbActionMask,GameLogic.WIK_GANG) then
       --桌面杆牌
       if (self.m_wCurrentUser==yl.INVALID_CHAIR) and (cbActionCard~=0) then
@@ -2347,6 +2348,7 @@ end
 
 --显示控制
 function GameLayer:ShowOperateControl(cbUserAction, cbActionCard)
+print("显示控制 GameLayer:ShowOperateControl",cbUserAction, cbActionCard)
 	--变量定义
 	local GangCardResult={}
 	GangCardResult.cbCardCount=0

@@ -680,7 +680,7 @@ print("CWeaveCard:DrawCardControl_1")
 				local nYScreenPos=self.m_ControlPoint.y-CardControl.CCardList["m_ImageWaveBottom"].m_nViewHeight
 				CCardListImage:DrawCardItem("m_ImageWaveBottom","CWeaveCard_"..i,self:GetCardData(i-1),nXScreenPos,nYScreenPos)
 				if self.m_cbWikCard~=0 and self.m_cbWikCard==self:GetCardData(i-1) then
-					GameLogic:Draw3dRect(nXScreenPos+3,nYScreenPos+3,34,45,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
+					GameLogic:Draw3dRect(nXScreenPos+3,nYScreenPos+3,34,45,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1),self)
 				end
 		end
 
@@ -711,7 +711,7 @@ print("CWeaveCard:DrawCardControl_1")
 				local nXScreenPos=self.m_ControlPoint.x-(i+1-1)*24
 				CCardListImage:DrawCardItem("m_ImageTableTop","CWeaveCard_"..i,self:GetCardData(2-i-1),nXScreenPos,nYScreenPos)
 				if self.m_cbWikCard~=0 and self.m_cbWikCard==self:GetCardData(2-i-1) then
-					GameLogic:Draw3dRect(nXScreenPos+1,nYScreenPos+2,21,27,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1))
+					GameLogic:Draw3dRect(nXScreenPos+1,nYScreenPos+2,21,27,cc.c4f(1,0,0,1),cc.c4f(1,0,0,1),self)
 				end
 		end
 
@@ -1337,12 +1337,14 @@ print("获取悬停 扑克")
 end
 --获取出牌扑克
 function CCardControl:GetOutCard(byCardData)
-	m_GodsData=CCardControl.m_byGodsData
+	local m_GodsData=CCardControl.m_byGodsData
 print("获取出牌扑克 ",byCardData,m_GodsData,CCardControl.m_byGodsData)
 	if nil==byCardData or ""==byCardData then return end
 	GameLogic:SetGodsCard(m_GodsData)
 	local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
+
 	if self.m_bCardDisable[byIndex] then
+print("已经禁止的牌")
 		byCardData = 0x00
 	end
 
@@ -1364,9 +1366,12 @@ print("获取出牌扑克 ",byCardData,m_GodsData,CCardControl.m_byGodsData)
 			byCardData = 0x00
 		end
 	end
+dump(self.m_bCardDisable,"m_bCardDisable",6)
+dump(CCardControl.m_bCardDisable,"CCardControl m_bCardDisable",6)
+print(self.m_bCardDisable[byIndex],byIndex,self.m_CurrentCard.cbCardData,m_GodsData,self.m_wCardCount)
 print(byCardData)
 	--请出单字牌  ~=0 ？
-	if condition ~=0 then
+	if byCardData ~=0 then
 		self._base:VOnOutCard(byCardData)
 	else
 		self._base:VOnOutInvalidCard()
@@ -1465,6 +1470,8 @@ end
 
 function CCardControl:UpdateCardDisable(bShowDisable)
 print("CCardControl:UpdateCardDisable",bShowDisable)
+dump(CCardControl.m_bCardDisable,"CCardControl m_bCardDisable",6)
+dump(self.m_bCardDisable,"m_bCardDisable",6)
 	self.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX) 
 	self.m_bShowDisable = bShowDisable
 	if not bShowDisable then	return end
@@ -1497,6 +1504,7 @@ print("self.m_CurrentCard.cbCardData",self.m_CurrentCard.cbCardData)
 
 	-- 单张风 风不是只有东南西北 么？
 dump(byIndexCount,"byIndexCount 单张风",6)
+dump(self.m_cbOutCardIndex,"已经打出的牌",6)
 	while true do
 	for i=27+1,cmd.MAX_INDEX-0,1 do
 print(i)
@@ -1507,6 +1515,7 @@ print(i)
 	break end
 print(bHaveSingle)
 	if not bHaveSingle then  --没有单张的风,所有牌可以出
+print("没有单张的风,所有牌可以出")
 		self.m_bCardDisable=GameLogic:sizeF(cmd.MAX_INDEX)
 		return
 	end
@@ -1517,7 +1526,8 @@ print(bHaveSingle)
 	for i=1,cmd.MAX_INDEX,1 do
 	while true do
 		self.m_bCardDisable[i] = true
-		if (i<27+1) or (byGodsIndex == (i+1)) then break end
+		--if (i<27+1) or (byGodsIndex == (i+1)) then break end
+		if (i<27+1) or (byGodsIndex == (i)) then break end
 
 		-- 在已经出牌中找到此牌
 		if self.m_cbOutCardIndex[i]>0 then		--已经出过
@@ -1533,7 +1543,7 @@ dump(self.m_bCardDisable,"111 m_bCardDisable",6)
 print(bHaveSingle,bHaveDouble)
 	-- 所有的单牌都可以出
 	if not bHaveSingle then
-		for i=27,cmd.MAX_INDEX-1,1 do
+		for i=27+1,cmd.MAX_INDEX,1 do
 		while true do
 			if byGodsIndex == i then break end
 print(i , byIndexCount[i])
@@ -1644,6 +1654,7 @@ function CCardControl:OnEventSetCursor(Point,bRePaint)
 end
 
 function CCardControl:GetMeOutCard()
+print("CCardControl:GetMeOutCard")
 	GameLogic:SetGodsCard(self.m_byGodsData)
 
 	local iIndex = GameLogic:SwitchToCardIndex(self.m_CurrentCard.cbCardData)+1

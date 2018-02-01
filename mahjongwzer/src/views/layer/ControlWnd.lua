@@ -3,7 +3,6 @@
 -- Date: 2017-12-8 15:48:39
 --
 local cmd = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.CMD_Game")
---local GameLayer = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.GameLayer")
 local GameLogic = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.models.GameLogic")
 local CardControl = appdf.req(appdf.GAME_SRC.."yule.mahjongwzer.src.views.layer.CardControl")
 local CControlWnd = class("CControlWnd", function(scene)
@@ -12,14 +11,14 @@ local CControlWnd = class("CControlWnd", function(scene)
 end)
 
 --按钮标识
-CControlWnd.IDC_CHIHU				=		100									--吃胡按钮
+CControlWnd.IDC_CHIHU			=		100									--吃胡按钮
 CControlWnd.IDC_LISTEN			=		101									--听牌按钮
 CControlWnd.IDC_GIVEUP			=		102									--放弃按钮
 CControlWnd.IDC_CHI_SHANG		=		103
 CControlWnd.IDC_CHI_ZHONG		=		104
 CControlWnd.IDC_CHI_XIA			=		105
-CControlWnd.IDC_PENG				=		106
-CControlWnd.IDC_GANG				=		107
+CControlWnd.IDC_PENG			=		106
+CControlWnd.IDC_GANG			=		107
 
 --位置标识
 CControlWnd.ITEM_WIDTH			=		90									--子项宽度
@@ -27,7 +26,7 @@ CControlWnd.ITEM_HEIGHT			=		44									--子项高度
 
 CControlWnd.CONTROL_TOP 		=		35									--控制高度
 CControlWnd.CONTROL_WIDTH		=		173									--控制宽度
-CControlWnd.CONTROL_HEIGHT	=		47									--控制高度
+CControlWnd.CONTROL_HEIGHT		=		47									--控制高度
 
 function CControlWnd:ctor(scene)
 	self._scene = scene
@@ -134,6 +133,7 @@ function CControlWnd:ctor(scene)
 end
 
 function CControlWnd:onButtonClickedEvent(tag, ref)
+print("CControlWnd:onButtonClickedEvent",tag)
 	if tag == CControlWnd.IDC_CHIHU then
 		self:OnChiHu()
 	elseif tag == CControlWnd.IDC_LISTEN then
@@ -180,6 +180,7 @@ end
 --设置扑克
 function CControlWnd:SetControlInfo(cbCenterCard, cbActionMask, GangCardResult)
 print("设置扑克 CControlWnd:SetControlInfo",cbCenterCard, cbActionMask, GangCardResult)
+dump(GangCardResult,"CControlWnd GangCardResult",6)
 	--设置变量
 	self.m_cbItemCount=0
 	self.m_cbCurrentItem= 0xFF
@@ -220,6 +221,7 @@ end
 
 --调整控件
 function CControlWnd:RectifyControl()
+print("CControlWnd:RectifyControl")
 	--设置位置
 	--CRect rcRect;
 	local rcRect={}
@@ -234,35 +236,35 @@ function CControlWnd:RectifyControl()
 
   --调整按钮
 	--mark
-  local rcButton=self.m_btChiHu:getContentSize()
-  local nYPos=rcRect.top-rcRect.bottom-rcButton.height-7
-  --m_btChiHu.SetWindowPos(NULL,rcRect.Width()-70-rcButton.Width()-2,nYPos,0,0,SWP_NOZORDER|SWP_NOSIZE);
-  --m_btGiveUp.SetWindowPos(NULL,rcRect.Width()-70,nYPos+3,0,0,SWP_NOZORDER|SWP_NOSIZE);
+	local rcButton=self.m_btChiHu:getContentSize()
+	local nYPos=rcRect.top-rcRect.bottom-rcButton.height-7
+	--m_btChiHu.SetWindowPos(NULL,rcRect.Width()-70-rcButton.Width()-2,nYPos,0,0,SWP_NOZORDER|SWP_NOSIZE);
+	--m_btGiveUp.SetWindowPos(NULL,rcRect.Width()-70,nYPos+3,0,0,SWP_NOZORDER|SWP_NOSIZE);
 	self.m_btChiHu:move(rcRect.right-rcRect.left-70-rcButton.width-2,nYPos)
 	self.m_btGiveUp:move(rcRect.right-rcRect.left-70,nYPos+3)
+dump(rcRect,"rcRect",6)
 	return
 end
 
 --吃胡按钮
 function CControlWnd:OnChiHu()
-	--mark 暂时使用 GameLayer 下同
-	GameLayer:OnCardOperate( GameLogic.WIK_CHI_HU,0 )
+	self._scene:OnCardOperate( GameLogic.WIK_CHI_HU,0 )
 	return
 end
 --吃胡按钮
 function CControlWnd:OnListen()
-	GameLayer:OnListenCard( 0,0 )
+	self._scene:OnListenCard( 0,0 )
 	return
 end
 
 function CControlWnd:OnChiShang()
-	GameLayer:OnCardOperate( GameLogic.WIK_LEFT,self.m_cbCenterCard )
+	self._scene:OnCardOperate( GameLogic.WIK_LEFT,self.m_cbCenterCard )
 	return
 end
 
 function CControlWnd:OnChiZhong()
 	if bit:_and(self.m_cbActionMask, GameLogic.WIK_CENTER) ~= 0 then
-		GameLayer:OnCardOperate( GameLogic.WIK_CENTER,self.m_cbCenterCard )
+		self._scene:OnCardOperate( GameLogic.WIK_CENTER,self.m_cbCenterCard )
 		return
 	end
 	return
@@ -270,7 +272,7 @@ end
 
 function CControlWnd:OnChiXia()
 	if bit:_and(self.m_cbActionMask, GameLogic.WIK_RIGHT) ~= 0 then
-		GameLayer:OnCardOperate( GameLogic.WIK_RIGHT,self.m_cbCenterCard )
+		self._scene:OnCardOperate( GameLogic.WIK_RIGHT,self.m_cbCenterCard )
 		return
 	end
 	return
@@ -278,7 +280,7 @@ end
 
 function CControlWnd:OnPeng()
 	if bit:_and(self.m_cbActionMask, GameLogic.WIK_PENG) ~= 0 then
-		GameLayer:OnCardOperate( GameLogic.WIK_PENG,self.m_cbCenterCard )
+		self._scene:OnCardOperate( GameLogic.WIK_PENG,self.m_cbCenterCard )
 		return
 	end
 	return
@@ -287,7 +289,7 @@ end
 function CControlWnd:OnGang()
 	for i=1,GameLogic:table_leng(self.m_cbGangCard),1 do
 		if self.m_cbGangCard[i]~=0 then
-			GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
+			self._scene:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
 			return
 		end
 	end
@@ -296,12 +298,13 @@ end
 
 --放弃按钮
 function CControlWnd:OnGiveUp()
-	GameLayer:OnCardOperate( GameLogic.WIK_NULL,0 )
+	self._scene:OnCardOperate( GameLogic.WIK_NULL,0 )
 	return
 end
 
 --重画函数
 function CControlWnd:OnPaint()
+print("CControlWnd:OnPaint")
 	--当前窗体
 	--CPaintDC dc(this);
 
@@ -327,7 +330,7 @@ function CControlWnd:OnPaint()
   --填充背景
   --BufferDC.FillSolidRect(rcClient,RGB(0,96,124));
 
-	GameLogic:FillSolidRect(rcClient.width/2, rcClient.height/2, rcClient.width, rcClient.height, cc.c4f(0,96/255,124/255,1))
+	GameLogic:FillSolidRect(rcClient.width/2, rcClient.height/2, rcClient.width, rcClient.height, cc.c4f(0,96/255,124/255,1),self)
 
 	--绘画背景
 	self.m_ImageControlTop:setPosition(0,0)
@@ -336,7 +339,7 @@ function CControlWnd:OnPaint()
 	for nImageYPos=self.m_ImageControlTop:getContentSize().height,rcClient.height-1,self.m_ImageControlMid:getContentSize().height do
 		--self.m_ImageControlMid.BitBlt(BufferDC,0,nImageYPos)
 		--makr 新建还是显示
-		self.m_ImageControlTop:setPosition(0,nImageYPos)
+		self.m_ImageControlMid:setPosition(0,nImageYPos)
 			:setVisible(true)
 	end
 	self.m_ImageControlButtom:setPosition(0,rcClient.height-self.m_ImageControlButtom:getContentSize().height)
@@ -349,9 +352,11 @@ function CControlWnd:OnPaint()
 	local cbExcursion={0,1,2}
 	local cbItemKind={GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG}
 
-
+print("===",GameLogic.WIK_LEFT,GameLogic.WIK_CENTER,GameLogic.WIK_RIGHT,GameLogic.WIK_PENG)
+dump(cbItemKind,"cbItemKind",6)
 	--绘画扑克
 	for i=1,GameLogic:table_leng(cbItemKind),1 do
+print(bit:_and(self.m_cbActionMask,cbItemKind[i]))
 		if bit:_and(self.m_cbActionMask,cbItemKind[i]) ~=0 then
 			--绘画扑克
 			for j=1,3,1 do
@@ -369,7 +374,7 @@ function CControlWnd:OnPaint()
 				end
 				--g_CardResource.m_ImageTableBottom.DrawCardItem(&BufferDC,cbCardData,j*26+12,nYPos+5);
 				self.g_CardResource=CardControl:create_CCardListImage(self)
-				self.g_CardResource:DrawCardItem("m_ImageTableBottom",nil,cbCardData,j*26+12,nYPos+5)
+				self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbItemKind"..i,cbCardData,j*26+12,nYPos+5)
 			end
 
 			--计算位置
@@ -388,7 +393,7 @@ function CControlWnd:OnPaint()
 
 			--绘画边框
 			if cbCurrentItem==self.m_cbCurrentItem then
-				GameLogic:Draw3dRect(5,nYPos,rcClient.width-5*2,CControlWnd.ITEM_HEIGHT,cc.c4f(1,1,0,1),cc.c4f(1,1,0,1))
+				GameLogic:Draw3dRect(5,nYPos,rcClient.width-5*2,CControlWnd.ITEM_HEIGHT,cc.c4f(1,1,0,1),cc.c4f(1,1,0,1),self)
 			end
 
 			--设置变量
@@ -405,12 +410,12 @@ function CControlWnd:OnPaint()
 				--绘画扑克
 				for j=1,4,1 do
 					self.g_CardResource=CardControl:create_CCardListImage(self)
-					self.g_CardResource:DrawCardItem("m_ImageTableBottom",nil,m_cbGangCard[i],(j-1)*26+12,nYPos+5)
+					self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbGangCard"..i,m_cbGangCard[i],(j-1)*26+12,nYPos+5)
 				end
 
 				--绘画边框
 				if cbCurrentItem==self.m_cbCurrentItem then
-					GameLogic:Draw3dRect(5,nYPos,rcClient.width-5*2,CControlWnd.ITEM_HEIGHT,cc.c4f(1,1,0,1),cc.c4f(1,1,0,1))
+					GameLogic:Draw3dRect(5,nYPos,rcClient.width-5*2,CControlWnd.ITEM_HEIGHT,cc.c4f(1,1,0,1),cc.c4f(1,1,0,1),self)
 				end
 
 				--绘画标志
@@ -453,7 +458,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		for i=1,GameLogic:table_leng(cbItemKind),1 do
 			cbIndex = cbIndex + 1 
 			if (bit:_and(self.m_cbActionMask,cbItemKind[i])~=0) and (self.m_cbCurrentItem==cbIndex) then
-				GameLayer:OnCardOperate( cbItemKind[i],self.m_cbCenterCard )
+				self._scene:OnCardOperate( cbItemKind[i],self.m_cbCenterCard )
 				return
 			end
 		end
@@ -462,7 +467,7 @@ function CControlWnd:OnLButtonDown(nFlags,Point)
 		for i=1,GameLogic:table_leng(self.m_cbGangCard),1 do
 			cbIndex = cbIndex + 1 
 			if (self.m_cbGangCard[i]~=0) and (self.m_cbCurrentItem==cbIndex) then
-				GameLayer:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
+				self._scene:OnCardOperate( GameLogic.WIK_GANG,self.m_cbGangCard[i] )
 				return
 			end
 		end

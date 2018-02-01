@@ -203,19 +203,19 @@ function GameLogic:sizeF(b)
 	return a
 end
 
-function GameLogic:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight)
-	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft)
-	self:FillSolidRect(x, y, 1, cy - 1, clrTopLeft)
-	self:FillSolidRect(x + cx, y, -1, cy, clrBottomRight)
-	self:FillSolidRect(x, y + cy, cx, -1, clrBottomRight)
+function GameLogic:Draw3dRect(x, y, cx, cy,	clrTopLeft, clrBottomRight,parent)
+	self:FillSolidRect(x, y, cx - 1, 1, clrTopLeft,parent)
+	self:FillSolidRect(x, y, 1, cy - 1, clrTopLeft,parent)
+	self:FillSolidRect(x + cx, y, -1, cy, clrBottomRight,parent)
+	self:FillSolidRect(x, y + cy, cx, -1, clrBottomRight,parent)
 end
 
-function GameLogic:FillSolidRect(x, y, cx, cy, color)
+function GameLogic:FillSolidRect(x, y, cx, cy, color,parent)
   local dr=cc.DrawNode:create()
     :setPosition(cc.p(x+cx/2,y+cy/2))
     :drawSolidRect(cc.p(x,y), cc.p(x+cx,y+cy), color)
 		:setAnchorPoint(cc.p(0.5,0.5))
-		:addTo(self)
+		:addTo(parent)
 	return dr
 end
 
