@@ -164,6 +164,8 @@ function GameViewLayer:ctor(scene)
 	--添加
 	self.g_CardResource=CardControl:create_CCardResource(self)
 	self.g_CardResource:LoadResource(self)
+	--单张牌出牌提示 消失倒计时id
+	self.t_SingleId=nil
 	
 	self:preloadUI()
 	return
@@ -215,6 +217,7 @@ function GameViewLayer:batchCreate(num,type)   --改长度需要使用 GameLogic
 end
 
 function GameViewLayer:preloadUI()
+print("GameViewLayer_preloadUI")
 	--变量定义
 	self.Direction={CardControl.Direction_North,CardControl.Direction_East,CardControl.Direction_South,CardControl.Direction_West};
 	--用户扑克
@@ -289,7 +292,9 @@ function GameViewLayer:preloadUI()
 	self.m_ControlWnd:setTag(10)
 	self.m_ControlWnd:move(0,0)
 	--m_ControlWnd.m_cardControl=&m_HandCardControl;
+print("create_mark1")
 	self.m_HandCardControl=CardControl:create_CCardControl(self)
+print("create_mark2")
 	self.m_ControlWnd.m_cardControl=self.m_HandCardControl
 	--用户扑克
 	--self.m_ControlWnd:SetSinkWindow(AfxGetMainWnd());  --mark
@@ -367,6 +372,7 @@ function GameViewLayer:preloadUI()
 	self.m_HandCardControl.pWnd=self
 
 	------
+print("GameViewLayer_preloadUI end")
 	self:RectifyControl(1300,750)
 	-- --绘制界面
 	-- self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
@@ -732,6 +738,8 @@ print("self.m_szCenterText",self.m_szCenterText)
 print(direction,self._scene:GetMeChairID(),self.m_wOutCardUser)
 --m_wOutCardUser 未同步 暂时不能使用
 	--self.m_HandCardControl:DrawCardControl(direction)					--自己手中的麻将，游戏进行中显示
+print(self.m_HandCardControl,"m_HandCardControl===========")
+dump(self.m_HandCardControl.m_bCardDisable,"self.m_HandCardControl.m_bCardDisable",6)
 	self.m_HandCardControl:DrawCardControl(true)
 
 	--等待提示
@@ -787,11 +795,14 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 
 	if self.m_bTipSingle then
 		--请出单字牌
-		self.m_ImageTipSingle=display.newSprite("res/game/TIP_SINGLE.png")
-			:setPosition(nWidth/2-self.m_ImageTipSingle:getContentSize().width/2,nHeight/2+220)
-			:setColor(cc.c3b(255, 0, 255))
+		self.m_ImageTipSingle:setPosition(nWidth/2,nHeight/2-220)
 			:setVisible(true)
-			:addTo(self)
+			
+		self.t_SingleId = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
+          self:OnTimeSingle()
+      	end, 2, false)
+	else
+		self.m_ImageTipSingle:setVisible(false)
 	end
 	--用户状态
 dump(self.m_cbUserAction,"用户动作",6)
@@ -983,6 +994,14 @@ function GameViewLayer:canceShowlReady()
 	if self.OpponentReady then self.OpponentReady:removeFromParent() end
 	if self.meReady then self.meReady:removeFromParent() end
 	self.meReady,self.OpponentReady=nil,nil
+end
+
+--
+function GameViewLayer:OnTimeSingle()
+print("出牌提示隐藏 self.t_SingleId",self.t_SingleId)
+	self.m_bTipSingle=false
+	self.m_ImageTipSingle:setVisible(false)
+	cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.t_SingleId)
 end
 
 --准备显示
@@ -1340,7 +1359,15 @@ function GameViewLayer:VOnOutInvalidCard(wParam)
 end
 --点击出牌
 function GameViewLayer:VOnOutCard(wParam)
+	--清除计时间
+print("清除计时间")
+	self:OnTimeSingle()
 	self._scene:OnOutCard(wParam,nil)
+end
+
+--设置禁止出牌 点击按钮回调值不一样 需要设置
+function GameViewLayer:SetCardDisable()
+	return self.m_HandCardControl.m_bCardDisable
 end
 
 --开始按钮

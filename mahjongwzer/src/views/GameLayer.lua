@@ -1641,6 +1641,7 @@ print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCar
 	print("当前用户",self.m_wCurrentUser,wMeChairID)
   if self.m_wCurrentUser == wMeChairID then
 		self._gameView.m_HandCardControl:UpdateCardDisable(true)
+--dump(self._gameView.m_HandCardControl.m_bCardDisable,"self._gameView.m_HandCardControl",6)
   end
 
 	--更新界面

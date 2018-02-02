@@ -92,10 +92,12 @@ function CardControl:create_CDiscardCard(base)
 end
 --桌面扑克
 function CardControl:create_CTableCard(base)
+print("CardControl:create_CTableCard")
     return CTableCard:create(base):addTo(base)
 end
 --扑克控件
 function CardControl:create_CCardControl(base)
+print("CardControl:create_CCardControl")
     return CCardControl:create(base):addTo(base)
 end
 
@@ -485,17 +487,17 @@ print("m_ImageTableBottom",nXPos,nYPos)
 				local wFinallyIndex=(self.m_wFullCount-self.m_wMinusHeadCount)/2
 
 				local wShowCardPos = self.m_byIndex + self.m_byMinusLastShowCard
-				--尾部扑克
-				if self.m_wMinusLastCount%2~=0 then
-print("西向尾部")
+				--头部扑克
+				if self.m_wMinusHeadCount%2~=0 then
+print("西向头部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
-					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+6
+					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_weatTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_westHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
@@ -514,17 +516,17 @@ print("m_ImageTableLeft",nXPos,nYPos)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
-				--头部扑克
-				if self.m_wMinusHeadCount%2~=0 then
-print("西向头部")
+				--尾部扑克
+				if self.m_wMinusLastCount%2~=0 then
+print("西向尾部")
 					nXPos=self.m_ControlPoint.x
-					nYPos=self.m_ControlPoint.y+wFinallyIndex*15+6
-					CCardResource.m_ImageHeapSingleV["westHead"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
+					nYPos=self.m_ControlPoint.y+wHeapIndex*15+9
+					CCardResource.m_ImageHeapSingleV["weatTail"]=display.newSprite("res/game/CARD_HEAP_SINGLE_V.png")
 						:setPosition(nXPos,nYPos)
 						:setVisible(true)
 						:addTo(self)
-					if ((wFinallyIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
-						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_westHead",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
+					if ((wHeapIndex + 1) == (wShowCardPos+1)/2) and (self.m_byShowCard>0) and (0 == wShowCardPos%2) then
+						CCardListImage:DrawCardItem("m_ImageTableLeft","CHeapCard_weatTail",self.m_byShowCard,nXPos,nYPos,0,false,25,19)
 print("m_ImageTableLeft",nXPos,nYPos)
 					end
 				end
@@ -1197,6 +1199,7 @@ end
 --===================================================================
 --扑克控件
 function CCardControl:ctor(base)
+print("CCardControl_ctor")
 	CCardControl._base = base
 	CCardControl.m_byGodsData= 0x00
 	--状态变量
@@ -1337,13 +1340,14 @@ print("获取悬停 扑克")
 end
 --获取出牌扑克
 function CCardControl:GetOutCard(byCardData)
+	local bCardDisable=self._base:SetCardDisable()
 	local m_GodsData=CCardControl.m_byGodsData
 print("获取出牌扑克 ",byCardData,m_GodsData,CCardControl.m_byGodsData)
 	if nil==byCardData or ""==byCardData then return end
 	GameLogic:SetGodsCard(m_GodsData)
-	local byIndex = GameLogic:SwitchToCardIndex(byCardData)+1
+	local byIndex =byCardData
 
-	if self.m_bCardDisable[byIndex] then
+	if bCardDisable[byIndex] then
 print("已经禁止的牌")
 		byCardData = 0x00
 	end
@@ -1366,9 +1370,8 @@ print("已经禁止的牌")
 			byCardData = 0x00
 		end
 	end
-dump(self.m_bCardDisable,"m_bCardDisable",6)
-dump(CCardControl.m_bCardDisable,"CCardControl m_bCardDisable",6)
-print(self.m_bCardDisable[byIndex],byIndex,self.m_CurrentCard.cbCardData,m_GodsData,self.m_wCardCount)
+dump(bCardDisable,"m_bCardDisable",6)
+print(bCardDisable[byIndex],byIndex,self.m_CurrentCard.cbCardData,m_GodsData,self.m_wCardCount)
 print(byCardData)
 	--请出单字牌  ~=0 ？
 	if byCardData ~=0 then

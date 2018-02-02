@@ -52,6 +52,7 @@ function CControlWnd:ctor(scene)
 
 	--m_cardControl=NULL
 	self.m_cardControl=nil
+print("CControlWnd -create_CCardControl")
 	self.m_cardControl=CardControl:create_CCardControl(self)   --是否需要注释
 
 
