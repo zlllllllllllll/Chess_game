@@ -1095,10 +1095,13 @@ end
 function GameLogic:SwitchToCardData_1(cbCardIndex)
 	if GameLogic.m_byGodsCardData>0 then
 			if GameLogic:SwitchToCardIndex(GameLogic.BAIBAN_CARD_DATA) == cbCardIndex then
+print("SwitchToCardData_1 白板")
 				return GameLogic.BAIBAN_CARD_DATA
 			elseif GameLogic:SwitchToCardIndex(GameLogic.m_byGodsCardData) == cbCardIndex then
+print("SwitchToCardData_1 财神")
 				return GameLogic.m_byGodsCardData
 			else
+print("SwitchToCardData_1 正常")
 				return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
 			end
 	end

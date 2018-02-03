@@ -1606,8 +1606,10 @@ print("==== onSubSendCard ",self.m_wCurrentUser,wMeChairID,GameLogic:SwitchToCar
 			cmd_data.cbActionMask=bit:_or(cmd_data.cbActionMask,GameLogic:AnalyseTingCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],cbWeaveCount,cbChiHuRight))
     end
 
-    --动作处理
+		--动作处理
+print("动作处理 cmd_data.cbActionMask")
     if cmd_data.cbActionMask~=GameLogic.WIK_NULL then
+print("动作处理 有动作",cmd_data.cbActionMask)
 			--获取变量
 			local cbActionCard=cmd_data.cbCardData
 			local cbActionMask=cmd_data.cbActionMask
@@ -2540,9 +2542,9 @@ print(wParam,self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._game
 	--设置变量
 	self.m_wCurrentUser=yl.INVALID_CHAIR
 	local cbOutCardData=wParam
-dump(self.m_cbCardIndex,"m_cbCardIndex",6)
+--dump(self.m_cbCardIndex,"m_cbCardIndex",6)
 	self.m_cbCardIndex=GameLogic:RemoveCard(self.m_cbCardIndex,cbOutCardData)
-dump(self.m_cbCardIndex,"m_cbCardIndex",6)
+--dump(self.m_cbCardIndex,"m_cbCardIndex",6)
 
 	--设置扑克
 	local cbCardData={}
@@ -2553,7 +2555,7 @@ print("-=-= gameView.m_HandCardControl:SetCardDat",cbCardData,cbCardCount,0)
 
 	--设置界面
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
-	self._gameView:RefreshGameView()
+	--self._gameView:RefreshGameView()
 	self._gameView:SetStatusFlag(false,false)
 	self._gameView:SetUserAction(yl.INVALID_CHAIR,0)
 print("出牌 SOutCardInfo ",cbOutCardData-1)

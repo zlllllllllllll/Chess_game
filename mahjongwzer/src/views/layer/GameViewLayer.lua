@@ -606,57 +606,11 @@ print("===============DrawUserTimerEx",pDC,nXPos,nYPos,wTime)
 			:setAnchorPoint(cc.p(0.5,0.5))
 			:addTo(self)
 	end
---
--- print("wCellNumber",wCellNumber)
--- 	--绘画号码
--- 	for i=1,lNumberCount,1 do
--- 		--绘画号码
--- 		local wCellNumber=wTime%10
--- 		--self.ImageTimeNumber.TransDrawImage(pDC,nXDrawPos,nYDrawPos,nNumberWidth-5,nNumberHeight,wCellNumber*nNumberWidth,0,RGB(0,0,0)) 	--mark
--- 		--[[
--- 		self.ImageTimeNumber=display.newSprite("res/game/TIME_NUMBER.png")
--- 			:move(nXDrawPos,nYDrawPos)
--- 			:setColor(cc.c3b(0, 0, 0))
--- 			:setVisible(true)
--- 			:addTo(self)
--- 		--]]
-
--- 		--设置变量
--- 		wTime=wTime /10
--- 		nXDrawPos=nXDrawPos- nNumberWidth+1
--- 	end
 
 end
 
 --绘画界面
 function GameViewLayer:DrawGameView(pDC,nWidth,nHeight)
-	--绘画背景  CImage::BitBlt	将源设备上下文的位图复制到此当前的设备上下文。 	CImage::StretchBlt	将位图从源矩形复制到目标矩形，可拉伸或压缩位图以符合目标矩形的尺寸，如有必要。
-	-- DRAW_MODE_SPREAD:		//平铺模式
-	-- DRAW_MODE_CENTENT:		//居中模式
-	-- DRAW_MODE_ELONGGATE:	//拉伸模式
-	--DrawViewImage(pDC,m_ImageBack,DRAW_MODE_SPREAD);
-	--DrawViewImage(pDC,m_ImageCenter,DRAW_MODE_CENTENT);
-	-- if not self.m_ImageBack then
-	-- 	self.m_ImageBac=cc.Scale9Sprite:create("res/game/VIEW_BACK.png")
-	-- 		:setCapInsets(CCRectMake(40,40,20,20))
-	-- 		:setContentSize(cc.size(yl.WIDTH, yl.HEIGHT))
-	-- 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
-	-- 		:setVisible(true)
-	-- 		:addTo(self,-1)
-	-- end
-
-	-- if self.m_ImageCenter then
-	-- 	self.m_ImageCente=display.newSprite("res/game/VIEW_CENTER.png")
-	-- 		:setPosition(yl.WIDTH/2,yl.HEIGHT/2)
-	-- 		:setVisible(true)
-	-- 		:addTo(self,-1)
-	-- end
-
-	--[[
-	CString strScore1;
-	strScore1.Format(_T("财富:%d,%d"),nWidth,nHeight);
-	//AfxMessageBox(strScore1);
-	--]]
 
 print("self.m_szCenterText",self.m_szCenterText)
 	if #self.m_szCenterText > 0 then		
@@ -799,7 +753,9 @@ print("=== 荒庄标志 ",self.m_bHuangZhuang)
 			:setVisible(true)
 			
 		self.t_SingleId = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function()
-          self:OnTimeSingle()
+            if self.OnTimeSingle then
+              self:OnTimeSingle()            
+            end
       	end, 2, false)
 	else
 		self.m_ImageTipSingle:setVisible(false)
@@ -999,9 +955,11 @@ end
 --
 function GameViewLayer:OnTimeSingle()
 print("出牌提示隐藏 self.t_SingleId",self.t_SingleId)
-	self.m_bTipSingle=false
-	self.m_ImageTipSingle:setVisible(false)
-	cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.t_SingleId)
+    if self.t_SingleId then
+		self.m_bTipSingle=false
+		self.m_ImageTipSingle:setVisible(false)
+		cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.t_SingleId)
+    end
 end
 
 --准备显示
@@ -1150,7 +1108,7 @@ print("动作信息 SetUserAction ",wViewChairID,bUserAction)
 	end
 	-- self.m_iSavedWidth,self.m_iSavedHeight 目前无值 暂时为1300 300
 	self.m_iSavedWidth,self.m_iSavedHeight=1300,750
-	self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
+	--self:RectifyControl(self.m_iSavedWidth,self.m_iSavedHeight)
 
 	--更新界面
 	--self:RefreshGameView()
@@ -1703,7 +1661,7 @@ function GameViewLayer:RefreshGameView()
 	-- GetClientRect(&rect);
 	-- InvalidGameView(rect.left,rect.top,rect.Width(),rect.Height());
 
-	self:RectifyControl(1300,750)
+	--self:RectifyControl(1300,750)
 	--绘制界面
 	self:DrawGameView("",yl.WIDTH,yl.HEIGHT)
 	return
