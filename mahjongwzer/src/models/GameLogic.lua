@@ -1047,9 +1047,11 @@ end
 --BYTE CGameLogic::SwitchToCardIndex(BYTE cbCardData)
 function GameLogic:SwitchToCardIndex_1(cbCardData)
 	if GameLogic.m_byGodsCardData>0 then
-		if GameLogic.BAIBAN_CARD_DATA ==cbCardData then			 -- 将白板跟财神交换
+		if (GameLogic.BAIBAN_CARD_DATA) ==cbCardData then			 -- 将白板跟财神交换
+print("SwitchToCardIndex_1 将白板跟财神交换",GameLogic.BAIBAN_CARD_DATA ,cbCardData,(GameLogic.BAIBAN_CARD_DATA) ==cbCardData)
 			cbCardData = GameLogic.m_byGodsCardData
-		elseif GameLogic.m_byGodsCardData ==cbCardData then
+		elseif (GameLogic.m_byGodsCardData) ==cbCardData then
+print("SwitchToCardIndex_1 将财神跟白板交换",GameLogic.m_byGodsCardData ,cbCardData,(GameLogic.m_byGodsCardData) ==cbCardData)
 			cbCardData = GameLogic.BAIBAN_CARD_DATA
 		end
 	end

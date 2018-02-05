@@ -520,13 +520,13 @@ print("OnEventGameClockInfo",chair,time,clockId)
                 end
 
                 local cbGods=self._gameView:GetGodsCard()
-                local iGodsIndex=GameLogic:SwitchToCardIndex(cbGods)
+                local iGodsIndex=GameLogic:SwitchToCardIndex(cbGods)+1
                 for i=27,cmd.MAX_INDEX-1,1 do
                   while true do
                     if self.m_cbCardIndex[i]==0 then break	end
                     if i == iGodsIndex then break	end     --财神不能出
                     if self.m_cbCardIndex[i]==1 then
-      								cbCardData=GameLogic:SwitchToCardData(i)
+      								cbCardData=GameLogic:SwitchToCardData(i-1)+1
       								self:OnOutCard(cbCardData,cbCardData)
                       self:KillGameClock(cmd.IDI_OPERATE_CARD)
       								return true
@@ -539,7 +539,7 @@ print("OnEventGameClockInfo",chair,time,clockId)
                     if self.m_cbCardIndex[i]==0 then break	end
                     if i == iGodsIndex then break	end     --财神不能出
                     if self:VerdictOutCard(GameLogic:SwitchToCardData(i))==false then break	end
-    								cbCardData=GameLogic:SwitchToCardData(i)
+    								cbCardData=GameLogic:SwitchToCardData(i-1)+1
     								self:OnOutCard(cbCardData,cbCardData)
                     self:KillGameClock(cmd.IDI_OPERATE_CARD)
     								return true
@@ -1699,15 +1699,17 @@ function GameLayer:onSubOperateNotify(dataBuffer)
 		GangCardResult.cbCardData=GameLogic:sizeF(4)
 
 		--杠牌判断
-	print(bit:_and(cbActionMask,GameLogic.WIK_GANG))
-    if bit:_and(cbActionMask,GameLogic.WIK_GANG) then
+	print(bit:_and(cbActionMask,GameLogic.WIK_GANG),self.m_wCurrentUser,wMeChairID)
+    if bit:_and(cbActionMask,GameLogic.WIK_GANG)~=0 then
       --桌面杆牌
-      if (self.m_wCurrentUser==yl.INVALID_CHAIR) and (cbActionCard~=0) then
+			if (self.m_wCurrentUser==yl.INVALID_CHAIR) and (cbActionCard~=0) then
+		print("桌面杆牌")
 				GangCardResult.cbCardCount=1
 				GangCardResult.cbCardData[1]=cbActionCard
       end
       --自己杆牌
       if (self.m_wCurrentUser==wMeChairID) or (cbActionCard==0) then
+		print("自己杆牌")
 		    local wMeChairID=self:GetMeChairID()
 				local arg1
 				arg1,GangCardResult=GameLogic:AnalyseGangCard(self.m_cbCardIndex,self.m_WeaveItemArray[wMeChairID],self.m_cbWeaveCount[wMeChairID],GangCardResult)
@@ -2285,7 +2287,7 @@ print("出牌判断 ",self.m_bHearStatus,self.m_bWillHearStatus)
       for i=1,cmd.MAX_INDEX,1 do
   			--胡牌分析
   			local wChiHuRight=0;
-  			local cbCurrentCard=GameLogic:SwitchToCardData(i)
+  			local cbCurrentCard=GameLogic:SwitchToCardData(i-1)+1
   			local cbHuCardKind=GameLogic:AnalyseChiHuCard(cbCardIndexTemp,self.m_WeaveItemArray[wMeChairID],cbWeaveCount,cbCurrentCard,wChiHuRight,ChiHuResult)
 
   			--结果判断
@@ -2514,7 +2516,7 @@ end
 function GameLayer:OnOutCard(wParam, lParam)
 print("出牌 OnOutCard ",wParam, lParam)
 	--传出时已经是index
-	wParam=GameLogic:SwitchToCardData(wParam)
+	wParam=GameLogic:SwitchToCardData(wParam-1)+1
 print(wParam,self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 
