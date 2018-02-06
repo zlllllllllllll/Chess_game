@@ -741,7 +741,9 @@ print(self.m_cbHeapCardInfo[i][1],self.m_cbHeapCardInfo[i][2],CardControl.HEAP_F
 
 		--更新界面
 		self._gameView:RefreshGameView()
-
+		--可能需要隐藏
+		--self._gameView.m_ControlWnd:setVisible(false)
+	print("=========here")
     return true
 	elseif cbGameStatus == cmd.GS_MJ_MAIDI then         --买庄状态
     local cmd_data = ExternalFun.read_netdata(cmd.CMD_S_StatusMaiDi, dataBuffer)
@@ -1699,7 +1701,7 @@ function GameLayer:onSubOperateNotify(dataBuffer)
 		GangCardResult.cbCardData=GameLogic:sizeF(4)
 
 		--杠牌判断
-	print(bit:_and(cbActionMask,GameLogic.WIK_GANG),self.m_wCurrentUser,wMeChairID)
+	print(bit:_and(cbActionMask,GameLogic.WIK_GANG),(self.m_wCurrentUser==yl.INVALID_CHAIR) )
     if bit:_and(cbActionMask,GameLogic.WIK_GANG)~=0 then
       --桌面杆牌
 			if (self.m_wCurrentUser==yl.INVALID_CHAIR) and (cbActionCard~=0) then
@@ -1718,6 +1720,7 @@ function GameLayer:onSubOperateNotify(dataBuffer)
 
 		--设置界面
 		--ActiveGameFrame();
+		self._gameView.m_ControlWnd:setVisible(true)
 		self._gameView.m_ControlWnd:SetControlInfo(cbActionCard,cbActionMask,GangCardResult)
 		self.m_cbUserAction = cbActionMask
 
@@ -1846,7 +1849,7 @@ function GameLayer:onSubOperateResult(dataBuffer)
 
   --设置界面
   self._gameView:SetOutCardInfo(yl.INVALID_CHAIR,0)
-  self._gameView.m_ControlWnd:setVisible(false)
+	self._gameView.m_ControlWnd:setVisible(false)
   self._gameView:SetUserAction(wOperateViewID,cmd_data.cbOperateCode)
   self._gameView:SetStatusFlag(self.m_wCurrentUser==self:GetMeChairID(),false)
 
@@ -2516,7 +2519,8 @@ end
 function GameLayer:OnOutCard(wParam, lParam)
 print("出牌 OnOutCard ",wParam, lParam)
 	--传出时已经是index
-	wParam=GameLogic:SwitchToCardData(wParam-1)+1
+	--wParam=GameLogic:SwitchToCardData(wParam-1)+1
+	wParam=GameLogic:SwitchToCardData_Send(wParam-1)+1
 print(wParam,self.m_wCurrentUser,self:GetMeChairID(),cmd.GS_MJ_PLAY , self._gameFrame:GetGameStatus())
   self:KillGameClock(cmd.IDI_OPERATE_CARD)
 

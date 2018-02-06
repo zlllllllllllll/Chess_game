@@ -29,6 +29,11 @@ CControlWnd.CONTROL_WIDTH		=		173									--控制宽度
 CControlWnd.CONTROL_HEIGHT		=		47									--控制高度
 
 function CControlWnd:ctor(scene)
+--位置查看
+-- cc.DrawNode:create()  
+-- :setPosition(cc.p(0,0))  
+-- :drawSolidRect(cc.p(-500,-500), cc.p(1000,1000), cc.c4f(1,0,1,1))  
+-- :addTo(self)
 	self._scene = scene
 	local this = self
 
@@ -47,7 +52,8 @@ function CControlWnd:ctor(scene)
 	--加载资源
 	self.m_ImageActionExplain=display.newSprite("res/game/ACTION_EXPLAIN.png"):setVisible(false):addTo(self)
 	self.m_ImageControlTop=display.newSprite("res/game/CONTROL_TOP.png"):setVisible(false):addTo(self)
-	self.m_ImageControlMid=display.newSprite("res/game/CONTROL_MID.png"):setVisible(false):addTo(self)
+	--self.m_ImageControlMid=display.newSprite("res/game/CONTROL_MID.png"):setVisible(false):addTo(self)
+	self.m_ImageControlMid={}
 	self.m_ImageControlButtom=display.newSprite("res/game/CONTROL_BOTTOM.png"):setVisible(false):addTo(self)
 
 	--m_cardControl=NULL
@@ -129,6 +135,10 @@ print("CControlWnd -create_CCardControl")
 		:addTo(self)
     	:addTouchEventListener(btcallback)
 	self.m_btGang=self:getChildByName("m_btGang")
+
+	--
+	self.g_CardResource=CardControl:create_CCardResource(self)
+	self.g_CardResource:LoadResource(self)
 
 	return
 end
@@ -233,7 +243,10 @@ print("CControlWnd:RectifyControl")
 
 	--移动窗口
 	--MoveWindow(rcRect);
-	self:move((rcRect.left+rcRect.right/2),(rcRect.bottom+rcRect.top)/2)
+print("CControlWnd move ",(rcRect.left+rcRect.right/2),(rcRect.bottom+rcRect.top)/2)
+	--位置偏移不方便测试 临时注释
+	--self:move((rcRect.left+rcRect.right/2),(rcRect.bottom+rcRect.top)/2)
+	self:move(0,0)
 
   --调整按钮
 	--mark
@@ -310,12 +323,10 @@ print("CControlWnd:OnPaint")
 	--CPaintDC dc(this);
 
 	--获取位置
-	-- CRect rcClient;
-	-- GetClientRect(&rcClient);
 	--mark
 	local rcClient={}
 	rcClient.left=0
-	rcClient.top=100
+	rcClient.top=42
 	rcClient.right=100
 	rcClient.bottom=0
 	rcClient.width=rcClient.right-rcClient.left
@@ -328,23 +339,27 @@ print("CControlWnd:OnPaint")
 	-- BufferImage.CreateCompatibleBitmap(&dc,rcClient.Width(),rcClient.Height());
 	-- BufferDC.SelectObject(&BufferImage);
 
-  --填充背景
-  --BufferDC.FillSolidRect(rcClient,RGB(0,96,124));
-
 	GameLogic:FillSolidRect(rcClient.width/2, rcClient.height/2, rcClient.width, rcClient.height, cc.c4f(0,96/255,124/255,1),self)
 
 	--绘画背景
-	self.m_ImageControlTop:setPosition(0,0)
-		:setColor(cc.c3b(255, 0, 255))
+	local x,y=700,400
+	self.m_ImageControlTop:setPosition(x,y+rcClient.height+self.m_ImageControlTop:getContentSize().height/2)
 		:setVisible(true)
-	for nImageYPos=self.m_ImageControlTop:getContentSize().height,rcClient.height-1,self.m_ImageControlMid:getContentSize().height do
-		--self.m_ImageControlMid.BitBlt(BufferDC,0,nImageYPos)
-		--makr 新建还是显示
-		self.m_ImageControlMid:setPosition(0,nImageYPos)
-			:setVisible(true)
+	--清理资源
+	for k, v in pairs(self.m_ImageControlMid) do	print("== ",k,v)
+		if v then	v:removeFromParent()	v=nil	end
 	end
-	self.m_ImageControlButtom:setPosition(0,rcClient.height-self.m_ImageControlButtom:getContentSize().height)
-		:setColor(cc.c3b(255, 0, 255))
+	--循环次数 也是要显示的动作个数  rcClient.height待处理 尚未拿到正确值  
+	local temp_i=0
+	--for nImageYPos=self.m_ImageControlTop:getContentSize().height,rcClient.height-1,self.m_ImageControlMid:getContentSize().height do
+	for nImageYPos=rcClient.height,1,-21 do
+		self.m_ImageControlMid[temp_i]=display.newSprite("res/game/CONTROL_MID.png")
+			:setPosition(x,y+nImageYPos-(21)/2)
+			:addTo(self)
+		temp_i=temp_i+1
+print(x,y+nImageYPos)
+	end
+	self.m_ImageControlButtom:setPosition(x,y-self.m_ImageControlButtom:getContentSize().height/2)
 		:setVisible(true)
 
 	--变量定义
@@ -388,7 +403,6 @@ print(bit:_and(self.m_cbActionMask,cbItemKind[i]))
 			--绘画标志
 			local nItemHeight=self.m_ImageActionExplain:getContentSize().height
 			self.m_ImageActionExplain:setPosition(126+nItemWidth/2,nYPos+5+nItemHeight/2)
-				--:setColor(cc.c3b(255, 0, 255))
 				:setVisible(true)
 			--m_ImageActionExplain.BitBlt(BufferDC,126,nYPos+5,nItemWidth,nItemHeight,nXImagePos,0);
 
@@ -424,7 +438,6 @@ print(bit:_and(self.m_cbActionMask,cbItemKind[i]))
 				local nItemHeight=self.m_ImageActionExplain:getContentSize().height
 				--m_ImageActionExplain.BitBlt(BufferDC,126,nYPos+5,nItemWidth,nItemHeight,nItemWidth*3,0);
 				self.m_ImageActionExplain:setPosition(126+nItemWidth/2,nYPos+5+nItemHeight/2)
-					--:setColor(cc.c3b(255, 0, 255))
 					:setVisible(true)
 
 				--设置变量
@@ -442,7 +455,7 @@ print(bit:_and(self.m_cbActionMask,cbItemKind[i]))
 	--清理资源
 	-- BufferDC.DeleteDC();
 	-- BufferImage.DeleteObject();
-
+print("CControlWnd:OnPaint END")
 	return
 end
 

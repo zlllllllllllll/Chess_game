@@ -1111,6 +1111,10 @@ print("SwitchToCardData_1 正常")
 	return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
 end
 
+function GameLogic:SwitchToCardData_Send(cbCardIndex)
+	return bit:_or((bit:_lshift(cbCardIndex/9, 4)),(cbCardIndex%9+1))
+end
+
 --扑克转换
 --BYTE CGameLogic::SwitchToCardData(BYTE cbCardIndex[MAX_INDEX], BYTE cbCardData[MAX_COUNT])
 function GameLogic:SwitchToCardData_2(cbCardIndex,cbCardData)

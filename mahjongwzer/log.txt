@@ -1,0 +1,2194 @@
+SCREEN DPI = 96, SCREEN SCALE = 1.00
+Ready for GLSL
+Ready for OpenGL 2.0
+
+{
+        gl.version: 4.5.0 NVIDIA 378.78
+        gl.supports_NPOT: true
+        cocos2d.x.version: cocos2d-x-3.10
+        cocos2d.x.compiled_with_profiler: false
+        cocos2d.x.build_type: DEBUG
+        cocos2d.x.compiled_with_gl_state_cache: true
+        gl.max_texture_size: 32768
+        gl.vendor: NVIDIA Corporation
+        gl.renderer: GeForce GTX 1050 Ti/PCIe/SSE2
+        gl.max_texture_units: 192
+        gl.supports_ETC1: false
+        gl.supports_S3TC: true
+        gl.supports_ATITC: false
+        gl.supports_PVRTC: false
+        gl.supports_BGRA8888: false
+        gl.supports_discard_framebuffer: false
+        gl.supports_vertex_array_object: true
+}
+
+
+Project Config:
+    project dir:
+    writable path: $(PROJDIR)\
+    script file: $(PROJDIR)\
+    frame size: 960 x 640
+    frame scale: 1.00
+    show console: YES
+    write debug log: NO ()
+    listen:
+    debugger: none
+    add searching path:
+
+
+
+wirtePath:C:/Users/Administrator/AppData/Local/GloryProject/
+======  AppDelegate  娴嬭瘯=====[LUA-print]
+**********
+CCProgressTo was deprecated please use cc.ProgressTo instead.
+**********
+[LUA-print]
+**********
+CCHide was deprecated please use cc.Hide instead.
+**********
+[LUA-print]
+**********
+CCTransitionMoveInB was deprecated please use cc.TransitionMoveInB instead.
+**********
+[LUA-print]
+**********
+CCEaseSineIn was deprecated please use cc.EaseSineIn instead.
+**********
+[LUA-print]
+**********
+CCTransitionMoveInL was deprecated please use cc.TransitionMoveInL instead.
+**********
+[LUA-print]
+**********
+CCEaseInOut was deprecated please use cc.EaseInOut instead.
+**********
+[LUA-print]
+**********
+CCTransitionMoveInT was deprecated please use cc.TransitionMoveInT instead.
+**********
+[LUA-print]
+**********
+CCTransitionMoveInR was deprecated please use cc.TransitionMoveInR instead.
+**********
+[LUA-print]
+**********
+CCParticleSnow was deprecated please use cc.ParticleSnow instead.
+**********
+[LUA-print]
+**********
+CCActionCamera was deprecated please use cc.ActionCamera instead.
+**********
+[LUA-print]
+**********
+CCProgressFromTo was deprecated please use cc.ProgressFromTo instead.
+**********
+[LUA-print]
+**********
+CCMoveTo was deprecated please use cc.MoveTo instead.
+**********
+[LUA-print]
+**********
+CCJumpBy was deprecated please use cc.JumpBy instead.
+**********
+[LUA-print]
+**********
+CCObject was deprecated please use cc.Object instead.
+**********
+[LUA-print]
+**********
+CCTransitionRotoZoom was deprecated please use cc.TransitionRotoZoom instead.
+**********
+[LUA-print]
+**********
+CCDirector was deprecated please use cc.Director instead.
+**********
+[LUA-print]
+**********
+CCScheduler was deprecated please use cc.Scheduler instead.
+**********
+[LUA-print]
+**********
+CCEaseElasticOut was deprecated please use cc.EaseElasticOut instead.
+**********
+[LUA-print]
+**********
+CCTableViewCell was deprecated please use cc.TableViewCell instead.
+**********
+[LUA-print]
+**********
+CCEaseBackOut was deprecated please use cc.EaseBackOut instead.
+**********
+[LUA-print]
+**********
+CCParticleSystemQuad was deprecated please use cc.ParticleSystemQuad instead.
+**********
+[LUA-print]
+**********
+CCMenuItemToggle was deprecated please use cc.MenuItemToggle instead.
+**********
+[LUA-print]
+**********
+CCStopGrid was deprecated please use cc.StopGrid instead.
+**********
+[LUA-print]
+**********
+CCTransitionScene was deprecated please use cc.TransitionScene instead.
+**********
+[LUA-print]
+**********
+CCSkewBy was deprecated please use cc.SkewBy instead.
+**********
+[LUA-print]
+**********
+CCLayer was deprecated please use cc.Layer instead.
+**********
+[LUA-print]
+**********
+CCEaseElastic was deprecated please use cc.EaseElastic instead.
+**********
+[LUA-print]
+**********
+CCTMXTiledMap was deprecated please use cc.TMXTiledMap instead.
+**********
+[LUA-print]
+**********
+CCGrid3DAction was deprecated please use cc.Grid3DAction instead.
+**********
+[LUA-print]
+**********
+CCFadeIn was deprecated please use cc.FadeIn instead.
+**********
+[LUA-print]
+**********
+CCNodeRGBA was deprecated please use cc.Node instead.
+**********
+[LUA-print]
+**********
+cc.NodeRGBA was deprecated please use cc.Node instead.
+**********
+[LUA-print]
+**********
+CCAnimationCache was deprecated please use cc.AnimationCache instead.
+**********
+[LUA-print]
+**********
+CCFlipY3D was deprecated please use cc.FlipY3D instead.
+**********
+[LUA-print]
+**********
+CCEaseSineInOut was deprecated please use cc.EaseSineInOut instead.
+**********
+[LUA-print]
+**********
+CCTransitionFlipAngular was deprecated please use cc.TransitionFlipAngular instead.
+**********
+[LUA-print]
+**********
+CCEaseElasticInOut was deprecated please use cc.EaseElasticInOut instead.
+**********
+[LUA-print]
+**********
+CCEaseBounce was deprecated please use cc.EaseBounce instead.
+**********
+[LUA-print]
+**********
+CCShow was deprecated please use cc.Show instead.
+**********
+[LUA-print]
+**********
+CCFadeOut was deprecated please use cc.FadeOut instead.
+**********
+[LUA-print]
+**********
+CCCallFunc was deprecated please use cc.CallFunc instead.
+**********
+[LUA-print]
+**********
+CCWaves3D was deprecated please use cc.Waves3D instead.
+**********
+[LUA-print]
+**********
+CCFlipX3D was deprecated please use cc.FlipX3D instead.
+**********
+[LUA-print]
+**********
+CCParticleFireworks was deprecated please use cc.ParticleFireworks instead.
+**********
+[LUA-print]
+**********
+CCMenuItemImage was deprecated please use cc.MenuItemImage instead.
+**********
+[LUA-print]
+**********
+CCParticleFire was deprecated please use cc.ParticleFire instead.
+**********
+[LUA-print]
+**********
+CCMenuItem was deprecated please use cc.MenuItem instead.
+**********
+[LUA-print]
+**********
+CCActionEase was deprecated please use cc.ActionEase instead.
+**********
+[LUA-print]
+**********
+CCTransitionSceneOriented was deprecated please use cc.TransitionSceneOriented instead.
+**********
+[LUA-print]
+**********
+CCTransitionZoomFlipAngular was deprecated please use cc.TransitionZoomFlipAngular instead.
+**********
+[LUA-print]
+**********
+CCEaseIn was deprecated please use cc.EaseIn instead.
+**********
+[LUA-print]
+**********
+CCEaseExponentialInOut was deprecated please use cc.EaseExponentialInOut instead.
+**********
+[LUA-print]
+**********
+CCTransitionFlipX was deprecated please use cc.TransitionFlipX instead.
+**********
+[LUA-print]
+**********
+CCEaseExponentialOut was deprecated please use cc.EaseExponentialOut instead.
+**********
+[LUA-print]
+**********
+CCLabel was deprecated please use cc.Label instead.
+**********
+[LUA-print]
+**********
+CCApplication was deprecated please use cc.Application instead.
+**********
+[LUA-print]
+**********
+CCDelayTime was deprecated please use cc.DelayTime instead.
+**********
+[LUA-print]
+**********
+CCLabelAtlas was deprecated please use cc.LabelAtlas instead.
+**********
+[LUA-print]
+**********
+CCLabelBMFont was deprecated please use cc.LabelBMFont instead.
+**********
+[LUA-print]
+**********
+CCFadeOutTRTiles was deprecated please use cc.FadeOutTRTiles instead.
+**********
+[LUA-print]
+**********
+CCEaseElasticIn was deprecated please use cc.EaseElasticIn instead.
+**********
+[LUA-print]
+**********
+CCParticleSpiral was deprecated please use cc.ParticleSpiral instead.
+**********
+[LUA-print]
+**********
+CCFiniteTimeAction was deprecated please use cc.FiniteTimeAction instead.
+**********
+[LUA-print]
+**********
+CCFadeOutDownTiles was deprecated please use cc.FadeOutDownTiles instead.
+**********
+[LUA-print]
+**********
+CCJumpTiles3D was deprecated please use cc.JumpTiles3D instead.
+**********
+[LUA-print]
+**********
+CCEaseBackIn was deprecated please use cc.EaseBackIn instead.
+**********
+[LUA-print]
+**********
+CCSpriteBatchNode was deprecated please use cc.SpriteBatchNode instead.
+**********
+[LUA-print]
+**********
+CCParticleSystem was deprecated please use cc.ParticleSystem instead.
+**********
+[LUA-print]
+**********
+CCActionTween was deprecated please use cc.ActionTween instead.
+**********
+[LUA-print]
+**********
+CCTransitionFadeDown was deprecated please use cc.TransitionFadeDown instead.
+**********
+[LUA-print]
+**********
+CCParticleSun was deprecated please use cc.ParticleSun instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressHorizontal was deprecated please use cc.TransitionProgressHorizontal instead.
+**********
+[LUA-print]
+**********
+CCRipple3D was deprecated please use cc.Ripple3D instead.
+**********
+[LUA-print]
+**********
+CCTMXLayer was deprecated please use cc.TMXLayer instead.
+**********
+[LUA-print]
+**********
+CCFlipX was deprecated please use cc.FlipX instead.
+**********
+[LUA-print]
+**********
+CCFlipY was deprecated please use cc.FlipY instead.
+**********
+[LUA-print]
+**********
+CCTransitionSplitCols was deprecated please use cc.TransitionSplitCols instead.
+**********
+[LUA-print]
+**********
+CCTimer was deprecated please use cc.Timer instead.
+**********
+[LUA-print]
+**********
+CCFadeTo was deprecated please use cc.FadeTo instead.
+**********
+[LUA-print]
+**********
+CCRepeatForever was deprecated please use cc.RepeatForever instead.
+**********
+[LUA-print]
+**********
+CCPlace was deprecated please use cc.Place instead.
+**********
+[LUA-print]
+**********
+CCGLProgram was deprecated please use cc.GLProgram instead.
+**********
+[LUA-print]
+**********
+CCEaseBounceOut was deprecated please use cc.EaseBounceOut instead.
+**********
+[LUA-print]
+**********
+CCCardinalSplineBy was deprecated please use cc.CardinalSplineBy instead.
+**********
+[LUA-print]
+**********
+CCSpriteFrameCache was deprecated please use cc.SpriteFrameCache instead.
+**********
+[LUA-print]
+**********
+CCTransitionShrinkGrow was deprecated please use cc.TransitionShrinkGrow instead.
+**********
+[LUA-print]
+**********
+CCSplitCols was deprecated please use cc.SplitCols instead.
+**********
+[LUA-print]
+**********
+CCClippingNode was deprecated please use cc.ClippingNode instead.
+**********
+[LUA-print]
+**********
+CCEaseBounceInOut was deprecated please use cc.EaseBounceInOut instead.
+**********
+[LUA-print]
+**********
+CCLiquid was deprecated please use cc.Liquid instead.
+**********
+[LUA-print]
+**********
+CCParticleFlower was deprecated please use cc.ParticleFlower instead.
+**********
+[LUA-print]
+**********
+CCParticleSmoke was deprecated please use cc.ParticleSmoke instead.
+**********
+[LUA-print]
+**********
+CCImage was deprecated please use cc.Image instead.
+**********
+[LUA-print]
+**********
+CCTurnOffTiles was deprecated please use cc.TurnOffTiles instead.
+**********
+[LUA-print]
+**********
+CCBlink was deprecated please use cc.Blink instead.
+**********
+[LUA-print]
+**********
+CCShaderCache was deprecated please use cc.ShaderCache instead.
+**********
+[LUA-print]
+**********
+CCJumpTo was deprecated please use cc.JumpTo instead.
+**********
+[LUA-print]
+**********
+CCAtlasNode was deprecated please use cc.AtlasNode instead.
+**********
+[LUA-print]
+**********
+CCTransitionJumpZoom was deprecated please use cc.TransitionJumpZoom instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressVertical was deprecated please use cc.TransitionProgressVertical instead.
+**********
+[LUA-print]
+**********
+CCAnimationFrame was deprecated please use cc.AnimationFrame instead.
+**********
+[LUA-print]
+**********
+CCTintTo was deprecated please use cc.TintTo instead.
+**********
+[LUA-print]
+**********
+CCTiledGrid3DAction was deprecated please use cc.TiledGrid3DAction instead.
+**********
+[LUA-print]
+**********
+CCTMXTilesetInfo was deprecated please use cc.TMXTilesetInfo instead.
+**********
+[LUA-print]
+**********
+CCTMXObjectGroup was deprecated please use cc.TMXObjectGroup instead.
+**********
+[LUA-print]
+**********
+CCParticleGalaxy was deprecated please use cc.ParticleGalaxy instead.
+**********
+[LUA-print]
+**********
+CCTwirl was deprecated please use cc.Twirl instead.
+**********
+[LUA-print]
+**********
+CCMenuItemLabel was deprecated please use cc.MenuItemLabel instead.
+**********
+[LUA-print]
+**********
+CCLayerColor was deprecated please use cc.LayerColor instead.
+**********
+[LUA-print]
+**********
+CCFadeOutBLTiles was deprecated please use cc.FadeOutBLTiles instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgress was deprecated please use cc.TransitionProgress instead.
+**********
+[LUA-print]
+**********
+CCEaseRateAction was deprecated please use cc.EaseRateAction instead.
+**********
+[LUA-print]
+**********
+CCLayerGradient was deprecated please use cc.LayerGradient instead.
+**********
+[LUA-print]
+**********
+CCMenuItemSprite was deprecated please use cc.MenuItemSprite instead.
+**********
+[LUA-print]
+**********
+CCNode was deprecated please use cc.Node instead.
+**********
+[LUA-print]
+**********
+CCToggleVisibility was deprecated please use cc.ToggleVisibility instead.
+**********
+[LUA-print]
+**********
+CCRepeat was deprecated please use cc.Repeat instead.
+**********
+[LUA-print]
+**********
+CCRenderTexture was deprecated please use cc.RenderTexture instead.
+**********
+[LUA-print]
+**********
+CCTransitionFlipY was deprecated please use cc.TransitionFlipY instead.
+**********
+[LUA-print]
+**********
+CCLayerMultiplex was deprecated please use cc.LayerMultiplex instead.
+**********
+[LUA-print]
+**********
+CCTMXLayerInfo was deprecated please use cc.TMXLayerInfo instead.
+**********
+[LUA-print]
+**********
+CCEaseBackInOut was deprecated please use cc.EaseBackInOut instead.
+**********
+[LUA-print]
+**********
+CCActionInstant was deprecated please use cc.ActionInstant instead.
+**********
+[LUA-print]
+**********
+CCTargetedAction was deprecated please use cc.TargetedAction instead.
+**********
+[LUA-print]
+**********
+CCDrawNode was deprecated please use cc.DrawNode instead.
+**********
+[LUA-print]
+**********
+CCTransitionTurnOffTiles was deprecated please use cc.TransitionTurnOffTiles instead.
+**********
+[LUA-print]
+**********
+CCRotateTo was deprecated please use cc.RotateTo instead.
+**********
+[LUA-print]
+**********
+CCTransitionSplitRows was deprecated please use cc.TransitionSplitRows instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressRadialCCW was deprecated please use cc.TransitionProgressRadialCCW instead.
+**********
+[LUA-print]
+**********
+CCScaleTo was deprecated please use cc.ScaleTo instead.
+**********
+[LUA-print]
+**********
+CCTransitionPageTurn was deprecated please use cc.TransitionPageTurn instead.
+**********
+[LUA-print]
+**********
+CCParticleExplosion was deprecated please use cc.ParticleExplosion instead.
+**********
+[LUA-print]
+**********
+CCMenu was deprecated please use cc.Menu instead.
+**********
+[LUA-print]
+**********
+CCTexture2D was deprecated please use cc.Texture2D instead.
+**********
+[LUA-print]
+**********
+CCActionManager was deprecated please use cc.ActionManager instead.
+**********
+[LUA-print]
+**********
+CCParticleBatchNode was deprecated please use cc.ParticleBatchNode instead.
+**********
+[LUA-print]
+**********
+CCTransitionZoomFlipX was deprecated please use cc.TransitionZoomFlipX instead.
+**********
+[LUA-print]
+**********
+CCScaleBy was deprecated please use cc.ScaleBy instead.
+**********
+[LUA-print]
+**********
+CCTileMapAtlas was deprecated please use cc.TileMapAtlas instead.
+**********
+[LUA-print]
+**********
+CCAction was deprecated please use cc.Action instead.
+**********
+[LUA-print]
+**********
+CCLens3D was deprecated please use cc.Lens3D instead.
+**********
+[LUA-print]
+**********
+CCAnimation was deprecated please use cc.Animation instead.
+**********
+[LUA-print]
+**********
+CCTransitionSlideInT was deprecated please use cc.TransitionSlideInT instead.
+**********
+[LUA-print]
+**********
+CCSpawn was deprecated please use cc.Spawn instead.
+**********
+[LUA-print]
+**********
+CCSet was deprecated please use cc.Set instead.
+**********
+[LUA-print]
+**********
+CCShakyTiles3D was deprecated please use cc.ShakyTiles3D instead.
+**********
+[LUA-print]
+**********
+CCPageTurn3D was deprecated please use cc.PageTurn3D instead.
+**********
+[LUA-print]
+**********
+CCGrid3D was deprecated please use cc.Grid3D instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressInOut was deprecated please use cc.TransitionProgressInOut instead.
+**********
+[LUA-print]
+**********
+CCTransitionFadeBL was deprecated please use cc.TransitionFadeBL instead.
+**********
+[LUA-print]
+**********
+CCCamera was deprecated please use cc.Camera instead.
+**********
+[LUA-print]
+**********
+CCLayerRGBA was deprecated please use cc.Layer instead.
+**********
+[LUA-print]
+**********
+cc.LayerRGBA was deprecated please use cc.Layer instead.
+**********
+[LUA-print]
+**********
+CCBezierTo was deprecated please use cc.BezierTo instead.
+**********
+[LUA-print]
+**********
+CCFollow was deprecated please use cc.Follow instead.
+**********
+[LUA-print]
+**********
+CCTintBy was deprecated please use cc.TintBy instead.
+**********
+[LUA-print]
+**********
+CCActionInterval was deprecated please use cc.ActionInterval instead.
+**********
+[LUA-print]
+**********
+CCAnimate was deprecated please use cc.Animate instead.
+**********
+[LUA-print]
+**********
+CCProgressTimer was deprecated please use cc.ProgressTimer instead.
+**********
+[LUA-print]
+**********
+CCParticleMeteor was deprecated please use cc.ParticleMeteor instead.
+**********
+[LUA-print]
+**********
+CCTransitionFadeTR was deprecated please use cc.TransitionFadeTR instead.
+**********
+[LUA-print]
+**********
+CCCatmullRomTo was deprecated please use cc.CatmullRomTo instead.
+**********
+[LUA-print]
+**********
+CCTransitionZoomFlipY was deprecated please use cc.TransitionZoomFlipY instead.
+**********
+[LUA-print]
+**********
+CCTransitionCrossFade was deprecated please use cc.TransitionCrossFade instead.
+**********
+[LUA-print]
+**********
+CCGridBase was deprecated please use cc.GridBase instead.
+**********
+[LUA-print]
+**********
+CCSkewTo was deprecated please use cc.SkewTo instead.
+**********
+[LUA-print]
+**********
+CCCardinalSplineTo was deprecated please use cc.CardinalSplineTo instead.
+**********
+[LUA-print]
+**********
+CCTMXMapInfo was deprecated please use cc.TMXMapInfo instead.
+**********
+[LUA-print]
+**********
+CCEaseExponentialIn was deprecated please use cc.EaseExponentialIn instead.
+**********
+[LUA-print]
+**********
+CCReuseGrid was deprecated please use cc.ReuseGrid instead.
+**********
+[LUA-print]
+**********
+CCMenuItemAtlasFont was deprecated please use cc.MenuItemAtlasFont instead.
+**********
+[LUA-print]
+**********
+CCSpriteFrame was deprecated please use cc.SpriteFrame instead.
+**********
+[LUA-print]
+**********
+CCSplitRows was deprecated please use cc.SplitRows instead.
+**********
+[LUA-print]
+**********
+CCSprite was deprecated please use cc.Sprite instead.
+**********
+[LUA-print]
+**********
+CCOrbitCamera was deprecated please use cc.OrbitCamera instead.
+**********
+[LUA-print]
+**********
+CCUserDefault was deprecated please use cc.UserDefault instead.
+**********
+[LUA-print]
+**********
+CCFadeOutUpTiles was deprecated please use cc.FadeOutUpTiles instead.
+**********
+[LUA-print]
+**********
+CCParticleRain was deprecated please use cc.ParticleRain instead.
+**********
+[LUA-print]
+**********
+CCWaves was deprecated please use cc.Waves instead.
+**********
+[LUA-print]
+**********
+CCEaseOut was deprecated please use cc.EaseOut instead.
+**********
+[LUA-print]
+**********
+CCEaseBounceIn was deprecated please use cc.EaseBounceIn instead.
+**********
+[LUA-print]
+**********
+CCMenuItemFont was deprecated please use cc.MenuItemFont instead.
+**********
+[LUA-print]
+**********
+CCEaseSineOut was deprecated please use cc.EaseSineOut instead.
+**********
+[LUA-print]
+**********
+CCTextureCache was deprecated please use cc.TextureCache instead.
+**********
+[LUA-print]
+**********
+CCTiledGrid3D was deprecated please use cc.TiledGrid3D instead.
+**********
+[LUA-print]
+**********
+CCRemoveSelf was deprecated please use cc.RemoveSelf instead.
+**********
+[LUA-print]
+**********
+CCLabelTTF was deprecated please use cc.LabelTTF instead.
+**********
+[LUA-print]
+**********
+CCTouch was deprecated please use cc.Touch instead.
+**********
+[LUA-print]
+**********
+CCMoveBy was deprecated please use cc.MoveBy instead.
+**********
+[LUA-print]
+**********
+CCMotionStreak was deprecated please use cc.MotionStreak instead.
+**********
+[LUA-print]
+**********
+CCRotateBy was deprecated please use cc.RotateBy instead.
+**********
+[LUA-print]
+**********
+CCFileUtils was deprecated please use cc.FileUtils instead.
+**********
+[LUA-print]
+**********
+CCBezierBy was deprecated please use cc.BezierBy instead.
+**********
+[LUA-print]
+**********
+CCTransitionFade was deprecated please use cc.TransitionFade instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressOutIn was deprecated please use cc.TransitionProgressOutIn instead.
+**********
+[LUA-print]
+**********
+CCCatmullRomBy was deprecated please use cc.CatmullRomBy instead.
+**********
+[LUA-print]
+**********
+CCGridAction was deprecated please use cc.GridAction instead.
+**********
+[LUA-print]
+**********
+CCShaky3D was deprecated please use cc.Shaky3D instead.
+**********
+[LUA-print]
+**********
+CCTransitionEaseScene was deprecated please use cc.TransitionEaseScene instead.
+**********
+[LUA-print]
+**********
+CCSequence was deprecated please use cc.Sequence instead.
+**********
+[LUA-print]
+**********
+CCTransitionFadeUp was deprecated please use cc.TransitionFadeUp instead.
+**********
+[LUA-print]
+**********
+CCTransitionProgressRadialCW was deprecated please use cc.TransitionProgressRadialCW instead.
+**********
+[LUA-print]
+**********
+CCShuffleTiles was deprecated please use cc.ShuffleTiles instead.
+**********
+[LUA-print]
+**********
+CCTransitionSlideInR was deprecated please use cc.TransitionSlideInR instead.
+**********
+[LUA-print]
+**********
+CCScene was deprecated please use cc.Scene instead.
+**********
+[LUA-print]
+**********
+CCParallaxNode was deprecated please use cc.ParallaxNode instead.
+**********
+[LUA-print]
+**********
+CCTransitionSlideInL was deprecated please use cc.TransitionSlideInL instead.
+**********
+[LUA-print]
+**********
+CCWavesTiles3D was deprecated please use cc.WavesTiles3D instead.
+**********
+[LUA-print]
+**********
+CCTransitionSlideInB was deprecated please use cc.TransitionSlideInB instead.
+**********
+[LUA-print]
+**********
+CCSpeed was deprecated please use cc.Speed instead.
+**********
+[LUA-print]
+**********
+CCShatteredTiles3D was deprecated please use cc.ShatteredTiles3D instead.
+**********
+[LUA-print]
+**********
+CCCallFuncN was deprecated please use cc.CallFunc instead.
+**********
+[LUA-print]
+**********
+CCEGLViewProtocol was deprecated please use cc.GLViewProtocol instead.
+**********
+[LUA-print]
+**********
+CCEGLView was deprecated please use cc.GLView instead.
+**********
+[LUA-print]
+**********
+XMLHttpRequest was deprecated please use cc.XMLHttpRequest instead.
+**********
+[LUA-print]
+**********
+cc.EGLViewProtocol was deprecated please use cc.GLViewProtocol instead.
+**********
+[LUA-print]
+**********
+cc.EGLView was deprecated please use cc.GLView instead.
+**********
+[LUA-print]
+**********
+cc.EGLView was deprecated please use cc.GLView instead.
+**********
+[LUA-print] table
+[LUA-print]
+**********
+cc.ShaderCache was deprecated please use cc.GLProgramCache instead.
+**********
+[LUA-print]
+**********
+CCDrawPrimitives was deprecated please use cc.DrawPrimitives instead.
+**********
+[LUA-print]
+**********
+CCArmature was deprecated please use ccs.Armature instead.
+**********
+[LUA-print]
+**********
+CCArmatureAnimation was deprecated please use ccs.ArmatureAnimation instead.
+**********
+[LUA-print]
+**********
+CCSkin was deprecated please use ccs.Skin instead.
+**********
+[LUA-print]
+**********
+CCBone was deprecated please use ccs.Bone instead.
+**********
+[LUA-print]
+**********
+CCArmatureDataManager was deprecated please use ccs.ArmatureDataManager instead.
+**********
+[LUA-print]
+**********
+CCBatchNode was deprecated please use ccs.BatchNode instead.
+**********
+[LUA-print]
+**********
+CCTween was deprecated please use ccs.Tween instead.
+**********
+[LUA-print]
+**********
+CCBaseData was deprecated please use ccs.BaseData instead.
+**********
+[LUA-print]
+**********
+CCDisplayManager was deprecated please use ccs.DisplayManager instead.
+**********
+[LUA-print]
+**********
+UIHelper was deprecated please use ccs.UIHelper instead.
+**********
+[LUA-print]
+**********
+UILayout was deprecated please use ccs.UILayout instead.
+**********
+[LUA-print]
+**********
+UIWidget was deprecated please use ccs.UIWidget instead.
+**********
+[LUA-print]
+**********
+UILayer was deprecated please use ccs.UILayer instead.
+**********
+[LUA-print]
+**********
+UIButton was deprecated please use ccs.UIButton instead.
+**********
+[LUA-print]
+**********
+UICheckBox was deprecated please use ccs.UICheckBox instead.
+**********
+[LUA-print]
+**********
+UIImageView was deprecated please use ccs.UIImageView instead.
+**********
+[LUA-print]
+**********
+UILabel was deprecated please use ccs.UILabel instead.
+**********
+[LUA-print]
+**********
+UILabelAtlas was deprecated please use ccs.UILabelAtlas instead.
+**********
+[LUA-print]
+**********
+UILabelBMFont was deprecated please use ccs.UILabelBMFont instead.
+**********
+[LUA-print]
+**********
+UILoadingBar was deprecated please use ccs.UILoadingBar instead.
+**********
+[LUA-print]
+**********
+UISlider was deprecated please use ccs.UISlider instead.
+**********
+[LUA-print]
+**********
+UITextField was deprecated please use ccs.UITextField instead.
+**********
+[LUA-print]
+**********
+UIScrollView was deprecated please use ccs.UIScrollView instead.
+**********
+[LUA-print]
+**********
+UIPageView was deprecated please use ccs.UIPageView instead.
+**********
+[LUA-print]
+**********
+UIListView was deprecated please use ccs.UIListView instead.
+**********
+[LUA-print]
+**********
+UILayoutParameter was deprecated please use ccs.UILayoutParameter instead.
+**********
+[LUA-print]
+**********
+UILinearLayoutParameter was deprecated please use ccs.UILinearLayoutParameter instead.
+**********
+[LUA-print]
+**********
+UIRelativeLayoutParameter was deprecated please use ccs.UIRelativeLayoutParameter instead.
+**********
+[LUA-print]
+**********
+CCComController was deprecated please use ccs.ComController instead.
+**********
+[LUA-print]
+**********
+CCComAudio was deprecated please use ccs.ComAudio instead.
+**********
+[LUA-print]
+**********
+CCComAttribute was deprecated please use ccs.ComAttribute instead.
+**********
+[LUA-print]
+**********
+CCComRender was deprecated please use ccs.ComRender instead.
+**********
+[LUA-print]
+**********
+ActionManager was deprecated please use ccs.ActionManagerEx instead.
+**********
+[LUA-print]
+**********
+SceneReader was deprecated please use ccs.SceneReader instead.
+**********
+[LUA-print]
+**********
+GUIReader was deprecated please use ccs.GUIReader instead.
+**********
+[LUA-print]
+**********
+UIRootWidget was deprecated please use ccs.UIRootWidget instead.
+**********
+[LUA-print]
+**********
+ActionObject was deprecated please use ccs.ActionObject instead.
+**********
+[LUA-print]
+**********
+CCBReader was deprecated please use cc.BReader instead.
+**********
+[LUA-print]
+**********
+CCBAnimationManager was deprecated please use cc.BAnimationManager instead.
+**********
+[LUA-print]
+**********
+CCBProxy was deprecated please use cc.CCBProxy instead.
+**********
+[LUA-print]
+**********
+SimpleAudioEngine was deprecated please use cc.SimpleAudioEngine instead.
+**********
+[LUA-print]
+**********
+CCControl was deprecated please use cc.Control instead.
+**********
+[LUA-print]
+**********
+CCScrollView was deprecated please use cc.ScrollView instead.
+**********
+[LUA-print]
+**********
+CCTableView was deprecated please use cc.TableView instead.
+**********
+[LUA-print]
+**********
+CCControlPotentiometer was deprecated please use cc.ControlPotentiometer instead.
+**********
+[LUA-print]
+**********
+CCControlStepper was deprecated please use cc.ControlStepper instead.
+**********
+[LUA-print]
+**********
+CCControlHuePicker was deprecated please use cc.ControlHuePicker instead.
+**********
+[LUA-print]
+**********
+CCControlSlider was deprecated please use cc.ControlSlider instead.
+**********
+[LUA-print]
+**********
+CCControlSaturationBrightnessPicker was deprecated please use cc.ControlSaturationBrightnessPicker instead.
+**********
+[LUA-print]
+**********
+CCControlSwitch was deprecated please use cc.ControlSwitch instead.
+**********
+[LUA-print]
+**********
+CCControlButton was deprecated please use cc.ControlButton instead.
+**********
+[LUA-print]
+**********
+CCControlColourPicker was deprecated please use cc.ControlColourPicker instead.
+**********
+[LUA-print]
+**********
+CCEditBox was deprecated please use ccui.EditBox instead.
+**********
+[LUA-print]
+**********
+cc.EditBox was deprecated please use ccui.EditBox instead.
+**********
+[LUA-print]
+**********
+CCScale9Sprite was deprecated please use ccui.Scale9Sprite instead.
+**********
+[LUA-print]
+**********
+cc.Scale9Sprite was deprecated please use ccui.Scale9Sprite instead.
+**********
+[LUA-print]
+**********
+WebSocket was deprecated please use cc.WebSocket instead.
+**********
+[LUA-print] [INFO]
+[LUA-print] [INFO] # DEBUG                        = 2
+[LUA-print] [INFO] #
+[LUA-print] [INFO] # device.platform              = windows
+[LUA-print] [INFO] # device.model                 = unknown
+[LUA-print] [INFO] # device.language              = cn
+[LUA-print] [INFO] # device.writablePath          = C:/Users/Administrator/AppData/Local/GloryProject/
+[LUA-print] [INFO] # device.directorySeparator    = \
+[LUA-print] [INFO] # device.pathSeparator         = ;
+[LUA-print] [INFO] #
+[LUA-print] [INFO] # design resolution size       = {width = 1334.00, height = 750.00}
+[LUA-print] [INFO] # design resolution autoscale  = EXACT_FIT
+[LUA-print] [INFO] # display.sizeInPixels         = {width = 960.00, height = 640.00}
+[LUA-print] [INFO] # display.size                 = {width = 1334.00, height = 750.00}
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.00
+[LUA-print] [INFO] # display.width                = 1334.00
+[LUA-print] [INFO] # display.height               = 750.00
+[LUA-print] [INFO] # display.cx                   = 667.00
+[LUA-print] [INFO] # display.cy                   = 375.00
+[LUA-print] [INFO] # display.left                 = 0.00
+[LUA-print] [INFO] # display.right                = 1334.00
+[LUA-print] [INFO] # display.top                  = 750.00
+[LUA-print] [INFO] # display.bottom               = 0.00
+[LUA-print] [INFO] # display.c_left               = -667.00
+[LUA-print] [INFO] # display.c_right              = 667.00
+[LUA-print] [INFO] # display.c_top                = 375.00
+[LUA-print] [INFO] # display.c_bottom             = -375.00
+[LUA-print] [INFO] # display.center               = {x = 667.00, y = 375.00}
+[LUA-print] [INFO] # display.left_top             = {x = 0.00, y = 750.00}
+[LUA-print] [INFO] # display.left_bottom          = {x = 0.00, y = 0.00}
+[LUA-print] [INFO] # display.left_center          = {x = 0.00, y = 375.00}
+[LUA-print] [INFO] # display.right_top            = {x = 1334.00, y = 750.00}
+[LUA-print] [INFO] # display.right_bottom         = {x = 1334.00, y = 0.00}
+[LUA-print] [INFO] # display.right_center         = {x = 1334.00, y = 375.00}
+[LUA-print] [INFO] # display.top_center           = {x = 667.00, y = 750.00}
+[LUA-print] [INFO] # display.top_bottom           = {x = 667.00, y = 0.00}
+[LUA-print] [INFO] #
+[LUA-print] [INFO] cc.load() - load module "packages.mvc.init"
+[LUA-print] dump from: [string "app/models/Version.lua"]:18: in function 'ctor'
+[LUA-print] - "versioninfo ===" = {
+[LUA-print] -     "res_client"   = 41
+[LUA-print] -     "res_game_100" = 12
+[LUA-print] -     "res_game_104" = 2
+[LUA-print] -     "res_game_122" = 7
+[LUA-print] -     "res_game_123" = 0
+[LUA-print] -     "res_game_140" = 4
+[LUA-print] -     "res_game_28"  = 1
+[LUA-print] -     "res_game_30"  = 4
+[LUA-print] -     "res_game_36"  = 0
+[LUA-print] -     "res_game_48"  = 1
+[LUA-print] -     "res_game_511" = 0
+[LUA-print] -     "res_game_516" = 1
+[LUA-print] - }
+Get data from file(C:/Users/Administrator/AppData/Local/GloryProject//baseupdate/base/res/background.png) failed, error code is 0
+[LUA-print] appdf.onHttpJsionTable url:http://ww1.16yi.com:8080/WS/iosgamelist2.txt
+[LUA-print] appdf.onHttpJsionTable methon:get
+[LUA-print] appdf.onHttpJsionTable params:action=getgamelist&versionID=99
+In the constructor of HttpClient!
+KERNEL SUCCEED:beta 0.1
+[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
+[LUA-print] - "datatable" = {
+[LUA-print] -     "code" = 0
+[LUA-print] -     "data" = {
+[LUA-print] -         "clientversion"   = "0"
+[LUA-print] -         "downloadurl"     = "http://www1.16yi.com:8080/download/iosgamelist2"
+[LUA-print] -         "gamelist" = {
+[LUA-print] -             1 = {
+[LUA-print] -                 "ClientVersion" = "101122049"
+[LUA-print] -                 "KindID"        = "140"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "?????????"
+[LUA-print] -                 "ModuleName"    = "yule.luxurycar"
+[LUA-print] -                 "ResVersion"    = "4"
+[LUA-print] -                 "SortID"        = "1"
+[LUA-print] -                 "TypeID"        = "2"
+[LUA-print] -             }
+[LUA-print] -             2 = {
+[LUA-print] -                 "ClientVersion" = "101056515"
+[LUA-print] -                 "KindID"        = "122"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "?°????"
+[LUA-print] -                 "ModuleName"    = "yule.baccaratnew"
+[LUA-print] -                 "ResVersion"    = "7"
+[LUA-print] -                 "SortID"        = "2"
+[LUA-print] -                 "TypeID"        = "2"
+[LUA-print] -             }
+[LUA-print] -             3 = {
+[LUA-print] -                 "ClientVersion" = "101122049"
+[LUA-print] -                 "KindID"        = "123"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "????????"
+[LUA-print] -                 "ModuleName"    = "yule.animalbattle"
+[LUA-print] -                 "ResVersion"    = "1"
+[LUA-print] -                 "SortID"        = "3"
+[LUA-print] -                 "TypeID"        = "2"
+[LUA-print] -             }
+[LUA-print] -             4 = {
+[LUA-print] -                 "ClientVersion" = "101122049"
+[LUA-print] -                 "KindID"        = "104"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "??????"
+[LUA-print] -                 "ModuleName"    = "yule.oxbattle"
+[LUA-print] -                 "ResVersion"    = "2"
+[LUA-print] -                 "SortID"        = "4"
+[LUA-print] -                 "TypeID"        = "2"
+[LUA-print] -             }
+[LUA-print] -             5 = {
+[LUA-print] -                 "ClientVersion" = "101056515"
+[LUA-print] -                 "KindID"        = "28"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "?????"
+[LUA-print] -                 "ModuleName"    = "yule.oxsixex"
+[LUA-print] -                 "ResVersion"    = "1"
+[LUA-print] -                 "SortID"        = "5"
+[LUA-print] -                 "TypeID"        = "1"
+[LUA-print] -             }
+[LUA-print] -             6 = {
+[LUA-print] -                 "ClientVersion" = "100663297"
+[LUA-print] -                 "KindID"        = "30"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "??????"
+[LUA-print] -                 "ModuleName"    = "yule.oxnew"
+[LUA-print] -                 "ResVersion"    = "4"
+[LUA-print] -                 "SortID"        = "6"
+[LUA-print] -                 "TypeID"        = "1"
+[LUA-print] -             }
+[LUA-print] -             7 = {
+[LUA-print] -                 "ClientVersion" = "101056515"
+[LUA-print] -                 "KindID"        = "48"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "??????"
+[LUA-print] -                 "ModuleName"    = "yule.oxex"
+[LUA-print] -                 "ResVersion"    = "1"
+[LUA-print] -                 "SortID"        = "7"
+[LUA-print] -                 "TypeID"        = "1"
+[LUA-print] -             }
+[LUA-print] -             8 = {
+[LUA-print] -                 "ClientVersion" = "101056515"
+[LUA-print] -                 "KindID"        = "516"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "???"
+[LUA-print] -                 "ModuleName"    = "yule.watermargin"
+[LUA-print] -                 "ResVersion"    = "1"
+[LUA-print] -                 "SortID"        = "8"
+[LUA-print] -                 "TypeID"        = "3"
+[LUA-print] -             }
+[LUA-print] -             9 = {
+[LUA-print] -                 "ClientVersion" = "100663297"
+[LUA-print] -                 "KindID"        = "100"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "????????"
+[LUA-print] -                 "ModuleName"    = "yule.fishlk"
+[LUA-print] -                 "ResVersion"    = "12"
+[LUA-print] -                 "SortID"        = "10"
+[LUA-print] -                 "TypeID"        = "4"
+[LUA-print] -             }
+[LUA-print] -             10 = {
+[LUA-print] -                 "ClientVersion" = "101122049"
+[LUA-print] -                 "KindID"        = "511"
+[LUA-print] -                 "KindMark"      = "3"
+[LUA-print] -                 "KindName"      = "????"
+[LUA-print] -                 "ModuleName"    = "yule.fishyqs"
+[LUA-print] -                 "ResVersion"    = "0"
+[LUA-print] -                 "SortID"        = "9"
+[LUA-print] -                 "TypeID"        = "4"
+[LUA-print] -             }
+[LUA-print] -         }
+[LUA-print] -         "ios_url"         = ""
+[LUA-print] -         "isOpenCard"      = 1
+[LUA-print] -         "moblieLogonMode" = 1
+[LUA-print] -         "resversion"      = "41"
+[LUA-print] -         "valid"           = true
+[LUA-print] -         "wxLogon"         = 0
+[LUA-print] -     }
+[LUA-print] -     "msg"  = ""
+[LUA-print] - }
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:140
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:122
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:123
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:104
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:28
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:30
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:306
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:516
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:100
+[LUA-print]  WelcomeScene:httpNewVersion gameinfo._KindID2:511
+[LUA-print] =============================================--调用C++下载
+downfile-http-faild res:0 code:404
+[LUA-print] down error
+[LUA-print] true        nil
+[LUA-print] load time ==> 0.004999999999999
+[LUA-print] new instance
+[LUA-print] undefined funtion or unknow platform ==> 0
+[LUA-print] unknow platform ==> 0
+[LUA-print] unknow platform ==> 0
+[LUA-print] unknow platform ==> 0
+[LUA-print] unknow platform ==> 0
+[LUA-print] unknow platform ==> 0
+[LUA-print] LogonScene:onCreate
+[LUA-print] unknow platform ==> 0
+come in the keyboardEnable
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+Call Sprite::initWithFile with blank resource filename.
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+Call Sprite::initWithFile with blank resource filename.
+[LUA-print] 隐藏微信登录按钮===========2
+toLua_Client_Socket_create:[16
+lua 网络回调:[384][0]
+toLua_Client_Socket_connect:[game.16yi.com][8400][69600029-E32E-4087-A6DC-E269F1004AB8]
+[LUA-print] onSocketCallBack main:0#sub:1
+======  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰=====[LUA-print] onSocketCallBack main:100#sub:100
+[LUA-print] =========== 登录成功 ===========
+[LUA-print] GlobalUserItem-LoadData:587
+[LUA-print] GlobalUserItem-LoadData2:E10ADC3949BA59ABBE56E057F20F883E
+[LUA-print] ==== .cbInsureEnabled.cbLockMachine .szAccount      1       0       欢迎光临16亿游戏,请安装16亿财富版最新版,此版本已不提供维护!
+[LUA-print] *** tmpSize-10
+[LUA-print] *** tmpCmd-3
+[LUA-print] **************************************************
+[LUA-print] **************************************************
+[LUA-print] unknow platform ==> 0
+[LUA-print] onSocketCallBack main:101#sub:101
+[LUA-print] onSubRoomListInfo:7216
+[LUA-print] onSocketCallBack main:101#sub:200
+[_DEBUG]        CClientSocket::~CClientSocket
+[Kernel LogOut]: m_pCashList push_back
+save_path:C:/Users/Administrator/AppData/Local/GloryProject/user_gameconfig.plist
+save_path:C:/Users/Administrator/AppData/Local/GloryProject/user_gameconfig.plist
+come in the keyboardEnable
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+callBackName  cannot be found
+[LUA-print] ====== curtag       nil
+[LUA-print] ====== tag  1
+[LUA-print] ============= 游戏列表界面创建 =============
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/GameListLayer.lua"]:26: in function 'ctor'
+[LUA-print] - "gamelist" = {
+[LUA-print] -     1 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "100"
+[LUA-print] -         "_KindName"         = "yule.fishlk."
+[LUA-print] -         "_KindVersion"      = "100663297"
+[LUA-print] -         "_Module"           = "yule/fishlk/"
+[LUA-print] -         "_ServerResVersion" = 12
+[LUA-print] -         "_SortId"           = 10
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "511"
+[LUA-print] -         "_KindName"         = "yule.fishyqs."
+[LUA-print] -         "_KindVersion"      = "101122049"
+[LUA-print] -         "_Module"           = "yule/fishyqs/"
+[LUA-print] -         "_ServerResVersion" = 0
+[LUA-print] -         "_SortId"           = 9
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "516"
+[LUA-print] -         "_KindName"         = "yule.watermargin."
+[LUA-print] -         "_KindVersion"      = "101056515"
+[LUA-print] -         "_Module"           = "yule/watermargin/"
+[LUA-print] -         "_ServerResVersion" = 1
+[LUA-print] -         "_SortId"           = 8
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = 306
+[LUA-print] -         "_KindName"         = "yule.mahjongwzer."
+[LUA-print] -         "_KindVersion"      = "101056515"
+[LUA-print] -         "_Module"           = "yule/mahjongwzer/"
+[LUA-print] -         "_ServerResVersion" = 1
+[LUA-print] -         "_SortId"           = 7
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     5 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "30"
+[LUA-print] -         "_KindName"         = "yule.oxnew."
+[LUA-print] -         "_KindVersion"      = "100663297"
+[LUA-print] -         "_Module"           = "yule/oxnew/"
+[LUA-print] -         "_ServerResVersion" = 4
+[LUA-print] -         "_SortId"           = 6
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     6 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "28"
+[LUA-print] -         "_KindName"         = "yule.oxsixex."
+[LUA-print] -         "_KindVersion"      = "101056515"
+[LUA-print] -         "_Module"           = "yule/oxsixex/"
+[LUA-print] -         "_ServerResVersion" = 1
+[LUA-print] -         "_SortId"           = 5
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     7 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "104"
+[LUA-print] -         "_KindName"         = "yule.oxbattle."
+[LUA-print] -         "_KindVersion"      = "101122049"
+[LUA-print] -         "_Module"           = "yule/oxbattle/"
+[LUA-print] -         "_ServerResVersion" = 2
+[LUA-print] -         "_SortId"           = 4
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     8 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "123"
+[LUA-print] -         "_KindName"         = "yule.animalbattle."
+[LUA-print] -         "_KindVersion"      = "101122049"
+[LUA-print] -         "_Module"           = "yule/animalbattle/"
+[LUA-print] -         "_ServerResVersion" = 1
+[LUA-print] -         "_SortId"           = 3
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     9 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "122"
+[LUA-print] -         "_KindName"         = "yule.baccaratnew."
+[LUA-print] -         "_KindVersion"      = "101056515"
+[LUA-print] -         "_Module"           = "yule/baccaratnew/"
+[LUA-print] -         "_ServerResVersion" = 7
+[LUA-print] -         "_SortId"           = 2
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] -     10 = {
+[LUA-print] -         "_Active"           = true
+[LUA-print] -         "_KindID"           = "140"
+[LUA-print] -         "_KindName"         = "yule.luxurycar."
+[LUA-print] -         "_KindVersion"      = "101122049"
+[LUA-print] -         "_Module"           = "yule/luxurycar/"
+[LUA-print] -         "_ServerResVersion" = 4
+[LUA-print] -         "_SortId"           = 1
+[LUA-print] -         "_Type"             = "yule"
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 10  换位红中麻将测试
+[LUA-print] unknow platform ==> 0
+[LUA-print] appdf.onHttpJsionTable url:http://www.16yi.com//WS/MobileInterface.ashx?action=getmobilenotice&kindId=122
+[LUA-print] appdf.onHttpJsionTable methon:GET
+[LUA-print] appdf.onHttpJsionTable params:
+[Kernel LogOut]: delete cash
+[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
+[LUA-print] - "datatable" = {
+[LUA-print] -     "code" = 0
+[LUA-print] -     "data" = {
+[LUA-print] -         "notice" = {
+[LUA-print] -         }
+[LUA-print] -         "valid"  = true
+[LUA-print] -     }
+[LUA-print] -     "msg"  = userdata: NULL
+[LUA-print] - }
+come in the keyboardEnable
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.64583333333333        62      96
+[LUA-print] 4   4
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/GameListLayer.lua"]:229: in function 'onButtonClickedEvent'
+[LUA-print] - "gameinfo" = {
+[LUA-print] -     "_Active"           = true
+[LUA-print] -     "_KindID"           = 306
+[LUA-print] -     "_KindName"         = "yule.mahjongwzer."
+[LUA-print] -     "_KindVersion"      = "101056515"
+[LUA-print] -     "_Module"           = "yule/mahjongwzer/"
+[LUA-print] -     "_ServerResVersion" = 1
+[LUA-print] -     "_SortId"           = 7
+[LUA-print] -     "_Type"             = "yule"
+[LUA-print] -     "gameIndex"         = 4
+[LUA-print] - }
+[LUA-print] version===  nil     1
+[LUA-print] gameinfo    306     false
+[LUA-print] ====== curtag       1
+[LUA-print] ====== tag  2
+[LUA-print] ====  动画判断 222
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/RoomListLayer.lua"]:140: in function 'tableCellAtIndex'
+[LUA-print] - "iteminfo" = {
+[LUA-print] -     "_nRoomIndex"    = 1
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname"   = "GameServerItem"
+[LUA-print] -         "__index"   = *REF*
+[LUA-print] -         "create"    = function: 0x0f097238
+[LUA-print] -         "ctor"      = function: 0x0ef69990
+[LUA-print] -         "new"       = function: 0x0f0971f8
+[LUA-print] -         "onInit"    = function: 0x0ef699c8
+[LUA-print] -         "readScore" = function: 0x0ef69298
+[LUA-print] -         "testlog"   = function: 0x0ef69838
+[LUA-print] -     }
+[LUA-print] -     "dwAndroidCount" = 31
+[LUA-print] -     "dwFullCount"    = 48
+[LUA-print] -     "dwOnLineCount"  = 1
+[LUA-print] -     "dwServerRule"   = 0
+[LUA-print] -     "lCellScore"     = 1
+[LUA-print] -     "lEnterScore"    = 10000
+[LUA-print] -     "szServerAddr"   = "122.246.16.13"
+[LUA-print] -     "szServerName"   = "初级房"
+[LUA-print] -     "wKindID"        = 306
+[LUA-print] -     "wNodeID"        = 0
+[LUA-print] -     "wServerID"      = 9
+[LUA-print] -     "wServerKind"    = 1
+[LUA-print] -     "wServerLevel"   = 0
+[LUA-print] -     "wServerPort"    = 43061
+[LUA-print] -     "wServerType"    = 1
+[LUA-print] -     "wSortID"        = 1
+[LUA-print] - }
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/RoomListLayer.lua"]:140: in function 'tableCellAtIndex'
+[LUA-print] - "iteminfo" = {
+[LUA-print] -     "_nRoomIndex"    = 2
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname"   = "GameServerItem"
+[LUA-print] -         "__index"   = *REF*
+[LUA-print] -         "create"    = function: 0x0f097238
+[LUA-print] -         "ctor"      = function: 0x0ef69990
+[LUA-print] -         "new"       = function: 0x0f0971f8
+[LUA-print] -         "onInit"    = function: 0x0ef699c8
+[LUA-print] -         "readScore" = function: 0x0ef69298
+[LUA-print] -         "testlog"   = function: 0x0ef69838
+[LUA-print] -     }
+[LUA-print] -     "dwAndroidCount" = 30
+[LUA-print] -     "dwFullCount"    = 48
+[LUA-print] -     "dwOnLineCount"  = 0
+[LUA-print] -     "dwServerRule"   = 0
+[LUA-print] -     "lCellScore"     = 1
+[LUA-print] -     "lEnterScore"    = 100000
+[LUA-print] -     "szServerAddr"   = "122.246.16.13"
+[LUA-print] -     "szServerName"   = "中级房"
+[LUA-print] -     "wKindID"        = 306
+[LUA-print] -     "wNodeID"        = 0
+[LUA-print] -     "wServerID"      = 17
+[LUA-print] -     "wServerKind"    = 1
+[LUA-print] -     "wServerLevel"   = 0
+[LUA-print] -     "wServerPort"    = 43062
+[LUA-print] -     "wServerType"    = 1
+[LUA-print] -     "wSortID"        = 2
+[LUA-print] - }
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/RoomListLayer.lua"]:140: in function 'tableCellAtIndex'
+[LUA-print] - "iteminfo" = {
+[LUA-print] -     "_nRoomIndex"    = 3
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname"   = "GameServerItem"
+[LUA-print] -         "__index"   = *REF*
+[LUA-print] -         "create"    = function: 0x0f097238
+[LUA-print] -         "ctor"      = function: 0x0ef69990
+[LUA-print] -         "new"       = function: 0x0f0971f8
+[LUA-print] -         "onInit"    = function: 0x0ef699c8
+[LUA-print] -         "readScore" = function: 0x0ef69298
+[LUA-print] -         "testlog"   = function: 0x0ef69838
+[LUA-print] -     }
+[LUA-print] -     "dwAndroidCount" = 14
+[LUA-print] -     "dwFullCount"    = 48
+[LUA-print] -     "dwOnLineCount"  = 0
+[LUA-print] -     "dwServerRule"   = 0
+[LUA-print] -     "lCellScore"     = 1
+[LUA-print] -     "lEnterScore"    = 1000000
+[LUA-print] -     "szServerAddr"   = "122.246.16.13"
+[LUA-print] -     "szServerName"   = "高级房"
+[LUA-print] -     "wKindID"        = 306
+[LUA-print] -     "wNodeID"        = 0
+[LUA-print] -     "wServerID"      = 18
+[LUA-print] -     "wServerKind"    = 1
+[LUA-print] -     "wServerLevel"   = 0
+[LUA-print] -     "wServerPort"    = 43063
+[LUA-print] -     "wServerType"    = 1
+[LUA-print] -     "wSortID"        = 3
+[LUA-print] - }
+[LUA-print] dump from: [string "client/src/plaza/views/layer/plaza/RoomListLayer.lua"]:140: in function 'tableCellAtIndex'
+[LUA-print] - "iteminfo" = {
+[LUA-print] -     "_nRoomIndex"    = 4
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname"   = "GameServerItem"
+[LUA-print] -         "__index"   = *REF*
+[LUA-print] -         "create"    = function: 0x0f097238
+[LUA-print] -         "ctor"      = function: 0x0ef69990
+[LUA-print] -         "new"       = function: 0x0f0971f8
+[LUA-print] -         "onInit"    = function: 0x0ef699c8
+[LUA-print] -         "readScore" = function: 0x0ef69298
+[LUA-print] -         "testlog"   = function: 0x0ef69838
+[LUA-print] -     }
+[LUA-print] -     "dwAndroidCount" = 10
+[LUA-print] -     "dwFullCount"    = 48
+[LUA-print] -     "dwOnLineCount"  = 0
+[LUA-print] -     "dwServerRule"   = 0
+[LUA-print] -     "lCellScore"     = 1
+[LUA-print] -     "lEnterScore"    = 5000000
+[LUA-print] -     "szServerAddr"   = "122.246.16.13"
+[LUA-print] -     "szServerName"   = "大师房"
+[LUA-print] -     "wKindID"        = 306
+[LUA-print] -     "wNodeID"        = 0
+[LUA-print] -     "wServerID"      = 19
+[LUA-print] -     "wServerKind"    = 1
+[LUA-print] -     "wServerLevel"   = 0
+[LUA-print] -     "wServerPort"    = 43064
+[LUA-print] -     "wServerType"    = 1
+[LUA-print] -     "wSortID"        = 4
+[LUA-print] - }
+[LUA-print] appdf.onHttpJsionTable url:http://www.16yi.com//WS/MobileInterface.ashx?action=getmobilenotice&kindId=122
+[LUA-print] appdf.onHttpJsionTable methon:GET
+[LUA-print] appdf.onHttpJsionTable params:
+[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
+[LUA-print] - "datatable" = {
+[LUA-print] -     "code" = 0
+[LUA-print] -     "data" = {
+[LUA-print] -         "notice" = {
+[LUA-print] -         }
+[LUA-print] -         "valid"  = true
+[LUA-print] -     }
+[LUA-print] -     "msg"  = userdata: NULL
+[LUA-print] - }
+come in the keyboardEnable
+[LUA-print] 登录房间：122.246.16.13#43061
+toLua_Client_Socket_create:[66
+lua 网络回调:[2083][0]
+toLua_Client_Socket_connect:[122.246.16.13][43061][69600029-E32E-4087-A6DC-E269F1004AB8]
+[LUA-print] onSocketCallBack main:0#sub:1
+======  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰=====[LUA-print] onSocketCallBack main:2#sub:101
+[LUA-print] 房间配置[table:24][chair:2][type:1][rule:12601615]
+[LUA-print] onSocketCallBack main:2#sub:103
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   IIIIIII nil     nil
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] 已有自己信息，不再次处理自己信息
+[LUA-print] onSocketCallBack main:1#sub:102
+[LUA-print] client onEnterRoom
+[LUA-print] ====== curtag       2
+[LUA-print] ====== tag  20
+[LUA-print] ====  动画判断 222
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] nil 2       true
+[LUA-print] nil 2       true
+[LUA-print] nil 2       true
+[LUA-print] appdf.onHttpJsionTable url:http://www.16yi.com//WS/MobileInterface.ashx?action=getmobilenotice&kindId=122
+[LUA-print] appdf.onHttpJsionTable methon:GET
+[LUA-print] appdf.onHttpJsionTable params:
+[LUA-print] onSocketCallBack main:4#sub:100
+[LUA-print] SUB_GR_TABLE_INFO
+[LUA-print] nil 2       true
+[LUA-print] nil 2       true
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] nil 2       true
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   去弟弟家啊      nil     nil
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   907827930       nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   chaseの麦子     nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   琳爱子琪        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   久违电玩        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   雨人WOAI        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   HIKIOMM nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   使得法国1       nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   lksdjflk        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   弱点个人所得    nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   龙鹅爆爆        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   历经坎坷路虎年  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   打鱼搞钱哟      nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   540540  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   gfdhhgdfdhfg    nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   lizhilong       nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   piamsfl nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   startwu nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   一坨大便        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   夏明烟  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   ′晶晶ゝ        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   ◥怪小兽﹌      nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   aihuan421       nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   魂之馨  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   桂花糕a nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   奇淫合欢撒      nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   fdgffd  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   蓝叶1992        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   kaka3731326     nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   碎花大裙子      nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   杨有杠er        nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   寒光剑  nil     nil
+[LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
+[LUA-print] - "datatable" = {
+[LUA-print] -     "code" = 0
+[LUA-print] -     "data" = {
+[LUA-print] -         "notice" = {
+[LUA-print] -         }
+[LUA-print] -         "valid"  = true
+[LUA-print] -     }
+[LUA-print] -     "msg"  = userdata: NULL
+[LUA-print] - }
+come in the keyboardEnable
+[LUA-print] onSocketCallBack main:3#sub:101
+[LUA-print] 更新用户[94][907827930][10398332]
+[LUA-print] onSocketCallBack main:3#sub:101
+[LUA-print] 更新用户[1055][lizhilong][18274959]
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  5       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] nil 2       true
+[LUA-print] nil 2       true
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  5       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] nil 2       true
+[LUA-print] nil 2       true
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 6
+[LUA-print] nil 2       true
+[LUA-print] onSitDown table0 chair1
+[LUA-print] update game info
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    true    = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  1       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] 自己坐下
+[LUA-print] ClientScene onEnterTable
+[LUA-print] ====== curtag       20
+[LUA-print] ====== tag  21
+[LUA-print] ./game/yule/mahjongwzer/
+[LUA-print] true
+[LUA-print] true
+[LUA-print] false
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] CCardResource:LoadResource  nil     userdata
+[LUA-print] GameViewLayer_preloadUI
+[LUA-print] CardControl:create_CTableCard
+[LUA-print] CardControl:create_CTableCard
+[LUA-print] 设置方向 CTableCard:SetDirection    Direction_North
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1192: in function 'SetDirection'
+[LUA-print] - "<var>" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 设置方向 CDiscardCard:SetDirection  Direction_North
+[LUA-print] 设置方向 CTableCard:SetDirection    Direction_South
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1192: in function 'SetDirection'
+[LUA-print] - "<var>" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 设置方向 CDiscardCard:SetDirection  Direction_South
+[LUA-print] CControlWnd -create_CCardControl
+[LUA-print] CardControl:create_CCardControl
+[LUA-print] CCardControl_ctor
+[LUA-print] CCardResource:LoadResource  nil     userdata
+[LUA-print] create_mark1
+[LUA-print] CardControl:create_CCardControl
+[LUA-print] CCardControl_ctor
+[LUA-print] create_mark2
+[LUA-print] CControlWnd:OnPaint
+[LUA-print] 700 442
+[LUA-print] 700 421
+[LUA-print] === 1       2       4       8
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:372: in function 'OnPaint'
+[LUA-print] - "cbItemKind" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 2
+[LUA-print] -     3 = 4
+[LUA-print] -     4 = 8
+[LUA-print] - }
+[LUA-print] 0
+[LUA-print] 0
+[LUA-print] 0
+[LUA-print] 0
+[LUA-print] CControlWnd:OnPaint END
+[LUA-print] GameViewLayer_preloadUI end
+[LUA-print] GameViewLayer:RectifyControl(nWidth,nHeight)        1300    750
+[LUA-print] ==== self.m_HeapCard SetControlPoint 1-4
+[LUA-print] 498 128
+[LUA-print] 906 240
+[LUA-print] 498 542
+[LUA-print] 399 240
+[LUA-print] 基准位置 CDiscardCard:SetControlPoint       492     235     Direction_North
+[LUA-print] 基准位置 CDiscardCard:SetControlPoint       808     435     Direction_South
+[LUA-print] 基准位置 CControlWnd:SetBenchmarkPos        1290    570
+[LUA-print] CControlWnd:RectifyControl
+[LUA-print] CControlWnd move    1762    529
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:259: in function 'RectifyControl'
+[LUA-print] - "rcRect" = {
+[LUA-print] -     "bottom" = 570
+[LUA-print] -     "left"   = 1117
+[LUA-print] -     "right"  = 1290
+[LUA-print] -     "top"    = 488
+[LUA-print] - }
+[LUA-print]  ==RectifyControl
+[LUA-print] CCardResource:LoadResource  nil     userdata
+[LUA-print] GetMeChairID        1
+[LUA-print] Hello Hello!
+come in the keyboardEnable
+[LUA-print] change user 1; nick IIIIIII
+[LUA-print] onSocketCallBack main:100#sub:100
+[LUA-print] onSocketCallBack main:100#sub:200
+[LUA-print] 系统消息#1#欢迎您进入“传统温州麻将”游戏，祝您游戏愉快！
+[LUA-print] onSocketCallBack main:100#sub:101
+[LUA-print] onEventGameScene cbGameStatus       0
+[LUA-print] 空闲状态
+[LUA-print] 基础积分 lBaseScore         32990
+[LUA-print] 设置托管 SetTrustee         1       table
+[LUA-print] 设置托管 SetTrustee         2       nil
+[LUA-print] == 堆立扑克22 SetCardData
+[LUA-print] 0   0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_North 0       0       34
+[LUA-print] == 堆立扑克22 SetCardData
+[LUA-print] 0   0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_East  0       0       34
+[LUA-print] == 堆立扑克22 SetCardData
+[LUA-print] 0   0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_South 0       0       34
+[LUA-print] == 堆立扑克22 SetCardData
+[LUA-print] 0   0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_West  0       0       34
+[LUA-print] ==SetGameClock      1       200     30
+[LUA-print] ==SetGameClock self._ClockFun self._ClockTime       2       30
+[LUA-print] 丢弃用户 SetDiscUser        65535
+[LUA-print] self.m_szCenterText
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 0
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] false       1       65535
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:696: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        0       true
+[LUA-print] GameLogic:SetGodsCard       0
+[LUA-print] !!! 当前    nil     0       false
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_Current
+cbCardData-     0       xDest-  998     yDest-  74
+[LUA-print] cbGodsData-..       0       bDrawBack-      true    nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 无数据      0
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:764: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    65535   1
+[LUA-print] 出牌用户    65535   2
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        -1      101     0       table
+[LUA-print] =========here
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       29      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     29
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       28      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     28
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 9
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       27      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     27
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       26      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     26
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       25      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     25
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       24      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     24
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       23      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     23
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       22      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     22
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       21      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     21
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       20      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     20
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       19      200
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     19
