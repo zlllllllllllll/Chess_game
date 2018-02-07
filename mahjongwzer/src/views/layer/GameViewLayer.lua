@@ -298,8 +298,6 @@ print("create_mark2")
 	self.m_ControlWnd.m_cardControl=self.m_HandCardControl
 	--用户扑克
 	--self.m_ControlWnd:SetSinkWindow(AfxGetMainWnd());  --mark
-	--添加
-	self.m_ControlWnd:OnPaint()
 	--创建控件
 	local  btcallback = function(ref, type)
 	if type == ccui.TouchEventType.ended then

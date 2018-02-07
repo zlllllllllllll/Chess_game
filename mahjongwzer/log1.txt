@@ -1337,7 +1337,7 @@ KERNEL SUCCEED:beta 0.1
 downfile-http-faild res:0 code:404
 [LUA-print] down error
 [LUA-print] true        nil
-[LUA-print] load time ==> 0.0039999999999996
+[LUA-print] load time ==> 0.0050000000000008
 [LUA-print] new instance
 [LUA-print] undefined funtion or unknow platform ==> 0
 [LUA-print] unknow platform ==> 0
@@ -1364,7 +1364,7 @@ CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height)
 Call Sprite::initWithFile with blank resource filename.
 [LUA-print] 隐藏微信登录按钮===========2
 toLua_Client_Socket_create:[16
-lua 网络回调:[385][0]
+lua 网络回调:[386][0]
 toLua_Client_Socket_connect:[game.16yi.com][8400][69600029-E32E-4087-A6DC-E269F1004AB8]
 [LUA-print] onSocketCallBack main:0#sub:1
 ======  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰=====[LUA-print] onSocketCallBack main:100#sub:100
@@ -1525,16 +1525,6 @@ callBackName  cannot be found
 [LUA-print] appdf.onHttpJsionTable methon:GET
 [LUA-print] appdf.onHttpJsionTable params:
 [Kernel LogOut]: delete cash
-[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
-[LUA-print] - "datatable" = {
-[LUA-print] -     "code" = 0
-[LUA-print] -     "data" = {
-[LUA-print] -         "notice" = {
-[LUA-print] -         }
-[LUA-print] -         "valid"  = true
-[LUA-print] -     }
-[LUA-print] -     "msg"  = userdata: NULL
-[LUA-print] - }
 come in the keyboardEnable
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.64583333333333        62      96
 [LUA-print] 4   4
@@ -1561,16 +1551,16 @@ come in the keyboardEnable
 [LUA-print] -     "class" = {
 [LUA-print] -         "__cname"   = "GameServerItem"
 [LUA-print] -         "__index"   = *REF*
-[LUA-print] -         "create"    = function: 0x0f436ee0
-[LUA-print] -         "ctor"      = function: 0x0f15d478
-[LUA-print] -         "new"       = function: 0x0f436ea0
-[LUA-print] -         "onInit"    = function: 0x0f15c628
-[LUA-print] -         "readScore" = function: 0x0f15bdc8
-[LUA-print] -         "testlog"   = function: 0x0f15bea0
+[LUA-print] -         "create"    = function: 0x0f3b70c0
+[LUA-print] -         "ctor"      = function: 0x0f23c650
+[LUA-print] -         "new"       = function: 0x0f3b7080
+[LUA-print] -         "onInit"    = function: 0x0f23bec8
+[LUA-print] -         "readScore" = function: 0x0f23b9c0
+[LUA-print] -         "testlog"   = function: 0x0f23bdf0
 [LUA-print] -     }
-[LUA-print] -     "dwAndroidCount" = 31
+[LUA-print] -     "dwAndroidCount" = 30
 [LUA-print] -     "dwFullCount"    = 48
-[LUA-print] -     "dwOnLineCount"  = 2
+[LUA-print] -     "dwOnLineCount"  = 1
 [LUA-print] -     "dwServerRule"   = 0
 [LUA-print] -     "lCellScore"     = 1
 [LUA-print] -     "lEnterScore"    = 10000
@@ -1591,14 +1581,14 @@ come in the keyboardEnable
 [LUA-print] -     "class" = {
 [LUA-print] -         "__cname"   = "GameServerItem"
 [LUA-print] -         "__index"   = *REF*
-[LUA-print] -         "create"    = function: 0x0f436ee0
-[LUA-print] -         "ctor"      = function: 0x0f15d478
-[LUA-print] -         "new"       = function: 0x0f436ea0
-[LUA-print] -         "onInit"    = function: 0x0f15c628
-[LUA-print] -         "readScore" = function: 0x0f15bdc8
-[LUA-print] -         "testlog"   = function: 0x0f15bea0
+[LUA-print] -         "create"    = function: 0x0f3b70c0
+[LUA-print] -         "ctor"      = function: 0x0f23c650
+[LUA-print] -         "new"       = function: 0x0f3b7080
+[LUA-print] -         "onInit"    = function: 0x0f23bec8
+[LUA-print] -         "readScore" = function: 0x0f23b9c0
+[LUA-print] -         "testlog"   = function: 0x0f23bdf0
 [LUA-print] -     }
-[LUA-print] -     "dwAndroidCount" = 30
+[LUA-print] -     "dwAndroidCount" = 28
 [LUA-print] -     "dwFullCount"    = 48
 [LUA-print] -     "dwOnLineCount"  = 0
 [LUA-print] -     "dwServerRule"   = 0
@@ -1621,14 +1611,14 @@ come in the keyboardEnable
 [LUA-print] -     "class" = {
 [LUA-print] -         "__cname"   = "GameServerItem"
 [LUA-print] -         "__index"   = *REF*
-[LUA-print] -         "create"    = function: 0x0f436ee0
-[LUA-print] -         "ctor"      = function: 0x0f15d478
-[LUA-print] -         "new"       = function: 0x0f436ea0
-[LUA-print] -         "onInit"    = function: 0x0f15c628
-[LUA-print] -         "readScore" = function: 0x0f15bdc8
-[LUA-print] -         "testlog"   = function: 0x0f15bea0
+[LUA-print] -         "create"    = function: 0x0f3b70c0
+[LUA-print] -         "ctor"      = function: 0x0f23c650
+[LUA-print] -         "new"       = function: 0x0f3b7080
+[LUA-print] -         "onInit"    = function: 0x0f23bec8
+[LUA-print] -         "readScore" = function: 0x0f23b9c0
+[LUA-print] -         "testlog"   = function: 0x0f23bdf0
 [LUA-print] -     }
-[LUA-print] -     "dwAndroidCount" = 14
+[LUA-print] -     "dwAndroidCount" = 10
 [LUA-print] -     "dwFullCount"    = 48
 [LUA-print] -     "dwOnLineCount"  = 0
 [LUA-print] -     "dwServerRule"   = 0
@@ -1651,14 +1641,14 @@ come in the keyboardEnable
 [LUA-print] -     "class" = {
 [LUA-print] -         "__cname"   = "GameServerItem"
 [LUA-print] -         "__index"   = *REF*
-[LUA-print] -         "create"    = function: 0x0f436ee0
-[LUA-print] -         "ctor"      = function: 0x0f15d478
-[LUA-print] -         "new"       = function: 0x0f436ea0
-[LUA-print] -         "onInit"    = function: 0x0f15c628
-[LUA-print] -         "readScore" = function: 0x0f15bdc8
-[LUA-print] -         "testlog"   = function: 0x0f15bea0
+[LUA-print] -         "create"    = function: 0x0f3b70c0
+[LUA-print] -         "ctor"      = function: 0x0f23c650
+[LUA-print] -         "new"       = function: 0x0f3b7080
+[LUA-print] -         "onInit"    = function: 0x0f23bec8
+[LUA-print] -         "readScore" = function: 0x0f23b9c0
+[LUA-print] -         "testlog"   = function: 0x0f23bdf0
 [LUA-print] -     }
-[LUA-print] -     "dwAndroidCount" = 10
+[LUA-print] -     "dwAndroidCount" = 5
 [LUA-print] -     "dwFullCount"    = 48
 [LUA-print] -     "dwOnLineCount"  = 0
 [LUA-print] -     "dwServerRule"   = 0
@@ -1678,20 +1668,44 @@ come in the keyboardEnable
 [LUA-print] appdf.onHttpJsionTable url:http://www.16yi.com//WS/MobileInterface.ashx?action=getmobilenotice&kindId=122
 [LUA-print] appdf.onHttpJsionTable methon:GET
 [LUA-print] appdf.onHttpJsionTable params:
+come in the keyboardEnable
 [LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
 [LUA-print] - "datatable" = {
 [LUA-print] -     "code" = 0
 [LUA-print] -     "data" = {
 [LUA-print] -         "notice" = {
+[LUA-print] -             1 = {
+[LUA-print] -                 "content" = "欢迎加入 7892709 美女24小时在线服务  期待亲您的加入！  薇 7892709  ！~~~"
+[LUA-print] -                 "date"    = "2018/2/7 0:28:24"
+[LUA-print] -                 "id"      = 221
+[LUA-print] -                 "title"   = "喇叭消息"
+[LUA-print] -             }
 [LUA-print] -         }
 [LUA-print] -         "valid"  = true
 [LUA-print] -     }
 [LUA-print] -     "msg"  = userdata: NULL
 [LUA-print] - }
-come in the keyboardEnable
+cocos2d: SpriteBatchNode: resizing TextureAtlas capacity from [29] to [40].
+cocos2d: SpriteBatchNode: resizing TextureAtlas capacity from [40] to [54].
+[LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
+[LUA-print] - "datatable" = {
+[LUA-print] -     "code" = 0
+[LUA-print] -     "data" = {
+[LUA-print] -         "notice" = {
+[LUA-print] -             1 = {
+[LUA-print] -                 "content" = "欢迎加入 7892709 美女24小时在线服务  期待亲您的加入！  薇 7892709  ！~~~"
+[LUA-print] -                 "date"    = "2018/2/7 0:28:24"
+[LUA-print] -                 "id"      = 221
+[LUA-print] -                 "title"   = "喇叭消息"
+[LUA-print] -             }
+[LUA-print] -         }
+[LUA-print] -         "valid"  = true
+[LUA-print] -     }
+[LUA-print] -     "msg"  = userdata: NULL
+[LUA-print] - }
 [LUA-print] 登录房间：122.246.16.13#43061
-toLua_Client_Socket_create:[66
-lua 网络回调:[2095][0]
+toLua_Client_Socket_create:[70
+lua 网络回调:[2089][0]
 toLua_Client_Socket_connect:[122.246.16.13][43061][69600029-E32E-4087-A6DC-E269F1004AB8]
 [LUA-print] onSocketCallBack main:0#sub:1
 ======  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰===========  toLua_Cmd_Data_pushSTRING  濉厖鏂囨湰=====[LUA-print] onSocketCallBack main:2#sub:101
@@ -1719,142 +1733,133 @@ libpng warning: iCCP: known incorrect sRGB profile
 [LUA-print] nil 2       true
 [LUA-print] nil 2       true
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   去弟弟家啊      nil     nil
-[LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   907827930       nil     nil
+[LUA-print] GameFrameEngine enter ==>   温柔小钕子_     nil     nil
 [LUA-print] nil 2       true
 libpng warning: iCCP: known incorrect sRGB profile
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   chaseの麦子     nil     nil
+[LUA-print] GameFrameEngine enter ==>   草泥马打铁啊    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   琳爱子琪        nil     nil
+[LUA-print] GameFrameEngine enter ==>   我们约会吧888   nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   久违电玩        nil     nil
+[LUA-print] GameFrameEngine enter ==>   来好几次        nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   雨人WOAI        nil     nil
+[LUA-print] GameFrameEngine enter ==>   通城_绝_恋      nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   HIKIOMM nil     nil
+[LUA-print] GameFrameEngine enter ==>   旧岛梦记        nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   使得法国1       nil     nil
+[LUA-print] GameFrameEngine enter ==>   爆龙把企鹅也要  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   lksdjflk        nil     nil
+[LUA-print] GameFrameEngine enter ==>   天空飘来五个字  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   弱点个人所得    nil     nil
+[LUA-print] GameFrameEngine enter ==>   zhangan6614     nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   龙鹅爆爆        nil     nil
+[LUA-print] GameFrameEngine enter ==>   苏打绿  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   历经坎坷路虎年  nil     nil
+[LUA-print] GameFrameEngine enter ==>   zhang6615       nil     nil
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   萨菲公司公司    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   打鱼搞钱哟      nil     nil
+[LUA-print] GameFrameEngine enter ==>   ghhjhffkhg      nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   540540  nil     nil
+[LUA-print] GameFrameEngine enter ==>   天上人  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   gfdhhgdfdhfg    nil     nil
+[LUA-print] GameFrameEngine enter ==>   精法啊毛        nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   lizhilong       nil     nil
+[LUA-print] GameFrameEngine enter ==>   放飞666 nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   piamsfl nil     nil
+[LUA-print] GameFrameEngine enter ==>   gfgdfsgds       nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   startwu nil     nil
+[LUA-print] GameFrameEngine enter ==>   定海混子头      nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   一坨大便        nil     nil
+[LUA-print] GameFrameEngine enter ==>   kongxianglan    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   夏明烟  nil     nil
+[LUA-print] GameFrameEngine enter ==>   社会主义工人社  nil     nil
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   yun果   nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   ′晶晶ゝ        nil     nil
+[LUA-print] GameFrameEngine enter ==>   楚trueman       nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   ◥怪小兽﹌      nil     nil
+[LUA-print] GameFrameEngine enter ==>   我9是小杰       nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   aihuan421       nil     nil
+[LUA-print] GameFrameEngine enter ==>   dfghfdhgh       nil     nil
+[LUA-print] onSocketCallBack main:3#sub:100
+[LUA-print] GameFrameEngine enter ==>   Z抓破美人脸L    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   魂之馨  nil     nil
+[LUA-print] GameFrameEngine enter ==>   维嗒命  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   桂花糕a nil     nil
+[LUA-print] GameFrameEngine enter ==>   小甘肃谢家飞    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   奇淫合欢撒      nil     nil
+[LUA-print] GameFrameEngine enter ==>   asfadf  nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   fdgffd  nil     nil
+[LUA-print] GameFrameEngine enter ==>   贝克街的帽子    nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   蓝叶1992        nil     nil
+[LUA-print] GameFrameEngine enter ==>   岛°Lone1y      nil     nil
 [LUA-print] nil 2       true
 [LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   kaka3731326     nil     nil
-[LUA-print] nil 2       true
-[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
-[LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   碎花大裙子      nil     nil
-[LUA-print] nil 2       true
-[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
-[LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   杨有杠er        nil     nil
-[LUA-print] nil 2       true
-[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
-[LUA-print] onSocketCallBack main:3#sub:100
-[LUA-print] GameFrameEngine enter ==>   寒光剑  nil     nil
-[LUA-print] nil 2       true
-[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
-[LUA-print] onSocketCallBack main:3#sub:102
-[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       3
- =oldstatus.newstatus:  2       yl.US_NULL yl.US_NULL   0       1
-[LUA-print] nil 2       true
-[LUA-print] nil 2       true
+[LUA-print] GameFrameEngine enter ==>   去弟弟家啊      nil     nil
 [LUA-print] dump from: [string "base/src/app/models/AppDF.lua"]:178: in function <[string "base/src/app/models/AppDF.lua"]:158>
 [LUA-print] - "datatable" = {
 [LUA-print] -     "code" = 0
 [LUA-print] -     "data" = {
 [LUA-print] -         "notice" = {
+[LUA-print] -             1 = {
+[LUA-print] -                 "content" = "欢迎加入 7892709 美女24小时在线服务  期待亲您的加入！  薇 7892709  ！~~~"
+[LUA-print] -                 "date"    = "2018/2/7 0:28:24"
+[LUA-print] -                 "id"      = 221
+[LUA-print] -                 "title"   = "喇叭消息"
+[LUA-print] -             }
 [LUA-print] -         }
 [LUA-print] -         "valid"  = true
 [LUA-print] -     }
@@ -1862,27 +1867,16 @@ libpng warning: iCCP: known incorrect sRGB profile
 [LUA-print] - }
 come in the keyboardEnable
 [LUA-print] onSocketCallBack main:3#sub:102
-[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       1
- =oldstatus.newstatus:  3       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  1       yl.US_NULL yl.US_NULL   0       1
 [LUA-print] nil 2       true
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
 [LUA-print] onSocketCallBack main:3#sub:102
-[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       1
- =oldstatus.newstatus:  3       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  1       yl.US_NULL yl.US_NULL   0       1
 [LUA-print] nil 2       true
-[LUA-print] onSocketCallBack main:3#sub:102
-[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       5
- =oldstatus.newstatus:  2       yl.US_NULL yl.US_NULL   0       1
-[LUA-print] nil 2       true
-[LUA-print] nil 2       true
-[LUA-print] onSocketCallBack main:3#sub:102
-[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       5
- =oldstatus.newstatus:  3       yl.US_NULL yl.US_NULL   0       1
-[LUA-print] nil 2       true
-[LUA-print] nil 2       true
-[LUA-print] onSocketCallBack main:4#sub:101
-[LUA-print] SUB_GR_TABLE_STATUS ==> 10
-[LUA-print] nil 2       true
-[LUA-print] onSitDown table0 chair1
+[LUA-print]  self.m_fScale self.m_headSize SYS_HEADSIZE ==      0.41666666666667        40      96
+[LUA-print] onSitDown table0 chair0
 [LUA-print] update game info
 [LUA-print] onSocketCallBack main:3#sub:102
 [LUA-print] === bMySelfInfo:    true    = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
@@ -1951,29 +1945,10 @@ libpng warning: iCCP: known incorrect sRGB profile
 [LUA-print] CControlWnd -create_CCardControl
 [LUA-print] CardControl:create_CCardControl
 [LUA-print] CCardControl_ctor
-[LUA-print] CCardResource:LoadResource  nil     userdata
 [LUA-print] create_mark1
 [LUA-print] CardControl:create_CCardControl
 [LUA-print] CCardControl_ctor
 [LUA-print] create_mark2
-[LUA-print] CControlWnd:OnPaint
-[LUA-print] 700 500
-[LUA-print] 700 479
-[LUA-print] 700 458
-[LUA-print] 700 437
-[LUA-print] === 1       2       4       8
-[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:372: in function 'OnPaint'
-[LUA-print] - "cbItemKind" = {
-[LUA-print] -     1 = 1
-[LUA-print] -     2 = 2
-[LUA-print] -     3 = 4
-[LUA-print] -     4 = 8
-[LUA-print] - }
-[LUA-print] 0
-[LUA-print] 0
-[LUA-print] 0
-[LUA-print] 0
-[LUA-print] CControlWnd:OnPaint END
 [LUA-print] GameViewLayer_preloadUI end
 [LUA-print] GameViewLayer:RectifyControl(nWidth,nHeight)        1300    750
 [LUA-print] ==== self.m_HeapCard SetControlPoint 1-4
@@ -1986,28 +1961,44 @@ libpng warning: iCCP: known incorrect sRGB profile
 [LUA-print] 基准位置 CControlWnd:SetBenchmarkPos        1290    570
 [LUA-print] CControlWnd:RectifyControl
 [LUA-print] CControlWnd move    1762    529
-[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:259: in function 'RectifyControl'
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:256: in function 'RectifyControl'
 [LUA-print] - "rcRect" = {
 [LUA-print] -     "bottom" = 570
 [LUA-print] -     "left"   = 1117
 [LUA-print] -     "right"  = 1290
 [LUA-print] -     "top"    = 488
 [LUA-print] - }
+[LUA-print] CControlWnd:OnPaint
+[LUA-print] 700 442
+[LUA-print] 700 421
+[LUA-print] === 1       2       4       8
+[LUA-print] 0
+[LUA-print] nil 0       0
+[LUA-print] 0
+[LUA-print] nil 0       0
+[LUA-print] 0
+[LUA-print] nil 0       0
+[LUA-print] 0
+[LUA-print] nil 0       0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/ControlWnd.lua"]:421: in function 'OnPaint'
+[LUA-print] - "m_cbGangCard 杠牌扑克 数据" = {
+[LUA-print] - }
+[LUA-print] CControlWnd:OnPaint END
 [LUA-print]  ==RectifyControl
 [LUA-print] CCardResource:LoadResource  nil     userdata
-[LUA-print] GetMeChairID        1
+[LUA-print] GetMeChairID        0
 [LUA-print] Hello Hello!
 come in the keyboardEnable
-[LUA-print] change user 1; nick IIIIIII
+[LUA-print] change user 0; nick IIIIIII
 [LUA-print] onSocketCallBack main:100#sub:100
 [LUA-print] onSocketCallBack main:100#sub:200
 [LUA-print] 系统消息#1#欢迎您进入“传统温州麻将”游戏，祝您游戏愉快！
 [LUA-print] onSocketCallBack main:100#sub:101
 [LUA-print] onEventGameScene cbGameStatus       0
 [LUA-print] 空闲状态
-[LUA-print] 基础积分 lBaseScore         32990
-[LUA-print] 设置托管 SetTrustee         1       table
-[LUA-print] 设置托管 SetTrustee         2       nil
+[LUA-print] 基础积分 lBaseScore         4545
+[LUA-print] 设置托管 SetTrustee         2       table
+[LUA-print] 设置托管 SetTrustee         1       nil
 [LUA-print] == 堆立扑克22 SetCardData
 [LUA-print] 0   0       34
 [LUA-print] 设置扑克 CHeapCard  Direction_North 0       0       34
@@ -2020,7 +2011,7 @@ come in the keyboardEnable
 [LUA-print] == 堆立扑克22 SetCardData
 [LUA-print] 0   0       34
 [LUA-print] 设置扑克 CHeapCard  Direction_West  0       0       34
-[LUA-print] ==SetGameClock      1       200     30
+[LUA-print] ==SetGameClock      0       200     30
 [LUA-print] ==SetGameClock self._ClockFun self._ClockTime       2       30
 [LUA-print] 丢弃用户 SetDiscUser        65535
 [LUA-print] self.m_szCenterText
@@ -2100,9 +2091,9 @@ come in the keyboardEnable
 [LUA-print] CUserCard 清除
 [LUA-print] CUserCard:DrawCardControl   Direction_North 0
 [LUA-print] CCardControl 清除  未处理
-[LUA-print] false       1       65535
+[LUA-print] false       0       65535
 [LUA-print] userdata    m_HandCardControl===========
-[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:696: in function 'DrawGameView'
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
 [LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
 [LUA-print] -     1  = false
 [LUA-print] -     2  = false
@@ -2148,7 +2139,7 @@ cbCardData-     0       xDest-  998     yDest-  74
 [LUA-print] 无数据      0
 [LUA-print] === 等待提示        false
 [LUA-print] === 荒庄标志        false
-[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:764: in function 'DrawGameView'
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
 [LUA-print] - "用户动作" = {
 [LUA-print] -     1 = 0
 [LUA-print] -     2 = 0
@@ -2168,22 +2159,3518 @@ CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height)
 **********
 [LUA-print] 绘画掷骰子动画 DrawSicboAnim        -1      101     0       table
 [LUA-print] =========here
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       2
+ =oldstatus.newstatus:  1       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] change user 1; nick 去弟弟家啊
+[LUA-print] showUserInfo
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:988: in function 'showUserInfo'
+[LUA-print] - "<var>" = {
+[LUA-print] -     "cbGender"      = 1
+[LUA-print] -     "cbMemberOrder" = 5
+[LUA-print] -     "cbUserStatus"  = 2
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname" = "ClientUserItem"
+[LUA-print] -         "__index" = *REF*
+[LUA-print] -         "create"  = function: 0x1658e910
+[LUA-print] -         "ctor"    = function: 0x0fce4b80
+[LUA-print] -         "new"     = function: 0x1658eb10
+[LUA-print] -         "testlog" = function: 0x0f3f0210
+[LUA-print] -     }
+[LUA-print] -     "dBeans"        = 0
+[LUA-print] -     "dwCustomID"    = 0
+[LUA-print] -     "dwDrawCount"   = 226
+[LUA-print] -     "dwExperience"  = 5230
+[LUA-print] -     "dwFleeCount"   = 442
+[LUA-print] -     "dwGameID"      = 172807
+[LUA-print] -     "dwLostCount"   = 188
+[LUA-print] -     "dwUserID"      = 63777
+[LUA-print] -     "dwWinCount"    = 155
+[LUA-print] -     "lGrade"        = 0
+[LUA-print] -     "lIngot"        = 0
+[LUA-print] -     "lInsure"       = 0
+[LUA-print] -     "lScore"        = 63017
+[LUA-print] -     "szNickName"    = "去弟弟家啊"
+[LUA-print] -     "wChairID"      = 1
+[LUA-print] -     "wFaceID"       = 8
+[LUA-print] -     "wTableID"      = 0
+[LUA-print] - }
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       29      200
+[LUA-print] OnEventGameClockInfo        0       29      200
 [LUA-print] ===============DrawUserTimerEx      nil     667     375     29
+[LUA-print] 开始按钮
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        2       200     29      nil
+[LUA-print] KillGameClock       nil
+[LUA-print] self._gameView.m_btStart    userdata
+[LUA-print] ===============DrawUserTimerEx      nil     667     375     000
+[LUA-print] userdata    userdata        userdata
+[LUA-print] 显示准备    0       nil
+[LUA-print] 丢弃用户 SetDiscUser        65535
+[LUA-print] 海底扑克 SetHuangZhuang     false
+[LUA-print] 庄家用户 SetStatusFlag      false   false
+[LUA-print] 庄家用户 SetBankerUser      65535
+[LUA-print] 动作信息 SetUserAction      65535   0
+[LUA-print] 出牌信息 SetOutCardInfo     65535   0
+[LUA-print] 听牌标志 SetUserListenStatus        65535   false
+[LUA-print] CUserCard:SetCardData       0       false
+[LUA-print] CUserCard:SetCardData       0       false
+[LUA-print] 设置扑克 CCardControl:SetCardData   nil     0       0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1419: in function 'SetCardData'
+[LUA-print] - "cbCardData" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1420: in function 'SetCardData'
+[LUA-print] - "self.m_CardItemArray" = {
+[LUA-print] -     1 = {
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -     }
+[LUA-print] -     5 = {
+[LUA-print] -     }
+[LUA-print] -     6 = {
+[LUA-print] -     }
+[LUA-print] -     7 = {
+[LUA-print] -     }
+[LUA-print] -     8 = {
+[LUA-print] -     }
+[LUA-print] -     9 = {
+[LUA-print] -     }
+[LUA-print] -     10 = {
+[LUA-print] -     }
+[LUA-print] -     11 = {
+[LUA-print] -     }
+[LUA-print] -     12 = {
+[LUA-print] -     }
+[LUA-print] -     13 = {
+[LUA-print] -     }
+[LUA-print] -     14 = {
+[LUA-print] -     }
+[LUA-print] -     15 = {
+[LUA-print] -     }
+[LUA-print] -     16 = {
+[LUA-print] -     }
+[LUA-print] -     17 = {
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] GameViewLayer SetGodsCard   0
+[LUA-print] 设置财神 CCardControl:SetGodsCard   0
+[LUA-print] 0   0
+[LUA-print] GameViewLayer SetDingMaiValue       nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:1230: in function 'SetDingMaiValue'
+[LUA-print] - "SetDingMaiValue byDingMai" = nil
+[LUA-print] CTableCard:SetCardData      nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1172: in function 'SetCardData'
+[LUA-print] - "1" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1173: in function 'SetCardData'
+[LUA-print] - "2" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1184: in function 'SetCardData'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 0
+[LUA-print] CDiscardCard:SetCardData    nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1047: in function 'SetCardData'
+[LUA-print] - "cbCardData" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1062: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] CTableCard:SetCardData      nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1172: in function 'SetCardData'
+[LUA-print] - "1" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1173: in function 'SetCardData'
+[LUA-print] - "2" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1184: in function 'SetCardData'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 0
+[LUA-print] CDiscardCard:SetCardData    nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1047: in function 'SetCardData'
+[LUA-print] - "cbCardData" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1062: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] ===堆立扑克 OnStart SetCardData
+[LUA-print] i ->        1       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_North 0       0       34
+[LUA-print] ===堆立扑克 OnStart SetCardData
+[LUA-print] i ->        2       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_East  0       0       34
+[LUA-print] ===堆立扑克 OnStart SetCardData
+[LUA-print] i ->        3       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_South 0       0       34
+[LUA-print] ===堆立扑克 OnStart SetCardData
+[LUA-print] i ->        4       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_West  0       0       34
+[LUA-print] self.m_szCenterText
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 0
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] false       0       65535
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        0       true
+[LUA-print] GameLogic:SetGodsCard       0
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    65535   1
+[LUA-print] 出牌用户    65535   2
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        -1      101     0       table
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    true    = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       3
+ =oldstatus.newstatus:  2       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] 自己新状态:3
+[LUA-print] change user 0; nick IIIIIII
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    true    = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       5
+ =oldstatus.newstatus:  3       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] 自己新状态:5
+[LUA-print] change user 0; nick IIIIIII
+[LUA-print] onSocketCallBack main:3#sub:102
+[LUA-print] === bMySelfInfo:    false   = GlobalUserItem.bWaitQuit:     false    =newstatus.cbUserStatus:       5
+ =oldstatus.newstatus:  2       yl.US_NULL yl.US_NULL   0       1
+[LUA-print] change user 1; nick 去弟弟家啊
+[LUA-print] showUserInfo
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:988: in function 'showUserInfo'
+[LUA-print] - "<var>" = {
+[LUA-print] -     "cbGender"      = 1
+[LUA-print] -     "cbMemberOrder" = 5
+[LUA-print] -     "cbUserStatus"  = 5
+[LUA-print] -     "class" = {
+[LUA-print] -         "__cname" = "ClientUserItem"
+[LUA-print] -         "__index" = *REF*
+[LUA-print] -         "create"  = function: 0x1658e910
+[LUA-print] -         "ctor"    = function: 0x0fce4b80
+[LUA-print] -         "new"     = function: 0x1658eb10
+[LUA-print] -         "testlog" = function: 0x0f3f0210
+[LUA-print] -     }
+[LUA-print] -     "dBeans"        = 0
+[LUA-print] -     "dwCustomID"    = 0
+[LUA-print] -     "dwDrawCount"   = 226
+[LUA-print] -     "dwExperience"  = 5230
+[LUA-print] -     "dwFleeCount"   = 442
+[LUA-print] -     "dwGameID"      = 172807
+[LUA-print] -     "dwLostCount"   = 188
+[LUA-print] -     "dwUserID"      = 63777
+[LUA-print] -     "dwWinCount"    = 155
+[LUA-print] -     "lGrade"        = 0
+[LUA-print] -     "lIngot"        = 0
+[LUA-print] -     "lInsure"       = 0
+[LUA-print] -     "lScore"        = 63017
+[LUA-print] -     "szNickName"    = "去弟弟家啊"
+[LUA-print] -     "wChairID"      = 1
+[LUA-print] -     "wFaceID"       = 8
+[LUA-print] -     "wTableID"      = 0
+[LUA-print] - }
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 1
+[LUA-print] onSocketCallBack main:200#sub:100
+[LUA-print] onEventGameMessage sub      100
+[LUA-print] 游戏开始
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1143: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_GameStart" = {
+[LUA-print] -     "bBankerCount" = 1
+[LUA-print] -     "bMaiDi"       = false
+[LUA-print] -     "bTrustee" = {
+[LUA-print] -         1 = {
+[LUA-print] -             1 = false
+[LUA-print] -             2 = false
+[LUA-print] -         }
+[LUA-print] -     }
+[LUA-print] -     "lBaseScore"   = 1099511627776
+[LUA-print] -     "wBankerUser"  = 1
+[LUA-print] - }
+[LUA-print] 定时玩家 SetCurrentUser     65535
+[LUA-print] 听牌标志 SetUserListenStatus        65535   false
+[LUA-print] 庄家用户 SetBankerUser      1
+[LUA-print] 丢弃用户 SetDiscUser        65535
+[LUA-print] GameViewLayer SetGodsCard   0
+[LUA-print] 设置财神 CCardControl:SetGodsCard   0
+[LUA-print] 0   0
+[LUA-print] CCardControl:SetOutCardData_2       nil     0
+[LUA-print] CCardControl:UpdateCardDisable      nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1476: in function 'UpdateCardDisable'
+[LUA-print] - "CCardControl m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1477: in function 'UpdateCardDisable'
+[LUA-print] - "m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] 1   0
+[LUA-print] 设置中心文字 SetCenterText szText   等待 去弟弟家啊 买底
+[LUA-print] userdata    false
+[LUA-print] self.m_szCenterText 等待 去弟弟家啊 买底
+[LUA-print] =========  self.m_wBankerUser       1
+[LUA-print] 0
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 0
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] false       0       65535
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        0       true
+[LUA-print] GameLogic:SetGodsCard       0
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    65535   1
+[LUA-print] 出牌用户    65535   2
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        -1      101     101     table
+[LUA-print] 定时玩家 SetCurrentUser     1
+[LUA-print] ==SetGameClock      1       202     15
+[LUA-print] ==SetGameClock self._ClockFun self._ClockTime       4       15
+[LUA-print] 设置托管 SetTrustee         2       false
+[LUA-print] 设置托管 SetTrustee         1       false
+[LUA-print] onSocketCallBack main:200#sub:108
+[LUA-print] onEventGameMessage sub      108
+[LUA-print] 庄家买底
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        4       202     15      nil
+[LUA-print] KillGameClock       nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:2124: in function 'onEventGameMessage'
+[LUA-print] - "cmd_data" = {
+[LUA-print] -     "bDingDi"  = false
+[LUA-print] -     "byMaiDi"  = 1
+[LUA-print] -     "wChairID" = 256
+[LUA-print] - }
+[LUA-print]  mark !!!!!!!!!! 临时去除 判断 cmd_data.wChairID    256     1
+[LUA-print] 设置中心文字 SetCenterText szText
+[LUA-print] userdata    false
+[LUA-print] 定时玩家 SetCurrentUser     2
+[LUA-print] ==SetGameClock      0       202     15
+[LUA-print] ==SetGameClock self._ClockFun self._ClockTime       5       15
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       28      200
-[LUA-print] ===============DrawUserTimerEx      nil     667     375     28
+[LUA-print] OnEventGameClockInfo        0       14      202
+[LUA-print] _IDC_DING_CANCEL
+[LUA-print] ====顶买    1       0
+[LUA-print] net len ==> 1
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       27      200
-[LUA-print] ===============DrawUserTimerEx      nil     667     375     27
+[LUA-print] OnEventGameClockInfo        0       13      202
+[LUA-print] onSocketCallBack main:200#sub:109
+[LUA-print] onEventGameMessage sub      109
+[LUA-print] OnSubGamePlay 游戏正式开始
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1237: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_GamePlay" = {
+[LUA-print] -     "byGodsCardData" = 3
+[LUA-print] -     "byUserDingDi" = {
+[LUA-print] -         1 = {
+[LUA-print] -             1 = 1
+[LUA-print] -             2 = 1
+[LUA-print] -         }
+[LUA-print] -     }
+[LUA-print] -     "cbCardData" = {
+[LUA-print] -         1 = {
+[LUA-print] -             1  = 4
+[LUA-print] -             2  = 6
+[LUA-print] -             3  = 7
+[LUA-print] -             4  = 9
+[LUA-print] -             5  = 18
+[LUA-print] -             6  = 22
+[LUA-print] -             7  = 23
+[LUA-print] -             8  = 24
+[LUA-print] -             9  = 25
+[LUA-print] -             10 = 35
+[LUA-print] -             11 = 35
+[LUA-print] -             12 = 37
+[LUA-print] -             13 = 38
+[LUA-print] -             14 = 39
+[LUA-print] -             15 = 51
+[LUA-print] -             16 = 51
+[LUA-print] -             17 = 0
+[LUA-print] -         }
+[LUA-print] -         2 = {
+[LUA-print] -             1  = 0
+[LUA-print] -             2  = 0
+[LUA-print] -             3  = 0
+[LUA-print] -             4  = 0
+[LUA-print] -             5  = 0
+[LUA-print] -             6  = 0
+[LUA-print] -             7  = 0
+[LUA-print] -             8  = 0
+[LUA-print] -             9  = 0
+[LUA-print] -             10 = 0
+[LUA-print] -             11 = 0
+[LUA-print] -             12 = 0
+[LUA-print] -             13 = 0
+[LUA-print] -             14 = 0
+[LUA-print] -             15 = 0
+[LUA-print] -             16 = 0
+[LUA-print] -             17 = 0
+[LUA-print] -         }
+[LUA-print] -     }
+[LUA-print] -     "cbUserAction"   = 0
+[LUA-print] -     "wCurrentUser"   = 1
+[LUA-print] -     "wSiceCount1"    = 1282
+[LUA-print] -     "wSiceCount2"    = 1282
+[LUA-print] -     "wSiceCount3"    = 1286
+[LUA-print] - }
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        5       202     13      nil
+[LUA-print] KillGameClock       nil
+[LUA-print] 定时玩家 SetCurrentUser     65535
+[LUA-print] 丢弃用户 SetDiscUser        65535
+[LUA-print] OnSubGamePlay 正式开始
+[去弟弟家啊]买底
+
+[LUA-print] GameViewLayer SetDingMaiValue       table
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:1230: in function 'SetDingMaiValue'
+[LUA-print] - "SetDingMaiValue byDingMai" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1340: in function 'onEventGameMessage'
+[LUA-print] - "self._gameView.m_TableCard" = {
+[LUA-print] -     1 = userdata: 0x16c9bc78
+[LUA-print] -     2 = userdata: 0x16c9c278
+[LUA-print] - }
+[LUA-print] 2   1
+[LUA-print] CTableCard:SetCardData      nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1172: in function 'SetCardData'
+[LUA-print] - "1" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1173: in function 'SetCardData'
+[LUA-print] - "2" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1184: in function 'SetCardData'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 0
+[LUA-print] CDiscardCard:SetCardData    nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1047: in function 'SetCardData'
+[LUA-print] - "cbCardData" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1062: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1340: in function 'onEventGameMessage'
+[LUA-print] - "self._gameView.m_TableCard" = {
+[LUA-print] -     1 = userdata: 0x16c9bc78
+[LUA-print] -     2 = userdata: 0x16c9c278
+[LUA-print] - }
+[LUA-print] 1   2
+[LUA-print] CTableCard:SetCardData      nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1172: in function 'SetCardData'
+[LUA-print] - "1" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1173: in function 'SetCardData'
+[LUA-print] - "2" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1184: in function 'SetCardData'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] 0
+[LUA-print] CDiscardCard:SetCardData    nil     0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1047: in function 'SetCardData'
+[LUA-print] - "cbCardData" = nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1062: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] CCardControl:SetOutCardData_2       nil     0
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] GameViewLayer SetGodsCard   3
+[LUA-print] 设置财神 CCardControl:SetGodsCard   3
+[LUA-print] 3   3
+[LUA-print]  第一把骰子的玩家 门前开始数牌
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1390: in function 'onEventGameMessage'
+[LUA-print] - "正式开始 添加 m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] i:  1       10      33      10
+[LUA-print] 0
+[LUA-print] 正式开始 添加       0       等待    14      点数为  10      33
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1419: in function 'onEventGameMessage'
+[LUA-print] - " 正式开始 添加 m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 1   2       14      1
+[LUA-print] 1   0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1424: in function 'onEventGameMessage'
+[LUA-print] - " 正式开始 添加 m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 1
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] SwitchHeapViewChairID       0       0       2
+[LUA-print] 2   1       0
+[LUA-print] == m_HeapCard       0       10      34
+[LUA-print] 设置扑克 CHeapCard  Direction_South 0       10      34
+[LUA-print] SwitchHeapViewChairID       1       0       3
+[LUA-print] 3   2       0
+[LUA-print] == m_HeapCard       1       22      34
+[LUA-print] 设置扑克 CHeapCard  Direction_West  1       22      34
+[LUA-print] SwitchHeapViewChairID       2       0       0
+[LUA-print] 0   3       0
+[LUA-print] == m_HeapCard       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_North 0       0       34
+[LUA-print] SwitchHeapViewChairID       3       0       1
+[LUA-print] 1   4       0
+[LUA-print] == m_HeapCard       0       0       34
+[LUA-print] 设置扑克 CHeapCard  Direction_East  0       0       34
+[LUA-print] table       16      table
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] 0   34      3
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/models/GameLogic.lua"]:1138: in function 'SwitchToCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1447: in function 'onEventGameMessage'
+[LUA-print] - "byCards" = {
+[LUA-print] -     1  = 4
+[LUA-print] -     2  = 6
+[LUA-print] -     3  = 7
+[LUA-print] -     4  = 9
+[LUA-print] -     5  = 18
+[LUA-print] -     6  = 22
+[LUA-print] -     7  = 23
+[LUA-print] -     8  = 24
+[LUA-print] -     9  = 25
+[LUA-print] -     10 = 35
+[LUA-print] -     11 = 35
+[LUA-print] -     12 = 37
+[LUA-print] -     13 = 38
+[LUA-print] -     14 = 39
+[LUA-print] -     15 = 51
+[LUA-print] -     16 = 51
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] -=-= gameView.m_HandCardControl:SetCardDat  table   16      51
+[LUA-print] 设置扑克 CCardControl:SetCardData   table   16      51
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1419: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 4
+[LUA-print] -     2  = 6
+[LUA-print] -     3  = 7
+[LUA-print] -     4  = 9
+[LUA-print] -     5  = 18
+[LUA-print] -     6  = 22
+[LUA-print] -     7  = 23
+[LUA-print] -     8  = 24
+[LUA-print] -     9  = 25
+[LUA-print] -     10 = 35
+[LUA-print] -     11 = 35
+[LUA-print] -     12 = 37
+[LUA-print] -     13 = 38
+[LUA-print] -     14 = 39
+[LUA-print] -     15 = 51
+[LUA-print] -     16 = 51
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1420: in function 'SetCardData'
+[LUA-print] - "self.m_CardItemArray" = {
+[LUA-print] -     1 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 4
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 6
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 7
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 9
+[LUA-print] -     }
+[LUA-print] -     5 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 18
+[LUA-print] -     }
+[LUA-print] -     6 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 22
+[LUA-print] -     }
+[LUA-print] -     7 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 23
+[LUA-print] -     }
+[LUA-print] -     8 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 24
+[LUA-print] -     }
+[LUA-print] -     9 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 25
+[LUA-print] -     }
+[LUA-print] -     10 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     11 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     12 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 37
+[LUA-print] -     }
+[LUA-print] -     13 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 38
+[LUA-print] -     }
+[LUA-print] -     14 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 39
+[LUA-print] -     }
+[LUA-print] -     15 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 51
+[LUA-print] -     }
+[LUA-print] -     16 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 51
+[LUA-print] -     }
+[LUA-print] -     17 = {
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 对手扑克==  1       1
+[LUA-print] CUserCard:SetCardData       17      false
+[LUA-print] 设置中心文字 SetCenterText szText
+[LUA-print] userdata    false
+[LUA-print] 更新界面 色子 StartSicboAnim
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1483: in function 'onEventGameMessage'
+[LUA-print] - "bySicbo" = {
+[LUA-print] -     1 = 5
+[LUA-print] -     2 = 2
+[LUA-print] - }
+[LUA-print] == GameViewLayer:StartSicboAnim     table   20
+[LUA-print] self.m_szCenterText
+[LUA-print] =========  self.m_wBankerUser       1
+[LUA-print] 0
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:650: in function 'DrawGameView'
+[LUA-print] - "self.m_byDingMai" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] =======res/game/dingmai     1       739.75  9.5
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 24  34      0       10
+[LUA-print] 5.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 11  34      1       22
+[LUA-print] 西向头部
+[LUA-print] 11.5        16.5
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 17
+[LUA-print] 正常扑克 CCardResource.m_ImageUserTop
+[LUA-print] m_ImageUserTop x    480     68
+[LUA-print] m_ImageUserTop x    504     68
+[LUA-print] m_ImageUserTop x    528     68
+[LUA-print] m_ImageUserTop x    552     68
+[LUA-print] m_ImageUserTop x    576     68
+[LUA-print] m_ImageUserTop x    600     68
+[LUA-print] m_ImageUserTop x    624     68
+[LUA-print] m_ImageUserTop x    648     68
+[LUA-print] m_ImageUserTop x    672     68
+[LUA-print] m_ImageUserTop x    696     68
+[LUA-print] m_ImageUserTop x    720     68
+[LUA-print] m_ImageUserTop x    744     68
+[LUA-print] m_ImageUserTop x    768     68
+[LUA-print] m_ImageUserTop x    792     68
+[LUA-print] m_ImageUserTop x    816     68
+[LUA-print] m_ImageUserTop x    840     68
+[LUA-print] m_ImageUserTop x    864     68
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] false       0       65535
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        16      true
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] 1   4       false   262     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_1  cbCardData-     4       xDest-  262     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 4   45
+[LUA-print] ===nImageXPos       180     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   6       false   307     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_2  cbCardData-     6       xDest-  307     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 6   45
+[LUA-print] ===nImageXPos       270     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 3   7       false   352     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_3  cbCardData-     7       xDest-  352     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 7   45
+[LUA-print] ===nImageXPos       315     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 4   9       false   397     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_4  cbCardData-     9       xDest-  397     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 9   45
+[LUA-print] ===nImageXPos       405     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 5   18      false   442     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_5  cbCardData-     18      xDest-  442     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 11  45
+[LUA-print] ===nImageXPos       495     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 6   22      false   487     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_6  cbCardData-     22      xDest-  487     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 15  45
+[LUA-print] ===nImageXPos       675     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 7   23      false   532     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_7  cbCardData-     23      xDest-  532     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 16  45
+[LUA-print] ===nImageXPos       720     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 8   24      false   577     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_8  cbCardData-     24      xDest-  577     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 17  45
+[LUA-print] ===nImageXPos       765     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 9   25      false   622     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_9  cbCardData-     25      xDest-  622     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 18  45
+[LUA-print] ===nImageXPos       810     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 10  35      false   667     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_10 cbCardData-     35      xDest-  667     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 11  35      false   712     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_11 cbCardData-     35      xDest-  712     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 12  37      false   757     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_12 cbCardData-     37      xDest-  757     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 23  45
+[LUA-print] ===nImageXPos       1035    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 13  38      false   802     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_13 cbCardData-     38      xDest-  802     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 24  45
+[LUA-print] ===nImageXPos       1080    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 14  39      false   847     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_14 cbCardData-     39      xDest-  847     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 25  45
+[LUA-print] ===nImageXPos       1125    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 15  51      false   892     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_15 cbCardData-     51      xDest-  892     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 16  51      false   937     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_16 cbCardData-     51      xDest-  937     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] !!! 当前    51      51      false
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_Current
+cbCardData-     51      xDest-  998     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      true    nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    65535   1
+[LUA-print] 出牌用户    65535   2
+[LUA-print] 财神        100     700
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_V_byGodsData       cbCardData-     3       xDest-  100     yDest-  694
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 3   45
+[LUA-print] ===nImageXPos       135     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        20      101     100     table
+[LUA-print] onSocketCallBack main:200#sub:101
+[LUA-print] onEventGameMessage sub      101
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1496: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_OutCard" = {
+[LUA-print] -     "cbOutCardData" = 52
+[LUA-print] -     "wOutCardUser"  = 1
+[LUA-print] - }
+[LUA-print] 用户出牌    52
+[LUA-print] 1   1       0
+[LUA-print] 1   0       1       100     100
+[LUA-print] ===mark 2
+[LUA-print] CCardControl:SetOutCardData_1       31
+[LUA-print] CCardControl:UpdateCardDisable      nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1476: in function 'UpdateCardDisable'
+[LUA-print] - "CCardControl m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1477: in function 'UpdateCardDisable'
+[LUA-print] - "m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        nil     201     0       nil
+[LUA-print] KillGameClock       nil
+[LUA-print] PlayCardSound 用户出牌
+[LUA-print] 出牌声音 PlayCardSound      1       52      true
+[LUA-print] 0   table
+[LUA-print] male/F_4
+[LUA-print] 动作信息 SetUserAction      65535   0
+[LUA-print] 22SOutCardInfo      1       52
+[LUA-print] 出牌信息 SetOutCardInfo     1       52
+[LUA-print] onSocketCallBack main:200#sub:102
+[LUA-print] onEventGameMessage sub      102
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1557: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_SendCard" = {
+[LUA-print] -     "cbActionMask" = 0
+[LUA-print] -     "cbCardData"   = 34
+[LUA-print] -     "wCurrentUser" = 0
+[LUA-print] - }
+[LUA-print] 发送扑克    34
+[LUA-print] 1   2       0
+[LUA-print] CDiscardCard:AddCardItem    52      0       28
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1036: in function 'AddCardItem'
+[LUA-print] - "self.m_cbCardData AddCardItem" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1038: in function 'AddCardItem'
+[LUA-print] - "self.m_cbCardData AddCardItem" = {
+[LUA-print] -     1  = 52
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] 1
+[LUA-print] 丢弃用户 SetDiscUser        1
+[LUA-print] ==== onSubSendCard  0       0       19
+[LUA-print] 设置当前扑克 CCardControl:SetCurrentCard    34
+[LUA-print] == 扣除扑克
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:2314: in function 'DeductionTableCard'
+[LUA-print] - "self.m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 1
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 1   table   table
+[LUA-print] SwitchHeapViewChairID       1       0       3
+[LUA-print] ===堆立扑克 55SetCardData   1
+[LUA-print] index ->    4       2       22      34
+[LUA-print] 设置扑克 CHeapCard  Direction_West  2       22      34
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:2353: in function 'DeductionTableCard'
+[LUA-print] - "self.m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 2
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 当前用户    0       0
+[LUA-print] 动作处理 cmd_data.cbActionMask
+[LUA-print] 庄家用户 SetStatusFlag      true    false
+[LUA-print] 当前用户    0       0
+[LUA-print] CCardControl:UpdateCardDisable      true
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1476: in function 'UpdateCardDisable'
+[LUA-print] - "CCardControl m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1477: in function 'UpdateCardDisable'
+[LUA-print] - "m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1488: in function 'UpdateCardDisable'
+[LUA-print] - "m_CardItemArray" = {
+[LUA-print] -     1 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 4
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 6
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 7
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 9
+[LUA-print] -     }
+[LUA-print] -     5 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 18
+[LUA-print] -     }
+[LUA-print] -     6 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 22
+[LUA-print] -     }
+[LUA-print] -     7 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 23
+[LUA-print] -     }
+[LUA-print] -     8 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 24
+[LUA-print] -     }
+[LUA-print] -     9 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 25
+[LUA-print] -     }
+[LUA-print] -     10 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     11 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     12 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 37
+[LUA-print] -     }
+[LUA-print] -     13 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 38
+[LUA-print] -     }
+[LUA-print] -     14 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 39
+[LUA-print] -     }
+[LUA-print] -     15 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 51
+[LUA-print] -     }
+[LUA-print] -     16 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 51
+[LUA-print] -     }
+[LUA-print] -     17 = {
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 4   4       3       34
+[LUA-print] byIndex-    4
+[LUA-print] 6   6       3       34
+[LUA-print] byIndex-    6
+[LUA-print] 7   7       3       34
+[LUA-print] byIndex-    7
+[LUA-print] 9   9       3       34
+[LUA-print] byIndex-    9
+[LUA-print] 18  18      3       34
+[LUA-print] byIndex-    11
+[LUA-print] 22  22      3       34
+[LUA-print] byIndex-    15
+[LUA-print] 23  23      3       34
+[LUA-print] byIndex-    16
+[LUA-print] 24  24      3       34
+[LUA-print] byIndex-    17
+[LUA-print] 25  25      3       34
+[LUA-print] byIndex-    18
+[LUA-print] 35  35      3       34
+[LUA-print] byIndex-    21
+[LUA-print] 35  35      3       34
+[LUA-print] byIndex-    21
+[LUA-print] 37  37      3       34
+[LUA-print] byIndex-    23
+[LUA-print] 38  38      3       34
+[LUA-print] byIndex-    24
+[LUA-print] 39  39      3       34
+[LUA-print] byIndex-    25
+[LUA-print] 51  51      3       34
+[LUA-print] byIndex-    30
+[LUA-print] 51  51      3       34
+[LUA-print] byIndex-    30
+[LUA-print] self.m_CurrentCard.cbCardData       34
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1509: in function 'UpdateCardDisable'
+[LUA-print] - "byIndexCount 单张风" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 1
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 1
+[LUA-print] -     7  = 1
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 1
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 1
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 1
+[LUA-print] -     16 = 1
+[LUA-print] -     17 = 1
+[LUA-print] -     18 = 1
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 1
+[LUA-print] -     21 = 2
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 1
+[LUA-print] -     24 = 1
+[LUA-print] -     25 = 1
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] -     29 = 0
+[LUA-print] -     30 = 2
+[LUA-print] -     31 = 0
+[LUA-print] -     32 = 0
+[LUA-print] -     33 = 0
+[LUA-print] -     34 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1510: in function 'UpdateCardDisable'
+[LUA-print] - "已经打出的牌" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] -     29 = 0
+[LUA-print] -     30 = 0
+[LUA-print] -     31 = 1
+[LUA-print] -     32 = 0
+[LUA-print] -     33 = 0
+[LUA-print] -     34 = 0
+[LUA-print] - }
+[LUA-print] 28
+[LUA-print] 29
+[LUA-print] 30
+[LUA-print] 31
+[LUA-print] 32
+[LUA-print] 33
+[LUA-print] 34
+[LUA-print] false
+[LUA-print] 没有单张的风,所有牌可以出
+[LUA-print] 发牌-更新界面
+[LUA-print] self.m_szCenterText
+[LUA-print] =========  self.m_wBankerUser       1
+[LUA-print] 0
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:650: in function 'DrawGameView'
+[LUA-print] - "self.m_byDingMai" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] =======res/game/dingmai     1       739.75  9.5
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 1
+[LUA-print] 南向        1       808     435
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageTableBottom      index-  CDiscardCard_1  cbCardData-     52      xDest-  808     yDest-  435
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 31  45
+[LUA-print] ===nImageXPos       1395    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 24  34      0       10
+[LUA-print] 5.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 10  34      2       22
+[LUA-print] 11.5        16
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 17
+[LUA-print] 正常扑克 CCardResource.m_ImageUserTop
+[LUA-print] m_ImageUserTop x    480     68
+[LUA-print] m_ImageUserTop x    504     68
+[LUA-print] m_ImageUserTop x    528     68
+[LUA-print] m_ImageUserTop x    552     68
+[LUA-print] m_ImageUserTop x    576     68
+[LUA-print] m_ImageUserTop x    600     68
+[LUA-print] m_ImageUserTop x    624     68
+[LUA-print] m_ImageUserTop x    648     68
+[LUA-print] m_ImageUserTop x    672     68
+[LUA-print] m_ImageUserTop x    696     68
+[LUA-print] m_ImageUserTop x    720     68
+[LUA-print] m_ImageUserTop x    744     68
+[LUA-print] m_ImageUserTop x    768     68
+[LUA-print] m_ImageUserTop x    792     68
+[LUA-print] m_ImageUserTop x    816     68
+[LUA-print] m_ImageUserTop x    840     68
+[LUA-print] m_ImageUserTop x    864     68
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] false       0       1
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        16      true
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] 1   4       true    262     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_1  cbCardData-     4       xDest-  262     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 4   45
+[LUA-print] ===nImageXPos       180     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   6       true    307     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_2  cbCardData-     6       xDest-  307     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 6   45
+[LUA-print] ===nImageXPos       270     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 3   7       true    352     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_3  cbCardData-     7       xDest-  352     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 7   45
+[LUA-print] ===nImageXPos       315     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 4   9       true    397     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_4  cbCardData-     9       xDest-  397     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 9   45
+[LUA-print] ===nImageXPos       405     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 5   18      true    442     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_5  cbCardData-     18      xDest-  442     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 11  45
+[LUA-print] ===nImageXPos       495     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 6   22      true    487     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_6  cbCardData-     22      xDest-  487     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 15  45
+[LUA-print] ===nImageXPos       675     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 7   23      true    532     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_7  cbCardData-     23      xDest-  532     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 16  45
+[LUA-print] ===nImageXPos       720     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 8   24      true    577     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_8  cbCardData-     24      xDest-  577     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 17  45
+[LUA-print] ===nImageXPos       765     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 9   25      true    622     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_9  cbCardData-     25      xDest-  622     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 18  45
+[LUA-print] ===nImageXPos       810     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 10  35      true    667     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_10 cbCardData-     35      xDest-  667     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 11  35      true    712     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_11 cbCardData-     35      xDest-  712     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 12  37      true    757     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_12 cbCardData-     37      xDest-  757     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 23  45
+[LUA-print] ===nImageXPos       1035    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 13  38      true    802     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_13 cbCardData-     38      xDest-  802     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 24  45
+[LUA-print] ===nImageXPos       1080    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 14  39      true    847     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_14 cbCardData-     39      xDest-  847     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 25  45
+[LUA-print] ===nImageXPos       1125    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 15  51      true    892     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_15 cbCardData-     51      xDest-  892     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 16  51      true    937     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_16 cbCardData-     51      xDest-  937     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] !!! 当前    34      34      true
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_Current
+cbCardData-     34      xDest-  998     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      true    nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 20  45
+[LUA-print] ===nImageXPos       900     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    1       1
+[LUA-print] 出牌用户    1       2
+[LUA-print] ACTION_BACK- 出牌   674     517
+[LUA-print] nil
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_OutData
+cbCardData-     52      xDest-  635     yDest-  515
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 31  45
+[LUA-print] ===nImageXPos       1395    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 财神        100     700
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_V_byGodsData       cbCardData-     3       xDest-  100     yDest-  694
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 3   45
+[LUA-print] ===nImageXPos       135     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 65535       65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        20      101     100     table
+[LUA-print] 定时玩家 SetCurrentUser     2
+[LUA-print] ==SetGameClock      0       201     15
+[LUA-print] ==SetGameClock self._ClockFun self._ClockTime       7       15
+[LUA-print] 发牌消息 end
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       26      200
-[LUA-print] ===============DrawUserTimerEx      nil     667     375     26
+[LUA-print] OnEventGameClockInfo        0       14      201
+[LUA-print] ====self.m_bHearStatus      false   false   false   0
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 6
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       25      200
-[LUA-print] ===============DrawUserTimerEx      nil     667     375     25
+[LUA-print] OnEventGameClockInfo        0       13      201
+[LUA-print] ====self.m_bHearStatus      false   false   false   0
+[LUA-print] 获取出牌扑克        30      3       3
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1373: in function 'GetOutCard'
+[LUA-print] - "m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] false       30      34      3       0
+[LUA-print] 30
+[LUA-print] 清除计时间
+[LUA-print] 出牌提示隐藏 self.t_SingleId        nil
+[LUA-print] 出牌 OnOutCard      30      nil
+[LUA-print] 52  0       0       100     100
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        7       201     13      nil
+[LUA-print] KillGameClock       nil
+[LUA-print] false       false
+[LUA-print] RemoveCard_2        52
+[LUA-print] 2   30
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] 0   34      3
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/models/GameLogic.lua"]:1138: in function 'SwitchToCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] - }
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] SwitchToCardIndex_1 将白板跟财神交换        55      55      true
+[LUA-print] SwitchToCardIndex_1 将财神跟白板交换        3       3       true
+[LUA-print] SwitchToCardData_1 正常
+[LUA-print] -=-= gameView.m_HandCardControl:SetCardDat  table   16      0
+[LUA-print] 设置扑克 CCardControl:SetCardData   table   16      0
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1419: in function 'SetCardData'
+[LUA-print] - "cbCardData" = {
+[LUA-print] -     1  = 4
+[LUA-print] -     2  = 6
+[LUA-print] -     3  = 7
+[LUA-print] -     4  = 9
+[LUA-print] -     5  = 18
+[LUA-print] -     6  = 22
+[LUA-print] -     7  = 23
+[LUA-print] -     8  = 24
+[LUA-print] -     9  = 25
+[LUA-print] -     10 = 34
+[LUA-print] -     11 = 35
+[LUA-print] -     12 = 35
+[LUA-print] -     13 = 37
+[LUA-print] -     14 = 38
+[LUA-print] -     15 = 39
+[LUA-print] -     16 = 51
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1420: in function 'SetCardData'
+[LUA-print] - "self.m_CardItemArray" = {
+[LUA-print] -     1 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 4
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 6
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 7
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 9
+[LUA-print] -     }
+[LUA-print] -     5 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 18
+[LUA-print] -     }
+[LUA-print] -     6 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 22
+[LUA-print] -     }
+[LUA-print] -     7 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 23
+[LUA-print] -     }
+[LUA-print] -     8 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 24
+[LUA-print] -     }
+[LUA-print] -     9 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 25
+[LUA-print] -     }
+[LUA-print] -     10 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 34
+[LUA-print] -     }
+[LUA-print] -     11 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     12 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 35
+[LUA-print] -     }
+[LUA-print] -     13 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 37
+[LUA-print] -     }
+[LUA-print] -     14 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 38
+[LUA-print] -     }
+[LUA-print] -     15 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 39
+[LUA-print] -     }
+[LUA-print] -     16 = {
+[LUA-print] -         "bShoot"     = false
+[LUA-print] -         "cbCardData" = 51
+[LUA-print] -     }
+[LUA-print] -     17 = {
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] KillGameClock self._ClockFun self._ClockTime        nil     201     0       nil
+[LUA-print] KillGameClock       nil
+[LUA-print] 庄家用户 SetStatusFlag      false   false
+[LUA-print] 动作信息 SetUserAction      65535   0
+[LUA-print] 出牌 SOutCardInfo   51
+[LUA-print] 出牌信息 SetOutCardInfo     0       51
+[LUA-print] PlayCardSound 自己出牌
+[LUA-print] 出牌声音 PlayCardSound      0       52      true
+[LUA-print] 0   table
+[LUA-print] male/F_4
+[LUA-print] OnOutCard  发送数据 51
+[LUA-print] net len ==> 1
+[LUA-print] onSocketCallBack main:200#sub:101
+[LUA-print] onEventGameMessage sub      101
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1496: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_OutCard" = {
+[LUA-print] -     "cbOutCardData" = 51
+[LUA-print] -     "wOutCardUser"  = 0
+[LUA-print] - }
+[LUA-print] 用户出牌    51
+[LUA-print] 0   0       0
+[LUA-print] 0   0       0       100     100
+[LUA-print] ===mark 2
+[LUA-print] CCardControl:SetOutCardData_1       30
+[LUA-print] CCardControl:UpdateCardDisable      nil
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1476: in function 'UpdateCardDisable'
+[LUA-print] - "CCardControl m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1477: in function 'UpdateCardDisable'
+[LUA-print] - "m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] self.m_szCenterText
+[LUA-print] =========  self.m_wBankerUser       1
+[LUA-print] 0
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:650: in function 'DrawGameView'
+[LUA-print] - "self.m_byDingMai" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] =======res/game/dingmai     1       739.75  9.5
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 0
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 1
+[LUA-print] 南向        1       808     435
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageTableBottom      index-  CDiscardCard_1  cbCardData-     52      xDest-  808     yDest-  435
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 31  45
+[LUA-print] ===nImageXPos       1395    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 24  34      0       10
+[LUA-print] 5.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 10  34      2       22
+[LUA-print] 11.5        16
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 17
+[LUA-print] 正常扑克 CCardResource.m_ImageUserTop
+[LUA-print] m_ImageUserTop x    480     68
+[LUA-print] m_ImageUserTop x    504     68
+[LUA-print] m_ImageUserTop x    528     68
+[LUA-print] m_ImageUserTop x    552     68
+[LUA-print] m_ImageUserTop x    576     68
+[LUA-print] m_ImageUserTop x    600     68
+[LUA-print] m_ImageUserTop x    624     68
+[LUA-print] m_ImageUserTop x    648     68
+[LUA-print] m_ImageUserTop x    672     68
+[LUA-print] m_ImageUserTop x    696     68
+[LUA-print] m_ImageUserTop x    720     68
+[LUA-print] m_ImageUserTop x    744     68
+[LUA-print] m_ImageUserTop x    768     68
+[LUA-print] m_ImageUserTop x    792     68
+[LUA-print] m_ImageUserTop x    816     68
+[LUA-print] m_ImageUserTop x    840     68
+[LUA-print] m_ImageUserTop x    864     68
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] true        0       0
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        16      true
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] 1   4       false   262     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_1  cbCardData-     4       xDest-  262     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 4   45
+[LUA-print] ===nImageXPos       180     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   6       false   307     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_2  cbCardData-     6       xDest-  307     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 6   45
+[LUA-print] ===nImageXPos       270     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 3   7       false   352     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_3  cbCardData-     7       xDest-  352     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 7   45
+[LUA-print] ===nImageXPos       315     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 4   9       false   397     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_4  cbCardData-     9       xDest-  397     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 9   45
+[LUA-print] ===nImageXPos       405     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 5   18      false   442     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_5  cbCardData-     18      xDest-  442     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 11  45
+[LUA-print] ===nImageXPos       495     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 6   22      false   487     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_6  cbCardData-     22      xDest-  487     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 15  45
+[LUA-print] ===nImageXPos       675     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 7   23      false   532     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_7  cbCardData-     23      xDest-  532     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 16  45
+[LUA-print] ===nImageXPos       720     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 8   24      false   577     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_8  cbCardData-     24      xDest-  577     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 17  45
+[LUA-print] ===nImageXPos       765     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 9   25      false   622     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_9  cbCardData-     25      xDest-  622     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 18  45
+[LUA-print] ===nImageXPos       810     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 10  34      false   667     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_10 cbCardData-     34      xDest-  667     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 20  45
+[LUA-print] ===nImageXPos       900     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 11  35      false   712     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_11 cbCardData-     35      xDest-  712     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 12  35      false   757     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_12 cbCardData-     35      xDest-  757     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 13  37      false   802     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_13 cbCardData-     37      xDest-  802     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 23  45
+[LUA-print] ===nImageXPos       1035    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 14  38      false   847     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_14 cbCardData-     38      xDest-  847     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 24  45
+[LUA-print] ===nImageXPos       1080    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 15  39      false   892     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_15 cbCardData-     39      xDest-  892     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 25  45
+[LUA-print] ===nImageXPos       1125    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 16  51      false   937     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_16 cbCardData-     51      xDest-  937     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    0       1
+[LUA-print] ACTION_BACK- 出牌   674     157
+[LUA-print] userdata
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_OutData
+cbCardData-     51      xDest-  635     yDest-  155
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 出牌用户    0       2
+[LUA-print] 财神        100     700
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_V_byGodsData       cbCardData-     3       xDest-  100     yDest-  694
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 3   45
+[LUA-print] ===nImageXPos       135     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 2   65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        20      101     100     table
+[LUA-print] onSocketCallBack main:200#sub:102
+[LUA-print] onEventGameMessage sub      102
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:1557: in function 'onEventGameMessage'
+[LUA-print] - "CMD_S_SendCard" = {
+[LUA-print] -     "cbActionMask" = 0
+[LUA-print] -     "cbCardData"   = 255
+[LUA-print] -     "wCurrentUser" = 1
+[LUA-print] - }
+[LUA-print] 发送扑克    255
+[LUA-print] 2   1       0
+[LUA-print] CDiscardCard:AddCardItem    51      0       28
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1036: in function 'AddCardItem'
+[LUA-print] - "self.m_cbCardData AddCardItem" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1038: in function 'AddCardItem'
+[LUA-print] - "self.m_cbCardData AddCardItem" = {
+[LUA-print] -     1  = 51
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] -     18 = 0
+[LUA-print] -     19 = 0
+[LUA-print] -     20 = 0
+[LUA-print] -     21 = 0
+[LUA-print] -     22 = 0
+[LUA-print] -     23 = 0
+[LUA-print] -     24 = 0
+[LUA-print] -     25 = 0
+[LUA-print] -     26 = 0
+[LUA-print] -     27 = 0
+[LUA-print] -     28 = 0
+[LUA-print] - }
+[LUA-print] 1
+[LUA-print] 丢弃用户 SetDiscUser        2
+[LUA-print] == 扣除扑克
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:2314: in function 'DeductionTableCard'
+[LUA-print] - "self.m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 2
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 1   table   table
+[LUA-print] SwitchHeapViewChairID       1       0       3
+[LUA-print] ===堆立扑克 55SetCardData   1
+[LUA-print] index ->    4       3       22      34
+[LUA-print] 设置扑克 CHeapCard  Direction_West  3       22      34
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/GameLayer.lua"]:2353: in function 'DeductionTableCard'
+[LUA-print] - "self.m_cbHeapCardInfo" = {
+[LUA-print] -     1 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 10
+[LUA-print] -     }
+[LUA-print] -     2 = {
+[LUA-print] -         1 = 3
+[LUA-print] -         2 = 22
+[LUA-print] -     }
+[LUA-print] -     3 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] -     4 = {
+[LUA-print] -         1 = 0
+[LUA-print] -         2 = 0
+[LUA-print] -     }
+[LUA-print] - }
+[LUA-print] 当前用户    1       0
+[LUA-print] 庄家用户 SetStatusFlag      false   false
+[LUA-print] 当前用户    1       0
+[LUA-print] 发牌-更新界面
+[LUA-print] self.m_szCenterText
+[LUA-print] =========  self.m_wBankerUser       1
+[LUA-print] 0
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:650: in function 'DrawGameView'
+[LUA-print] - "self.m_byDingMai" = {
+[LUA-print] -     1 = 1
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] =======res/game/dingmai     1       739.75  9.5
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_North
+[LUA-print] CDiscardCard:DrawCardControl        Direction_North 1
+[LUA-print] 北向        1       492     224
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageTableTop index-  CDiscardCard_1  cbCardData-
+51      xDest-  492     yDest-  224
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CTableCard:DrawCardControl
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/CardControl.lua"]:1134: in function 'DrawCardControl'
+[LUA-print] - "self.m_cbCardData" = {
+[LUA-print] -     1  = 0
+[LUA-print] -     2  = 0
+[LUA-print] -     3  = 0
+[LUA-print] -     4  = 0
+[LUA-print] -     5  = 0
+[LUA-print] -     6  = 0
+[LUA-print] -     7  = 0
+[LUA-print] -     8  = 0
+[LUA-print] -     9  = 0
+[LUA-print] -     10 = 0
+[LUA-print] -     11 = 0
+[LUA-print] -     12 = 0
+[LUA-print] -     13 = 0
+[LUA-print] -     14 = 0
+[LUA-print] -     15 = 0
+[LUA-print] -     16 = 0
+[LUA-print] -     17 = 0
+[LUA-print] - }
+[LUA-print] self.m_wCardCount   0       Direction_South
+[LUA-print] CDiscardCard:DrawCardControl        Direction_South 1
+[LUA-print] 南向        1       808     435
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageTableBottom      index-  CDiscardCard_1  cbCardData-     52      xDest-  808     yDest-  435
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 31  45
+[LUA-print] ===nImageXPos       1395    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] CWeaveCard:DrawCardControl_1
+[LUA-print] DrawClearn 清除     Direction_North
+[LUA-print] DrawClearn 清除     Direction_East
+[LUA-print] DrawClearn 清除     Direction_South
+[LUA-print] DrawClearn 清除     Direction_West
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_North
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] createWithTTF               498     128
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_East
+[LUA-print] 34  34      0       0
+[LUA-print] 0.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_South
+[LUA-print] 24  34      0       10
+[LUA-print] 5.5 17
+[LUA-print] CHeapCard:DrawCardControl  self.m_CardDirection     Direction_West
+[LUA-print] 9   34      3       22
+[LUA-print] 西向头部
+[LUA-print] 11.5        15.5
+[LUA-print] CUserCard 清除
+[LUA-print] CUserCard:DrawCardControl   Direction_North 17
+[LUA-print] 当前扑克 CCardResource.m_ImageUserTop
+[LUA-print] 正常扑克 CCardResource.m_ImageUserTop
+[LUA-print] m_ImageUserTop x    480     68
+[LUA-print] m_ImageUserTop x    504     68
+[LUA-print] m_ImageUserTop x    528     68
+[LUA-print] m_ImageUserTop x    552     68
+[LUA-print] m_ImageUserTop x    576     68
+[LUA-print] m_ImageUserTop x    600     68
+[LUA-print] m_ImageUserTop x    624     68
+[LUA-print] m_ImageUserTop x    648     68
+[LUA-print] m_ImageUserTop x    672     68
+[LUA-print] m_ImageUserTop x    696     68
+[LUA-print] m_ImageUserTop x    720     68
+[LUA-print] m_ImageUserTop x    744     68
+[LUA-print] m_ImageUserTop x    768     68
+[LUA-print] m_ImageUserTop x    792     68
+[LUA-print] m_ImageUserTop x    816     68
+[LUA-print] m_ImageUserTop x    840     68
+[LUA-print] m_ImageUserTop x    864     68
+[LUA-print] CCardControl 清除  未处理
+[LUA-print] true        0       0
+[LUA-print] userdata    m_HandCardControl===========
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:694: in function 'DrawGameView'
+[LUA-print] - "self.m_HandCardControl.m_bCardDisable" = {
+[LUA-print] -     1  = false
+[LUA-print] -     2  = false
+[LUA-print] -     3  = false
+[LUA-print] -     4  = false
+[LUA-print] -     5  = false
+[LUA-print] -     6  = false
+[LUA-print] -     7  = false
+[LUA-print] -     8  = false
+[LUA-print] -     9  = false
+[LUA-print] -     10 = false
+[LUA-print] -     11 = false
+[LUA-print] -     12 = false
+[LUA-print] -     13 = false
+[LUA-print] -     14 = false
+[LUA-print] -     15 = false
+[LUA-print] -     16 = false
+[LUA-print] -     17 = false
+[LUA-print] -     18 = false
+[LUA-print] -     19 = false
+[LUA-print] -     20 = false
+[LUA-print] -     21 = false
+[LUA-print] -     22 = false
+[LUA-print] -     23 = false
+[LUA-print] -     24 = false
+[LUA-print] -     25 = false
+[LUA-print] -     26 = false
+[LUA-print] -     27 = false
+[LUA-print] -     28 = false
+[LUA-print] -     29 = false
+[LUA-print] -     30 = false
+[LUA-print] -     31 = false
+[LUA-print] -     32 = false
+[LUA-print] -     33 = false
+[LUA-print] -     34 = false
+[LUA-print] - }
+[LUA-print] CCardControl:DrawCardControl        16      true
+[LUA-print] GameLogic:SetGodsCard       3
+[LUA-print] 1   4       false   262     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_1  cbCardData-     4       xDest-  262     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 4   45
+[LUA-print] ===nImageXPos       180     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   6       false   307     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_2  cbCardData-     6       xDest-  307     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 6   45
+[LUA-print] ===nImageXPos       270     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 3   7       false   352     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_3  cbCardData-     7       xDest-  352     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 7   45
+[LUA-print] ===nImageXPos       315     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 4   9       false   397     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_4  cbCardData-     9       xDest-  397     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 9   45
+[LUA-print] ===nImageXPos       405     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 5   18      false   442     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_5  cbCardData-     18      xDest-  442     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 11  45
+[LUA-print] ===nImageXPos       495     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 6   22      false   487     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_6  cbCardData-     22      xDest-  487     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 15  45
+[LUA-print] ===nImageXPos       675     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 7   23      false   532     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_7  cbCardData-     23      xDest-  532     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 16  45
+[LUA-print] ===nImageXPos       720     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 8   24      false   577     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_8  cbCardData-     24      xDest-  577     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 17  45
+[LUA-print] ===nImageXPos       765     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 9   25      false   622     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_9  cbCardData-     25      xDest-  622     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 18  45
+[LUA-print] ===nImageXPos       810     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 10  34      false   667     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_10 cbCardData-     34      xDest-  667     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 20  45
+[LUA-print] ===nImageXPos       900     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 11  35      false   712     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_11 cbCardData-     35      xDest-  712     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 12  35      false   757     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_12 cbCardData-     35      xDest-  757     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 21  45
+[LUA-print] ===nImageXPos       945     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 13  37      false   802     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_13 cbCardData-     37      xDest-  802     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 23  45
+[LUA-print] ===nImageXPos       1035    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 14  38      false   847     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_14 cbCardData-     38      xDest-  847     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 24  45
+[LUA-print] ===nImageXPos       1080    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 15  39      false   892     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_15 cbCardData-     39      xDest-  892     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 25  45
+[LUA-print] ===nImageXPos       1125    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 16  51      false   937     79
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_16 cbCardData-     51      xDest-  937     yDest-  79
+[LUA-print] cbGodsData-..       3       bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] === 等待提示        false
+[LUA-print] === 荒庄标志        false
+[LUA-print] dump from: [string "game/yule/mahjongwzer/src/views/layer/GameViewLayer.lua"]:762: in function 'DrawGameView'
+[LUA-print] - "用户动作" = {
+[LUA-print] -     1 = 0
+[LUA-print] -     2 = 0
+[LUA-print] - }
+[LUA-print] 出牌用户    0       1
+[LUA-print] ACTION_BACK- 出牌   674     157
+[LUA-print] userdata
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_OutData
+cbCardData-     51      xDest-  635     yDest-  155
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 30  45
+[LUA-print] ===nImageXPos       1350    45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 出牌用户    0       2
+[LUA-print] 财神        100     700
+[LUA-print] CCardListImage:DrawCardItem 绘画扑克====    id-     m_ImageUserBottom       index-  CCardControl_V_byGodsData       cbCardData-     3       xDest-  100     yDest-  694
+[LUA-print] cbGodsData-..       nil     bDrawBack-      nil     nItemWidth-     nil     nItemHeight-    nil
+[LUA-print] 3   45
+[LUA-print] ===nImageXPos       135     45      69
+[LUA-print]
+**********
+CCRectMake(x,y,width,height) was deprecated please use cc.rect(x,y,width,height) in lua instead.
+**********
+[LUA-print] 2   65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 2   65535
+[LUA-print] ===============DrawUserTimerEx              667     375     30
+[LUA-print] 绘画掷骰子动画 DrawSicboAnim        20      101     100     table
+[LUA-print] 定时玩家 SetCurrentUser     1
+[LUA-print] ==SetGameClock      1       201     15
+[LUA-print] ==SetGameClock self._ClockFun self._ClockTime       8       15
+[LUA-print] 发牌消息 end
 [LUA-print] 计时器更新 OnClockUpdata Fid        nil
-[LUA-print] OnEventGameClockInfo        1       24      200
-[LUA-print] ===============DrawUserTimerEx      nil     667     375     24
-[
+[LUA-print] OnEventGameClockInfo        1       14      201
+[LUA-print] ====self.m_bHearStatus      false   false   false   0
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 6
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       13      201
+[LUA-print] ====self.m_bHearStatus      false   false   false   0
+[LUA-print] onSocketCallBack main:4#sub:101
+[LUA-print] SUB_GR_TABLE_STATUS ==> 7
+[LUA-print] 计时器更新 OnClockUpdata Fid        nil
+[LUA-print] OnEventGameClockInfo        1       12      201
+[LUA-print] ====self.m_bHearStatus      false   false   false   0
