@@ -220,18 +220,20 @@ function GameLogic:FillSolidRect(x, y, cx, cy, color,parent)
 end
 
 --遮罩
-function GameLogic:Clipp9S(fileb,sWidth,sHeight)
+function GameLogic:Clipp9S(fileb,sWidth,sHeight,scale)
+	if not scale then scale=1	end
 	local filestr = "res/game/mask.png" 
 	if false == cc.FileUtils:getInstance():isFileExist(fileb) then print("fileb is no Exist") return	end
 	if false == cc.FileUtils:getInstance():isFileExist(filestr) then print("filestr is no Exist") return	end
 	local bg=display.newSprite(fileb)
 		:setTag(1)
+		:setScale(scale)
 		:setAnchorPoint(cc.p(0,0.5))
 		:move(0,0)
 		
     local clipSp = cc.Scale9Sprite:create(filestr)
         :setCapInsets(CCRectMake(1,1,49,49))
-        :setContentSize(cc.size(sWidth, sHeight))
+        :setContentSize(cc.size(sWidth*scale, sHeight*scale))
         :move(0,0)
     
 	local clip = cc.ClippingNode:create()

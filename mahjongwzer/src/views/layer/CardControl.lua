@@ -173,9 +173,20 @@ function CCardListImage:GetImageIndex(cbCardData)
 end
 
 --绘画扑克
-function CCardListImage:DrawCardItem(id,index,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight)
+-- id 			使用的图片
+-- index		集合中的标记
+-- cbCardData	显示的牌index
+-- xDest		坐标x
+-- yDest		坐标y
+-- cbGodsData	财神 决定是否显示财神标记
+-- bDrawBack	是否当前扑克..
+-- nItemWidth
+-- nItemHeight
+-- Scale		放大比例
+--待添加 点击事件 如动作 吃等
+function CCardListImage:DrawCardItem(id,index,cbCardData,xDest,yDest,cbGodsData,bDrawBack,nItemWidth,nItemHeight,Scale)
 print("CCardListImage:DrawCardItem 绘画扑克====","id-",id,"index-",index,"cbCardData-",cbCardData,"xDest-",xDest,"yDest-",yDest)
-print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth,"nItemHeight-",nItemHeight)
+print("cbGodsData-..",cbGodsData,"bDrawBack-",bDrawBack,"nItemWidth-",nItemWidth,"nItemHeight-",nItemHeight,"Scale-",Scale)
 	if cbCardData <=0 then	print("无数据 ",cbCardData ) return end
 	if bDrawBack then
 		CardControl.CCardList[id].n_List[index.."m_CardBack"]=display.newSprite(CardControl.CCardList[id].m_CardBack)
@@ -197,10 +208,12 @@ print(imgIndex,CardControl.CCardList[id].m_nItemWidth)
 print("===nImageXPos ",nImageXPos,nDrawWidth,nDrawHeight)
 		local mResource=CardControl.CCardList[id].n_ImageResource
 
-		CardControl.CCardList[id].n_List[index]=GameLogic:Clipp9S(mResource,nDrawWidth,nDrawHeight)
+		--缩放
+		if not Scale then	Scale=1		end
+		CardControl.CCardList[id].n_List[index]=GameLogic:Clipp9S(mResource,nDrawWidth,nDrawHeight,Scale)
 			:move(xDest,yDest)
 			:addTo(CardControl.CCardList[id].Parent)
-		CardControl.CCardList[id].n_List[index]:getChildByTag(1):move(-nDrawWidth/2-nImageXPos,0)
+		CardControl.CCardList[id].n_List[index]:getChildByTag(1):move(-nDrawWidth*Scale/2-nImageXPos*Scale,0)
 		
 		if index and index ~= "" and index ~= "CCardControl_OutData" and index ~= "CCardControl_V_byGodsData" then
 			--出牌按钮
@@ -986,7 +999,7 @@ print("CDiscardCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 			local nXPos=self.m_ControlPoint.x+math.floor((i-1)/8)*32
 			local nYPos=self.m_ControlPoint.y+((i-1)%8)*20
 		print("东向",i,nXPos,nYPos)
-			CCardListImage:DrawCardItem("m_ImageTableRight","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableRight","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos,nil,nil,nil,nil,0.5)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_West then		--西向
 		--绘画扑克
@@ -994,24 +1007,24 @@ print("CDiscardCard:DrawCardControl",self.m_CardDirection,self.m_wCardCount)
 			local nXPos=self.m_ControlPoint.x-math.floor((self.m_wCardCount-i)/8)*32
 			local nYPos=self.m_ControlPoint.y-((self.m_wCardCount-i)%8)*20
 		print("西向",i,nXPos,nYPos)
-			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableLeft","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos,nil,nil,nil,nil,0.5)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_South then		--南向--指向对家
 		for i=1,self.m_wCardCount+0,1 do
 			--local nXPos=self.m_ControlPoint.x-((i-1)%14)*24
-			local nXPos=self.m_ControlPoint.x-((i-1)%14)*45
+			local nXPos=self.m_ControlPoint.x-((i-1)%14)*45/2
 			local nYPos=self.m_ControlPoint.y+math.floor((i-1)/14)*38
 		print("南向",i,nXPos,nYPos)
-			CCardListImage:DrawCardItem("m_ImageTableBottom","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableBottom","CDiscardCard_"..i,self.m_cbCardData[i],nXPos,nYPos,nil,nil,nil,nil,0.5)
 		end
 	elseif self.m_CardDirection==CardControl.Direction_North then		--北向--自己
 		for i=1,self.m_wCardCount+0,1 do
 			--local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-1-i-1)%14)*24
-			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-i)%14)*45
+			local nXPos=self.m_ControlPoint.x+((self.m_wCardCount-i)%14)*45/2
 			local nYPos=self.m_ControlPoint.y-math.floor((self.m_wCardCount-i)/14)*38-11
 		print("北向",i,nXPos,nYPos)
 			--CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+2],nXPos,nYPos)
-			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos)
+			CCardListImage:DrawCardItem("m_ImageTableTop","CDiscardCard_"..i,self.m_cbCardData[self.m_wCardCount-i+1],nXPos,nYPos,nil,nil,nil,nil,0.5)
 		end
 	end
 end

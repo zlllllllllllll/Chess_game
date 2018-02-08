@@ -51,6 +51,7 @@ function CControlWnd:ctor(scene)
 	self.m_cbCurrentItem= 0xFF
 
 	--加载资源
+	self.m_ImageActionList={}
 	self.m_ImageActionExplain=display.newSprite("res/game/ACTION_EXPLAIN.png"):setVisible(false):addTo(self)
 	self.m_ImageControlTop=display.newSprite("res/game/CONTROL_TOP.png"):setVisible(false):addTo(self)
 	--self.m_ImageControlMid=display.newSprite("res/game/CONTROL_MID.png"):setVisible(false):addTo(self)
@@ -254,8 +255,22 @@ print("CControlWnd move ",(rcRect.left+rcRect.right/2),(rcRect.bottom+rcRect.top
 	self.m_btChiHu:move(rcRect.right-rcRect.left-70-rcButton.width-2,nYPos)
 	self.m_btGiveUp:move(rcRect.right-rcRect.left-70,nYPos+3)
 dump(rcRect,"rcRect",6)
+	self:clearRess()
 	self:OnPaint()
 	return
+end
+--
+function CControlWnd:clearRess()
+	--清理资源 扑克
+print("CControlWnd:clearRess")
+dump(self.m_ImageControlMid,"m_ImageControlMid",6)
+dump(self.m_ImageActionList,"m_ImageActionList",6)
+	for k, v in pairs(self.m_ImageControlMid) do	print("== m_ImageControlMid",k,v)
+		if v then	v:removeFromParent()	v=nil	end
+	end
+	for k, v in pairs(self.m_ImageActionList) do	print("== m_ImageActionList",k,v)
+		if v then	v:removeFromParent()	v=nil	end
+	end
 end
 
 --吃胡按钮
@@ -340,13 +355,10 @@ print("CControlWnd:OnPaint")
 	GameLogic:FillSolidRect(rcClient.width/2, rcClient.height/2, rcClient.width, rcClient.height, cc.c4f(0,96/255,124/255,1),self)
 
 	--绘画背景
-	local x,y=700,400
+	local x,y=1200,200
 	self.m_ImageControlTop:setPosition(x,y+rcClient.height+self.m_ImageControlTop:getContentSize().height/2)
 		:setVisible(true)
-	--清理资源
-	for k, v in pairs(self.m_ImageControlMid) do	print("== ",k,v)
-		if v then	v:removeFromParent()	v=nil	end
-	end
+
 	--循环次数 也是要显示的动作个数  rcClient.height待处理 尚未拿到正确值  
 	local temp_i=0
 	--for nImageYPos=self.m_ImageControlTop:getContentSize().height,rcClient.height-1,self.m_ImageControlMid:getContentSize().height do
@@ -376,11 +388,12 @@ print(CardControl.m_byGodsData,self._scene.m_HandCardControl.m_byGodsData,self._
 			--绘画扑克
 			for j=1,3,1 do
 				local cbCardData=self.m_cbCenterCard
-				if i<GameLogic:table_leng(cbExcursion) then			-- 吃牌
+				if i<GameLogic:table_leng(cbExcursion)+1 then			-- 吃牌
+				print("吃牌")
 					if (GameLogic.BAIBAN_CARD_DATA == self.m_cbCenterCard) and (self._scene.m_byGodsData>0) then
 						cbCardData = self._scene.m_byGodsData
 					end
-					cbCardData=cbCardData+j-cbExcursion[i]
+					cbCardData=cbCardData+j-1-cbExcursion[i]
 
 					-- 白板本身需要还原
 					if cbCardData == self._scene.m_byGodsData then
@@ -389,22 +402,24 @@ print(CardControl.m_byGodsData,self._scene.m_HandCardControl.m_byGodsData,self._
 				end
 				--g_CardResource.m_ImageTableBottom.DrawCardItem(&BufferDC,cbCardData,j*26+12,nYPos+5);
 				self.g_CardResource=CardControl:create_CCardListImage(self)
-				self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbItemKind"..i,cbCardData-1,j*45+12,nYPos+5)
+				self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbItemKind"..i.."_"..j,cbCardData,x-90+j*45/2,y+nYPos-34,nil,nil,nil,nil,0.5)
 			end
 
 			--计算位置
 			local nXImagePos=0
 			local nItemWidth=self.m_ImageActionExplain:getContentSize().width/7
+			local nItemHeight=self.m_ImageActionExplain:getContentSize().height
 			if bit:_and(bit:_and(self.m_cbActionMask,cbItemKind[i]) , GameLogic.WIK_PENG) then
 				nXImagePos=nItemWidth
 			end
 
 			--绘画标志
 		print("nXImagePos",nXImagePos)
-			local nItemHeight=self.m_ImageActionExplain:getContentSize().height
-			self.m_ImageActionExplain:setPosition(126+nItemWidth/2,nYPos+5+nItemHeight/2)
-				:setVisible(true)
 			--m_ImageActionExplain.BitBlt(BufferDC,126,nYPos+5,nItemWidth,nItemHeight,nXImagePos,0);
+			self.m_ImageActionList[i]=GameLogic:Clipp9S("res/game/ACTION_EXPLAIN.png",nItemWidth,nItemHeight)
+				:move(x+nItemWidth/2,y+nYPos+5+nItemHeight/2)
+				:addTo(self)
+			self.m_ImageActionList[i]:getChildByTag(1):move(nItemWidth/2-nXImagePos,0)
 
 			--绘画边框
 			if cbCurrentItem==self.m_cbCurrentItem then
@@ -426,7 +441,7 @@ dump(self.m_cbGangCard,"m_cbGangCard 杠牌扑克 数据",6)
 			--绘画扑克
 			for j=1,4,1 do
 				self.g_CardResource=CardControl:create_CCardListImage(self)
-				self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbGangCard"..i,m_cbGangCard[i],(j-1)*45+12,nYPos+5)
+				self.g_CardResource:DrawCardItem("m_ImageTableBottom","CControlWnd_cbGangCard"..i.."_"..j,self.m_cbGangCard[i],x-90+(j-1)*45/2,y+nYPos-34,nil,nil,nil,nil,0.5)
 			end
 
 			--绘画边框
@@ -437,10 +452,11 @@ dump(self.m_cbGangCard,"m_cbGangCard 杠牌扑克 数据",6)
 			--绘画标志
 			local nItemWidth=self.m_ImageActionExplain:getContentSize().width/7
 			local nItemHeight=self.m_ImageActionExplain:getContentSize().height
-	print("nItemWidth",nItemWidth)
 			--m_ImageActionExplain.BitBlt(BufferDC,126,nYPos+5,nItemWidth,nItemHeight,nItemWidth*3,0);
-			self.m_ImageActionExplain:setPosition(126+nItemWidth/2,nYPos+5+nItemHeight/2)
-				:setVisible(true)
+			self.m_ImageActionList[i]=GameLogic:Clipp9S("res/game/ACTION_EXPLAIN.png",nItemWidth,nItemHeight)
+				:move(x+nItemWidth/2,y+nYPos+5+nItemHeight/2)
+				:addTo(self)
+			self.m_ImageActionList[i]:getChildByTag(1):move(-nItemWidth*3.5,0)
 
 			--设置变量
 			cbCurrentItem=cbCurrentItem+1

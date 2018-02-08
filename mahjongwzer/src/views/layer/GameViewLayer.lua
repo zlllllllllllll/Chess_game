@@ -551,6 +551,7 @@ print(nXCenter-251,nYCenter-95)
 
 
 	--控制窗口
+	self.m_ControlWnd:clearRess()
 	self.m_ControlWnd:SetBenchmarkPos(nWidth-10,nHeight-self.m_nYBorder-180)
 
 	--移动按钮
